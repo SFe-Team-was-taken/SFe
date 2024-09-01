@@ -402,10 +402,14 @@ achSampleName Changes (SFe64)
 
 All the DWORDs used in this sub-chunk have been changed to QWORDs. (SFe64)
 
-Unlimited sample rate
+Sample Rate Limit Changes
 
-- When reading version 4 files, if a sample rate of below 400 or above 50000 is encountered, no attempt should be made to change the sample rate.
+- In both SFe32 and SFe64, sample rates (dwSampleRate) are stored as a 32-bit integer. This is the same behaviour as seen in the legacy SoundFont(r) 2.04 format. This results in a theoretical maximum sample rate of 4,294,967,295 Hz.
+- In the legacy SoundFont(r) 2.04 specification, E-mu suggested that sample rates of below 400 Hz or above 50000 Hz should be avoided as some legacy hardware platforms may not be able to reproduce these sounds. This is not a limitation of the specification, but rather a limitation of legacy sound cards.
+- Despite this, Creative did not use 16-bit integers for sample rate in SF 2.04. It is thus safe to use sample rates in excess of 50000 Hz. If a sample rate of below 400 Hz or above 50000 Hz is encountered, no attempt should be made to change the sample rate.
 - A zero sample rate should be reset.
+
+sfSampleType and Werner SF3
 
 Bit 4 of "sfSampleType" is reserved for Werner SF3 usage.
 
