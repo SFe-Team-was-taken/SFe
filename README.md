@@ -4,9 +4,9 @@
 
 ### What is SFe?
 
-Like many members of the soundfont community, we are tired of the limitations that the ancient SoundFont format. So, in 2020, we launched the SFe (SF-enhanced) project, to research backwards-compatible improvements and updates to the format.
+Like many members of the soundfont community, we are tired of the limitations of the ancient SoundFont format. So, in 2020, we launched the SFe (SF-enhanced) project, to research backwards-compatible improvements and updates to the format.
 
-To do this, we looked at many features that soundfont creators have requested, and are working on incorporating them into our brand-new, enhanced format.
+To do this, we looked at many features that soundfont creators have requested, and are working on incorporating them into the SFe format.
 
 ### What are the goals of SFe?
 
@@ -20,7 +20,7 @@ The goals of the SFe project are to:
 
 ### When will the specification become available?
 
-We will release the specification, when it's done. In the meanwhile, we will regularly release drafts of the SFe specification.
+We will release the specification when it's done. In the meanwhile, we will regularly release drafts of the SFe specification.
 
 ### Why does the specification not include everything?
 
