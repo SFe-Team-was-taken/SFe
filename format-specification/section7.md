@@ -6,7 +6,7 @@ Like in E-mu Systems(r) Soundfont(r) 2.04, the format SFe version 4 is based on,
 
 According to E-mu Systems(r), a hydra has nine heads. Cut one off, and another two grow.
 
-No major changes have been made to the structure itself. However, some of the variables inside each of the nine sub-chunks of the "hydra" structure have been changed to increase the length limits of variables. (SFe64)
+No major changes have been made to the structure itself. However, in SFe64, some of the variables inside each of the nine sub-chunks of the "hydra" structure have been changed to increase the length limits of variables.
 
 - Some WORDs have been changed to DWORDs (the w at the beginning has changed to dw).
 - Programs which create SFe64 files can not share exactly the same code as programs which create SFe32 files.
@@ -29,13 +29,19 @@ Note: All structures for these sub-chunks demonstrated here are for SFe64, unles
 
 * * *
 
+## 7.1a Alignment of sub-chunk sizes
+
+- If the sub-chunk sizes align with SF2/SFe32 in an SFe64 file, interpret the chunk as SFe32 data.
+- If the sub-chunk sizes align with SFe64 in an SFe32 file, interpret the chunk as SFe64 data.
+- If the sub-chunk sizes align with SFe64 in an SF2 file, or if the sub-chunk sizes do not align with either format, reject the file. It is "Structurally Unsound".
+
+* * *
+
 ## 7.2 "phdr" sub-chunk
 
-The size of this chunk is a multiple of 38 bytes (SFe32).
+The size of this chunk is a multiple of 38 bytes in SFe32, and a multiple of 280 bytes in SFe64.
 
-The size of this chunk is a multiple of 280 bytes (SFe64).
-
-Its structure is like this (SFe64):
+Its structure is like this in SFe64:
 
 ```
 struct sfPresetHeader
@@ -51,12 +57,12 @@ struct sfPresetHeader
         };
 ```
 
-achPresetName Changes (SFe64)
+### achPresetName Changes (SFe64)
 
 - The \[20\] at the end is changed to \[256\].
     - This means that 256 characters can be used for a preset name instead of 20.
 
-wPreset Changes
+### wPreset Changes
 
 - In SoundFont(R) 2.04, bits 2-8 were used to select up to 128 instruments. Bits 1 and 9-16 were unused.
 - Now, bits 10-16 can be used to select alternate banks.
@@ -70,9 +76,9 @@ wPreset Changes
     - Bit 12 is reserved for more MIDI commands in the future. For now, bit 12 should be written as clear.
     - Bits 13-16 will not be defined. The author of the SF may use these at will with their own MIDI commands.
     - MIDI sequencers will eventually be able to set or clear all bits from 10-16 using commands.
-- It allows you to run GS(r) wide sounds alongside with the special velocity switching patches (Brand name: "MegaVoice(R)")on certain Yamaha(r) keyboards.
+- It allows you to run multiple standards that may conflict with each other.
 
-wBank Changes
+### wBank Changes
 
 - Version 4.00.1 had a new field called wBank2.
 - Now, wBank stores both m.s.b. and l.s.b. bank changes (CC00 and CC32), eliminating the need for wBank2.
@@ -90,7 +96,7 @@ wBank Changes
     - Bit 9 = percussion toggle 2
     - Bit 10-16 = bank select l.s.b.
 
-"wPresetBagNdx" Changes (SFe64)
+### wPresetBagNdx Changes (SFe64)
 
 In SFe64, version 4, wPresetBagNdx is replaced with dwPresetBagNdx (a DWORD), in order to support a 32-bit number.
 
@@ -104,7 +110,7 @@ Old 2.04 fields "dwLibrary" and "dwGenre" are now defined.
     - For example: "Rock" (with appropriate zero bytes)
 - "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced.
 
-New field "dwCategory" (SFe64)
+### New field: dwCategory (SFe64)
 
 - This is a DWORD.
 - This is for the category of instrument which the SF Version 4 file contains.
@@ -120,11 +126,9 @@ This is a required sub-chunk. Files without a "phdr" sub-chunk are "Structurally
 
 This refers to the "Preset Bag" of the SFe file.
 
-This sub-chunk is a multiple of 4 bytes (SFe32).
+This sub-chunk is a multiple of 4 bytes in SFe32, and a multiple of 8 bytes in SFe64.
 
-This sub-chunk is a multiple of 8 bytes (SFe64).
-
-Its structure is this (SFe64):
+Its structure is like this in SFe64:
 
 ```
 struct sfPresetBag
@@ -134,7 +138,7 @@ struct sfPresetBag
         };
 ```
 
-"wGenNdx" and "wModNdx" are now DWORD (SFe64)
+### wGenNdx and wModNdx are now DWORD (SFe64)
 
 - Up to 4,294,967,296 Generators and Modulators are therefore available in SFe64.
 - Also renamed to "dwGenNdx" and "dwModNdx" to reflect the change from WORD to DWORD.
@@ -147,11 +151,9 @@ This is a required sub-chunk. Files without a "pbag" sub-chunk are "Structurally
 
 ## 7.4 "pmod" sub-chunk
 
-The pmod sub-chunk is a multiple of 10 bytes, like in SF2.04. (SFe32)
+The pmod sub-chunk is a multiple of 10 bytes in SFe32, and a multiple of 12 bytes in SFe64.
 
-The pmod sub-chunk is a multiple of 12 bytes. (SFe64)
-
-Its structure is like this (SFe64):
+Its structure is like this in SFe64:
 
 ```
 struct sfModList
@@ -228,11 +230,9 @@ This is a required sub-chunk. Files without a "pgen" sub-chunk are "Structurally
 
 ## 7.6 "inst" sub-chunk
 
-The inst sub-chunk is a multiple of 22 bytes. (SFe32)
+The inst sub-chunk is a multiple of 22 bytes in SFe32, and a multiple of 260 bytes in SFe64.
 
-The inst sub-chunk is a multiple of 260 bytes. (SFe64)
-
-Its structure is like this (SFe64):
+Its structure is like this in SFe64:
 
 ```
 struct sfInst
@@ -242,12 +242,12 @@ struct sfInst
         };
 ```
 
-achInstName Changes (SFe64)
+### achInstName Changes (SFe64)
 
 - The \[20\] at the end is changed to \[256\].
     - This means that 256 characters can be used for an instrument name instead of 20.
 
-"wInstBagNdx" Changes (SFe64)
+### wInstBagNdx Changes (SFe64)
 
 - In SFe64, version 4, wInstBagNdx is replaced with dwInstBagNdx (a DWORD), in order to support a 32-bit number.
 - This permits 4,294,967,296 items to be included in the "Instrument Bag", increased from 65,536.
@@ -261,11 +261,9 @@ This is a required sub-chunk. Files without an "inst" sub-chunk are "Structurall
 
 This refers to the "Instrument Bag" of the SFe file.
 
-This sub-chunk is a multiple of 4 bytes, like the pbag sub-chunk. (SFe32)
+This sub-chunk is a multiple of 4 bytes in SFe32, and a multiple of 8 bytes in SFe64. This is like the pbag sub-chunk.
 
-This sub-chunk is a multiple of 8 bytes, like the pbag sub-chunk. (SFe64)
-
-Its structure is this (SFe64):
+Its structure is like this in SFe64:
 
 ```
 struct sfInstBag
@@ -275,10 +273,10 @@ struct sfInstBag
         };
 ```
 
-"wInstGenNdx" and "wInstModNdx" are now DWORD. (SFe64)
+### wInstGenNdx and wInstModNdx are now DWORD (SFe64)
 
 - Up to 4,294,967,296 Generators and Modulators are therefore available in SFe64.
-    - Therefore, the infamous "Out of Instrument Generators!" error should subside.
+    - The infamous "Out of Instrument Generators!" error should thus subside.
 - Also renamed to "dwInstGenNdx" and "dwInstModNdx" to reflect the change from WORD to DWORD.
 
 All values in this sub-chunk should be used as directed in the SF2.04 specification, with corrections owing to the changed data types.
@@ -289,11 +287,9 @@ This is a required sub-chunk. Files without an "ibag" sub-chunk are "Structurall
 
 ## 7.8 "imod" sub-chunk
 
-The imod sub-chunk is a multiple of 10 bytes, like the pmod sub-chunk. (SFe32)
+The imod sub-chunk is a multiple of 10 bytes in SFe32, and a multiple of 12 bytes in SFe64, like the pmod sub-chunk.
 
-The imod sub-chunk is a multiple of 12 bytes, like the pmod sub-chunk. (SFe64)
-
-Its structure is like this (SFe64):
+Its structure is like this in SFe64:
 
 ```
 struct sfModList
@@ -373,11 +369,9 @@ This is a required sub-chunk. SFe files without an "igen" sub-chunk are "Structu
 
 The shdr sub-chunk contains the headers for the sample data.
 
-It is a multiple of 46 bytes (SFe32).
+It is a multiple of 46 bytes in SFe32, and a multiple of 308 bytes in SFe64.
 
-It is a multiple of 308 bytes (SFe64).
-
-Its structure is like this (SFe64)**:**
+Its structure is like this in SFe64:
 
 ```
 struct sfSample
@@ -395,21 +389,21 @@ struct sfSample
         };
 ```
 
-achSampleName Changes (SFe64)
+### achSampleName Changes (SFe64)
 
 - The \[20\] at the end is changed to \[256\].
     - This means that 256 characters can be used for an instrument name instead of 20.
 
-All the DWORDs used in this sub-chunk have been changed to QWORDs. (SFe64)
+In SFe64, all of the DWORDs used in this sub-chunk have been changed to QWORDs.
 
-Sample Rate Limit Changes
+### Sample Rate Limit Changes
 
 - In both SFe32 and SFe64, sample rates (dwSampleRate) are stored as a 32-bit integer. This is the same behaviour as seen in the legacy SoundFont(r) 2.04 format. This results in a theoretical maximum sample rate of 4,294,967,295 Hz.
 - In the legacy SoundFont(r) 2.04 specification, E-mu suggested that sample rates of below 400 Hz or above 50000 Hz should be avoided as some legacy hardware platforms may not be able to reproduce these sounds. This is not a limitation of the specification, but rather a limitation of legacy sound cards.
 - Despite this, Creative did not use 16-bit integers for sample rate in SF 2.04. It is thus safe to use sample rates in excess of 50000 Hz. If a sample rate of below 400 Hz or above 50000 Hz is encountered, no attempt should be made to change the sample rate.
 - A zero sample rate should be reset.
 
-sfSampleType and Werner SF3
+### sfSampleType and Werner SF3
 
 Bit 4 of "sfSampleType" is reserved for Werner SF3 usage.
 
@@ -419,9 +413,3 @@ Bit 4 of "sfSampleType" is reserved for Werner SF3 usage.
 The "sfSampleType" enum is 2 bytes in length.
 
 This is a required sub-chunk. Files without an "shdr" sub-chunk are "Structurally Unsound".
-
-* * *
-
-- If the sub-chunk sizes align with SF2/SFe32 in an SFe64 file, interpret the chunk as SFe32 data.
-- If the sub-chunk sizes align with SFe64 in an SFe32 file, interpret the chunk as SFe64 data.
-- If the sub-chunk sizes align with SFe64 in an SF2 file, or if the sub-chunk sizes do not align with either format, reject the file. It is "Structurally Unsound".

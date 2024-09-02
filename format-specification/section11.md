@@ -6,7 +6,8 @@ Except from when size concerns prohibit its inclusion, SFe32 and SFe64 players s
 
 - The AWE ROM emulator includes 152 samples.
 - The file size should be 1MB, as all samples should be to the same standard as the original.
-- Free open source samples, or samples which the author has the right to use, can be used as a replacement for the original ROM samples.
+- Samples which the program developer has the right to use can be used as a replacement for the original ROM samples.
+- Freely-usable reference implementation samples are available, but are not intended for production use.
 - Sample names will remain the same, but there will be acceptable alias names.
 - Emulators should also be able to open up SF files (either legacy SF or SFe) containing samples and metadata.
 - There may or may not be instruments or presets.

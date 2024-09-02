@@ -287,7 +287,7 @@ BW64('sfbk'
 
 "GenAmountType" has been increased from 16-bit to 32-bit. (SFe64)
 
-- The limit for IGen/PGen values is now 4,294,967,296 Generators.
+- The limit for IGEN/PGEN values is now 4,294,967,296 Generators.
 - Achieved by adding two more BYTE values, "by24" and "by32".
 - These new BYTE values are used to describe the top 16 bits of the new 32-Bit system.
 - These should be ignored by systems which do not support version 4.
@@ -315,8 +315,10 @@ The SFSampleLink enum is identical to the one used in SoundFont(R) version 2.04.
 
 * * *
 
-SFe64 files may use the extension .SF64 or .SFE64 if desired, to prevent playback in legacy SF players that do not support SFe64.
+## 4.5a File format extensions
 
-SFe32 files should retain the extension .SF2 (or .SF3), but other conventions used should continue. The file extensions .SF32 and .SFE32 are not recommended, but players should recognise them.
+SFe64 files may use the extension .SFE64 if desired, to prevent playback in legacy SF players that do not support SFe64.
+
+SFe32 files should retain the extension .SF2 (or .SF3), but other conventions used should continue. The file extension .SFE32 is not recommended, but players should recognise them.
 
 The file extensions .SFE and .SF4 shall be recognised; players should check to see if such a file is either SFe32 or SFe64, and adapt accordingly.

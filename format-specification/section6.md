@@ -2,20 +2,19 @@
 
 ## 6.1a "smpl" sub-chunk
 
-This sub-chunk must now be present, as there is no longer any ROM where samples can be read from (apart from emulation). (SFe64)
+This sub-chunk should now be present in SFe64 files, as currently, there is no ROM where samples can be read from. This does not include AWE ROM emulation.
 
 - This contains one or more samples of audio in linearly coded 16-bit, signed, little endian words.
 - No more leeway of 46 zero-valued samples is required after each sample.
-- Before saving, version 4 editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
-- Reject SFe64 files which lack this sub-chunk, as ROM samples are unsupported in SFe64.
-- If ROM samples are detected in SFe32 files, attempt to load them, even if this sub-chunk is missing.
-- If this sub-chunk is missing, and no ROM samples are found, show an error message: "No samples found!" or similar.
+- Before saving, SFe editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
+- If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
+- If this sub-chunk is missing, and no ROM samples are found, show an error message as mentioned in the program specification.
 
 * * *
 
 ## 6.1b About compression in SFe
 
-To implement compression in your SFe bank, please use Werner SF3 compression encoding.
+To implement compression in your SFe bank, please use [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) compression encoding.
 
 - Werner SF3 is widely used by the open source community.
 - It is a standard that is being developed right now.
@@ -27,8 +26,6 @@ To implement compression in your SFe bank, please use Werner SF3 compression enc
 - The "scom" sub-chunk found in specification versions 4.00.3 and earlier is now obsolete.
 - Incompatible SF compression formats (.sfark, .sfpack, .sf2pack, .sfq) are prohibited. You should use Werner SF3.
 
-[SoundFont3Format · FluidSynth/fluidsynth Wiki (github.com)](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format)
-
 * * *
 
 ## 6.2a "sm24" and "sm32" sub-chunk
@@ -39,7 +36,7 @@ These sub-chunks are optional.
 - Each sub-chunk is exactly half the size of the smpl sub-chunk.
 - For every 2 bytes in the smpl sub-chunk, there is 1 byte in these sub-chunks.
 
-![6.2a_1.png](../../../../_resources/6.2a_1.png)
+![6.2a_1.png](../../../_resources/6.2a_1.png)
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
@@ -78,4 +75,4 @@ If the smpl sub-chunk is missing, but the sm24 or sm32 sub-chunks are present, 8
 ## 6.3 Looping rules
 
 - No more leeway of 8 samples is required.
-- Before saving, version 4 editors might give a warning about this leeway telling the user that loop and interpolation quality may be affected.
+- Before saving, SFe editors might give a warning about this leeway telling the user that loop and interpolation quality may be affected.

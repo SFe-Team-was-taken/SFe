@@ -292,37 +292,12 @@ The Generator Enums used in SFe 4.00, are broadly the same as the SoundFont(R) 2
 - Generator #113: Reverb Type (reverbEffectsType) (SFe64)
     
     - Defined as a CHAR (8-bit value) - it was an unsigned CHAR in 4.00.1.
-    - Defined Values:
-        - Zero to 7 - Hall 1 to 8
-        - 8 to 15 - Room 1 to 8
-        - 16 to 23 - Stage 1 to 8
-        - 24 to 31 - Plate 1 to 8
-        - 32 to 35 - Early Reflections 1 to 4
-        - 36 to 40 - Gate Reverb 1 to 4
-        - 31 to 44 - Reverse Gate Reverb 1 to 4
-        - 45 to 46 - White Room 1 and 2
-        - 47 to 48 - Tunnel 1 and 2
-        - 49 to 50 - Canyon 1 and 2
-        - 51 to 52 - Basement 1 and 2
-        - 64 to 65 - Hall Small 1 and 2
-        - 66 to 67 - Hall Medium 1 and 2
-        - 68 to 69 - Hall Large 1 and 2
-        - 70 to 71 - Room Small 1 and 2
-        - 72 to 73 - Room Medium 1 and 2
-        - 74 to 75 - Room Large 1 and 2
+    - Defined Values will be added in version 4.01
     - More will be added soon.
 - Generator #114: Chorus Type (chorusEffectsType) (SFe64)
     
     - Defined as a CHAR (8-bit value) - it was an unsigned CHAR in 4.00.1.
-    - Defined Values:
-        - Zero to 15 - Chorus 1 to 16
-        - 16 to 23 - Celeste 1 to 8
-        - 24 to 31 - Flanger 1 to 8
-        - 32 to 39 - Symphony 1 to 8
-        - 40 to 47 - Ensemble 1 to 8
-        - 64 to 67 - Chorus 17 to 20
-        - 68 to 71 - Feedback Chorus 1 to 4
-        - 72 to 75 - Flanger 9 to 12
+    - Defined Values will be added in version 4.01
     - More will be added soon.
 - Generator #127: End of Defined List (endOper) (SFe64)
     

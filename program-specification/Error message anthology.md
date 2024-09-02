@@ -14,9 +14,9 @@
 | 10  | File is Structurally Unsound!  <br>Unsupported sample compression format! | Discretion | An incompatible compression format was found. | 4.00 | All |
 | 11  | File is Structurally Unsound!  <br>Subchunk order mismatch in pdta! | Discretion | The nine hydra sub-chunks are in the wrong order. | 4.00 | All |
 | 12  | File is Structurally Unsound!  <br>Missing hydra sub-chunk: \[missing subchunk\] | Fatal | One or more of the nine hydra sub-chunks are missing. | 4.00 | All |
-| 13  |     |     |     |     |     |
-| 14  |     |     |     |     |     |
-| 15  |     |     |     |     |     |
+| 13  | File is Structurally Unsound!  <br>Cannot load 64-bit file in 32-bit player | Fatal | Attempted to load SFe64 file in an SFe32-only player | 4.00 | SFe32 |
+| 14  | Error!  <br>Header is 32-bit internally. Treating SFe64 file as SFe32. | Non-fatal | The header of an SFe64 file is 32-bit, so the file is treated as an SFe32 file. Can be caused by renaming .sfe32 extension to .sfe64. | 4.00 | SFe64 |
+| 15  | Error!  <br>File too large! | Discretion | A file size is above the specified limit in this program specification | 4.00 | All |
 | 16  |     |     |     |     |     |
 | 17  |     |     |     |     |     |
 

@@ -21,7 +21,7 @@ If an implementation is unable to reach the layering requirements without crashi
 | **1F** | **Legacy support** | SF2.01, Werner SF3  <br>SynthFont Custom Features optional | SF2.01, SF2.04, and Werner SF3  <br>SynthFont Custom Features optional |
 | **1G** | **Header support** | "RIFF" | "RIFF", "RF64", "BW64" |
 | **1H** | **Sample compression** | Werner SF3 format  <br>Uncompressed, FLAC, Opus, Vorbis  <br>Proprietary formats forbidden | Werner SF3 format  <br>Uncompressed, FLAC, Opus, Vorbis  <br>Proprietary formats forbidden |
-| **1I** | **File extension** | \-  <br>SFe32: .sf32, .sfe32, .sfe  <br>SF2.04: .sf2  <br>Optional: .sbk | SFe64: .sf64, .sfe64, .sfe  <br>SFe32: .sf32, .sfe32, .sfe  <br>SF2.04: .sf2  <br>Optional: .sbk |
+| **1I** | **File extension** | \-  <br>SFe32: .sfe32, .sfe  <br>SF2.04: .sf2  <br>Any other format is allowed | SFe64: .sfe64, .sfe  <br>SFe32: .sfe32, .sfe  <br>SF2.04: .sf2  <br>Any other format is allowed |
 | **1J** | **Information/Metadata** | Chunks and size limits defined by 2.04 | New chunks and size limits |
 
 ### 2\. Sample specifications

@@ -65,24 +65,7 @@ The method of operation is identical to SoundFont(R) 2.04.
 
 - In SFe64, this has been improved with a full set of DSP (digital signal processor) effects, which provide new effects all the way from distortion to rotary speaker.
 - The pan system works in the same way as SoundFont(R) 2.04.
-- Compared to SoundFont(R) 2.04, the chorus and reverb effects have been improved with different types of effects.
-    - For example, the chorus send can be configured to instead add:
-        - An additional flanger on top of the flanger provided
-        - A celeste effect
-        - A symphonic effect
-        - An ensemble effect.
-    - The reverb can be configured to simulate many different types of area, including:
-        - A hall (small/medium/large)
-        - A room (small/medium/large)
-        - A stage
-        - Plate reverb
-        - A white room
-        - A tunnel
-        - A canyon
-        - Gate reverb
-        - Reverse gate reverb
-        - Early reflections
-        - A basement.
+- Compared to SoundFont(R) 2.04, the chorus and reverb effects will be replaceable with different versions starting with version 4.01.
 
 * * *
 
