@@ -2,6 +2,12 @@
 
 ## Bringing soundfonts to new heights
 
+### This is the SFe32-only branch.
+
+This is a version of the SFe specification which only includes the parts of the spec that are relevant to SFe32. We plan on making major changes to SFe64 in the future, so the separation of the SFe32 and SFe64 specs will make it clearer.
+
+---
+
 ### What is SFe?
 
 Like many members of the soundfont community, we are tired of the limitations of the ancient SoundFont format. So, in 2020, we launched the SFe (SF-enhanced) project, to research backwards-compatible improvements and updates to the format.
