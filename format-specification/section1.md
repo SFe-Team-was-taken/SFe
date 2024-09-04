@@ -2,10 +2,11 @@
 
 ## 1.1a Scope and purpose of this document
 
-- This is a draft specification for the SFe file format, version 4, based on the famous E-mu Systems(r) Soundfont(r) 2.04, and Werner SF3 standards.
-- It's intended to be a source of information on SFe.
-- To create files that support SFe, you will need:
-    - The SFe format, compatibility and program specifications
+- This is a draft specification for the SFe64 file format, version 4.00, based on the famous E-mu Systems(r) Soundfont(r) 2.04, and Werner SF3 standards.
+- It's intended to be a source of information on SFe64.
+- To create files that support SFe64, you will need:
+    - The SFe64 format, compatibility and program specifications
+    - The SFe32 format, compatibility and program specifications
     - E-mu's provided documents for SF 2.04 ([sfspec24.pdf](https://freepats.zenvoid.org/sf2/sfspec24.pdf))
     - The Werner SF3 specification ([draft by FluidSynth](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format))
 - All features from version 2.04 will be retained.
@@ -24,18 +25,12 @@
 
 The sections in this specification map to the E-mu Systems(r) Soundfont(r) 2.04 specification document.
 
-- Like the version 2.04 specification, section 1 and 2 gives introductory information about SFe.
-    
-- Sections 3-8 provide detailed information about the new third generation structure.
-    
-- Section 9 shows the next generation synthesis engine, improved significantly from the engines that AWE32 and its relatives used.
-    
-- Section 10 describes any error handling which is needed when opening SFe files.
-    
-- Section 11 describes legacy ROM methods of storing an SFe32 file.
-    
+- Like the version 2.04 specification, section 1 and 2 gives introductory information about SFe64.
+- Sections 3-8 provide detailed information about the updates made to the SFe64 structure.
+- Section 9 shows the synthesis engine.
+- Section 10 describes any error handling which is needed when opening SFe64 files.
+- Section 11 describes legacy ROM methods of storing an SFe64 file.
 - Section 12 is a glossary of most terms in this draft specification.
-    
 
 New sections may be added in the future, depending on if radical changes are made to the format.
 
@@ -43,28 +38,13 @@ New sections may be added in the future, depending on if radical changes are mad
 
 ## 1.3 SFe objectives
 
-### The SF-enhanced (SFe) standard, version 4, has been created to provide a successor to E-mu Systems(r)'s Soundfont(r) 2.04 standard, with many different new features which are required to increase realism of virtual instrument banks further.
+### The SFe64 standard, has been created to provide a 64-bit successor to E-mu Systems(r)'s Soundfont(r) 2.04 standard, enabling file sizes of greater than 4 GiB, in addition to further building on the features of SFe32.
 
-An all-new 64-bit version, called SFe64, is based on the RIFF64 (RF64) standard, which is very similar to the 32-bit RIFF standard.
-
-- The file size limit is 16 EiB, and this format has changed many of the data types from 16-bit to 32-bit, and 8-bit to 16-bit.
-- Parameter size limits have increased from 65,536 to 4,294,967,296.
+- The file size limit is 16 EiB.
 - Large files requiring larger size limits must use SFe64.
-- SFe64 is not completely compatible with SFe32. Legacy SF players (like AWE32) will not playback SFe64 files.
-- However, this new version will be easily convertible to SFe32, so SFe64 files with a file size of below 4GiB can be converted with little to no quality loss.
-- Also, programs that are designed to create existing SF2 files can easily be adapted to 64-bit with the SFe64 format.
+- Programs that are designed to create existing SF2 files can easily be adapted to 64-bit with the SFe64 format.
 - SFe64 will allow creators of sound banks to replace split banks with a large number of SF2 files (and supporting files like SFLISTs), with very large, single, ready-to-use files, where all samples and instruments can be shared in the sound bank's presets.
-
-A backwards compatible 32-bit version, called SFe32, based on the famous and reliable RIFF standard, adds many extra features, while striving for compatibility with legacy SF players. It will also be compatible with existing software that implements Werner SF3 compression.
-
-- In this version, the file size limit remains 4GiB, and the data types remain the same.
-- There will be a few new modulators, and some new features like round robin sample switching.
-- ROM features for legacy sound cards will also be kept, to allow the ROM samples inside these old sound cards to be used with the new features.
-- SFe32 will be completely compatible with legacy SF players that fully implement the legacy SF specification. All that is needed is usage of the sf2 extension, and it should be possible to load an SFe32 file, on existing software.
-- We will not release a version of SFe32 if the resulting features break the forward compatibility of legacy soundfont players. We will test updates before releasing final versions.
-- SFe32 will impart critical features that are not found in the current versions 2 and 3 format to bring the popular install base of the SF2/SF3 format forward to the 21st century and beyond; it will also act as a stepping stone between SF2/SF3 and SFe64, which is our vision of the monolithic sample library of the future.
-- Specific versions of programs that support SFe32 will not be required, as the SFe64 standard is designed to allow SFe32 files to be parsed as SFe64 (version 4) and play without issues. Future versions will need separate SFe32 and SFe64 parsers, as the structure sizes may diverge.
-- SFe32 compatible players require a certain standard of features, which is in the separate SFe program specification. 
+- SFe64 compatible players require a certain standard of features, which is in the separate SFe program specification.
 
 * * *
 
@@ -116,7 +96,7 @@ Another development was done by Cognitone, which created an open source program 
 - This is intended to be the true version 4, as Cognitone SF4 seems to not have been as widespread as SF3.
 - SF4 has also been rejected by the Werner SF3 community as too loosely defined.
 
-Finally, stgiga found out that many programs don't actually mind RIFF64 (RF64) files.
+Finally, stgiga found out that many programs don't actually mind RIFF64 (RF64) files. This is the purpose of the SFe64 format.
 
 - RIFF64 files have a much larger size limit than 32-bit RIFF files.
 - It gives us a new horizon to experiment with longer, higher quality samples.
@@ -132,10 +112,6 @@ SFe (version 4) is designed for future improvements.
 
 - These will be done in a more liberal way than the conservative manner of the Soundfont(r) 2 updates that E-mu has done.
 - Some improvements will only be available in SFe64.
-- SFe32 will have a reduced set of improvements, as it is designed to be completely backward compatible with SF2.04.
-- No version of SFe32 will become incompatible with fully compliant SF2.04 software.
-- Eventually, we will permanently freeze SFe32, only if and when SFe64-compatible software has reached significant acceptance.
-- After the feature freeze, SFe32 will remain a dependable and stable format for software development to be based on.
 - SFe64 is not affected by limitations created by the EMU8000 sound processor, and Sound Blaster(r) cards, and therefore will have more improvements.
 - To avoid over-stress of developers of the SFe Team, as well as SFe instrument banks, features will be spread out across versions. We hope to release a new version every 3-5 years.
 - SFe64 development can be done in tandem with SFe32.

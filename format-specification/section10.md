@@ -2,9 +2,7 @@
 
 ## 10.1 Structural errors
 
-The error correction process for structural errors in SFe32 is largely similar to the process in older versions of the format.
-
-However, there are a few differences in structural error handling in SFe64:
+The error correction process for structural errors in SFe64 is slightly different from that in SFe32 or SF2.04:
 
 - If a ds64 chunk, "BW64" or "RF64" header is found in a file, SFe32 players that do not support SFe64 should output a specific error, as mentioned in the SFe program specification.
 - If the ds64 chunk is missing, it is an SFe32 file. Make sure that ckSize is accurate, using the same techniques as for SF 2.04.
@@ -17,7 +15,7 @@ However, there are a few differences in structural error handling in SFe64:
 
 ## 10.1a Duplicated preset locations within files
 
-This occurs when the file is structurally damaged or manually edited in a manner where more than one preset has the same value of wBank and wPreset (for instance, 015:081).
+This occurs when the file is structurally damaged or manually edited in a manner where more than one preset has the same value of wBank and wPreset (for instance, 015:000:081).
 
 - In SoundFont(R) 2.04, the first preset in the location would be used by default, but the other presets would still be retained.
 - Such other presets must be moved before they can be used.
@@ -38,8 +36,6 @@ This occurs when multiple files are loaded simultaneously (now a required featur
 - This edge case will now be defined in SFe.
 - If multiple presets across loaded files have the same value of wBank and wPreset, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
 - Such a feature is also optional, and if not implemented, you can either use the first preset found, or you can combine all the presets.
-- While initially intended to enable the creation of instruments with extremely large file size (beyond 4GiB), or use a massive number of generators (beyond 65536), with the SFe32 format, other methods like TSC mode or SiliconSFe Linking, are now preferred.
-- SFe64 will still be preferable to SFe32, and these SFe32 files may not play correctly on legacy SF version 2 or 3 players.
 - This behaviour might change in future versions, so please note the "ifil" value, and later versions of this specification, into account. In particular, later versions of SFe will use the ISFe sub-chunk to determine this behaviour.
 
 * * *
@@ -81,7 +77,7 @@ This occurs when the user loads a file that is larger than the maximum size that
 - SFe has defined limits that are found in the separate program specification.
 - If these limits are reached, you can reject loading of the file with an error, or attempt to load the file anyway.
 - SFe programs should warn the user if processing was automatically done to a file to reduce the file size to be in range.
-- If multiple files are loaded, and the limit is reached, the order of files to be loaded can be defined by the author of the SFe compatible software.
+- If multiple files are loaded, and the limit is reached, the order of files to be loaded can be defined by the author of the SFe64 compatible software.
 
 * * *
 
