@@ -2,7 +2,7 @@
 
 Traditional SiliconSF banks are provided for compatibility purposes only, but we are unaware of any shipping products using SiliconSF.
 
-Except from when size concerns prohibit its inclusion, SFe32 and SFe64 players should include an AWE ROM emulator.
+While it is optional, SFe32 players may include an AWE ROM emulator.
 
 - The AWE ROM emulator includes 152 samples.
 - The file size should be 1MB, as all samples should be to the same standard as the original.

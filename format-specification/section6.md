@@ -1,8 +1,8 @@
 # Section 6: "sdta-list" chunk
 
-## 6.1a "smpl" sub-chunk
+## 6.1 "smpl" sub-chunk
 
-This sub-chunk should now be present in SFe64 files, as currently, there is no ROM where samples can be read from. This does not include AWE ROM emulation.
+You can omit this sub-chunk if you provide ROM samples.
 
 - This contains one or more samples of audio in linearly coded 16-bit, signed, little endian words.
 - No more leeway of 46 zero-valued samples is required after each sample.
@@ -12,7 +12,7 @@ This sub-chunk should now be present in SFe64 files, as currently, there is no R
 
 * * *
 
-## 6.1b About compression in SFe
+## 6.1a About compression in SFe
 
 To implement compression in your SFe bank, please use [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) compression encoding.
 
@@ -28,7 +28,7 @@ To implement compression in your SFe bank, please use [Werner SF3](https://githu
 
 * * *
 
-## 6.2a "sm24" and "sm32" sub-chunk
+## 6.2 "sm24" and "sm32" sub-chunk
 
 These sub-chunks are optional.
 
@@ -36,7 +36,7 @@ These sub-chunks are optional.
 - Each sub-chunk is exactly half the size of the smpl sub-chunk.
 - For every 2 bytes in the smpl sub-chunk, there is 1 byte in these sub-chunks.
 
-![6.2a_1.png](../../../_resources/6.2a_1.png)
+![6.2a_1.png](../../../_resources/6.2a_1-2.png)
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
@@ -54,12 +54,12 @@ If these sub-chunks are present, they are combined with the other sub-chunks to 
     
 - If only the sm32 sub-chunk is ignored, the synthesiser should attempt to render both the smpl and sm24 sub-chunks, resulting in a 24-Bit sample.
     
-- Due to the massive size, unpracticality and compatibility implications of 32-bit samples, we recommend that you use the sm32 sub-chunk only with SFe64 files.
+- Due to the massive size, unpracticality and compatibility implications of 32-bit samples, use of the sm32 sub-chunk is not recommended! 
     
 
 * * *
 
-## 6.2b Using 8-bit samples
+## 6.2a Using 8-bit samples
 
 If the smpl sub-chunk is missing, but the sm24 or sm32 sub-chunks are present, 8-bit sample mode is to be activated.
 
