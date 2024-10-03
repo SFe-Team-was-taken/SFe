@@ -1,4 +1,4 @@
-# SFe32 Compatibility Specification 4.00.20240904
+# SFe32 Compatibility Specification 4.00.6
 
 This is a non-exhaustive list of compatibility workarounds relating to the ancient Soundfont(r) 2.04 format and the new SFe version 4.
 
@@ -9,14 +9,6 @@ If the version number of this specification is not yet updated, then the informa
 ### SF 2.04 specification compatibility
 
 If a legacy SF player is not fully compatible with the SF 2.0x specification, then SFe32 files might not work properly.
-
-### Trailing sdta chunk (TSC) mode
-
-Because such files will not work with all legacy SF players, including sound cards, TSC mode is disabled by default, to ensure compatibility.
-
-We strongly recommend that you use SFe64 rather than SFe32 with TSC mode.
-
-Saga also warns against using TSC mode due to compatibility concerns.
 
 ### INFO chunk and legacy compatibility
 
