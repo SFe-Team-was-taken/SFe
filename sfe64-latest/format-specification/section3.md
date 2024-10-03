@@ -49,4 +49,4 @@ Using this information, it is possible to check for damage to a SF file:
 
 - If any damage is detected due to such a mismatch, the file should be rejected as "Structurally Unsound".
 - Like E-mu(r) Soundfont(r) 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
-- A specification for such a program will be ready for 4.00.6.
+- A specification for such a program will be ready for 4.00.7.

@@ -1,4 +1,4 @@
-# SFe32 program specification 4.00.20240904
+# SFe32 program specification 4.00.6
 
 This specification is written as a baseline that you can expect any program that implements the SFe32 standard to meet.
 

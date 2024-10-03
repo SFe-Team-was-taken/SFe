@@ -57,7 +57,7 @@
 ### File Extension, Structure, Information and Metadata
 
 - The file extensions are .SF2 and .SFe32.
-- We recommend using the file extension .SFe32. We will work on listing a subset of "safe" features for 4.00.6.
+- We recommend using the file extension .SFe32. We will work on listing a subset of "safe" features for 4.00.7.
 - Use the ifil subchunk to determine version, do not use the file extension.
 - For SFe32, deviation from the prescribed chunk sizes and limits by E-mu will result in incompatibilities.
 - Any incompatibility with SF2.04 files will result in the implementation being non-compliant.

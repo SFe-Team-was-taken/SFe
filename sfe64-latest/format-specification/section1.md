@@ -126,7 +126,8 @@ We decided to do a feature freeze for version 4.00 to make sure that SFe program
 
 Here are a few things that are planned for SFe:
 
-- For SFe draft specification version 4.00.6, we are planning to introduce the SFe file repair program specification.
+- For SFe64 draft specification milestone 4.00.7, we are planning to introduce the SFe file repair program specification.
 - An SDK to assist SFe program developers with creating programs for the new format will be available with the version 4.00 final specification.
 - For version 4.01, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205).
-- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added to a future version of SFe.
+- A MIDI lyrics specification for MIDI players will become available in version 4.02.
+- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.03.
