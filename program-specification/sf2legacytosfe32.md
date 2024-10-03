@@ -1,4 +1,4 @@
-# SF2 to SFe32 converter program specification 4.00.20240904
+# SF2 to SFe32 converter program specification 4.00.6
 
 ## An SF2 to SFe32 converter may be constructed in many different ways.
 
