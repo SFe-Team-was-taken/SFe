@@ -29,7 +29,7 @@ This occurs when multiple files are loaded simultaneously (now a required featur
 - This edge case will now be defined in SFe.
 - If multiple presets across loaded files have the same value of wBank and wPreset, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
 - Such a feature is also optional, and if not implemented, you can either use the first preset found, or you can combine all the presets.
-- While initially intended to enable the creation of instruments with extremely large file size (beyond 4GiB), or use a massive number of generators (beyond 65536), with the SFe32 format, other methods like TSC mode or SiliconSFe Linking, are now preferred. However, such SFe32 files may not play correctly on legacy SF version 2 or 3 players.
+- While initially intended to enable the creation of instruments with extremely large file size (beyond 4GiB), or use a massive number of generators (beyond 65536), with the SFe32 format, other methods, such as SiliconSFe Linking, are now preferred. However, such SFe32 files may not play correctly on legacy SF version 2 or 3 players.
 - This behaviour might change in future versions, so please note the "ifil" value, and later versions of this specification, into account. In particular, later versions of SFe will use the ISFe sub-chunk to determine this behaviour.
 
 * * *

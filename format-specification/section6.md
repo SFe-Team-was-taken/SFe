@@ -36,7 +36,7 @@ These sub-chunks are optional.
 - Each sub-chunk is exactly half the size of the smpl sub-chunk.
 - For every 2 bytes in the smpl sub-chunk, there is 1 byte in these sub-chunks.
 
-![6.2a_1.png](../../../_resources/6.2a_1-2.png)
+![6.2a_1.png](../../../_resources/6.2a_1.png)
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
