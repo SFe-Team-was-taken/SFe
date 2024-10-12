@@ -1,6 +1,6 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.00.7 (draft specification)
+## Version 4.00.7 (draft specification) - Revision B
 
 Copyright 2020-2024 SFe Team
 
@@ -13,7 +13,8 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |          |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |----------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 4.00.7   | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4.00.7b  | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 4.00.7a  | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.6   | October 3, 2024      | Added milestone classification for some draft specifications in 0.1a  <br>Removed all SFe32-specific information, renamed to SFe64 spec  <br>Renamed 3.1a to 3.1, 6.1a to 6.1, 6.1b to 6.1a, 6.2a to 6.2, and 6.2b to 6.2a, for consistency  <br>Delayed modulator update to version 4.01  <br>Removed 7.1a, because it's not relevant to versions before 5.00  <br>Added LSB to example value in 10.1a  <br>Added more information about future plans  <br>Reworked SFe64 to be a simple 64-bit extension to SFe32 for now, features will come later                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | 4.00.5c  | September 2, 2024    | Added clarification for timeframe in which 0.4 will be filled out  <br>Rewritten 1.1a to be clearer, moving links from 1.1b  <br>Removed redundant "important" words in 1.1b  <br>Moved some compatibility info from sections 1.3 and 3.1 to compatibility spec  <br>ROM samples no longer listed as deprecated in 3.2, 5.4, 5.5 and 6.1a  <br>Error handling plans for version 4.00.6 added in 3.3  <br>Fixed capitalisation in 4.5  <br>Added section 4.5a for file format extensions, removed .sf32 and .sf64  <br>Removed isfe reference for 5.1, SFe32 programs can determine WernerSF3 with wMajor=3  <br>Fixed reference to compatibility spec in 5.1a, compatibility spec is not used in SFe64  <br>Rewritten 5.2 to make it clearer, and to mention default modulator definitions for 4.01.  <br>Added heading 3 in formatting of section 7 and section 7.1a for subchunk size alignment.  <br>Removed reverb/chorus definitions in 8.1.2, 8.1.3 and 9.1.5 (will be restored in 4.01)  <br>Fixed some other typos and added a few other clarifications                                                                                                         |
 | 4.00.5b  | September 1, 2024    | Clarified information about sample rates in section 7.10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -96,7 +97,6 @@ Want to join the SFe Team? Please contact sleaf using the contacts in section 0.
 
 <!-- Table of contents: contributed by @spessasus. -->
 * [SF-enhanced 64-bit (SFe64) specification](#sf-enhanced-64-bit-sfe64-specification)
-  * [Version 4.00.7 (draft specification)](#version-4007-draft-specification)
   * [0.1 Revision history](#01-revision-history)
   * [0.1a Specification Versioning](#01a-specification-versioning)
   * [0.2 Disclaimers](#02-disclaimers)
@@ -109,18 +109,15 @@ Want to join the SFe Team? Please contact sleaf using the contacts in section 0.
   * [1.1b Important differences from the 2.04 document](#11b-important-differences-from-the-204-document)
   * [1.2 Document organisation](#12-document-organisation)
   * [1.3 SFe objectives](#13-sfe-objectives)
-    * [The SFe64 standard has been created to provide a 64-bit successor to E-mu Systems(r)'s SoundFont® 2.04 standard, enabling file sizes of greater than 4 GiB, in addition to further building on the features of SFe32.](#the-sfe64-standard-has-been-created-to-provide-a-64-bit-successor-to-e-mu-systemsrs-soundfont-204-standard-enabling-file-sizes-of-greater-than-4-gib-in-addition-to-further-building-on-the-features-of-sfe32)
   * [1.4 The background of the SF format](#14-the-background-of-the-sf-format)
   * [1.5 Improvements and enhancements](#15-improvements-and-enhancements)
-  * [1.5a plans](#15a-plans)
+  * [1.5a Plans](#15a-plans)
 * [Section 2: Terms and abbreviations](#section-2-terms-and-abbreviations)
   * [2.1 Data structure terminology](#21-data-structure-terminology)
   * [2.2 Synthesis terminology](#22-synthesis-terminology)
   * [2.3 Parameter terminology](#23-parameter-terminology)
 * [Section 3: RIFF and RF64 structure](#section-3-riff-and-rf64-structure)
   * [3.1 General RIFF and RF64 file structures](#31-general-riff-and-rf64-file-structures)
-    * [The RIFF format is the file format used in the SoundFont® 2.x and Werner SF3 standards, and in SFe32.](#the-riff-format-is-the-file-format-used-in-the-soundfont-2x-and-werner-sf3-standards-and-in-sfe32)
-    * [The RIFF64 format (also called RF64) is the file format used in SFe64. It is compatible with RIFF.](#the-riff64-format-also-called-rf64-is-the-file-format-used-in-sfe64-it-is-compatible-with-riff)
   * [3.2 Chunks and subchunks in version 4](#32-chunks-and-subchunks-in-version-4)
   * [3.3 Error handling](#33-error-handling)
 * [Section 4: RF64 file format of SFe64, version 4.00](#section-4-rf64-file-format-of-sfe64-version-400)
@@ -228,7 +225,7 @@ Want to join the SFe Team? Please contact sleaf using the contacts in section 0.
 
 ## 1.1a Scope and purpose of this document
 
-- This is a draft specification for the SFe64 file format, version 4.00, based on the famous E-mu Systems(r) SoundFont® 2.04, and Werner SF3 standards.
+- This is a draft specification for the SFe64 file format, version 4.00, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards.
 - It's intended to be a source of information on SFe64.
 - To create files that support SFe64, you will need:
     - The SFe64 format, compatibility, and program specifications
@@ -249,7 +246,7 @@ Want to join the SFe Team? Please contact sleaf using the contacts in section 0.
 
 ## 1.2 Document organisation
 
-The sections in this specification map to the E-mu Systems(r) SoundFont® 2.04 specification document.
+The sections in this specification map to the E-mu Systems® SoundFont® 2.04 specification document.
 
 - Like the version 2.04 specification, section 1 and 2 gives introductory information about SFe64.
 - Sections 3–8 provide detailed information about the updates made to the SFe64 structure.
@@ -264,7 +261,7 @@ New sections may be added in the future, depending on if radical changes are mad
 
 ## 1.3 SFe objectives
 
-### The SFe64 standard has been created to provide a 64-bit successor to E-mu Systems(r)'s SoundFont® 2.04 standard, enabling file sizes of greater than 4 GiB, in addition to further building on the features of SFe32.
+### The SFe64 standard has been created to provide a 64-bit successor to E-mu Systems®'s SoundFont® 2.04 standard, enabling file sizes of greater than 4 GiB, in addition to further building on the features of SFe32.
 
 - The file size limit is 16 EiB.
 - Large files requiring larger size limits must use SFe64.
@@ -276,7 +273,7 @@ New sections may be added in the future, depending on if radical changes are mad
 
 ## 1.4 The background of the SF format
 
-SoundFont® 1 refers to the proprietary version of the format used by the Creative Sound Blaster(r) AWE32 sound card released in 1994.
+SoundFont® 1 refers to the proprietary version of the format used by the Creative Sound Blaster® AWE32 sound card released in 1994.
 
 - SoundFont® one files had a file extension of .SBK and cannot be used by many of SF 2.0x programs.
 - This is the version used in the Creative DOS drivers.
@@ -285,7 +282,7 @@ SoundFont® 1 refers to the proprietary version of the format used by the Creati
 
 Creative decided to release the specification to the public with version 2.00 in 1996 (specification date October 1995).
 
-- This requires the Windows drivers for use in older Sound Blaster(r) cards.
+- This requires the Windows drivers for use in older Sound Blaster® cards.
 - DOS drivers can only use .SBK (SoundFont® 1) files.
 
 In 1998, modulators were added in the SoundFont® 2 version 2.01 (specification date August 1997).
@@ -338,13 +335,13 @@ SFe (version 4) is designed for future improvements.
 
 - These will be done in a more liberal way than the conservative manner of the SoundFont® 2 updates that E-mu has done.
 - Some improvements will only be available in SFe64.
-- SFe64 is not affected by limitations created by the EMU8000 sound processor and Sound Blaster(r) cards, and therefore will have more improvements.
+- SFe64 is not affected by limitations created by the EMU8000 sound processor and Sound Blaster® cards, and therefore will have more improvements.
 - To avoid over-stress of developers of the SFe Team, as well as SFe instrument banks, features will be spread out across versions. We hope to release a new version every 3–5 years.
 - SFe64 development can be done in tandem with SFe32.
 
 * * *
 
-## 1.5a plans
+## 1.5a Plans
 
 The features for version 4.00 have been frozen after the release of version 4.00.4. This doesn't mean that we're done with SFe, in fact, this is only the beginning of the format's development.
 
@@ -362,7 +359,7 @@ Here are a few things that are planned for SFe:
 
 ## 2.1 Data structure terminology
 
-The data structure terminology used in version 4 is broadly the same as the E-mu(r) SF2.04 standard, with these additions:
+The data structure terminology used in version 4 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
 - BW64—Broadcast Wave 64, used in the RF64 Header.
 - RF64 - See "RIFF64".
@@ -372,17 +369,17 @@ The data structure terminology used in version 4 is broadly the same as the E-mu
 
 ## 2.2 Synthesis terminology
 
-The synth terminology used in SFe64 version 4.00 is broadly the same as the E-mu(r) SF2.04 standard, with these additions:
+The synth terminology used in SFe64 version 4.00 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
 - AWE64 - The successor to the famous AWE32, added things like waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
 
 - DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe.
 
-- EMU10K1—The successor to the EMU8000, designed by E-mu(r) for the Creative Labs SB Live!.
+- EMU10K1—The successor to the EMU8000, designed by E-mu® for the Creative Labs SB Live!.
 
-- EMU10K2 - An update to the EMU10K1, designed by E-mu(r) for the Creative Labs SB Audigy.
+- EMU10K2 - An update to the EMU10K1, designed by E-mu® for the Creative Labs SB Audigy.
 
-- EMU20K1 - The successor to the EMU10K2, designed by E-mu(r) for the Creative Labs SB X-Fi.
+- EMU20K1 - The successor to the EMU10K2, designed by E-mu® for the Creative Labs SB X-Fi.
 
 - EMU20K2—An update to the EMU20K1, please refer [here](https://en.wikipedia.org/wiki/Sound_Blaster_X-Fi) for information on SB X-Fi cards that include it.
 
@@ -390,11 +387,11 @@ The synth terminology used in SFe64 version 4.00 is broadly the same as the E-mu
 
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
 
-- Soundblaster(r) Live! — The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
+- Soundblaster® Live! — The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
 
-- Soundblaster(r) Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
+- Soundblaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
 
-- Soundblaster(r) X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
+- Soundblaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
 
 - Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the 2.04 specification for more information.
 
@@ -419,7 +416,7 @@ The terminology is also the same as SFe32 version 4.00.
 
 ## 2.3 Parameter terminology
 
-The parameter terminology used in version 4 is broadly the same as the E-mu(r) SF2.04 standard, with these additions:
+The parameter terminology used in version 4 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
 - Amplification - An increase in volume or amplitude of a signal.
 - Flat - Said of a tone that is lower in pitch than another reference tone.
@@ -476,137 +473,14 @@ The RIFF and RF64 formats have error checking features about:
 Using this information, it is possible to check for damage to an SF file:
 
 - If any damage is detected due to such a mismatch, the file should be rejected as "Structurally Unsound."
-- Like E-mu(r) SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
+- Like E-mu® SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
 - A specification for such a program will be ready for 4.00.8.
 
 # Section 4: RF64 file format of SFe64, version 4.00
 
 ## 4.1-4.4 File structure of version 4
 
-SFe64 file structure:
-
-```
-BW64('sfbk'
-        {
-        ds64([Size of SFe64 File])
-        LIST('INFO'
-            {
-            ifil(
-                struct sfVersionTag
-                {
-                    WORD wMajor;
-                    WORD wMinor;
-                };
-            )
-            isng(szSoundEngine:ZSTR)
-            INAM(szName:ZSTR)
-            ICRD(szDate:ZSTR)
-            IENG(szName:ZSTR)
-            IPRD(szProduct:ZSTR)
-            ICOP(szCopyright:ZSTR)
-            ICMT(szComment:ZSTR)
-            ISFT(szTools:ZSTR)
-            }
-            )
-        )
-        LIST('sdta'
-            {
-            smpl([sample:SHORT])
-            }
-            {
-            sm24([sample:CHAR])
-            }
-            {
-            sm32([sample:CHAR])
-            }
-        )
-        LIST('pdta'
-            {
-            phdr(
-                struct sfPresetHeader
-                {
-                    CHAR achPresetName[20];
-                    WORD wPreset;
-                    WORD wBank;
-                    DWORD dwPresetBagNdx;
-                    DWORD dwLibrary;
-                    DWORD dwGenre;
-                };
-            )
-            pbag(
-                struct sfPresetBag
-                {
-                    WORD wGenNdx;
-                    WORD wModNdx;
-                };
-            )
-            pmod(
-                struct sfModList
-                {
-                    SFModulator sfModSrcOper;
-                    SFModulator sfModDestOper;
-                    SHORT modAmount;
-                    SFModulator sfModAmtSrcOper;
-                    SFTransform sfModTransOper;
-                };
-            )
-            pgen(
-                struct sfGenList
-                {
-                    SFGenerator sfGenOper;
-                    genAmountType genAmount;
-                };
-            )
-            inst(
-                struct sfInst
-                {
-                    CHAR achInstName[20];
-                    WORD wInstBagNdx;
-                };
-            )
-            ibag(
-                struct sfInstBag
-                {
-                    WORD wInstGenNdx;
-                    WORD wInstModNdx;
-                };
-            )
-            imod(
-                struct sfModList
-                {
-                    SFModulator sfModSrcOper;
-                    SFModulator sfModDestOper;
-                    SHORT modAmount;
-                    SFModulator sfModAmtSrcOper;
-                    SFTransform sfModTransOper;
-                };
-            )
-            igen(
-                struct sfGenList
-                {
-                    SFGenerator sfGenOper;
-                    genAmountType genAmount;
-                };
-            )
-            shdr(
-                struct sfSample
-                {
-                    CHAR achSampleName[20];
-                    DWORD dwStart;
-                    DWORD dwEnd;
-                    DWORD dwStartloop;
-                    DWORD dwEndloop;
-                    DWORD dwSampleRate;
-                    BYTE byOriginalKey;
-                    CHAR chCorrection;
-                    DWORD dwSampleLink;
-                    SFSampleLink sfSampleType;
-                };
-            )
-            }
-        )
-    )
-```
+Needs an update. This will be done for 4.00.8.
 
 * * *
 
@@ -816,9 +690,9 @@ These sub-chunks are optional.
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
-- If the ifil version is below 2.04 (signifying an E-mu Systems(r) designed SoundFont® standard before 2.04), both sm24 and sm32 are ignored.
+- If the ifil version is below 2.04 (signifying an E-mu Systems® designed SoundFont® standard before 2.04), both sm24 and sm32 are ignored.
 
-- If the ifil version is exactly 2.04 (signifying the E-mu Systems(r) designed SoundFont® 2.04 standard), only sm32 is ignored. The sm24 sub-chunk is still used.
+- If the ifil version is exactly 2.04 (signifying the E-mu Systems® designed SoundFont® 2.04 standard), only sm32 is ignored. The sm24 sub-chunk is still used.
 
 - If these sub-chunks are not exactly half the size of the smpl sub-chunk (or otherwise invalid), the data should be ignored.
 
@@ -855,9 +729,9 @@ If the smpl sub-chunk is missing, but the sm24 or sm32 sub-chunks are present, 8
 
 ## 7.1 "Hydra" structure
 
-Like in E-mu Systems(r) SoundFont® 2.04, the format SFe64 version 4.00 is based on, the structure used is known as the "hydra" structure.
+Like in E-mu Systems® SoundFont® 2.04, the format SFe64 version 4.00 is based on, the structure used is known as the "hydra" structure.
 
-According to E-mu Systems(r), a hydra has nine heads. Cut one off, and another two grow.
+According to E-mu Systems®, a hydra has nine heads. Cut one off, and another two grow.
 
 No major changes have been made to the structure itself. All nine of the sub-chunks are required. If any are missing, the file is "Structurally Unsound."
 
@@ -877,9 +751,9 @@ Its structure is the same as in SF2.04.
 - What bits 9–16 do in version 4:
     - Bit 9 remains reserved.
     - General MIDI™ one or two reset clears bits 10 and 11.
-    - Roland(r) GS® reset clears bit 10 and sets bit 11.
-    - Yamaha(r) XG® reset sets bit 10 and clears bit 11.
-    - Roland(r) CM-64™/CM-32L™ reset sets bits 10 and 11.
+    - Roland® GS® reset clears bit 10 and sets bit 11.
+    - Yamaha® XG® reset sets bit 10 and clears bit 11.
+    - Roland® CM-64™/CM-32L™ reset sets bits 10 and 11.
     - Bit 12 is reserved for more MIDI commands in the future. For now, bit 12 should be written as clear.
     - Bits 13–16 will not be defined. The author of the SF may use these at will with their own MIDI commands.
     - MIDI sequencers will eventually be able to set or clear all bits from 10 to 16 using commands.
@@ -1345,11 +1219,11 @@ This glossary is broadly the same as the SF2.04 specification's glossary, with t
 
 - Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
 
-- EMU10K1 - The successor to the EMU8000, designed by E-mu(r) for the Creative Labs SB Live!.
+- EMU10K1 - The successor to the EMU8000, designed by E-mu® for the Creative Labs SB Live!.
 
-- EMU10K2 - An update to the EMU10K1, designed by E-mu(r) for the Creative Labs SB Audigy.
+- EMU10K2 - An update to the EMU10K1, designed by E-mu® for the Creative Labs SB Audigy.
 
-- EMU20K1 - The successor to the EMU10K2, designed by E-mu(r) for the Creative Labs SB X-Fi.
+- EMU20K1 - The successor to the EMU10K2, designed by E-mu® for the Creative Labs SB X-Fi.
 
 - EMU20K2 - An update to the EMU20K1, please refer [here](https://en.wikipedia.org/wiki/Sound_Blaster_X-Fi) for information on SB X-Fi cards that include it.
 
@@ -1365,11 +1239,11 @@ This glossary is broadly the same as the SF2.04 specification's glossary, with t
 
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
 
-- Soundblaster(r) Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
+- Soundblaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
 
-- Soundblaster(r) Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
+- Soundblaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
 
-- Soundblaster(r) X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
+- Soundblaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
 
 - Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the 2.04 specification for more information.
 
