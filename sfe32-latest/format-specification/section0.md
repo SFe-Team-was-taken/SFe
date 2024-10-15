@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.6 (draft specification) - Revision A
+## Version 4.00.6 (draft specification) - Revision B
 
 Copyright 2020-2024 SFe Team
 
@@ -13,6 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994-2002 E-mu Systems Inc.
 |     |     |     |
 | --- | --- | --- |
 | Revision | Date | Description |
+| 4.00.6b | October 3, 2024 | Temporarily removed section 4.1-4.4, in preparation for a rewrite that accurately portrays the structure of SFe version 4.00 |
 | 4.00.6a | October 3, 2024 | Added milestone classification for some draft specifications in 0.1a  <br>Removed all SFe64-specific information, renamed to SFe32 spec  <br>Renamed 3.1a to 3.1, 3.1b to 3.1a, 6.1a to 6.1, 6.1b to 6.1a, 6.2a to 6.2, and 6.2b to 6.2a, for consistency  <br>Delayed modulator update to version 4.01  <br>Added more information about future plans  <br>Added LSB to example value in 10.1a  <br>Temporarily removed TSC mode due to compatibility concerns |
 | 4.00.5c | September 2, 2024 | Added clarification for timeframe in which 0.4 will be filled out  <br>Rewritten 1.1a to be clearer, moving links from 1.1b  <br>Removed redundant "important" words in 1.1b  <br>Moved some compatibility info from sections 1.3 and 3.1 to compatibility spec  <br>ROM samples no longer listed as deprecated in 3.2, 5.4, 5.5 and 6.1a  <br>Error handling plans for version 4.00.6 added in 3.3  <br>Fixed capitalisation in 4.5  <br>Added section 4.5a for file format extensions, removed .sf32 and .sf64  <br>Removed isfe reference for 5.1, SFe32 programs can determine WernerSF3 with wMajor=3  <br>Fixed reference to compatibility spec in 5.1a, compatibility spec is not used in SFe64  <br>Rewritten 5.2 to make it clearer, and to mention default modulator definitions for 4.01.  <br>Added heading 3 in formatting of section 7 and section 7.1a for subchunk size alignment.  <br>Removed reverb/chorus definitions in 8.1.2, 8.1.3 and 9.1.5 (will be restored in 4.01)  <br>Fixed some other typos and added a few other clarifications |
 | 4.00.5b | September 1, 2024 | Clarified information about sample rates in section 7.10 |
