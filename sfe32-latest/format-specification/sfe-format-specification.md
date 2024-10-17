@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.7c (draft specification) - Revision C
+## Version 4.00.20241017b (draft specification) - development version for 4.00.8
 
 Copyright 2020-2024 SFe Team
 
@@ -13,7 +13,8 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| This revision | October 17, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.00.7a       | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.6        | October 3, 2024      | Added milestone classification for some draft specifications in 0.1a  <br>Removed all SFe32-specific information, renamed to SFe64 spec  <br>Renamed 3.1a to 3.1, 6.1a to 6.1, 6.1b to 6.1a, 6.2a to 6.2, and 6.2b to 6.2a, for consistency  <br>Delayed modulator update to version 4.01  <br>Removed 7.1a, because it's not relevant to versions before 5.00  <br>Added LSB to example value in 10.1a  <br>Added more information about future plans  <br>Reworked SFe64 to be a simple 64-bit extension to SFe32 for now, features will come later                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
@@ -448,7 +449,7 @@ The three main chunks should appear in this order, and the nine sub-chunks of th
 
 ## 3.3 Error handling
 
-The RIFF and RF64 formats have error checking features about:
+The RIFF format has error checking features about:
 
 - The size of the file
 - The length of the chunks
@@ -464,7 +465,141 @@ Using this information, it is possible to check for damage to an SF(e) file:
 
 ## 4.1-4.4 File structure of version 4
 
-Needs an update. This will be done for 4.00.8.
+```
+RIFF('sfbk'
+    {
+    LIST('INFO'
+            {
+            ifil(
+                struct sfVersionTag 
+                {
+                    WORD wMajor;
+                    WORD wMinor;
+                }
+            );
+            isng(szSoundEngine:ZSTR);
+            irom(szROM:ZSTR);
+            iver(
+                struct sfVersionTag 
+                {
+                    WORD wMajor;
+                    WORD wMinor;
+                }
+            );
+            ICRD(szDate:ZSTR);
+            IENG(szName:ZSTR);
+            IPRD(szProduct:ZSTR);
+            ICOP(szCopyright:ZSTR);
+            ICMT(szComment:ZSTR);
+            ISFT(szTools:ZSTR);
+            ISFe(
+                struct sfeSubchunk
+                {
+                    // Not defined for 4.00.8, implementation due for 4.00.10
+                }
+            );
+            }
+        )
+    LIST('sdta'
+            {
+            smpl(<sample:SHORT>);
+            }
+            {
+            sm24(<sample:BYTE>);
+            }
+            {
+            sm32(<sample:BYTE>);
+            }
+        )
+    LIST('pdta'
+            {
+            phdr(
+                struct sfPresetHeader
+                {
+                    CHAR achPresetName[20];
+                    WORD wPreset;
+                    WORD wBank;
+                    WORD wPresetBagNdx;
+                    DWORD dwLibrary;
+                    DWORD dwGenre;
+                    DWORD dwMorphology;
+                }
+            );
+            pbag(
+                struct sfPresetBag
+                {
+                    WORD wGenNdx;
+                    WORD wModNdx;
+                }
+            );
+            pmod(
+                struct sfModList
+                {
+                    SFModulator sfModSrcOper;
+                    SFGenerator sfModDestOper;
+                    SHORT modAmount;
+                    SFModulator sfModAmtSrcOper;
+                    SFTransform sfModTransOper;
+                }
+            );
+            pgen(
+                struct sfGenList
+                {
+                    SFGenerator sfGenOper;
+                    genAmountType genAmount;
+                }
+            );
+            inst(
+                struct sfInst
+                {
+                    CHAR achInstName[20];
+                    WORD wInstBagNdx;
+                }
+            );
+            ibag(
+                struct sfInstBag
+                {
+                    WORD wInstGenNdx;
+                    WORD wInstModNdx;
+                }
+            );
+            imod(
+                struct sfInstModList
+                {
+                    SFModulator sfModSrcOper;
+                    SFGenerator sfModDestOper;
+                    SHORT modAmount;
+                    SFModulator sfModAmtSrcOper;
+                    SFTransform sfModTransOper;
+                }
+            );
+            igen(
+                struct sfInstGenList
+                {
+                    SFGenerator sfGenOper;
+                    genAmountType genAmount;
+                }
+            );
+            shdr(
+                struct sfSample
+                {
+                    CHAR achSampleName[20];
+                    DWORD dwStart;
+                    DWORD dwEnd;
+                    DWORD dwStartloop;
+                    DWORD dwEndloop;
+                    DWORD dwSampleRate;
+                    BYTE byOriginalKey;
+                    CHAR chCorrection;
+                    WORD wSampleLink;
+                    SFSampleLink sfSampleType;
+                }
+            );
+            }
+        )
+    }
+)
+```
 
 * * *
 

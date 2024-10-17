@@ -1,6 +1,6 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.00.7c (draft specification) - Revision C
+## Version 4.00.20241017b (draft specification) - development version for 4.00.8
 
 Copyright 2020-2024 SFe Team
 
@@ -13,6 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| This revision | October 17, 2024     | Started to fix SFe RIFF structure for 4.1-4.4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.00.7c       | October 17, 2024     | Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.00.7a       | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -472,7 +473,142 @@ Using this information, it is possible to check for damage to an SF(e) file:
 
 ## 4.1-4.4 File structure of version 4
 
-Needs an update. This will be done for 4.00.8.
+```
+RF64('sfbk'
+    {
+    ds64(dataSize)
+    LIST('INFO'
+            {
+            ifil(
+                struct sfVersionTag 
+                {
+                    WORD wMajor;
+                    WORD wMinor;
+                }
+            );
+            isng(szSoundEngine:ZSTR);
+            irom(szROM:ZSTR);
+            iver(
+                struct sfVersionTag 
+                {
+                    WORD wMajor;
+                    WORD wMinor;
+                }
+            );
+            ICRD(szDate:ZSTR);
+            IENG(szName:ZSTR);
+            IPRD(szProduct:ZSTR);
+            ICOP(szCopyright:ZSTR);
+            ICMT(szComment:ZSTR);
+            ISFT(szTools:ZSTR);
+            ISFe(
+                struct sfeSubchunk
+                {
+                    // Not defined for 4.00.8
+                }
+            );
+            }
+        )
+    LIST('sdta'
+            {
+            smpl(<sample:SHORT>);
+            }
+            {
+            sm24(<sample:BYTE>);
+            }
+            {
+            sm32(<sample:BYTE>);
+            }
+        )
+    LIST('pdta'
+            {
+            phdr(
+                struct sfPresetHeader
+                {
+                    CHAR achPresetName[20];
+                    WORD wPreset;
+                    WORD wBank;
+                    WORD wPresetBagNdx;
+                    DWORD dwLibrary;
+                    DWORD dwGenre;
+                    DWORD dwMorphology;
+                }
+            );
+            pbag(
+                struct sfPresetBag
+                {
+                    WORD wGenNdx;
+                    WORD wModNdx;
+                }
+            );
+            pmod(
+                struct sfModList
+                {
+                    SFModulator sfModSrcOper;
+                    SFGenerator sfModDestOper;
+                    SHORT modAmount;
+                    SFModulator sfModAmtSrcOper;
+                    SFTransform sfModTransOper;
+                }
+            );
+            pgen(
+                struct sfGenList
+                {
+                    SFGenerator sfGenOper;
+                    genAmountType genAmount;
+                }
+            );
+            inst(
+                struct sfInst
+                {
+                    CHAR achInstName[20];
+                    WORD wInstBagNdx;
+                }
+            );
+            ibag(
+                struct sfInstBag
+                {
+                    WORD wInstGenNdx;
+                    WORD wInstModNdx;
+                }
+            );
+            imod(
+                struct sfInstModList
+                {
+                    SFModulator sfModSrcOper;
+                    SFGenerator sfModDestOper;
+                    SHORT modAmount;
+                    SFModulator sfModAmtSrcOper;
+                    SFTransform sfModTransOper;
+                }
+            );
+            igen(
+                struct sfInstGenList
+                {
+                    SFGenerator sfGenOper;
+                    genAmountType genAmount;
+                }
+            );
+            shdr(
+                struct sfSample
+                {
+                    CHAR achSampleName[20];
+                    DWORD dwStart;
+                    DWORD dwEnd;
+                    DWORD dwStartloop;
+                    DWORD dwEndloop;
+                    DWORD dwSampleRate;
+                    BYTE byOriginalKey;
+                    CHAR chCorrection;
+                    WORD wSampleLink;
+                    SFSampleLink sfSampleType;
+                }
+            );
+            }
+        )
+    }
+)
+```
 
 * * *
 
