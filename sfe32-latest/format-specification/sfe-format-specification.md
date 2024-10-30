@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.20241017b (draft specification) - development version for 4.00.8
+## Version 4.00.20241029a (draft specification) - development version for 4.00.8
 
 Copyright 2020-2024 SFe Team
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This revision | October 17, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| This revision | October 29, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.00.7a       | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -85,7 +85,7 @@ A link to the SF Server Discord will be provided soon.
 
 SFe Team members:
 
-- sylvia-leaf (she/her) | Discord - @tanukilvia | Email - sylvialeaf6284@gmail.com
+- sylvia-leaf (they/them) | Discord - @tanukilvia | Email - sylvialeaf6284@gmail.com
 - Stgiga (they/them) | Discord - @stgiga
 
 Special thanks to these people for contributions: spessasus
@@ -270,7 +270,7 @@ New sections may be added in the future, depending on if radical changes are mad
 
 SoundFont® 1 refers to the proprietary version of the format used by the Creative Sound Blaster® AWE32 sound card released in 1994.
 
-- SoundFont® one files had a file extension of .SBK and cannot be used by many of SF 2.0x programs.
+- SoundFont® 1 files had a file extension of .SBK and cannot be used by many of SF 2.0x programs.
 - This is the version used in the Creative DOS drivers.
 - Creative is the brand name used by the company "Creative Technology Ltd."
 - As the specification for SF 1 was never released, we don't know how SF 1 files were structured.
@@ -301,14 +301,14 @@ At an unknown time, Kenneth Rundt, the author of SynthFont and a series of produ
 - Velocity to modulation envelope attack (from DLS)
 - Vibrato lfo to volume (from DLS)
 
-Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbis format).
+Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbis format) around 2010.
 
 - The resulting format was known as SF3.
 - It is commonly used by open source programs.
 - This is the reason why this format is not called .SF3 (it was in 4.00.1, but after **feedback by derselbst** and **mawe42** on GitHub, we changed it to SFe32 and SFe64).
 - SFe files will be compatible with Werner SF3 for compression.
 
-Another development was done by Cognitone, which created an open source program that can losslessly compress SoundFont® 2 files (with FLAC).
+Another development was done by Cognitone, which created an open source program that can losslessly compress SoundFont® 2 files (with FLAC). This was done in 2017.
 
 - This was unofficially called SF4.
 - This is intended to be the true version 4, as Cognitone SF4 seems to not have been as widespread as SF3.
@@ -342,8 +342,8 @@ We decided to do a feature freeze for version 4.00 to make sure that SFe program
 
 Here are a few things that are planned for SFe:
 
-- For SFe32 draft specification milestone 4.00.8, we are planning to introduce the SFe file repair program specification. This was intended for 4.00.7, but we have merged a pull request from spessasus that fundamentally changes the structure of the specification (merges all sections into one file), so it could not remain version 4.00.6.
 - An SDK to assist SFe program developers with creating programs for the new format will be available with the version 4.00 final specification.
+    - The first part of this SDK including an implementation of SFe will release in 4.00.9.
 - For version 4.01, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205).
 - A MIDI lyrics specification for MIDI players will become available in version 4.02.
 - We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.03.
@@ -386,7 +386,7 @@ The synth terminology used in SFe32 version 4.00 is broadly the same as the E-mu
 
 - Version 3 - Refers to Werner SF3, a small upgrade to Soundfont® 2.04 created by Werner Schweer to allow an open source compression solution for SF programs (usually ogg, but can be any format).
 
-- Version 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the unofficial Cognitone .sf4 file format, which is a variant of Werner SF3.
+- Version 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the unofficial Cognitone .sf4 file format, which is an incompatible variant of Werner SF3.
 
 
 These changes:
@@ -459,7 +459,7 @@ Using this information, it is possible to check for damage to an SF(e) file:
 
 - If any damage is detected due to such a mismatch, the file should be rejected as "Structurally Unsound."
 - Like E-mu® SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
-- A specification for such a program will be ready for 4.00.8.
+- Please refer to the File Repair Specification for help on how to create such a program.
 
 # Section 4: RF64 file format of SFe32, version 4.00
 
@@ -808,8 +808,9 @@ To implement compression in your SFe32 bank, please use [Werner SF3](https://git
 These sub-chunks are optional.
 
 - The sm32 sub-chunk contains the least significant byte, and the sm24 sub-chunk contains the next least significant byte after sm32.
-- Each sub-chunk is exactly half the size of the smpl sub-chunk.
+- Each sub-chunk is exactly half the size of the smpl sub-chunk for uncompressed SFe files. This may not apply when Werner SF3 is in use.
 - For every two bytes in the smpl sub-chunk, there is one byte in these sub-chunks.
+- Werner SF3, and therefore all versions of SFe32, is limited to 16-bit samples.
 
 ![6.2a_1.png](../_resources/6.2a_1.png)
 
@@ -827,9 +828,9 @@ If these sub-chunks are present, they are combined with the other sub-chunks to 
 
 - If the sm24 sub-chunk is ignored, the synthesizer should only attempt to render the first 16 bits of the samples contained within the smpl sub-chunk.
 
-- If only the sm32 sub-chunk is ignored, the synthesizer should attempt to render both the smpl and sm24 sub-chunks, resulting in a 24-Bit sample.
+- If only the sm32 sub-chunk is ignored, the synthesizer should attempt to render both the smpl and sm24 sub-chunks, resulting in a 24-bit sample.
 
-- Due to the massive size, unpracticality and compatibility implications of 32-bit samples, use of the sm32 sub-chunk is not recommended! 
+- Due to the massive size, unpracticality and compatibility implications of 32-bit samples, use of the sm32 sub-chunk is not recommended, and it may be removed in later drafts!
 
 * * *
 
@@ -892,7 +893,7 @@ Its structure is the same as in SF2.04.
 - wBank is still a WORD. This change was possible as wBank is 16-bit, which is sufficient to store the 14-bit bank change space. We commend E-mu for being forward enough thinking to not use a CHAR/BYTE for bank selection.
 - In SoundFont® 2.04, and SFe version 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
 - wBank is little endian.
-- Now, bits 1 and are is a percussion toggle. If a bank/program change combination produces a different result for midi channel 10, bit 1 controls the percussion.
+- Now, bit 9 is also a percussion toggle. If a bank/program change combination produces a different result for midi channel 10, bit 1 controls the percussion.
 - File editors should warn the user if this issue is found.
 - Bits 2–8 are now used to set the first bank change, and bits 10–16 are now used to set the second bank change.
 - The default behavior is that bits 2–8 will set "m.s.b." (CC00) and bits 10–16 will set "l.s.b." (CC32), but version 4 compatible players should allow the user to swap CC00 and CC32 settings.
@@ -911,7 +912,7 @@ Old 2.04 fields "dwLibrary" and "dwGenre" are now defined.
     - For example, "SFe Collection!" (with appropriate zero bytes)
 - "dwGenre" is for the genre of music which the files are optimized for.
     - For example, "Rock" (with appropriate zero bytes)
-- "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced.
+- "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced in a future version.
 
 ### Do not access the final sfPresetHeader entry
 
@@ -1062,6 +1063,7 @@ Bit 4 of "sfSampleType" is reserved for Werner SF3 usage.
 
 - Read the draft Werner SF3 specification for information!
 - This specification is available at: [SoundFont3Format · FluidSynth/fluidsynth Wiki (GitHub.com)](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format)
+- Once the Werner SF3 specification is finalised, it will be included as part of the SFe specification documents.
 
 The "sfSampleType" enum is two bytes in length.
 
