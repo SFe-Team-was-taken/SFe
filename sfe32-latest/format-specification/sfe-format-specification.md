@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.8 (draft specification)
+## Version 4.00.20241108a (draft specification)
 
 Copyright 2020-2024 SFe Team
 
