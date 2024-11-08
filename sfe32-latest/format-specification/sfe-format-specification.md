@@ -13,6 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| This version  | November 8, 2024     | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | 4.00.8a       | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -624,22 +625,24 @@ WORD wMajor = 2 or 3 (SFe32)
 - wMajor=3 is used if the Werner SF3 sample format is used.
 - Otherwise, use wMajor=2
 
-WORD wMinor = 128 (SFe32)
+WORD wMinor = 1024 (SFe32)
 
 - Legacy SF players might not support wMajor=4.
-- SFe32 files technically appear as Version 2.128/3.128.
+- SFe32 4.00 files may technically appear as Version 2.1024/3.1024.
+- Update for 4.00.9: the second byte now represents the specification version, so 128 has become 1024.
+
 
 The size must be exactly 4 bytes. Reject files with an "ifil" subchunk that isn't 4 bytes as "Structurally Unsound".
 
 ### Using the specification version
 
-Alternatively, the wMajor and wMinor can be set in the same way as the specification version, for example wMajor=4, wMinor=0 becomes wMajor=3, wMinor=128.
+Alternatively, the wMajor and wMinor can be set in the same way as the specification version, for example version 4.00 becomes wMajor=4, wMinor=0.
 
 ### In case of missing ifil subchunk
 
 If the "ifil" subchunk is missing, either:
 
-- Assume version 3.128 or 4.0.
+- Assume version 3.1024 or 4.0.
 - Reject the file as "Structurally Unsound".
 
 * * *
@@ -649,12 +652,15 @@ If the "ifil" subchunk is missing, either:
 In SFe32, you can use two rules. Either:
 
 - the value of wMajor remains 2 or 3, depending on if Werner SF3 is used
-    - The value of wMinor counts up from 128.
+    - The value of wMinor counts up from 1024.
     - It increases by one when a change is made to the format.
-    - Later versions of the specification (4.01 onwards) will include a translation table to convert specification versions to SFe32 versions.
-- the value of wMajor and wMinor correspond to the specification version
+    - Each specification major version change will increase wMinor by 256.
+    - Example: version 5.02 of the specification would have a wMinor value of 1282.
+    - Use if you intend your SFe file to be used with legacy SF players, as some legacy players may not like wMajor != 2.
+- the value of wMajor and wMinor correspond to the specification version.
+    - Use if you intend your SFe file to only be used with SFe players.
 
-To signify that the SFe file has been created to a draft specification, please use the description.
+To signify that the SFe file has been created to a draft specification, please use the description. Programs that are compliant with SFe must recognise both naming schemes.
 
 * * *
 
@@ -664,7 +670,7 @@ A new default isng sub-chunk value is used in SFe: "SFe32 version 4"
 
 - SFe version 4 players should recognize this and remove the default velocity related filter used in SoundFont® 2.04.
 - The ten "Default Modulators" will also be disabled by default. The Default modulation definition will be added in SFe version 4.01.
-- In the case of a missing isng chunk, files with an ifil sub-chunk with wMinor >= 128, assume an isng sub-chunk value of "SFe32 version 4." Don't assume "EMU8000."
+- In the case of a missing isng chunk, files with an ifil sub-chunk with wMinor >= 1024, assume an isng sub-chunk value of "SFe32 version 4." Don't assume "EMU8000."
 
 Reject anything not terminated with a zero byte, and assume the value "SFe32 version 4." Do NOT assume "EMU8000" by default.
 
