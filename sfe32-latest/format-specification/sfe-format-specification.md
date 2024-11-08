@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.20241108a (draft specification)
+## Version 4.00.20241108b (draft specification)
 
 Copyright 2020-2024 SFe Team
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | November 8, 2024     | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| This version  | November 8, 2024     | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers. <br> Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 4.00.8a       | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -150,6 +150,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
 * [Section 7: "pdta-list" chunk](#section-7-pdta-list-chunk)
   * [7.1 "Hydra" structure](#71-hydra-structure)
   * [7.2 "phdr" sub-chunk](#72-phdr-sub-chunk)
+    * [achPresetName Changes](#achpresetname-changes)
     * [wPreset Changes](#wpreset-changes)
     * [wBank Changes](#wbank-changes)
     * [Definitions of dwLibrary and dwGenre](#definitions-of-dwlibrary-and-dwgenre)
@@ -160,6 +161,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [7.5 "pgen" sub-chunk](#75-pgen-sub-chunk)
     * [New options for the SFGenerator enum](#new-options-for-the-sfgenerator-enum)
   * [7.6 "inst" sub-chunk](#76-inst-sub-chunk)
+    * [achInstName Changes](#achinstname-changes)
   * [7.7 "ibag" sub-chunk](#77-ibag-sub-chunk)
   * [7.8 "imod" sub-chunk](#78-imod-sub-chunk)
     * [New options for the SFModulator enum](#new-options-for-the-sfmodulator-enum-1)
@@ -167,6 +169,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [7.9 "igen" sub-chunk](#79-igen-sub-chunk)
     * [New options for the SFGenerator enum](#new-options-for-the-sfgenerator-enum-1)
   * [7.10 "shdr" sub-chunk](#710-shdr-sub-chunk)
+    * [achSampleName Changes](#achsamplename-changes)
     * [Sample Rate Limit Changes](#sample-rate-limit-changes)
     * [sfSampleType and Werner SF3](#sfsampletype-and-werner-sf3)
 * [Section 8: Enumerators](#section-8-enumerators)
@@ -393,7 +396,13 @@ The synth terminology used in SFe32 version 4.00 is broadly the same as the E-mu
 These changes:
 
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
+
+- Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
+
+- Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
+
 - Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
+
 - MIDI Bank - Groups of up to 128 presets, which can be selected by the two MIDI "Bank Select" control changes (CC00 and CC32).
 
 And these removals:
@@ -874,7 +883,12 @@ No major changes have been made to the structure itself. All nine of the sub-chu
 
 The size of this chunk is a multiple of 38 bytes.
 
-Its structure is the same as in SF2.04.
+Its structure is the same as in SF2.04. 
+
+### achPresetName Changes
+
+- In SoundFont® 2.04, achPresetName must be an ASCII string.
+- Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
 ### wPreset Changes
 
@@ -988,6 +1002,11 @@ Files without a "pgen" sub-chunk are "Structurally Unsound."
 
 The inst sub-chunk is a multiple of 22 bytes.
 
+### achInstName Changes
+
+- In SoundFont® 2.04, achInstName must be an ASCII string.
+- Now, UTF-8 replaces ASCII, allowing more characters to be written.
+
 ### This is a required sub-chunk
 
 Files without an "inst" sub-chunk are "Structurally Unsound."
@@ -1055,6 +1074,11 @@ files without an "igen" sub-chunk are "Structurally Unsound."
 The shdr sub-chunk contains the headers for the sample data.
 
 It is a multiple of 46 bytes.
+
+### achSampleName Changes
+
+- In SoundFont® 2.04, achSampleName must be an ASCII string.
+- Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
 ### Sample Rate Limit Changes
 
