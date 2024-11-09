@@ -1,10 +1,10 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.00.20241109a (draft specification)
+## Version 4.00.20241109b (draft specification)
 
-Copyright 2020-2024 SFe Team
+Copyright © 2020-2024 SFe Team and contributors
 
-Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems Inc.
+Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 
 * * *
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | November 9, 2024     | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| This version  | November 9, 2024     | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | 4.00.8a       | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Now consistent with WernerSF3 <br> Clarified versioning information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 4.00.7c       | October 17, 2024     | Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -72,6 +72,23 @@ Do not use "draft" specifications (version number x.yy.zL) to base final product
 
 * * *
 
+## 0.2a License
+
+Copyright © 2020-2024 SFe Team and contributors
+
+Permission is granted to use, distribute and modify this draft specification for any use, provided that:
+
+- this specification is clearly marked as a draft
+- you attribute the SFe Team (do not remove copyright notices)
+- you clearly mark any modifications that are made to the specification 
+- you share all modifications implemented in a program under this license
+- you do not remove the link to the latest version of the specification
+- you do not claim that we're affiliated with E-mu or Creative Labs.
+
+This specification is provided "as-is" without any warranty.
+
+* * *
+
 ## 0.3 Updates and comments
 
 The website "soundfont.com" is dead (last archive.org snapshot we could found was 2012/13), and the provided email on the SF 2.04 spec probably doesn't work, so contact the SFe Team:
@@ -103,6 +120,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [0.1 Revision history](#01-revision-history)
   * [0.1a Specification Versioning](#01a-specification-versioning)
   * [0.2 Disclaimers](#02-disclaimers)
+  * [0.2a License](#02a-license)
   * [0.3 Updates and comments](#03-updates-and-comments)
   * [0.3a SFe Team](#03a-sfe-team)
   * [0.4 Table of contents](#04-table-of-contents)
@@ -197,6 +215,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [9.4 SF Generator Model](#94-sf-generator-model)
   * [9.5 SF Modulator Model](#95-sf-modulator-model)
   * [9.6 NRPN implementation](#96-nrpn-implementation)
+  * [9.7 On implementation accuracy](#97-on-implementation-accuracy)
 * [Section 10: Error-handling](#section-10-error-handling)
   * [10.1 Structural errors](#101-structural-errors)
   * [10.1a Duplicated preset locations within files](#101a-duplicated-preset-locations-within-files)
@@ -1234,6 +1253,16 @@ This is the same as SoundFont® 2.04.
 ## 9.6 NRPN implementation
 
 The NRPN implementation used by version 4.00 is identical to SoundFont® 2.04.
+
+* * *
+
+## 9.7 On implementation accuracy
+
+E-mu was very lax when it came to accuracy of legacy SF implementations. This was because of the limitations of computers and legacy soundcards that the legacy SF spec and its implementations were initially designed to run on. While this was the only way that legacy SF could gain the popularity that it did with software implementations, this meant that bank developers often had to declare the program that their file was intended to be used with. This hampered interoperability with different SF players, including those that may have been embedded into musical instruments.
+
+Because today's computers are much faster, and legacy soundcards are no longer in widespread use, the requirements for implementation accuracy in SFe are far more strict. All SFe players are required to recognise the feature flags system that will be included in the ISFe subchunk starting from draft milestone version 4.00.10 and warn the user if there is a mismatch between feature flags in the bank and the program's support.
+
+While the feature flag system will be useful to alert users about incompatible programs, program developers should make an effort to ensure that their program is 100% compatible.
 
 # Section 10: Error-handling
 
