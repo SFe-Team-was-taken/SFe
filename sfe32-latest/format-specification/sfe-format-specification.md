@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.20241108b (draft specification)
+## Version 4.00.20241109a (draft specification)
 
 Copyright 2020-2024 SFe Team
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | November 8, 2024     | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers. <br> Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| This version  | November 9, 2024     | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers. <br> Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | 4.00.8a       | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -330,7 +330,7 @@ SFe32 (version 4) is designed for future improvements.
 
 - These will be done in a more liberal way than the conservative manner of the SoundFont® 2 updates that E-mu® has done.
 - SFe32 will have a reduced set of improvements, as it is designed to be completely backward compatible with SF2.04.
-- No version of SFe32 will become incompatible with fully compliant SF2.04 software.
+- No version of SFe32 will become incompatible with fully compliant SF2.04 software (when wMajor=2).
 - Eventually, we will permanently freeze SFe32, only if and when SFe64-compatible software has reached significant acceptance.
 - After the feature freeze, SFe32 will remain a dependable and stable format for software development to be based on.
 - To avoid over-stress of developers of the SFe Team, as well as SFe instrument banks, features will be spread out across versions. We hope to release a new version every 3-5 years.
@@ -505,7 +505,7 @@ RIFF('sfbk'
             ISFe(
                 struct sfeSubchunk
                 {
-                    // Not defined for 4.00.8, implementation due for 4.00.10
+                    // Not defined for 4.00.9, implementation due for 4.00.10
                 }
             );
             }
@@ -893,26 +893,20 @@ Its structure is the same as in SF2.04.
 ### wPreset Changes
 
 - In SoundFont® 2.04, bits 2–8 were used to select up to 128 instruments. Bits 1 and 9–16 were unused.
-- Now, bits 10–16 can be used to select alternate banks.
+- Now, bits 10–16 can be used to select alternate banks using the ISFe subchunk.
 - It's designed to be used with sysex or other commands corresponding to General MIDI extension resets.
 - What bits 9–16 do in version 4:
     - Bit 9 remains reserved.
-    - General MIDI™ one or two reset clears bits 10 and 11.
-    - Roland® GS® reset clears bit 10 and sets bit 11.
-    - Yamaha® XG® reset sets bit 10 and clears bit 11.
-    - Roland® CM-64™/CM-32L™ reset sets bits 10 and 11.
-    - Bit 12 is reserved for more MIDI commands in the future. For now, bit 12 should be written as clear.
-    - Bits 13–16 will not be defined. The author of the SF may use these at will with their own MIDI commands.
-    - MIDI sequencers will eventually be able to set or clear all bits from 10 to 16 using commands.
+    - Bits 10-16 are reserved for MIDI commands as defined in the ISFe subchunk. For now, these bits should be written as clear.
 - It allows you to run multiple standards that may conflict with each other.
 
 ### wBank Changes
 
-- Version 4.00.1 had a new field called wBank2.
-- Now, wBank stores both m.s.b. and l.s.b. bank changes (CC00 and CC32), eliminating the need for wBank2.
+- Version 4.00.1 had a field called wBank2. Any draft with wBank2 is now obsolete.
+- Starting from 4.00.2, wBank stores both m.s.b. and l.s.b. bank changes (CC00 and CC32), eliminating the need for wBank2.
 - wBank is still a WORD. This change was possible as wBank is 16-bit, which is sufficient to store the 14-bit bank change space. We commend E-mu for being forward enough thinking to not use a CHAR/BYTE for bank selection.
-- In SoundFont® 2.04, and SFe version 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
-- wBank is little endian.
+- In SoundFont® 2.04 and 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
+- wBank, like other SFe values (for the most part?), is little endian.
 - Now, bit 9 is also a percussion toggle. If a bank/program change combination produces a different result for midi channel 10, bit 1 controls the percussion.
 - File editors should warn the user if this issue is found.
 - Bits 2–8 are now used to set the first bank change, and bits 10–16 are now used to set the second bank change.
@@ -929,9 +923,9 @@ Its structure is the same as in SF2.04.
 Old 2.04 fields "dwLibrary" and "dwGenre" are now defined.
 
 - "dwLibrary" is for the overall name of the set of files contained in a library of SFe, version 4 files.
-    - For example, "SFe Collection!" (with appropriate zero bytes)
+    - This value will correspond to a list in an enum. This is planned for 4.05.
 - "dwGenre" is for the genre of music which the files are optimized for.
-    - For example, "Rock" (with appropriate zero bytes)
+    - This value will correspond to a list in an enum. This is planned for 4.05.
 - "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced in a future version.
 
 ### Do not access the final sfPresetHeader entry
@@ -1365,7 +1359,9 @@ This glossary is broadly the same as the SF2.04 specification's glossary, with t
 
 - AWE64 - The successor to the famous AWE32, added things like waveguide synthesis. Use the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
 
-- BW64 - Broadcast Wave 64, used in the RF64 Header.
+- Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
+
+- Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
 
 - DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe.
 
