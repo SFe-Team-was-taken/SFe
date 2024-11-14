@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.9a (draft specification) - November 2024
+## Version 4.00.9b (draft specification) - November 2024 (Revision B)
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,6 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4.00.9b       | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | 4.00.9a       | November 14, 2024    | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers. <br> Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Defined a fully-compatible feature subset of SFe32 (SFe32L) <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                |
 | 4.00.8        | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -169,7 +170,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [7.2 "phdr" sub-chunk](#72-phdr-sub-chunk)
     * [achPresetName Changes](#achpresetname-changes)
     * [wPreset Changes](#wpreset-changes)
-    * [wBank Changes (SFe32L)](#wbank-changes-sfe32l)
+    * [New Bank System (SFe32L)](#new-bank-system-sfe32l)
     * [Definitions of dwLibrary and dwGenre](#definitions-of-dwlibrary-and-dwgenre)
     * [Do not access the final sfPresetHeader entry](#do-not-access-the-final-sfpresetheader-entry)
   * [7.3 "pbag" sub-chunk](#73-pbag-sub-chunk)
@@ -550,7 +551,8 @@ RIFF('sfbk'
                     {
                         CHAR achPresetName[20];
                         WORD wPreset;
-                        WORD wBank;
+                        BYTE byBankMSB;
+                        BYTE byBankLSB;
                         WORD wPresetBagNdx;
                         DWORD dwLibrary;
                         DWORD dwGenre;
@@ -945,23 +947,22 @@ Its structure is the same as in SF2.04.
     - Bits 10-16 are reserved for MIDI commands as defined in the ISFe subchunk. For now, these bits should be written as clear.
 - It allows you to run multiple standards that may conflict with each other.
 
-### wBank Changes (SFe32L)
+### New Bank System (SFe32L)
+
+In legacy SF 2.04, only one MIDI Bank Select could be used (typically MSB).
 
 - Version 4.00.1 had a field called wBank2. Any draft with wBank2 is now obsolete.
-- Starting from 4.00.2, wBank stores both m.s.b. and l.s.b. bank changes (CC00 and CC32), eliminating the need for wBank2.
-- wBank is still a WORD. This change was possible as wBank is 16-bit, which is sufficient to store the 14-bit bank change space. We commend E-mu for being forward enough thinking to not use a CHAR/BYTE for bank selection.
+- We commend E-mu for being forward enough thinking to not use a BYTE for bank selection.
 - In SoundFont® 2.04 and 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
-- wBank, like other SFe values (for the most part?), is little endian.
-- Now, bit 9 is also a percussion toggle. If a bank/program change combination produces a different result for midi channel 10, bit 1 controls the percussion.
+
+Starting from version 4.00.9b, wBank is replaced with byBankMSB and byBankLSB.
+- This change is completely backwards compatible as there is no change in the format. It is simply for specification readability reasons.
+- RIFF formats are little endian. Therefore, byBankMSB goes before byBankLSB.
+- Like with wBank in SF2.04, bits 2–8 are now used to set the first bank change.
+- If a bank/program change combination produces a different result for midi channel 10, use the percussion toggle in byBankMSB.
 - File editors should warn the user if this issue is found.
-- Bits 2–8 are now used to set the first bank change, and bits 10–16 are now used to set the second bank change.
-- The default behavior is that bits 2–8 will set "m.s.b." (CC00) and bits 10–16 will set "l.s.b." (CC32), but version 4 compatible players should allow the user to swap CC00 and CC32 settings.
-- Order in the phdr chunk in terms of wBank value.
-- Summary:
-    - Bit 1 = percussion toggle 1
-    - Bit 2–8 = bank select m.s.b.
-    - Bit 9 = percussion toggle 2
-    - Bit 10-16 = bank selects l.s.b.
+- SFe compatible players should allow the user to swap CC00 and CC32 settings.
+- Order in the phdr chunk in terms of ascending byBankLSB value to ensure legacy SF compatibility.
 
 ### Definitions of dwLibrary and dwGenre
 
@@ -1252,7 +1253,7 @@ There are two envelope generators which work in the same way as SoundFont® 2.04
 
 ## 9.2 MIDI functions
 
-Control Change #32 (Bank Select "LSB") has been modified to manipulate the high eight bits of the wBank value.
+Control Change #32 (Bank Select "LSB") has been modified to use the byBankLSB value.
 
 All other MIDI functions are unchanged from SoundFont® 2.04.
 
@@ -1301,7 +1302,7 @@ The error correction process for structural errors in SFe32 is largely similar t
 
 ## 10.1a Duplicated preset locations within files
 
-This occurs when the file is structurally damaged or manually edited in a manner where more than one preset has the same value of wBank and wPreset (for instance, 015:000:081).
+This occurs when the file is structurally damaged or manually edited in a manner where more than one preset has the same value of byBankMSB, byBankLSB and wPreset (for instance, 015:000:081).
 
 - In SoundFont® 2.04, the first preset in the location would be used by default, but the other presets would still be retained.
 - Such other presets must be moved before they can be used.
@@ -1314,13 +1315,13 @@ This occurs when the file is structurally damaged or manually edited in a manner
 
 ## 10.1b Duplicated preset locations across files
 
-This occurs when multiple files are loaded simultaneously (now a required feature for SFe), but some or all of the files have presets with identical wBank and wPreset values.
+This occurs when multiple files are loaded simultaneously (now a required feature for SFe), but some or all of the files have presets with identical byBankMSB, byBankLSB and wPreset values.
 
 - Behavior was undefined in SoundFont® 2.04.
 - This was because multiple file loading was not a standard feature mandated in the legacy SoundFont® standard.
 - SF version 2 and 3 compatible software developers therefore had the liberty to implement multiple file loading; however, they wanted to.
 - This edge case will now be defined in SFe.
-- If multiple presets across loaded files have the same value of wBank and wPreset, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
+- If multiple presets across loaded files have the same value of byBankMSB, byBankLSB and wPreset, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
 - Such a feature is also optional, and if not implemented, you can either use the first preset found, or you can combine all the presets.
 - While initially intended to enable the creation of instruments with extremely large file size (beyond 4GiB), or use a massive number of generators (beyond 65536), with the SFe32 format, other methods, such as SiliconSFe Linking, are now preferred. However, such SFe32 files may not play correctly on legacy SF version 2 or 3 players.
 - This behavior might change in future versions, so please note the "ifil" value, and later versions of this specification, into account. In particular, later versions of SFe will use the ISFe sub-chunk to determine this behavior.
