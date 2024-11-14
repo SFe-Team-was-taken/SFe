@@ -1,6 +1,6 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.00.20241114a (draft specification)
+## Version 4.00.9a (draft specification) - November 2024
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | November 14, 2024    | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| This version  | November 14, 2024    | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.8        | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Now consistent with WernerSF3 <br> Clarified versioning information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 4.00.7c       | October 17, 2024     | Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -159,6 +159,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [5.10 "ICMT" subchunk](#510-icmt-subchunk)
   * [5.11 "ISFT" subchunk](#511-isft-subchunk)
   * [5.12 "ISFe" subchunk](#512-isfe-subchunk)
+    * [5.12.1 "SFty" sub-chunk](#5121-sfty-sub-chunk)
 * [Section 6: "sdta-list" chunk](#section-6-sdta-list-chunk)
   * [6.1a "smpl" sub-chunk](#61a-smpl-sub-chunk)
   * [6.1b About compression in SFe64](#61b-about-compression-in-sfe64)
@@ -507,131 +508,136 @@ RF64('sfbk'
     ds64(dataSize)
     LIST('INFO'
             {
-            ifil(
-                struct sfVersionTag 
-                {
-                    WORD wMajor;
-                    WORD wMinor;
-                }
-            );
-            isng(szSoundEngine:ZSTR);
-            irom(szROM:ZSTR);
-            iver(
-                struct sfVersionTag 
-                {
-                    WORD wMajor;
-                    WORD wMinor;
-                }
-            );
-            ICRD(szDate:ZSTR);
-            IENG(szName:ZSTR);
-            IPRD(szProduct:ZSTR);
-            ICOP(szCopyright:ZSTR);
-            ICMT(szComment:ZSTR);
-            ISFT(szTools:ZSTR);
-            ISFe(
-                struct sfeSubchunk
-                {
-                    // Not defined for 4.00.8
-                }
-            );
+                ifil(
+                    struct sfVersionTag 
+                    {
+                        WORD wMajor;
+                        WORD wMinor;
+                    }
+                );
+                isng(szSoundEngine:ZSTR);
+                irom(szROM:ZSTR);
+                iver(
+                    struct sfVersionTag 
+                    {
+                        WORD wMajor;
+                        WORD wMinor;
+                    }
+                );
+                ICRD(szDate:ZSTR);
+                IENG(szName:ZSTR);
+                IPRD(szProduct:ZSTR);
+                ICOP(szCopyright:ZSTR);
+                ICMT(szComment:ZSTR);
+                ISFT(szTools:ZSTR);
+                LIST('ISFe'
+                    {
+                        SFty(szSFeType:ZSTR);
+                        flag(
+                            // Not defined until 4.00.10  
+                        );
+                        prsw(
+                            // Not defined until 4.05
+                        );
+                    }
+                );
             }
         )
     LIST('sdta'
             {
-            smpl(<sample:SHORT>);
+                smpl(<sample:SHORT>);
             }
             {
-            sm24(<sample:BYTE>);
+                sm24(<sample:BYTE>);
             }
             {
-            sm32(<sample:BYTE>);
+                sm32(<sample:BYTE>);
             }
         )
     LIST('pdta'
             {
             phdr(
                 struct sfPresetHeader
-                {
-                    CHAR achPresetName[20];
-                    WORD wPreset;
-                    WORD wBank;
-                    WORD wPresetBagNdx;
-                    DWORD dwLibrary;
-                    DWORD dwGenre;
-                    DWORD dwMorphology;
-                }
-            );
-            pbag(
-                struct sfPresetBag
-                {
-                    WORD wGenNdx;
-                    WORD wModNdx;
-                }
-            );
-            pmod(
-                struct sfModList
-                {
-                    SFModulator sfModSrcOper;
-                    SFGenerator sfModDestOper;
-                    SHORT modAmount;
-                    SFModulator sfModAmtSrcOper;
-                    SFTransform sfModTransOper;
-                }
-            );
-            pgen(
-                struct sfGenList
-                {
-                    SFGenerator sfGenOper;
-                    genAmountType genAmount;
-                }
-            );
-            inst(
-                struct sfInst
-                {
-                    CHAR achInstName[20];
-                    WORD wInstBagNdx;
-                }
-            );
-            ibag(
-                struct sfInstBag
-                {
-                    WORD wInstGenNdx;
-                    WORD wInstModNdx;
-                }
-            );
-            imod(
-                struct sfInstModList
-                {
-                    SFModulator sfModSrcOper;
-                    SFGenerator sfModDestOper;
-                    SHORT modAmount;
-                    SFModulator sfModAmtSrcOper;
-                    SFTransform sfModTransOper;
-                }
-            );
-            igen(
-                struct sfInstGenList
-                {
-                    SFGenerator sfGenOper;
-                    genAmountType genAmount;
-                }
-            );
-            shdr(
-                struct sfSample
-                {
-                    CHAR achSampleName[20];
-                    DWORD dwStart;
-                    DWORD dwEnd;
-                    DWORD dwStartloop;
-                    DWORD dwEndloop;
-                    DWORD dwSampleRate;
-                    BYTE byOriginalKey;
-                    CHAR chCorrection;
-                    WORD wSampleLink;
-                    SFSampleLink sfSampleType;
-                }
-            );
+                    {
+                        CHAR achPresetName[20];
+                        WORD wPreset;
+                        WORD wBank;
+                        WORD wPresetBagNdx;
+                        DWORD dwLibrary;
+                        DWORD dwGenre;
+                        DWORD dwMorphology;
+                    }
+                );
+                pbag(
+                    struct sfPresetBag
+                    {
+                        WORD wGenNdx;
+                        WORD wModNdx;
+                    }
+                );
+                pmod(
+                    struct sfModList
+                    {
+                        SFModulator sfModSrcOper;
+                        SFGenerator sfModDestOper;
+                        SHORT modAmount;
+                        SFModulator sfModAmtSrcOper;
+                        SFTransform sfModTransOper;
+                    }
+                );
+                pgen(
+                    struct sfGenList
+                    {
+                        SFGenerator sfGenOper;
+                        genAmountType genAmount;
+                    }
+                );
+                inst(
+                    struct sfInst
+                    {
+                        CHAR achInstName[20];
+                        WORD wInstBagNdx;
+                    }
+                );
+                ibag(
+                    struct sfInstBag
+                    {
+                        WORD wInstGenNdx;
+                        WORD wInstModNdx;
+                    }
+                );
+                imod(
+                    struct sfInstModList
+                    {
+                        SFModulator sfModSrcOper;
+                        SFGenerator sfModDestOper;
+                        SHORT modAmount;
+                        SFModulator sfModAmtSrcOper;
+                        SFTransform sfModTransOper;
+                    }
+                );
+                igen(
+                    struct sfInstGenList
+                    {
+                        SFGenerator sfGenOper;
+                        genAmountType genAmount;
+                    }
+                );
+                shdr(
+                    struct sfSample
+                    {
+                        CHAR achSampleName[20];
+                        DWORD dwStart;
+                        DWORD dwEnd;
+                        DWORD dwStartloop;
+                        DWORD dwEndloop;
+                        DWORD dwSampleRate;
+                        BYTE byOriginalKey;
+                        CHAR chCorrection;
+                        WORD wSampleLink;
+                        SFSampleLink sfSampleType;
+                    }
+                );
             }
         )
     }
@@ -800,7 +806,31 @@ Reject anything not terminated with a zero byte. Do NOT reject the file as "Stru
 
 ## 5.12 "ISFe" subchunk
 
-This would contain additional metadata for SFe specific features. Currently, in version 4.00, this is empty.
+
+The `ISFe-list` sub-chunk includes many different sub-chunks to show information about SFe-specific features. Generally, we use the `ISFe-list` sub-chunk to make it clearer that this kind of information is SFe-specific.
+
+Due to compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` subchunk, rather than as a fourth RIFF chunk. Legacy SF players may not support more than three main RIFF chunks. If we can't use list sub-chunks inside other chunks, then instead of an SFe sub-chunk, the sub-chunks defined here will just be part of the `INFO-list` subchunk until SFe64 5.x is released, which will include a fourth separate `ISFe-list` chunk.
+
+### 5.12.1 "SFty" sub-chunk
+
+The `SFty` sub-chunk is an optional sub-chunk identifying the variant of SFe the bank is formatted in. It contains a UTF-8 string of 256 or fewer bytes including one or two terminators of value zero to make the total byte count even.
+
+The `SFty` string is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as.
+
+The defined values of the `SFty` chunk are:
+
+- the 6 bytes representing `SFe32` as 5 UTF-8 characters followed by one zero byte.
+- the 8 bytes representing `SFe32L` as 6 UTF-8 characters followed by two zero bytes.
+- the 16 bytes representing `SFe32 with TSC` as 14 UTF-8 characters followed by two zero bytes.
+- the 16 bytes representing `SFe32L with TSC` as 15 UTF-8 characters followed by one zero byte.
+- the 6 bytes representing `SFe64` as 5 UTF-8 characters followed by one zero bytes.
+- the 8 bytes representing `SFe64L` as 6 UTF-8 characters followed by two zero bytes.
+
+The field should conventionally never be longer than 16 bytes.
+
+The UTF-8 should be treated as case-sensitive. In other words, `sfe32 with tsc` is not the same as `SFe32 with TSC`.
+
+If the SFty sub-chunk is missing, not terminated in a zero-valued byte, or its contents are an undefined value, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe64`; only use such a value when it is evident beyond a reasonable doubt that the file used is SFe64.
 
 * * *
 
