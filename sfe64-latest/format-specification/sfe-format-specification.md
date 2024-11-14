@@ -1,10 +1,10 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.00.8 (draft specification)
+## Version 4.00.9a (draft specification) - November 2024
 
-Copyright 2020-2024 SFe Team
+Copyright © 2020-2024 SFe Team and contributors
 
-Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems Inc.
+Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 
 * * *
 
@@ -13,7 +13,8 @@ Based on the abandoned E-mu spec, which is copyright 1994–2002 E-mu Systems In
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 4.00.8a       | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Now consistent with WernerSF3 <br> Clarified versioning information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 4.00.9a       | November 14, 2024    | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 4.00.8        | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Now consistent with WernerSF3 <br> Clarified versioning information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 4.00.7c       | October 17, 2024     | Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.00.7a       | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -71,6 +72,23 @@ Do not use "draft" specifications (version number x.yy.zL) to base final product
 
 * * *
 
+## 0.2a License
+
+Copyright © 2020-2024 SFe Team and contributors
+
+Permission is granted to use, distribute and modify this draft specification for any use, provided that:
+
+- this specification is clearly marked as a draft
+- you attribute the SFe Team (do not remove copyright notices)
+- you clearly mark any modifications that are made to the specification 
+- you share all modifications implemented in a program under this license
+- you do not remove the link to the latest version of the specification
+- you do not claim that we're affiliated with E-mu or Creative Labs.
+
+This specification is provided "as-is" without any warranty.
+
+* * *
+
 ## 0.3 Updates and comments
 
 The website "soundfont.com" is dead (last archive.org snapshot we could found was 2012/13), and the provided email on the SF 2.04 spec probably doesn't work, so contact the SFe Team:
@@ -102,6 +120,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [0.1 Revision history](#01-revision-history)
   * [0.1a Specification Versioning](#01a-specification-versioning)
   * [0.2 Disclaimers](#02-disclaimers)
+  * [0.2a License](#02a-license)
   * [0.3 Updates and comments](#03-updates-and-comments)
   * [0.3a SFe Team](#03a-sfe-team)
   * [0.4 Table of contents](#04-table-of-contents)
@@ -140,6 +159,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [5.10 "ICMT" subchunk](#510-icmt-subchunk)
   * [5.11 "ISFT" subchunk](#511-isft-subchunk)
   * [5.12 "ISFe" subchunk](#512-isfe-subchunk)
+    * [5.12.1 "SFty" sub-chunk](#5121-sfty-sub-chunk)
 * [Section 6: "sdta-list" chunk](#section-6-sdta-list-chunk)
   * [6.1a "smpl" sub-chunk](#61a-smpl-sub-chunk)
   * [6.1b About compression in SFe64](#61b-about-compression-in-sfe64)
@@ -149,6 +169,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
 * [Section 7: "pdta-list" chunk](#section-7-pdta-list-chunk)
   * [7.1 "Hydra" structure](#71-hydra-structure)
   * [7.2 "phdr" sub-chunk](#72-phdr-sub-chunk)
+    * [achPresetName Changes](#achpresetname-changes)
     * [wPreset Changes](#wpreset-changes)
     * [wBank Changes](#wbank-changes)
     * [Definitions of dwLibrary and dwGenre](#definitions-of-dwlibrary-and-dwgenre)
@@ -159,6 +180,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [7.5 "pgen" sub-chunk](#75-pgen-sub-chunk)
     * [New options for the SFGenerator enum](#new-options-for-the-sfgenerator-enum)
   * [7.6 "inst" sub-chunk](#76-inst-sub-chunk)
+    * [achInstName Changes](#achinstname-changes)
   * [7.7 "ibag" sub-chunk](#77-ibag-sub-chunk)
   * [7.8 "imod" sub-chunk](#78-imod-sub-chunk)
     * [New options for the SFModulator enum](#new-options-for-the-sfmodulator-enum-1)
@@ -166,6 +188,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [7.9 "igen" sub-chunk](#79-igen-sub-chunk)
     * [New options for the SFGenerator enum](#new-options-for-the-sfgenerator-enum-1)
   * [7.10 "shdr" sub-chunk](#710-shdr-sub-chunk)
+    * [achSampleName Changes](#achsamplename-changes)
     * [Sample Rate Limit Changes](#sample-rate-limit-changes)
     * [sfSampleType and Werner SF3](#sfsampletype-and-werner-sf3)
 * [Section 8: Enumerators](#section-8-enumerators)
@@ -193,6 +216,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [9.4 SF Generator Model](#94-sf-generator-model)
   * [9.5 SF Modulator Model](#95-sf-modulator-model)
   * [9.6 NRPN implementation](#96-nrpn-implementation)
+  * [9.7 On implementation accuracy](#97-on-implementation-accuracy)
 * [Section 10: Error-handling](#section-10-error-handling)
   * [10.1 Structural errors](#101-structural-errors)
   * [10.1a Duplicated preset locations within files](#101a-duplicated-preset-locations-within-files)
@@ -342,8 +366,7 @@ We decided to do a feature freeze for version 4.00 to make sure that SFe program
 
 Here are a few things that are planned for SFe:
 
-- An SDK to assist SFe program developers with creating programs for the new format will be available with the version 4.00 final specification.
-    - The first part of this SDK including an implementation of SFe will release in 4.00.9. 
+- For version 4.00.10, we're going to introduce the feature flags system, a method of determining whether certain features are supported by a player.
 - For version 4.01, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205).
 - A MIDI lyrics specification for MIDI players will become available in version 4.02.
 - We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.03.
@@ -396,7 +419,13 @@ The synth terminology used in SFe64 version 4.00 is broadly the same as the E-mu
 These changes:
 
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
+
+- Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
+
+- Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
+
 - Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
+
 - MIDI Bank - Groups of up to 128 presets, which can be selected by the two MIDI "Bank Select" control changes (CC00 and CC32).
 
 And these removals:
@@ -479,131 +508,136 @@ RF64('sfbk'
     ds64(dataSize)
     LIST('INFO'
             {
-            ifil(
-                struct sfVersionTag 
-                {
-                    WORD wMajor;
-                    WORD wMinor;
-                }
-            );
-            isng(szSoundEngine:ZSTR);
-            irom(szROM:ZSTR);
-            iver(
-                struct sfVersionTag 
-                {
-                    WORD wMajor;
-                    WORD wMinor;
-                }
-            );
-            ICRD(szDate:ZSTR);
-            IENG(szName:ZSTR);
-            IPRD(szProduct:ZSTR);
-            ICOP(szCopyright:ZSTR);
-            ICMT(szComment:ZSTR);
-            ISFT(szTools:ZSTR);
-            ISFe(
-                struct sfeSubchunk
-                {
-                    // Not defined for 4.00.8
-                }
-            );
+                ifil(
+                    struct sfVersionTag 
+                    {
+                        WORD wMajor;
+                        WORD wMinor;
+                    }
+                );
+                isng(szSoundEngine:ZSTR);
+                irom(szROM:ZSTR);
+                iver(
+                    struct sfVersionTag 
+                    {
+                        WORD wMajor;
+                        WORD wMinor;
+                    }
+                );
+                ICRD(szDate:ZSTR);
+                IENG(szName:ZSTR);
+                IPRD(szProduct:ZSTR);
+                ICOP(szCopyright:ZSTR);
+                ICMT(szComment:ZSTR);
+                ISFT(szTools:ZSTR);
+                LIST('ISFe'
+                    {
+                        SFty(szSFeType:ZSTR);
+                        flag(
+                            // Not defined until 4.00.10  
+                        );
+                        prsw(
+                            // Not defined until 4.05
+                        );
+                    }
+                );
             }
         )
     LIST('sdta'
             {
-            smpl(<sample:SHORT>);
+                smpl(<sample:SHORT>);
             }
             {
-            sm24(<sample:BYTE>);
+                sm24(<sample:BYTE>);
             }
             {
-            sm32(<sample:BYTE>);
+                sm32(<sample:BYTE>);
             }
         )
     LIST('pdta'
             {
             phdr(
                 struct sfPresetHeader
-                {
-                    CHAR achPresetName[20];
-                    WORD wPreset;
-                    WORD wBank;
-                    WORD wPresetBagNdx;
-                    DWORD dwLibrary;
-                    DWORD dwGenre;
-                    DWORD dwMorphology;
-                }
-            );
-            pbag(
-                struct sfPresetBag
-                {
-                    WORD wGenNdx;
-                    WORD wModNdx;
-                }
-            );
-            pmod(
-                struct sfModList
-                {
-                    SFModulator sfModSrcOper;
-                    SFGenerator sfModDestOper;
-                    SHORT modAmount;
-                    SFModulator sfModAmtSrcOper;
-                    SFTransform sfModTransOper;
-                }
-            );
-            pgen(
-                struct sfGenList
-                {
-                    SFGenerator sfGenOper;
-                    genAmountType genAmount;
-                }
-            );
-            inst(
-                struct sfInst
-                {
-                    CHAR achInstName[20];
-                    WORD wInstBagNdx;
-                }
-            );
-            ibag(
-                struct sfInstBag
-                {
-                    WORD wInstGenNdx;
-                    WORD wInstModNdx;
-                }
-            );
-            imod(
-                struct sfInstModList
-                {
-                    SFModulator sfModSrcOper;
-                    SFGenerator sfModDestOper;
-                    SHORT modAmount;
-                    SFModulator sfModAmtSrcOper;
-                    SFTransform sfModTransOper;
-                }
-            );
-            igen(
-                struct sfInstGenList
-                {
-                    SFGenerator sfGenOper;
-                    genAmountType genAmount;
-                }
-            );
-            shdr(
-                struct sfSample
-                {
-                    CHAR achSampleName[20];
-                    DWORD dwStart;
-                    DWORD dwEnd;
-                    DWORD dwStartloop;
-                    DWORD dwEndloop;
-                    DWORD dwSampleRate;
-                    BYTE byOriginalKey;
-                    CHAR chCorrection;
-                    WORD wSampleLink;
-                    SFSampleLink sfSampleType;
-                }
-            );
+                    {
+                        CHAR achPresetName[20];
+                        WORD wPreset;
+                        WORD wBank;
+                        WORD wPresetBagNdx;
+                        DWORD dwLibrary;
+                        DWORD dwGenre;
+                        DWORD dwMorphology;
+                    }
+                );
+                pbag(
+                    struct sfPresetBag
+                    {
+                        WORD wGenNdx;
+                        WORD wModNdx;
+                    }
+                );
+                pmod(
+                    struct sfModList
+                    {
+                        SFModulator sfModSrcOper;
+                        SFGenerator sfModDestOper;
+                        SHORT modAmount;
+                        SFModulator sfModAmtSrcOper;
+                        SFTransform sfModTransOper;
+                    }
+                );
+                pgen(
+                    struct sfGenList
+                    {
+                        SFGenerator sfGenOper;
+                        genAmountType genAmount;
+                    }
+                );
+                inst(
+                    struct sfInst
+                    {
+                        CHAR achInstName[20];
+                        WORD wInstBagNdx;
+                    }
+                );
+                ibag(
+                    struct sfInstBag
+                    {
+                        WORD wInstGenNdx;
+                        WORD wInstModNdx;
+                    }
+                );
+                imod(
+                    struct sfInstModList
+                    {
+                        SFModulator sfModSrcOper;
+                        SFGenerator sfModDestOper;
+                        SHORT modAmount;
+                        SFModulator sfModAmtSrcOper;
+                        SFTransform sfModTransOper;
+                    }
+                );
+                igen(
+                    struct sfInstGenList
+                    {
+                        SFGenerator sfGenOper;
+                        genAmountType genAmount;
+                    }
+                );
+                shdr(
+                    struct sfSample
+                    {
+                        CHAR achSampleName[20];
+                        DWORD dwStart;
+                        DWORD dwEnd;
+                        DWORD dwStartloop;
+                        DWORD dwEndloop;
+                        DWORD dwSampleRate;
+                        BYTE byOriginalKey;
+                        CHAR chCorrection;
+                        WORD wSampleLink;
+                        SFSampleLink sfSampleType;
+                    }
+                );
             }
         )
     }
@@ -620,7 +654,9 @@ The type definitions are identical to those used in SoundFont® version 2.04.
 
 ## 4.5a File format extensions
 
-SFe64 files may use the extension .SFE64 to prevent playback in legacy SF players that do not support SFe64.
+The file format extension to use for SFe files is generally `.sft`, including all SFe64 files. `.sf4` is avoided due to incompatibility with cognitone formatted banks.
+
+When opening a bank with extension `.sft`, programs must determine the correct version to use.
 
 # Section 5: "info-list" chunk
 
@@ -770,7 +806,31 @@ Reject anything not terminated with a zero byte. Do NOT reject the file as "Stru
 
 ## 5.12 "ISFe" subchunk
 
-This would contain additional metadata for SFe specific features. Currently, in version 4.00, this is empty.
+
+The `ISFe-list` sub-chunk includes many different sub-chunks to show information about SFe-specific features. Generally, we use the `ISFe-list` sub-chunk to make it clearer that this kind of information is SFe-specific.
+
+Due to compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` subchunk, rather than as a fourth RIFF chunk. Legacy SF players may not support more than three main RIFF chunks. If we can't use list sub-chunks inside other chunks, then instead of an SFe sub-chunk, the sub-chunks defined here will just be part of the `INFO-list` subchunk until SFe64 5.x is released, which will include a fourth separate `ISFe-list` chunk.
+
+### 5.12.1 "SFty" sub-chunk
+
+The `SFty` sub-chunk is an optional sub-chunk identifying the variant of SFe the bank is formatted in. It contains a UTF-8 string of 256 or fewer bytes including one or two terminators of value zero to make the total byte count even.
+
+The `SFty` string is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as.
+
+The defined values of the `SFty` chunk are:
+
+- the 6 bytes representing `SFe32` as 5 UTF-8 characters followed by one zero byte.
+- the 8 bytes representing `SFe32L` as 6 UTF-8 characters followed by two zero bytes.
+- the 16 bytes representing `SFe32 with TSC` as 14 UTF-8 characters followed by two zero bytes.
+- the 16 bytes representing `SFe32L with TSC` as 15 UTF-8 characters followed by one zero byte.
+- the 6 bytes representing `SFe64` as 5 UTF-8 characters followed by one zero bytes.
+- the 8 bytes representing `SFe64L` as 6 UTF-8 characters followed by two zero bytes.
+
+The field should conventionally never be longer than 16 bytes.
+
+The UTF-8 should be treated as case-sensitive. In other words, `sfe32 with tsc` is not the same as `SFe32 with TSC`.
+
+If the SFty sub-chunk is missing, not terminated in a zero-valued byte, or its contents are an undefined value, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe64`; only use such a value when it is evident beyond a reasonable doubt that the file used is SFe64.
 
 * * *
 
@@ -804,6 +864,7 @@ To implement compression in your SFe64 bank, please use [Werner SF3](https://git
 - The "scom" sub-chunk found in specification versions 4.00.3 and earlier is now obsolete.
 - Incompatible SF compression formats (.sfark, .sfpack, .sf2pack, .sfq) are prohibited. You should use Werner SF3.
 - When Werner SF3 is in use, the size of smpl is not required to be a multiple of two, and the surrounding LIST chunk isn't padded to a multiple of two.
+- Because cognitone-formatted banks are not valid Werner SF3 banks, they are considered an incompatible SF compression format, and are therefore not allowed.
 
 * * *
 
@@ -872,29 +933,28 @@ The size of this chunk is a multiple of 38 bytes.
 
 Its structure is the same as in SF2.04.
 
+### achPresetName Changes
+
+- In SoundFont® 2.04, achPresetName must be an ASCII string.
+- Now, UTF-8 replaces ASCII, allowing more characters to be written.
+
 ### wPreset Changes
 
 - In SoundFont® 2.04, bits 2–8 were used to select up to 128 instruments. Bits 1 and 9–16 were unused.
-- Now, bits 10–16 can be used to select alternate banks.
+- Now, bits 10–16 can be used to select alternate banks using the ISFe subchunk.
 - It's designed to be used with sysex or other commands corresponding to General MIDI extension resets.
 - What bits 9–16 do in version 4:
     - Bit 9 remains reserved.
-    - General MIDI™ one or two reset clears bits 10 and 11.
-    - Roland® GS® reset clears bit 10 and sets bit 11.
-    - Yamaha® XG® reset sets bit 10 and clears bit 11.
-    - Roland® CM-64™/CM-32L™ reset sets bits 10 and 11.
-    - Bit 12 is reserved for more MIDI commands in the future. For now, bit 12 should be written as clear.
-    - Bits 13–16 will not be defined. The author of the SF may use these at will with their own MIDI commands.
-    - MIDI sequencers will eventually be able to set or clear all bits from 10 to 16 using commands.
+    - Bits 10-16 are reserved for MIDI commands as defined in the ISFe subchunk. For now, these bits should be written as clear.
 - It allows you to run multiple standards that may conflict with each other.
 
 ### wBank Changes
 
-- Version 4.00.1 had a new field called wBank2.
-- Now, wBank stores both m.s.b. and l.s.b. bank changes (CC00 and CC32), eliminating the need for wBank2.
+- Version 4.00.1 had a field called wBank2. Any draft with wBank2 is now obsolete.
+- Starting from 4.00.2, wBank stores both m.s.b. and l.s.b. bank changes (CC00 and CC32), eliminating the need for wBank2.
 - wBank is still a WORD. This change was possible as wBank is 16-bit, which is sufficient to store the 14-bit bank change space. We commend E-mu for being forward enough thinking to not use a CHAR/BYTE for bank selection.
-- In SoundFont® 2.04, and SFe version 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
-- wBank is little endian.
+- In SoundFont® 2.04 and 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
+- wBank, like other SFe values (for the most part?), is little endian.
 - Now, bit 9 is also a percussion toggle. If a bank/program change combination produces a different result for midi channel 10, bit 1 controls the percussion.
 - File editors should warn the user if this issue is found.
 - Bits 2–8 are now used to set the first bank change, and bits 10–16 are now used to set the second bank change.
@@ -911,9 +971,9 @@ Its structure is the same as in SF2.04.
 Old 2.04 fields "dwLibrary" and "dwGenre" are now defined.
 
 - "dwLibrary" is for the overall name of the set of files contained in a library of SFe, version 4 files.
-    - For example, "SFe Collection!" (with appropriate zero bytes)
+    - This value will correspond to a list in an enum. This is planned for 4.05.
 - "dwGenre" is for the genre of music which the files are optimized for.
-    - For example, "Rock" (with appropriate zero bytes)
+    - This value will correspond to a list in an enum. This is planned for 4.05.
 - "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced in a future version.
 
 ### Do not access the final sfPresetHeader entry
@@ -984,6 +1044,11 @@ Files without a "pgen" sub-chunk are "Structurally Unsound."
 
 The inst sub-chunk is a multiple of 22 bytes.
 
+### achInstName Changes
+
+- In SoundFont® 2.04, achInstName must be an ASCII string.
+- Now, UTF-8 replaces ASCII, allowing more characters to be written.
+
 ### This is a required sub-chunk
 
 Files without an "inst" sub-chunk are "Structurally Unsound."
@@ -1051,6 +1116,11 @@ files without an "igen" sub-chunk are "Structurally Unsound."
 The shdr sub-chunk contains the headers for the sample data.
 
 It is a multiple of 46 bytes.
+
+### achSampleName Changes
+
+- In SoundFont® 2.04, achSampleName must be an ASCII string.
+- Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
 ### Sample Rate Limit Changes
 
@@ -1216,6 +1286,16 @@ This is the same as SoundFont® 2.04.
 
 The NRPN implementation used by version 4.00 is identical to SoundFont® 2.04.
 
+* * *
+
+## 9.7 On implementation accuracy
+
+E-mu was very lax when it came to accuracy of legacy SF implementations. This was because of the limitations of computers and legacy soundcards that the legacy SF spec and its implementations were initially designed to run on. While this was the only way that legacy SF could gain the popularity that it did with software implementations, this meant that bank developers often had to declare the program that their file was intended to be used with. This hampered interoperability with different SF players, including those that may have been embedded into musical instruments.
+
+Because today's computers are much faster, and legacy soundcards are no longer in widespread use, the requirements for implementation accuracy in SFe are far more strict. All SFe players are required to recognise the feature flags system that will be included in the ISFe subchunk starting from draft milestone version 4.00.10 and warn the user if there is a mismatch between feature flags in the bank and the program's support.
+
+While the feature flag system will be useful to alert users about incompatible programs, program developers should make an effort to ensure that their program is 100% compatible.
+
 # Section 10: Error-handling
 
 ## 10.1 Structural errors
@@ -1344,6 +1424,10 @@ This glossary is broadly the same as the SF2.04 specification's glossary, with t
 - AWE64 - The successor to the famous AWE32, added things like waveguide synthesis. Use the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
 
 - BW64 - Broadcast Wave 64, used in the RF64 Header.
+
+- Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
+
+- Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
 
 - DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe.
 
