@@ -820,8 +820,6 @@ The defined values of the `SFty` chunk are:
 - the 8 bytes representing `SFe32L` as 6 UTF-8 characters followed by two zero bytes.
 - the 16 bytes representing `SFe32 with TSC` as 14 UTF-8 characters followed by two zero bytes.
 - the 16 bytes representing `SFe32L with TSC` as 15 UTF-8 characters followed by one zero byte.
-- the 6 bytes representing `SFe64` as 5 UTF-8 characters followed by one zero bytes.
-- the 8 bytes representing `SFe64L` as 6 UTF-8 characters followed by two zero bytes.
 
 The field should conventionally never be longer than 16 bytes.
 
