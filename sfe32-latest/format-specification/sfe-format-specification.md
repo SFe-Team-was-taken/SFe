@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.00.9c (draft specification) - November 2024 (Revision C)
+## Version 4.0.20241119a (draft specification)
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,21 +13,23 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 4.00.9c       | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| 4.00.9b       | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| 4.00.9a       | November 14, 2024    | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers. <br> Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Defined a fully-compatible feature subset of SFe32 (SFe32L) <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                |
-| 4.00.8        | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 4.00.7c       | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 4.00.7b       | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| 4.00.7a       | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 4.00.6        | October 3, 2024      | Added milestone classification for some draft specifications in 0.1a  <br>Removed all SFe32-specific information, renamed to SFe64 spec  <br>Renamed 3.1a to 3.1, 6.1a to 6.1, 6.1b to 6.1a, 6.2a to 6.2, and 6.2b to 6.2a, for consistency  <br>Delayed modulator update to version 4.01  <br>Removed 7.1a, because it's not relevant to versions before 5.00  <br>Added LSB to example value in 10.1a  <br>Added more information about future plans  <br>Reworked SFe64 to be a simple 64-bit extension to SFe32 for now, features will come later                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| 4.00.5c       | September 2, 2024    | Added clarification for timeframe in which 0.4 will be filled out  <br>Rewritten 1.1a to be clearer, moving links from 1.1b  <br>Removed redundant "important" words in 1.1b  <br>Moved some compatibility info from sections 1.3 and 3.1 to compatibility spec  <br>ROM samples no longer listed as deprecated in 3.2, 5.4, 5.5 and 6.1a  <br>Error handling plans for version 4.00.6 added in 3.3  <br>Fixed capitalisation in 4.5  <br>Added section 4.5a for file format extensions, removed .sf32 and .sf64  <br>Removed isfe reference for 5.1, SFe32 programs can determine WernerSF3 with wMajor=3  <br>Fixed reference to compatibility spec in 5.1a, compatibility spec is not used in SFe64  <br>Rewritten 5.2 to make it clearer, and to mention default modulator definitions for 4.01.  <br>Added heading 3 in formatting of section 7 and section 7.1a for subchunk size alignment.  <br>Removed reverb/chorus definitions in 8.1.2, 8.1.3 and 9.1.5 (will be restored in 4.01)  <br>Fixed some other typos and added a few other clarifications                                                                                                         |
-| 4.00.5b       | September 1, 2024    | Clarified information about sample rates in section 7.10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 4.00.5a       | August 30, 2024      | All remaining SF32/SF64 references should now be renamed to SFe32/SFe64  <br>Added ROM sample specification for the AWE ROM emulator  <br>Replaced draft number references with the new versioning system  <br>Added clarification for the compatibility specification versioning  <br>Fixed mistake in INFO chunk information in the compatibility specification  <br>Clarified that this document is not created by E-mu  <br>Added placeholder for the SF Server link  <br>Specific version number added to title  <br>Added instructions to compatibility spec about how to handle incompatible compression  <br>Error messages modified to remove scom reference and fix version 3 reference to version 4  <br>Added section 1.5a to mention future plans for the SFe format  <br>Added 0.1a to describe specification versioning  <br>Removed unnecessary information about Creative Technology  <br>Proprietary compression formats are now forbidden in the program specification  <br>Added references to SFe Team; a list of developers can be found in 0.3a.  <br>Next version for release by early 2025 will have the SFe file repair program specification |
-| 4.00.4        | July 4, 2024         | Clarified about legacy compliance and TSC in section 3.2.  <br>Added more clarification in revision history  <br>8-bit mode information updated again  <br>Added info about how SFe32 can be parsed as SFe64  <br>More information about the pdta structure added  <br>Real time synthesis is no longer mandatory  <br>Renamed to version 4 and updated versioning scheme  <br>Added preliminary Werner SF3 compatibility  <br>Removed scom sub-chunk  <br>For now, removed increased character limits in SFe32.  <br>Changed sleaf's name on the contact.  <br>Added information on bank select and TSC mode  <br>Added the isfe sub-chunk for SFe64  <br>One mention of "back and forth" now "bidirectional"  <br>Added and clarified some terms in glossary  <br>Stated that incompatible compression is no longer allowed in 6.1b.  <br>Renamed SF32 and SF64 to SFe32 and SFe64.  <br>Added clarification of "SFe format developers" in 1.5.  <br>Moved compatibility information to the compatibility specification.  <br>Added 5.1a to describe ifil sub-chunk versioning.                                                                                       |
-| 4.00.3        | September 6, 2022    | Added clarification  <br>Renamed 32-bit SF version 3 to SF32  <br>Overall format has been renamed to SFe (SF enhanced)  <br>wBank bit 9 is no longer reserved.  <br>Silicon SF banks for SF64  <br>Added CM reset  <br>Changed isng value  <br>Fixed some pdta sub-chunks for SF64  <br>Corrected sfSampleType reference from bit 15 to bit 16.  <br>Renamed "back and forth" to "bidirectional"  <br>Changed "improved" to "fixed" in revision log  <br>Added a nicer diagram (can you find it?)  <br>Fixed extraneous reference to wBank2 in section 4.  <br>Modified information about the scom sub-chunk.  <br>8-bit mode information updated                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 4.00.2        | July 22, 2022        | Renamed 64-bit SF3 to SF64 version 3  <br>32-bit SF3 is now 32-bit SF version 3  <br>Changed ASCII to UTF-8  <br>Fixed the wPreset and wBank (removed wBank2)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| 4.00.1        | April 12, 2020       | First version                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| This version  | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> Updated ifil versioning rules once again <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 4.0.9b        | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 4.0.9a        | November 14, 2024    | Changed versioning rules in 5.1a to make it easier for programs to detect version numbers. <br> Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Defined a fully-compatible feature subset of SFe32 (SFe32L) <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                |
+| 4.0.8         | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Removed RF64 reference for SFe32. <br> Now consistent with WernerSF3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 4.0.7c        | October 17, 2024     | First 32-bit specification with structural changes from SFe64. <br> Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4.0.7b        | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 4.0.7a        | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4.0.6         | October 3, 2024      | Added milestone classification for some draft specifications in 0.1a  <br>Removed all SFe32-specific information, renamed to SFe64 spec  <br>Renamed 3.1a to 3.1, 6.1a to 6.1, 6.1b to 6.1a, 6.2a to 6.2, and 6.2b to 6.2a, for consistency  <br>Delayed modulator update to version 4.01  <br>Removed 7.1a, because it's not relevant to versions before 5.00  <br>Added LSB to example value in 10.1a  <br>Added more information about future plans  <br>Reworked SFe64 to be a simple 64-bit extension to SFe32 for now, features will come later                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 4.0.5c        | September 2, 2024    | Added clarification for timeframe in which 0.4 will be filled out  <br>Rewritten 1.1a to be clearer, moving links from 1.1b  <br>Removed redundant "important" words in 1.1b  <br>Moved some compatibility info from sections 1.3 and 3.1 to compatibility spec  <br>ROM samples no longer listed as deprecated in 3.2, 5.4, 5.5 and 6.1a  <br>Error handling plans for version 4.00.6 added in 3.3  <br>Fixed capitalisation in 4.5  <br>Added section 4.5a for file format extensions, removed .sf32 and .sf64  <br>Removed isfe reference for 5.1, SFe32 programs can determine WernerSF3 with wMajor=3  <br>Fixed reference to compatibility spec in 5.1a, compatibility spec is not used in SFe64  <br>Rewritten 5.2 to make it clearer, and to mention default modulator definitions for 4.01.  <br>Added heading 3 in formatting of section 7 and section 7.1a for subchunk size alignment.  <br>Removed reverb/chorus definitions in 8.1.2, 8.1.3 and 9.1.5 (will be restored in 4.01)  <br>Fixed some other typos and added a few other clarifications                                                                                                         |
+| 4.0.5b        | September 1, 2024    | Clarified information about sample rates in section 7.10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 4.0.5a        | August 30, 2024      | All remaining SF32/SF64 references should now be renamed to SFe32/SFe64  <br>Added ROM sample specification for the AWE ROM emulator  <br>Replaced draft number references with the new versioning system  <br>Added clarification for the compatibility specification versioning  <br>Fixed mistake in INFO chunk information in the compatibility specification  <br>Clarified that this document is not created by E-mu  <br>Added placeholder for the SF Server link  <br>Specific version number added to title  <br>Added instructions to compatibility spec about how to handle incompatible compression  <br>Error messages modified to remove scom reference and fix version 3 reference to version 4  <br>Added section 1.5a to mention future plans for the SFe format  <br>Added 0.1a to describe specification versioning  <br>Removed unnecessary information about Creative Technology  <br>Proprietary compression formats are now forbidden in the program specification  <br>Added references to SFe Team; a list of developers can be found in 0.3a.  <br>Next version for release by early 2025 will have the SFe file repair program specification |
+| 4.0.4         | July 4, 2024         | Clarified about legacy compliance and TSC in section 3.2.  <br>Added more clarification in revision history  <br>8-bit mode information updated again  <br>Added info about how SFe32 can be parsed as SFe64  <br>More information about the pdta structure added  <br>Real time synthesis is no longer mandatory  <br>Renamed to version 4 and updated versioning scheme  <br>Added preliminary Werner SF3 compatibility  <br>Removed scom sub-chunk  <br>For now, removed increased character limits in SFe32.  <br>Changed sleaf's name on the contact.  <br>Added information on bank select and TSC mode  <br>Added the isfe sub-chunk for SFe64  <br>One mention of "back and forth" now "bidirectional"  <br>Added and clarified some terms in glossary  <br>Stated that incompatible compression is no longer allowed in 6.1b.  <br>Renamed SF32 and SF64 to SFe32 and SFe64.  <br>Added clarification of "SFe format developers" in 1.5.  <br>Moved compatibility information to the compatibility specification.  <br>Added 5.1a to describe ifil sub-chunk versioning.                                                                                       |
+| 4.0.3         | September 6, 2022    | Added clarification  <br>Renamed 32-bit SF version 3 to SF32  <br>Overall format has been renamed to SFe (SF enhanced)  <br>wBank bit 9 is no longer reserved.  <br>Silicon SF banks for SF64  <br>Added CM reset  <br>Changed isng value  <br>Fixed some pdta sub-chunks for SF64  <br>Corrected sfSampleType reference from bit 15 to bit 16.  <br>Renamed "back and forth" to "bidirectional"  <br>Changed "improved" to "fixed" in revision log  <br>Added a nicer diagram (can you find it?)  <br>Fixed extraneous reference to wBank2 in section 4.  <br>Modified information about the scom sub-chunk.  <br>8-bit mode information updated                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 4.0.2         | July 22, 2022        | Renamed 64-bit SF3 to SF64 version 3  <br>32-bit SF3 is now 32-bit SF version 3  <br>Changed ASCII to UTF-8  <br>Fixed the wPreset and wBank (removed wBank2)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 4.0.1         | April 12, 2020       | First version                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| (2.04a)       | (February 3, 2006)   | (The date listed in the specification title, different to value in 0.1 table in SF2.04)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | (2.04)        | (September 10, 2002) | (Last version authored by E-mu until format abandoned)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 * * *
@@ -40,13 +42,13 @@ Final specifications have version numbers in the format x.yyL, where x and y are
 - y is incremented when there are new features added to either the SFe64 or the SFe32 format.
 - SFe32 may skip "y" versions, because there will be SFe64-only feature additions in the future.
 - L is incremented when there are small changes made to the specification, if L is absent, then assume that it is "a."
-- An example of a final specification version would be 4.00.
+- An example of a final specification version would be 4.0.
 
 Draft specification milestones have version numbers in the format x.yy.zL, where x, y and z are numbers and L is a letter. In this case, the versioning works similarly to a final specification, but with these changes:
 
 - z is incremented when the draft undergoes a larger change, or large updates are made to the software.
 - L is incremented when there are small changes, but only when pointed out by others.
-- An example of a draft specification version would be 4.00.5.
+- An example of a draft specification version would be 4.0.5.
 
 During the development of specifications, version numbers will be in the format x.yy.aaaabbccL, where x, y, z, a, b and c are numbers, and L is a letter. The versioning is similar to final specifications and milestone drafts, but aaaabbcc is the day in which the specification was updated, and L is incremented when updated.
 
@@ -81,9 +83,14 @@ Permission is granted to use, distribute and modify this draft specification for
 - this specification is clearly marked as a draft
 - you attribute the SFe Team (do not remove copyright notices)
 - you clearly mark any modifications that are made to the specification 
-- you share all modifications implemented in a program under this license
-- you do not remove the link to the latest version of the specification
 - you do not claim that we're affiliated with E-mu or Creative Labs.
+
+For the benefit of the SFe specification, please:
+
+- share all modifications implemented in a program under this license
+- do not remove the link to the latest version of the specification
+
+The above requirements are not required due to requirements listed by the Open Source Definition, but are good practice when redistributing the specification. 
 
 This specification is provided "as-is" without any warranty.
 
@@ -142,7 +149,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [3.1 General RIFF and RF64 file structures](#31-general-riff-and-rf64-file-structures)
   * [3.2 Chunks and subchunks in version 4](#32-chunks-and-subchunks-in-version-4)
   * [3.3 Error handling](#33-error-handling)
-* [Section 4: RF64 file format of SFe32, version 4.00](#section-4-rf64-file-format-of-sfe32-version-400)
+* [Section 4: RF64 file format of SFe32, version 4.0](#section-4-rf64-file-format-of-sfe32-version-40)
   * [4.1-4.4 File structure of version 4](#41-44-file-structure-of-version-4)
   * [4.5 Type definitions](#45-type-definitions)
   * [4.5a File format extensions](#45a-file-format-extensions)
@@ -161,6 +168,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [5.11 "ISFT" subchunk](#511-isft-subchunk)
   * [5.12 "ISFe" subchunk](#512-isfe-subchunk)
     * [5.12.1 "SFty" sub-chunk](#5121-sfty-sub-chunk)
+    * [5.12.2 "SFvx" sub-chunk](#5122-sfvx-sub-chunk)
 * [Section 6: "sdta-list" chunk](#section-6-sdta-list-chunk)
   * [6.1a "smpl" sub-chunk](#61a-smpl-sub-chunk)
   * [6.1b About compression in SFe32](#61b-about-compression-in-sfe32)
@@ -177,9 +185,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
     * [Do not access the final sfPresetHeader entry](#do-not-access-the-final-sfpresetheader-entry)
   * [7.3 "pbag" sub-chunk](#73-pbag-sub-chunk)
   * [7.4 "pmod" sub-chunk](#74-pmod-sub-chunk)
-    * [New options for the SFModulator enum](#new-options-for-the-sfmodulator-enum)
   * [7.5 "pgen" sub-chunk](#75-pgen-sub-chunk)
-    * [New options for the SFGenerator enum](#new-options-for-the-sfgenerator-enum)
   * [7.6 "inst" sub-chunk](#76-inst-sub-chunk)
     * [achInstName Changes](#achinstname-changes)
   * [7.7 "ibag" sub-chunk](#77-ibag-sub-chunk)
@@ -243,7 +249,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
 
 ## 1.1a Scope and purpose of this document
 
-- This is a draft specification for the SFe32 file format, version 4.00, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards.
+- This is a draft specification for the SFe32 file format, version 4.0, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards.
 - It's intended to be a source of information on SFe32.
 - To create files that support SFe32, you will need:
     - The SFe32 format, compatibility, and program specifications
@@ -330,7 +336,7 @@ Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbi
 
 - The resulting format was known as SF3.
 - It is commonly used by open source programs.
-- This is the reason why this format is not called .SF3 (it was in 4.00.1, but after **feedback by derselbst** and **mawe42** on GitHub, we changed it to SFe32 and SFe64).
+- This is the reason why this format is not called .SF3 (it was in 4.0.1, but after **feedback by derselbst** and **mawe42** on GitHub, we changed it to SFe32 and SFe64).
 - SFe files will be compatible with Werner SF3 for compression.
 
 Another development was done by Cognitone, which created an open source program that can losslessly compress SoundFont® 2 files (with FLAC). This was done in 2017.
@@ -361,28 +367,29 @@ SFe32 (version 4) is designed for future improvements.
 
 ## 1.5a Plans
 
-The features for version 4.00 have been frozen after the release of version 4.00.4. This doesn't mean that we're done with SFe, in fact, this is only the beginning of the format's development.
+The features for version 4.0 have been frozen after the release of draft milestone 4.0.4. This doesn't mean that we're done with SFe, in fact, this is only the beginning of the format's development.
 
-We decided to do a feature freeze for version 4.00 to make sure that SFe program developers have a reasonable set of features to implement. If we add too many features, it can overwhelm developers.
+We decided to do a feature freeze for version 4.0 to make sure that SFe program developers have a reasonable set of features to implement. If we add too many features, it can overwhelm developers.
 
 Here are a few things that are planned for SFe:
 
-- For version 4.00.10, we're going to introduce the feature flags system, a method of determining whether certain features are supported by a player.
-- For version 4.01, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205).
-- A MIDI lyrics specification for MIDI players will become available in version 4.02.
-- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.03.
+- Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5 seems to be planned for LTS for legacy SF.)
+- Negotiations with more SF program developers such as FluidSynth and Bassmidi will start soon.
+- For version 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205).
+- A MIDI lyrics specification for MIDI players will become available in version 4.2.
+- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.2.
 
 # Section 2: Terms and abbreviations
 
 ## 2.1 Data structure terminology
 
-The data structure terminology used in SFe32 version 4.00 is the same as the E-mu® SF2.04 standard.
+The data structure terminology used in SFe32 version 4.0 is the same as the E-mu® SF2.04 standard.
 
 * * *
 
 ## 2.2 Synthesis terminology
 
-The synth terminology used in SFe32 version 4.00 is broadly the same as the E-mu® SF2.04 standard, with these additions:
+The synth terminology used in SFe32 version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
 - AWE64 - The successor to the famous AWE32, added things like waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
 
@@ -429,7 +436,7 @@ And these removals:
 
 - Preditor (refers to an old SF version 2 editor made by E-mu)
 
-The terminology is also the same as SFe32 version 4.00.
+The terminology is also the same as SFe32 version 4.0.
 
 * * *
 
@@ -440,7 +447,7 @@ The parameter terminology used in version 4 is broadly the same as the E-mu® SF
 - Amplification - An increase in volume or amplitude of a signal.
 - Flat - Said of a tone that is lower in pitch than another reference tone.
 
-The terminology is also the same as SFe64 version 4.00.
+The terminology is also the same as SFe64 version 4.0.
 
 # Section 3: RIFF and RF64 structure
 
@@ -491,7 +498,7 @@ Using this information, it is possible to check for damage to an SF(e) file:
 - Like E-mu® SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
 - Please refer to the File Repair Specification for help on how to create such a program.
 
-# Section 4: RF64 file format of SFe32, version 4.00
+# Section 4: RF64 file format of SFe32, version 4.0
 
 ## 4.1-4.4 File structure of version 4
 
@@ -526,10 +533,15 @@ RIFF('sfbk'
                     {
                         SFty(szSFeType:ZSTR);
                         flag(
-                            // Not defined until 4.00.10  
+                            struct SFeFeatureFlag
+                            {
+                                BYTE byBranch;
+                                BYTE byLeaf;
+                                DWORD dwFlags;
+                            };
                         );
                         prsw(
-                            // Not defined until 4.05
+                            // Not defined until 4.3
                         );
                     }
                 );
@@ -665,15 +677,14 @@ WORD wMajor = 2 or 3 (SFe32)
 WORD wMinor = 1024 (SFe32)
 
 - Legacy SF players might not support wMajor=4.
-- SFe32 4.00 files may technically appear as Version 2.1024/3.1024.
-- Update for 4.00.9: the second byte now represents the specification version, so 128 has become 1024.
+- SFe32 4.0 files may technically appear as Version 2.1024/3.1024.
 
 
 The size must be exactly 4 bytes. Reject files with an "ifil" subchunk that isn't 4 bytes as "Structurally Unsound".
 
 ### Using the specification version
 
-Alternatively, the wMajor and wMinor can be set in the same way as the specification version, for example version 4.00 becomes wMajor=4, wMinor=0.
+Alternatively, the wMajor and wMinor can be set in the same way as the specification version, for example version 4.0 becomes wMajor=4, wMinor=0.
 
 ### In case of missing ifil subchunk
 
@@ -690,14 +701,12 @@ In SFe32, you can use two rules. Either:
 
 - the value of wMajor remains 2 or 3, depending on if Werner SF3 is used
     - The value of wMinor counts up from 1024.
-    - It increases by one when a change is made to the format.
-    - Each specification major version change will increase wMinor by 256.
-    - Example: version 5.02 of the specification would have a wMinor value of 1282.
+    - It increases by one when a change is made to the `SFvx` sub-chunk.
     - Use if you intend your SFe file to be used with legacy SF players, as some legacy players may not like wMajor != 2.
 - the value of wMajor and wMinor correspond to the specification version.
     - Use if you intend your SFe file to only be used with SFe players.
 
-To signify that the SFe file has been created to a draft specification, please use the description. Programs that are compliant with SFe must recognise both naming schemes.
+Programs that are compliant with SFe must recognise both naming schemes.
 
 * * *
 
@@ -800,7 +809,7 @@ Reject anything not terminated with a zero byte. Do NOT reject the file as "Stru
 This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII.
 
 - The "ISFT" subchunk contains a UTF-8 string of up to 256 bytes.
-- Example of value: "SFe Editor version 4.00" (with appropriate zero bytes)
+- Example of value: "SFe Editor version 4.0" (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
@@ -814,7 +823,7 @@ Due to compatibility constraints, the `ISFe-list` sub-chunk is found inside the�
 
 ### 5.12.1 "SFty" sub-chunk
 
-The `SFty` sub-chunk is an optional sub-chunk identifying the variant of SFe the bank is formatted in. It contains a UTF-8 string of 256 or fewer bytes including one or two terminators of value zero to make the total byte count even.
+The `SFty` sub-chunk is a required sub-chunk identifying the variant of SFe the bank is formatted in. It contains a UTF-8 string of 256 or fewer bytes including one or two terminators of value zero to make the total byte count even.
 
 The `SFty` string is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as.
 
@@ -830,6 +839,76 @@ The field should conventionally never be longer than 16 bytes.
 The UTF-8 should be treated as case-sensitive. In other words, `sfe32 with tsc` is not the same as `SFe32 with TSC`.
 
 If the SFty sub-chunk is missing, not terminated in a zero-valued byte, or its contents are an undefined value, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe32`; only use such a value when it is evident beyond a reasonable doubt that the file used is SFe32.
+
+### 5.12.2 "SFvx" sub-chunk
+
+The `SFvx` sub-chunk is a required sub-chunk identifying any extended SFe version attributes. It is always 46 bytes in length, and contains data according to the structure:
+
+```c
+struct SFeExtendedVersion
+{
+    WORD wSFeSpecMajorVersion;
+    WORD wSFeSpecMinorVersion;
+    CHAR achSFeSpecType[20];
+    WORD wSFeDraftMilestone;
+    CHAR achSFeFullVersion[20];
+};
+```
+
+The `WORD` values `wSFeSpecMajorVersion` and `wSFeSpecMinorVersion` contain the SFe specification version. This can be used by players for any purpose.
+
+The UTF-8 character field `achSFeSpecType` contains the specification type expressed in UTF-8. It must be a defined value, but implementations may define custom values for internal purposes. For the purposes of SFe, the defined values are:
+
+- `Final` for final specifications.
+- `Milestone` for draft specification milestones.
+- `Dev` for rolling draft specifications.
+
+The UTF-8 should be treated as case-sensitive. In other words, `final` is not the same as `Final`. If the contents of `achSFeSpecType` are an undefined value, the field should be ignored and `Final` assumed.
+
+The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone that a bank was created to. This varies depending on the value of achSFeSpecType:
+
+- If a bank is created to a final specification `4.0`, then `achSFeSpecType=Final`, `wSFeDraftMilestone=0`. It is safe to ignore the value of `wSFeDraftMilestone`, but you should write the value as zero.
+- If a bank is created to draft specification milestone `4.0.10`, then `achSFeSpecType=Milestone`, `wSFeDraftMilestone=10`.
+- If a bank is created to a rolling specification created after `4.0.10` but before `4.0.11`, then `achSFeSpecType=Dev`, `wSFeDraftMilestone=11`.
+
+The UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0`, `4.0.10` or `4.0.yyyymmddx`.
+
+If the `SFvx` sub-chunk is missing, or its size is not 46 bytes, the field should be ignored and these values assumed:
+
+- `wSFeSpecMajorVersion` and `wSFeSpecMinorVersion` correspond to the highest version declared in the `flag` sub-chunk
+    - If there is no valid `flag` sub-chunk, then assume the highest SFe version supported by the program.
+- `achSFeSpecType=Final`
+- `wSFeDraftMilestone=0`
+- `achSFeFullVersion` corresponds to the other assumed values
+
+The file may optionally be rejected as Structurally Unsound.
+
+### 5.12.3 "flag" sub-chunk
+
+The `flag` sub-chunk is a required sub-chunk identifying the feature flags used by a bank. It is always a multiple of 6 bytes in length, and contains a minimum of two records, one for a feature flag and another for a terminal record according to the structure:
+
+```c
+struct SFeFeatureFlag
+{
+    BYTE byBranch;
+    BYTE byLeaf;
+    DWORD dwFlags;
+};
+```
+
+The `BYTE` value `byBranch` represents the branch of the feature. Branches correspond to types of features.
+
+The `BYTE` value `byLeaf` represents the leaf of the feature. Leaves correspond to specific features. 
+
+The `DWORD` value `dwFlags` represents the feature flags themselves, which represent different parts of the feature. Depending on the `byLeaf` value, it can be a number, a series of bytes, etc.
+
+A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (Werner SF3 sample compression formats). An exhaustive list of feature flags and their corresponding tree values can be found in the compatibility specification.
+
+Branch numbers between `240` (`F0`) and `255` (`FF`) are private-use branches that will not be defined in the SFe specification itself, and are free to be used by programs.
+
+The terminal record should never be accessed in normal usage, but its value of `byBranch` and `byLeaf` have strict values depending on the specification version. Any records after the terminal record or with a higher tree value combination (except for the defined private-use area) should be ignored.
+
+If the `flag` subchunk is missing, or its size is not a multiple of 6 bytes, then an effort should be made to recover the data. If data is not recoverable, then it can be rebuilt from the properties of the data in the rest of the bank. Do not reject the file as Structurally Unsound. 
 
 * * *
 
@@ -860,7 +939,7 @@ To implement compression in your SFe32 bank, please use [Werner SF3](https://git
 - All SFe32 players must implement Werner SF3.
 - Not all SFe32 files are required to implement Werner SF3 right now, but in the future it will become a requirement.
 - Werner SF3 supports multiple different compression formats.
-- The "scom" sub-chunk found in specification versions 4.00.3 and earlier is now obsolete.
+- The "scom" sub-chunk found in specification versions 4.0.3 and earlier is now obsolete.
 - Incompatible SF compression formats (.sfark, .sfpack, .sf2pack, .sfq) are prohibited. You should use Werner SF3.
 - When Werner SF3 is in use, the size of smpl is not required to be a multiple of two, and the surrounding LIST chunk isn't padded to a multiple of two.
 - Because cognitone-formatted banks are not valid Werner SF3 banks, they are considered an incompatible SF compression format, and are therefore not allowed.
@@ -920,7 +999,7 @@ If the smpl sub-chunk is missing, but the sm24 or sm32 sub-chunks are present, 8
 
 ## 7.1 "Hydra" structure
 
-Like in E-mu Systems® SoundFont® 2.04, the format SFe32 version 4.00 is based on, the structure used is known as the "hydra" structure.
+Like in E-mu Systems® SoundFont® 2.04, the format SFe32 version 4.0 is based on, the structure used is known as the "hydra" structure.
 
 According to E-mu Systems®, a hydra has nine heads. Cut one off, and another two grow.
 
@@ -953,11 +1032,11 @@ Its structure is the same as in SF2.04.
 
 In legacy SF 2.04, only one MIDI Bank Select could be used (typically MSB).
 
-- Version 4.00.1 had a field called wBank2. Any draft with wBank2 is now obsolete.
+- Version 4.0.1 had a field called wBank2. Any draft with wBank2 is now obsolete.
 - We commend E-mu for being forward enough thinking to not use a BYTE for bank selection.
-- In SoundFont® 2.04 and 4.00.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
+- In SoundFont® 2.04 and 4.0.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
 
-Starting from version 4.00.9b, wBank is replaced with byBankMSB and byBankLSB.
+Starting from version 4.0.9b, wBank is replaced with byBankMSB and byBankLSB.
 - This change is completely backwards compatible as there is no change in the format. It is simply for specification readability reasons.
 - RIFF formats are little endian. Therefore, byBankMSB goes before byBankLSB.
 - Like with wBank in SF2.04, bits 2–8 are now used to set the first bank change.
@@ -971,9 +1050,9 @@ Starting from version 4.00.9b, wBank is replaced with byBankMSB and byBankLSB.
 Old 2.04 fields "dwLibrary" and "dwGenre" are now defined.
 
 - "dwLibrary" is for the overall name of the set of files contained in a library of SFe, version 4 files.
-    - This value will correspond to a list in an enum. This is planned for 4.05.
+    - This value will correspond to a list in an enum. This is planned for 4.4.
 - "dwGenre" is for the genre of music which the files are optimized for.
-    - This value will correspond to a list in an enum. This is planned for 4.05.
+    - This value will correspond to a list in an enum. This is planned for 4.4.
 - "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced in a future version.
 
 ### Do not access the final sfPresetHeader entry
@@ -1004,13 +1083,9 @@ Files without a "pbag" sub-chunk are "Structurally Unsound."
 
 The pmod sub-chunk is a multiple of 10 bytes.
 
-The structure is very similar to SF2.04's PMod structure, with these differences:
+The structure is identical to SF2.04's PMod structure for version 4.0. Version 4.1 will add new features.
 
-### New options for the SFModulator enum
-
-These options are listed elsewhere in the specification.
-
-Legacy SF players which do not support these new enum options should ignore these new options.
+Legacy SF players which do not support any new enum options in versions 4.1 or later should ignore these new options.
 
 This enum, and all other enums, is two bytes in length.
 
@@ -1024,13 +1099,7 @@ Files without a "pmod" sub-chunk are "Structurally Unsound."
 
 The pgen sub-chunk is a multiple of four bytes, like in SF2.04.
 
-The structure and type definitions are the same as in SF2.04:
-
-### New options for the SFGenerator enum
-
-These options are listed elsewhere in the specification.
-
-Legacy SF players which do not support these new enum options should ignore these new options.
+The structure and type definitions are the same as in SF2.04. Version 4.1 will add new features. Legacy SF players which do not support any new enum options in versions 4.1 or later should ignore these new options.
 
 This enum is two bytes in length.
 
@@ -1153,7 +1222,7 @@ These are identical to SoundFont® 2.04.
 
 ## 8.1.2/3 Generator enums definitions
 
-The Generator Enums used in SFe version 4.00, are the same as the SoundFont® 2.04 standard. SFe version 4.01 will include an overhaul of the modulator system, including new enums.
+The Generator Enums used in SFe version 4.0, are the same as the SoundFont® 2.04 standard. SFe version 4.01 will include an overhaul of the modulator system, including new enums.
 
 * * *
 
@@ -1177,13 +1246,13 @@ In SoundFont® 2.04, there are four sources.
 
 ## 8.3 Modulator transform enums
 
-These are identical to SoundFont® 2.04 in SFe version 4.00, but SFe version 4.01 will include an overhaul of the modulator system, including new enums.
+These are identical to SoundFont® 2.04 in SFe version 4.0, but SFe version 4.01 will include an overhaul of the modulator system, including new enums.
 
 * * *
 
 ## 8.4.1-4 Default modulators 1-4
 
-These have been removed, and no longer exist in SFe version 4.00, but the default modulator definition will be allowed in SFe version 4.01.
+These have been removed, and no longer exist in SFe version 4.0, but the default modulator definition will be allowed in SFe version 4.01.
 
 * * *
 
@@ -1284,15 +1353,15 @@ This is the same as SoundFont® 2.04.
 
 ## 9.6 NRPN implementation
 
-The NRPN implementation used by version 4.00 is identical to SoundFont® 2.04, but an update will be made in SFe version 4.01.
+The NRPN implementation used by version 4.0 is identical to SoundFont® 2.04, but an update will be made in SFe version 4.01.
 
 ## 9.7 On implementation accuracy
 
 E-mu was very lax when it came to accuracy of legacy SF implementations. This was because of the limitations of computers and legacy soundcards that the legacy SF spec and its implementations were initially designed to run on. While this was the only way that legacy SF could gain the popularity that it did with software implementations, this meant that bank developers often had to declare the program that their file was intended to be used with. This hampered interoperability with different SF players, including those that may have been embedded into musical instruments.
 
-Because today's computers are much faster, and legacy soundcards are no longer in widespread use, the requirements for implementation accuracy in SFe are far more strict. All SFe players are required to recognise the feature flags system that will be included in the ISFe subchunk starting from draft milestone version 4.00.10 and warn the user if there is a mismatch between feature flags in the bank and the program's support.
+Because today's computers are much faster, and legacy soundcards are no longer in widespread use, the requirements for implementation accuracy in SFe are far more strict. All SFe players are required to recognise the `flag` sub-chunk (section 5.12.2) and warn the user if there is a mismatch between feature flags in the bank and the program's support.
 
-While the feature flag system will be useful to alert users about incompatible programs, program developers should make an effort to ensure that their program is 100% compatible.
+While the `flag` sub-chunk will be useful to alert users about incompatible programs, program developers should make an effort to ensure that their program is 100% compatible.
 
 # Section 10: Error-handling
 
@@ -1334,13 +1403,13 @@ This occurs when multiple files are loaded simultaneously (now a required featur
 
 SoundFont® 2.04 players should ignore SFe-specific sub-chunks, as prescribed by E-mu.
 
-Also, SFe version 4.00 compatible players, which do not support future versions, should ignore sub-chunks which are used in future versions.
+Also, SFe version 4.0 compatible players, which do not support future versions, should ignore sub-chunks which are used in future versions.
 
 * * *
 
 ## 10.3 Unknown Enumerators
 
-Any ifil versions of 4.01 or above may have unknown enumeration values for a version 4.00 player.
+Any ifil versions of 4.01 or above may have unknown enumeration values for a version 4.0 player.
 
 This is entirely expected, and if unknown enumeration values are found, the Generator/Modulator should be ignored.
 
