@@ -1,6 +1,6 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.0.yyyymmdd (draft specification)
+## Version 4.0.20241119a (draft specification)
 
 Copyright © 2020-2024 SFe Team and contributors
 
