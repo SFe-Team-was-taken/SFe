@@ -1,6 +1,6 @@
 # SF-enhanced 32-bit (SFe32) specification
 
-## Version 4.0.20241119a (draft specification)
+## Version 4.0.20241119b (draft specification)
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -169,6 +169,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [5.12 "ISFe" subchunk](#512-isfe-subchunk)
     * [5.12.1 "SFty" sub-chunk](#5121-sfty-sub-chunk)
     * [5.12.2 "SFvx" sub-chunk](#5122-sfvx-sub-chunk)
+    * [5.12.3 "flag" sub-chunk](#5123-flag-sub-chunk)
 * [Section 6: "sdta-list" chunk](#section-6-sdta-list-chunk)
   * [6.1a "smpl" sub-chunk](#61a-smpl-sub-chunk)
   * [6.1b About compression in SFe32](#61b-about-compression-in-sfe32)
