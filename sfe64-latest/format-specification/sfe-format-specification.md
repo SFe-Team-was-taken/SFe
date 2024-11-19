@@ -1,6 +1,6 @@
 # SF-enhanced 64-bit (SFe64) specification
 
-## Version 4.0.20241119a (draft specification)
+## Version 4.0.20241119c (draft specification)
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| This version  | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits <br> Updated structure in section 4 <br> Fixed a pronoun                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 4.0.9b        | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | 4.0.9a        | November 14, 2024    | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -36,7 +36,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 
 ## 0.1a Specification Versioning
 
-Final specifications have version numbers in the format x.yyL, where x and y are numbers and l is a letter:
+Final specifications have version numbers in the format x.yL, where x and y are numbers and l is a letter:
 
 - x is incremented when a change in the SFe64 format is made in a way that makes the resulting files incompatible with the previous version.
 - y is incremented when there are new features added to either the SFe64 or the SFe32 format.
@@ -44,13 +44,13 @@ Final specifications have version numbers in the format x.yyL, where x and y are
 - L is incremented when there are small changes made to the specification, if L is absent, then assume that it is "a."
 - An example of a final specification version would be 4.0.
 
-Draft specification milestones have version numbers in the format x.yy.zL, where x, y and z are numbers and L is a letter. In this case, the versioning works similarly to a final specification, but with these changes:
+Draft specification milestones have version numbers in the format x.y.zL, where x, y and z are numbers and L is a letter. In this case, the versioning works similarly to a final specification, but with these changes:
 
 - z is incremented when the draft undergoes a larger change, or large updates are made to the software.
 - L is incremented when there are small changes, but only when pointed out by others.
 - An example of a draft specification version would be 4.0.5.
 
-During the development of specifications, version numbers will be in the format x.yy.aaaabbccL, where x, y, z, a, b and c are numbers, and L is a letter. The versioning is similar to final specifications and milestone drafts, but aaaabbcc is the day in which the specification was updated, and L is incremented when updated.
+During the development of specifications, version numbers will be in the format x.y.aaaabbccL, where x, y, z, a, b and c are numbers, and L is a letter. The versioning is similar to final specifications and milestone drafts, but aaaabbcc is the day in which the specification was updated, and L is incremented when updated.
 
 The revision history table refers to development versions as "This version" and includes the cumulative changes made to the specification since the last milestone revision.
 
@@ -70,9 +70,9 @@ All excerpts from the SF 2.04 specification are copyrighted by E-mu Systems or C
 
 We are confident that the base file format is not copyrightable, but we are able to take this document down if necessary.
 
-This is a draft. Expect errors, and feel free to report them. Sylvia-leaf has access to a computer with a Sound Blaster X-Fi Titanium, so she will be able to test or reproduce any issues found on real hardware.
+This is a draft. Expect errors, and feel free to report them. Sylvia-leaf has access to a computer with a Sound Blaster X-Fi Titanium, so they will be able to test or reproduce any issues found on real hardware.
 
-Do not use "draft" specifications (version number x.yy.zL) to base final products on. Always refer to a "final" specification (version number x.yyL).
+Do not use "draft" specifications (version number x.y.zL) to base final products on. Always refer to a "final" specification (version number x.yL).
 
 * * *
 
@@ -87,7 +87,7 @@ Permission is granted to use, distribute and modify this draft specification for
 - you clearly mark any modifications that are made to the specification 
 - you do not claim that we're affiliated with E-mu or Creative Labs.
 
-For the benefit of the SFe specification, please:
+For the benefit of the SFe community, please:
 
 - share all modifications implemented in a program under this license
 - do not remove the link to the latest version of the specification
@@ -513,7 +513,7 @@ Using this information, it is possible to check for damage to an SF(e) file:
 
 ## 4.1-4.4 File structure of version 4
 
-```
+```c
 RF64('sfbk'
     {
     ds64(dataSize)
@@ -544,6 +544,16 @@ RF64('sfbk'
                 LIST('ISFe'
                     {
                         SFty(szSFeType:ZSTR);
+                        SFvx(
+                            struct SFeExtendedVersion
+                            {
+                                WORD wSFeSpecMajorVersion;
+                                WORD wSFeSpecMinorVersion;
+                                CHAR achSFeSpecType[20];
+                                WORD wSFeDraftMilestone;
+                                CHAR achSFeFullVersion[20];
+                            };
+                        );                            
                         flag(
                             struct SFeFeatureFlag
                             {
