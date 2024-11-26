@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Version 4.0.20241126a (Draft Specification) - 4.0.11 development
+## Version 4.0.20241126b (Draft Specification) - 4.0.11 development
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | November 26, 2024    | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| This version  | November 26, 2024    | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c <br> Added the SFe Compression 1.0 standard based on FluidSynth Werner SF3 August 2021 specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.0.10        | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits <br> Updated structure in section 4 <br> Fixed a pronoun <br> Merged SFe32 and SFe64 into a single specification once again <br> Added section about chunk header types and long term support of SFe 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 4.0.9b        | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -183,7 +183,14 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
     * [5.12.3 "flag" sub-chunk](#5123-flag-sub-chunk)
 * [Section 6: "sdta-list" chunk](#section-6-sdta-list-chunk)
   * [6.1a "smpl" sub-chunk](#61a-smpl-sub-chunk)
-  * [6.1b About compression in SFe](#61b-about-compression-in-sfe)
+  * [6.1b SFe Compression](#61b-sfe-compression)
+    * [6.1b.1 What is SFe Compression?](#61b1-what-is-sfe-compression)
+    * [6.1b.2 File identification for SFe Compression](#61b2-file-identification-for-sfe-compression)
+    * [6.1b.3 sfSampleType in shdr sub-chunk](#61b3-sfsampletype-in-shdr-sub-chunk)
+    * [6.1b.4 Interpretation of sample data index fields in shdr sub-chunk](#61b4-interpretation-of-sample-data-index-fields-in-shdr-sub-chunk)
+    * [6.1b.5 Using both compressed and uncompressed samples in the same file](#61b5-using-both-compressed-and-uncompressed-samples-in-the-same-file)
+    * [6.1b.6 Unsupported features](#61b6-unsupported-features)
+    * [6.1b.7 Proprietary compression formats](#61b7-proprietary-compression-formats)
   * [6.2a "sm24" and "sm32" sub-chunk](#62a-sm24-and-sm32-sub-chunk)
   * [6.2b Using 8-bit samples](#62b-using-8-bit-samples)
   * [6.2c Orphaned sm24 and sm32 sub-chunk](#62c-orphaned-sm24-and-sm32-sub-chunk)
@@ -982,20 +989,58 @@ This sub-chunk should now be present in SFe files, as currently, there is no ROM
 
 * * *
 
-## 6.1b About compression in SFe
+## 6.1b SFe Compression
 
-To implement compression in your SFe bank, please use [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) compression encoding.
+To implement compression in your SFe bank, please use the SFe Compression specification, listed in this section (6.1b).
 
-- Werner SF3 is widely used by the open source community.
-- It is a standard that is being developed right now.
-- There is no final specification, but the Fluidsynth team have a draft specification for Werner SF3.
-- The goal is to make sure that these specifications are usable together.
-- All SFe players must implement Werner SF3.
-- Werner SF3 supports multiple different compression formats.
-- The "scom" sub-chunk found in specification versions 4.0.3 and earlier is now obsolete.
-- Incompatible SF compression formats (.sfark, .sfpack, .sf2pack, .sfq) are prohibited. You should use Werner SF3.
-- When Werner SF3 is in use, the size of smpl is not required to be a multiple of two, and the surrounding LIST chunk isn't padded to a multiple of two.
-- Because cognitone-formatted banks are not valid Werner SF3 banks, they are considered an incompatible SF compression format, and are therefore not allowed.
+### 6.1b.1 What is SFe Compression?
+
+SFe Compression is the compression encoding system used by SFe, based on the earlier [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) system widely used by the open source community.
+
+By standardising on Werner SF3 in the form of SFe Compression, we will hopefully ensure that everyone uses the same compression formats. Due to this, we will only make small changes to SFe Compression which correspond to updates to the Werner SF3 specification by other SF player programs. To achieve this, all SFe players should implement Werner SF3.
+
+### 6.1b.2 File identification for SFe Compression
+
+The `wMajor` value in the `ifil` sub-chunk is set to `3` instead of `2`. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
+
+### 6.1b.3 sfSampleType in shdr sub-chunk
+
+Bit 4 of the `sfSampleType` field indicates a sample that has received some kind of compression. While most Werner SF3 compatible programs compress the samples using the Vorbis format, it cannot be assumed. SFe players must determine the encoding that is used for each sample. 
+
+For a sample to be valid:
+- the type of compression and/or encoding must be recognised and supported by the program.
+- the compression and/or encoding format must be valid.
+- the compressed sample must only have one channel.
+
+A sample is not valid if any of these conditions are not true. If a sample is not valid, then all instruments and presets that use the sample should be rejected.
+
+### 6.1b.4 Interpretation of sample data index fields in shdr sub-chunk
+
+If bit 4 of the `sfSampleType` field is set, then the interpretation of the four sample data index fields changes:
+
+- `dwStart` points to the first byte of the compressed byte stream relative to the beginning of the `smpl` sub-chunk.
+- `dwEnd` points to the last byte of the compressed byte stream, instead of the first zero-valued sample data point after the sample data in SF2.04.
+- `dwStartLoop` and `dwEndLoop` specify loop points relative to the start of the individual uncompressed sample data, in sample data points.
+
+If bit 4 of the `sfSampleType` field is clear, then the sample data index fields should be interpreted as in SF2.04.
+
+### 6.1b.5 Using both compressed and uncompressed samples in the same file
+
+You can use both compressed and uncompressed samples with SFe Compression. Simply place uncompressed PCM samples at the beginning of the `smpl` sub-chunk before the compressed sample byte stream. Because each sample is compressed individually, the resulting byte streams of all encoded samples are written to the `smpl` sub-chunk. The `smpl` sub-chunk may also contain uncompressed little-endian PCM samples.
+
+For compressed byte streams, it is not necessary to add fourty-six zero-valued sample data points after each sample. The length of the `smpl` sub-chunk is not required to be a multiple of two for compressed banks, and its surrounding `LIST` chunk is also not padded to a multiple of two as a consequence.
+
+### 6.1b.6 Unsupported features
+
+Compressed samples are always 16-bit samples. They do not make use of the `sm24` (or `sm32`) sub-chunk. If an `sm24` sub-chunk is present, its respective byte counterparts to the compressed byte stream stored in the `smpl` sub-chunk remain unused. Since all uncompressed PCM samples are stored before compressed samples in the `smpl` sub-chunk, the size of the `sm24` sub-chunk is minimised. The `sm24` size constraint defined in SF2.04 therefore no longer applies in compressed banks.
+
+Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero. 
+
+The "scom" sub-chunk found in draft milestones 4.0.3 and earlier is now obsolete. Do not use this sub-chunk in SFe 4.
+
+### 6.1b.7 Proprietary compression formats
+
+The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (.sfark, .sfpack, .sf2pack, .sfogg, .sfq, Cognitone SF4) must not be used. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression.
 
 * * *
 
