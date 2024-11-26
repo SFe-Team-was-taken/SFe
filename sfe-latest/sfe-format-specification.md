@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Version 4.0.10 (draft specification) - November 2024 refresh
+## Version 4.0.20241126a (Draft Specification) - 4.0.11 development
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,6 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| This version  | November 26, 2024    | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 4.0.10        | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits <br> Updated structure in section 4 <br> Fixed a pronoun <br> Merged SFe32 and SFe64 into a single specification once again <br> Added section about chunk header types and long term support of SFe 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 4.0.9b        | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -57,23 +58,16 @@ The revision history table refers to development versions as "This version" and 
 
 * * *
 
-## 0.2 Disclaimers
+## 0.2 Copyright and Trademark Disclaimers
 
-We don't own the rights to use the term "Soundfont," so the term SF is used instead.
+SoundFont® is a registered trademark of Creative Technology Ltd.
 
-The trademark rights to the term "Soundfont" belong to Creative Technology Ltd.
+To avoid confusion with the official SoundFont standard, the file format is referred throughout to as "SF" and/or "SFe".
 
-That being said, "soundfont" is rapidly becoming a genericised word via the actions of the VGM (video game music) and lightsaber communities (despite the lightsaber community not using .sf2 files, and misusing the term for another format).
+That being said, "soundfont" is rapidly becoming a genericised word via the actions of the VGM (video game music) and lightsaber communities. If you are a member of the VGM, lightsaber, or another community, by not appropriating "SoundFont" for your unrelated formats, you can help keep the meaning of the trademark.
 
-We urge rights holders (Creative Technology Ltd.) to prevent the lightsaber community from appropriating the trademark for their unrelated format.
+Any excerpts from the SF 2.04 specification are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
 
-All excerpts from the SF 2.04 specification are copyrighted by E-mu Systems or Creative Technology Ltd, and are only used for reference. Everything should fall under fair use rights.
-
-We are confident that the base file format is not copyrightable, but we are able to take this document down if necessary.
-
-This is a draft. Expect errors, and feel free to report them. Sylvia-leaf has access to a computer with a Sound Blaster X-Fi Titanium, so they will be able to test or reproduce any issues found on real hardware.
-
-Do not use "draft" specifications (version number x.y.zL) to base final products on. Always refer to a "final" specification (version number x.yL).
 
 * * *
 
@@ -93,9 +87,17 @@ For the benefit of the SFe community, please:
 - share all modifications implemented in a program under this license
 - do not remove the link to the latest version of the specification
 
-The above requirements are not required due to requirements listed by the Open Source Definition, but are good practice when redistributing the specification. 
+The above guidelines are not required due to requirements listed by the Open Source Definition, but are good practice when redistributing the specification. 
 
 This specification is provided "as-is" without any warranty.
+
+* * *
+
+## 0.2b Draft Disclaimer
+
+This is a draft. Expect errors, and feel free to report them. Sylvia-leaf has access to a computer with a Sound Blaster X-Fi Titanium, so they will be able to test or reproduce any issues found on real hardware.
+
+Do not use "draft" specifications (version number x.y.zL) to base final products on. Always refer to a "final" specification (version number x.yL).
 
 * * *
 
@@ -118,9 +120,11 @@ SFe Team members:
 - spessasus
 - davy7125
 
-Thanks to these people for suggestions: derselbst, mawe42, Saga
-
 Want to join the SFe Team? Please contact sylvia-leaf using the contacts in section 0.3.
+
+## 0.3b Special thanks to...
+
+Thanks to these people for suggestions: derselbst, mawe42, sagamusix
 
 * * *
 
@@ -130,10 +134,12 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
 * [SF-enhanced (SFe) 4 specification](#sf-enhanced-sfe-4-specification)
   * [0.1 Revision history](#01-revision-history)
   * [0.1a Specification Versioning](#01a-specification-versioning)
-  * [0.2 Disclaimers](#02-disclaimers)
+  * [0.2 Copyright and Trademark Disclaimers](#02-copyright-and-trademark-disclaimers)
   * [0.2a License](#02a-license)
+  * [0.2b Draft Disclaimer](#02b-draft-disclaimer)
   * [0.3 Updates and comments](#03-updates-and-comments)
   * [0.3a SFe Team](#03a-sfe-team)
+  * [0.3b Special thanks to...](#03b-special-thanks-to)
   * [0.4 Table of contents](#04-table-of-contents)
   * [0.5 Illustrations](#05-illustrations)
 * [Section 1: Introduction](#section-1-introduction)
@@ -149,13 +155,13 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [2.1 Data structure terminology](#21-data-structure-terminology)
   * [2.2 Synthesis terminology](#22-synthesis-terminology)
   * [2.3 Parameter terminology](#23-parameter-terminology)
-* [Section 3: RIFF and RF64 structure](#section-3-riff-and-rf64-structure)
-  * [3.1 General RIFF and RF64 file structures](#31-general-riff-and-rf64-file-structures)
+* [Section 3: RIFF-type format structure](#section-3-riff-type-format-structure)
+  * [3.1 General RIFF-type format structures](#31-general-riff-type-format-structures)
   * [3.1a Chunk header types](#31a-chunk-header-types)
   * [3.2 Chunks and subchunks in version 4](#32-chunks-and-subchunks-in-version-4)
   * [3.3 Error handling](#33-error-handling)
-* [Section 4: RF64 file format of SFe, version 4.0](#section-4-rf64-file-format-of-sfe-version-40)
-  * [4.1-4.4 File structure of version 4](#41-44-file-structure-of-version-4)
+* [Section 4: RIFF-type file format of SFe, version 4.0](#section-4-riff-type-file-format-of-sfe-version-40)
+  * [4.1-4.4 File structure of SFe version 4.0](#41-44-file-structure-of-sfe-version-40)
   * [4.5 Type definitions](#45-type-definitions)
   * [4.5a File format extensions](#45a-file-format-extensions)
 * [Section 5: "info-list" chunk](#section-5-info-list-chunk)
@@ -180,6 +186,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
   * [6.1b About compression in SFe](#61b-about-compression-in-sfe)
   * [6.2a "sm24" and "sm32" sub-chunk](#62a-sm24-and-sm32-sub-chunk)
   * [6.2b Using 8-bit samples](#62b-using-8-bit-samples)
+  * [6.2c Orphaned sm24 and sm32 sub-chunk](#62c-orphaned-sm24-and-sm32-sub-chunk)
   * [6.3 Looping rules](#63-looping-rules)
 * [Section 7: "pdta-list" chunk](#section-7-pdta-list-chunk)
   * [7.1 "Hydra" structure](#71-hydra-structure)
@@ -260,7 +267,7 @@ Want to join the SFe Team? Please contact sylvia-leaf using the contacts in sect
 - To create files that support SFe, you will need:
     - The SFe format, compatibility, and program specifications
     - E-mu's provided documents for SF 2.04 ([sfspec24.pdf](https://freepats.zenvoid.org/sf2/sfspec24.pdf))
-    - The Werner SF3 specification ([draft by FluidSynth](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format))
+    - The Werner SF3 specification ([draft by FluidSynth](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format)) - this will be integrated into SFe for 4.0.11 final release.
 - All features from version 2.04 will be retained.
 
 * * *
@@ -341,6 +348,7 @@ Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbi
 - It is commonly used by open source programs.
 - This is the reason why this format is not called .SF3 (it was in 4.0.1, but after **feedback by derselbst** and **mawe42** on GitHub, we changed it to SFe).
 - SFe files will be compatible with Werner SF3 for compression.
+- Currently, the plan is to include the full Werner SF3 specification in 4.0.11.
 
 Another development was done by Cognitone, which created an open source program that can losslessly compress SoundFont® 2 files (with FLAC). This was done in 2017.
 
@@ -379,15 +387,16 @@ Here are a few things that are planned for SFe:
 
 - Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5 seems to be planned for LTS for legacy SF.)
 - Negotiations with more SF program developers such as FluidSynth and Bassmidi will start soon.
-- For version 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205).
+- Draft milestone 4.0.11 will include SFe Compression, the standardised version of Werner SF3. If you create SF3 compatible banks using the SFe Compression specifications, then it should run on all SF3 compatible players. 
+- For version 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205). Support for the related `PNMM` sub-chunk will also be included.
 - A MIDI lyrics specification for MIDI players will become available in version 4.2.
-- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.2.
+- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.2. Partial reverse engineering is currently underway to ensure that SFe features do not conflict with SFCF.
 
 ## 1.5b Long term support of SFe 4
 
 SFe 4 is a "long-term support" version, and will get feature updates along with later versions such as SFe 5. While this is the case, some features are structurally incompatible with SF2.04, and will not be available in SFe 5.
 
-If a major version of SFe is the main version used for a longer time than expected, then it can be declared as another LTS version. Such a LTS version will be declared in this section.
+If an earlier major version of SFe is the main version used for a longer time than expected, then it can be declared as another LTS version. Such a LTS version will be declared in this section.
 
 # Section 2: Terms and abbreviations
 
@@ -395,9 +404,34 @@ If a major version of SFe is the main version used for a longer time than expect
 
 The data structure terminology used in SFe version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
+- Branch - A subdivision of a tree strucutre containing either sub-branches or leaves that include values.
 - BW64 - Broadcast Wave 64, used in the RF64 Header.
+- Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered proprietary compression, usage is not allowed in SFe.
+- Dynamic RIFF - A RIFF-type format by spessasus to allow formats to scale beyond 64-bit, while saving space. Implemented in future SFe versions. 
+- FLAC - A lossless audio compression format commonly used in open-source software. Supported by Werner SF3, but not commonly used for that purpose.
+- Leaf - A value found in a tree structure at the end of a branch.
+- Lossless compression - Said of a compression format that retains all of its data when compressed. In terms of audio, there is no loss in quality in losslessly compressed audio.
+- Lossy compression - Said of a compression format that does not retain all of its data when compressed. In terms of audio, there is a loss in quality in lossily compressed audio.
+- OGG - See "Vorbis".
+- Opus - A lossy audio compression format, slightly newer than OGG but with less wide adoption.
+- Proprietary Compression - Any non-Werner SF3 SoundFont® compression system. Usage is not allowed in SFe.
 - RF64 - See "RIFF64".
-- RIFF64 - A format mostly compatible with RIFF, SF2.04's basic file format. This is 64-bit, unlike RIFF, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
+- RIFD - See "Dynamic RIFF".
+- RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
+- RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in the SF2.04 specification for more information.
+- SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
+- SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
+- SFe-compatible - Indicates files, data, synthesisers, hardware or software that conform to the SFe specification.
+- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
+- Tree structure - A structure consisting of branches and leaves.
+- Version 3 - See "Werner SF3".
+- Version 4 - See "SFe 4".
+- Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
+- Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs.
+
+And these changes:
+
+- RIFF - The 32-bit static RIFF format used by SoundFont® 2.04 and the unmodified version of the format described by Microsoft in 1991.
 
 * * *
 
@@ -405,45 +439,29 @@ The data structure terminology used in SFe version 4.0 is broadly the same as th
 
 The synth terminology used in SFe version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
-- AWE64 - The successor to the famous AWE32, added things like waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
-
-- DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe.
-
+- AWE64 - The successor to the famous AWE32, adding features such as waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
+- DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe. 
 - EMU10K1 - The successor to the EMU8000, designed by E-mu® for the Creative Labs SB Live!.
-
 - EMU10K2 - An update to the EMU10K1, designed by E-mu® for the Creative Labs SB Audigy.
-
 - EMU20K1 - The successor to the EMU10K2, designed by E-mu® for the Creative Labs SB X-Fi.
-
 - EMU20K2 - An update to the EMU20K1, please refer [here](https://en.wikipedia.org/wiki/Sound_Blaster_X-Fi) for information on SB X-Fi cards that include it.
-
 - Hold - The portion of the DAHDSR envelope after the attack portion, but before the decay portion starts.
-
+- Legacy sound card - A Sound Blaster® (or other sound card) that uses a hardware MIDI synthesiser capable of using banks in the SoundFont® format.
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
-
-- Sound Blaster® Live! — The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
-
+- Sharp - Said of a tone that is higher in pitch than another reference tone.
+- SB - Abbreviation of "Sound Blaster®". For example, "SB X-Fi".
+- Sound Blaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
 - Sound Blaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
-
 - Sound Blaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
-
-- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the 2.04 specification for more information.
-
-- Version 3 - Refers to Werner SF3, a small upgrade to Soundfont® 2.04 created by Werner Schweer to allow an open source compression solution for SF programs (usually ogg, but can be any format).
-
-- Version 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the unofficial Cognitone .sf4 file format, which is an incompatible variant of Werner SF3.
+- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the SF2.04 specification for more information.
 
 
 These changes:
 
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
-
 - Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
-
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
-
 - Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
-
 - MIDI Bank - Groups of up to 128 presets, which can be selected by the two MIDI "Bank Select" control changes (CC00 and CC32).
 
 And these removals:
@@ -454,27 +472,30 @@ And these removals:
 
 ## 2.3 Parameter terminology
 
-The parameter terminology used in version 4 is broadly the same as the E-mu® SF2.04 standard, with these additions:
+The parameter terminology used in SFe version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
 
 - Amplification - An increase in volume or amplitude of a signal.
 - Flat - Said of a tone that is lower in pitch than another reference tone.
 
-# Section 3: RIFF and RF64 structure
+# Section 3: RIFF-type format structure
 
-## 3.1 General RIFF and RF64 file structures
+## 3.1 General RIFF-type format structures
 
-### The RIFF format is the file format used in the SoundFont® 2.x, Werner SF3 and SFe standards.
+RIFF-type formats are the file format used in SoundFont® 2.04, Werner SF3 and SFe standards. There are a few different RIFF-type format structures:
 
-### The RIFF64 format (also called RF64) is a file format used in SFe. It is compatible with RIFF.
+- RIFF is the basic version with 32-bit chunk headers, and is used in SoundFont® 2.04 and Werner SF3.
+- RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
+- RIFX is a big-endian version of 32-bit RIFF, while RIFF and RIFF64 are little-endian formats.
+- RIFD is the dynamic version of RIFF developed by spessasus. It will be included in a future version of SFe.
 
-Both RIFF and RIFF64 are created in building blocks known as "chunks."
+RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
 - A unique four character code (FourCC).
 - "ckID": type of data in chunk
-- "ckSize": size of chunk (32-bit header), equal to 4,294,967,295 (64-bit header)
-- "ds64": size of chunk (64-bit header)
+- "ckSize": size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
+- "ds64": size of chunk (RIFF64 only)
 - "ckDATA\[ckSize\]": the data inside the chunks, including pad bytes.
 
 Chunks can be further divided into "sub-chunks."
@@ -483,16 +504,18 @@ Orders of chunks in all SF files are strictly defined, as in versions 2 and 3, a
 
 ## 3.1a Chunk header types
 
-In SFe, there are different chunk header types that are used in the format. Currently, there are two defined chunk header types:
+In SFe, there are different chunk header types that are used in the format. These correspond to different RIFF-type formats. Currently, there are two defined chunk header types:
 
 - 32-bit static
     - This is the same as legacy SF
+    - This corresponds to RIFF.
 - 64-bit static
     - RIFF is replaced with RF64
     - A ds64 chunk is added
     - To prevent loading by incompatible players, the `sfbk` fourcc is replaced with `sfen` (**SF**-**en**hanced)
+    - This corresponds to RIFF64.
 
-Future versions of SFe may define different chunk header types. In particular, we are planning on introducing a header type called "Dynamic", allowing scaling of chunk sizes beyond 64-bit while saving space for banks that don't use the full 64 bits (which is currently every bank).
+Future versions of SFe may define different chunk header types. In particular, we are planning on introducing a header type called "Dynamic", which corresponds to RIFD, and allows scaling of chunk sizes beyond 64-bit while saving space for banks that don't use the full 64 bits (which is currently every bank).
 
 * * *
 
@@ -501,9 +524,7 @@ Future versions of SFe may define different chunk header types. In particular, w
 Like SoundFont® 2.04, there are 3 main chunks:
 
 1.  "INFO" Chunk: contains important information about the soundfont.
-
 2.  "sdta" Chunk: A single sub-chunk containing audio samples.
-
 3.  "pdta" Chunk: Nine sub-chunks (in the "Hydra" structure, named after a many-headed beast) containing the parameters about how the audio samples should be played. (According to E-mu, the hydra has nine heads. Cut one off, and another two grow.)
 
 The three main chunks should appear in this order, and the nine sub-chunks of the "pdta" chunk should appear in the order described.
@@ -512,7 +533,7 @@ The three main chunks should appear in this order, and the nine sub-chunks of th
 
 ## 3.3 Error handling
 
-The RIFF and RF64 formats have error checking features about:
+RIFF-type formats have error checking features about:
 
 - The size of the file
 - The length of the chunks
@@ -524,9 +545,9 @@ Using this information, it is possible to check for damage to an SF(e) file:
 - Like E-mu® SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
 - Please refer to the File Repair Specification for help on how to create such a program.
 
-# Section 4: RF64 file format of SFe, version 4.0
+# Section 4: RIFF-type file format of SFe, version 4.0
 
-## 4.1-4.4 File structure of version 4
+## 4.1-4.4 File structure of SFe version 4.0
 
 This is the structure of a file with 64-bit chunk header. We will rework this file structure using a similar four-level structure as the original `SFSPEC24.PDF`, as that makes it easier to format the many different header structures.
 
@@ -862,8 +883,10 @@ The defined values of the `SFty` chunk are:
 
 - the 12 bytes representing `SFe-static` as 10 UTF-8 characters followed by two zero bytes.
 - the 20 bytes representing `SFe-static with TSC` as 19 UTF-8 characters followed by one zero byte.
+- the 20 bytes representing `SFe-static (8-bit)` as 18 UTF-8 characters followed by two zero bytes.
+- the 28 bytes representing `SFe-static (8-bit) with TSC` as 27 UTF-8 characters followed by one zero byte.
 
-The field should conventionally never be longer than 20 bytes.
+The field should conventionally never be longer than 28 bytes.
 
 The UTF-8 should be treated as case-sensitive. In other words, `sfe-static with tsc` is not the same as `SFe-static with TSC`.
 
@@ -931,9 +954,11 @@ The `BYTE` value `byLeaf` represents the leaf of the feature. Leaves correspond 
 
 The `DWORD` value `dwFlags` represents the feature flags themselves, which represent different parts of the feature. Depending on the `byLeaf` value, it can be a number, a series of bytes, etc.
 
-A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (Werner SF3 sample compression formats). An exhaustive list of feature flags and their corresponding tree values can be found in the compatibility specification.
+A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (Werner SF3 sample compression formats). While the `flag` sub-chunk uses a tree structure, it should be noted that no branch includes sub-branches; the branches only include leaves.
 
 Branch numbers between `240` (`F0`) and `255` (`FF`) are private-use branches that will not be defined in the SFe specification itself, and are free to be used by programs.
+
+An exhaustive list of feature flags and their corresponding tree values can be found in the compatibility specification. This will update with each SFe version.
 
 The terminal record should never be accessed in normal usage, but its value of `byBranch` and `byLeaf` have strict values depending on the specification version. Any records after the terminal record or with a higher tree value combination (except for the defined private-use area) should be ignored.
 
@@ -988,33 +1013,34 @@ These sub-chunks are optional.
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
 - If the ifil version is below 2.04 (signifying an E-mu Systems® designed SoundFont® standard before 2.04), both sm24 and sm32 are ignored.
-
 - If the ifil version is exactly 2.04 (signifying the E-mu Systems® designed SoundFont® 2.04 standard), only sm32 is ignored. The sm24 sub-chunk is still used.
-
 - If these sub-chunks are not exactly half the size of the smpl sub-chunk (or otherwise invalid), the data should be ignored.
-
 - If only the sm32 sub-chunk is invalid, the sm24 sub-chunk should still be loaded.
-
 - However, if only the sm24 sub-chunk is invalid, both sub-chunks should be ignored.
-
 - If the sm24 sub-chunk is ignored, the synthesizer should only attempt to render the first 16 bits of the samples contained within the smpl sub-chunk.
-
 - If only the sm32 sub-chunk is ignored, the synthesizer should attempt to render both the smpl and sm24 sub-chunks, resulting in a 24-bit sample.
-
 - Please only use `sm32` with 64-bit chunk headers.
 
 * * *
 
 ## 6.2b Using 8-bit samples
 
-If the smpl sub-chunk is missing, but the sm24 or sm32 sub-chunks are present, 8-bit sample mode is to be activated.
+If the smpl sub-chunk is missing, but the `sm24` or `sm32` sub-chunks are present, then the `sm24` or `sm32` sub-chunk is considered "orphaned". 
+
+In this case, the value of the `SFty` sub-chunk inside the `ISFe-list` sub-chunk should be checked. If it is equal to `SFe-static (8-bit)` or `SFe-static (8-bit) with TSC`, then 8-bit sample mode is to be activated.
 
 - The sample depth is eight bits.
 - The length of the sm24 sub-chunk should be rounded up to the nearest byte, as if the sub-chunk was being used with a smpl sub-chunk.
-- If somehow, you've got both a sm24 and a sm32 sub-chunk, but no smpl sub-chunk, the sm24 sub-chunk is the most significant byte, and 16-bit sample playback is assumed.
-- Editing software should give a warning if there is a sm24 and a sm32 sub-chunk but no smpl sub-chunk, and should convert it to a 2.01-compliant 16-bit format.
 - This mode is only enabled if all samples are 8-bit. You cannot mix 8-bit and higher sample depths.
-- SFe version 4 does not support non-standard sample bit depths (6-bit, 12-bit, 18-bit, etc.)
+- SFe version 4.0 does not support non-standard sample bit depths (6-bit, 12-bit, 18-bit, etc.)
+
+If there is an orphaned `sm24` or `sm32` sub-chunk, and the `SFty` sub-chunk is missing or is not equal to a value that corresponds to 8-bit samples being present, then the file should be rejected as Structurally Unsound. 
+
+## 6.2c Orphaned sm24 and sm32 sub-chunk
+
+If somehow, you've got both a sm24 and a sm32 sub-chunk, but no smpl sub-chunk, the sm24 sub-chunk is the most significant byte, and 16-bit sample playback is assumed. Editing software should give a warning if there is a sm24 and a sm32 sub-chunk but no smpl sub-chunk, and should convert it to a 2.01-compliant 16-bit format.
+
+This behaviour should be followed if supported, regardless of whether 8-bit sample playback support is actually supported.
 
 * * *
 
@@ -1514,50 +1540,46 @@ A SiliconSFe specification will be available soon.
 
 This glossary is broadly the same as the SF2.04 specification's glossary, with these additions and changes:
 
-- Amplification - An increase in volume or amplitude of a signal.
-
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
-
-- AWE64 - The successor to the famous AWE32, added things like waveguide synthesis. Use the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
-
+- AWE64 - The successor to the famous AWE32, adding features such as waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
+- Branch - A subdivision of a tree strucutre containing either sub-branches or leaves that include values.
 - BW64 - Broadcast Wave 64, used in the RF64 Header.
-
 - Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
-
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
-
-- DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe.
-
+- Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered proprietary compression, usage is not allowed in SFe.
+- DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe. 
 - Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
-
+- Dynamic RIFF - A RIFF-type format by spessasus to allow formats to scale beyond 64-bit, while saving space. Implemented in future SFe versions. 
 - EMU10K1 - The successor to the EMU8000, designed by E-mu® for the Creative Labs SB Live!.
-
 - EMU10K2 - An update to the EMU10K1, designed by E-mu® for the Creative Labs SB Audigy.
-
 - EMU20K1 - The successor to the EMU10K2, designed by E-mu® for the Creative Labs SB X-Fi.
-
 - EMU20K2 - An update to the EMU20K1, please refer [here](https://en.wikipedia.org/wiki/Sound_Blaster_X-Fi) for information on SB X-Fi cards that include it.
-
-- Flat - Said of a tone that is lower in pitch than another reference tone.
-
+- FLAC - A lossless audio compression format commonly used in open-source software. Supported by Werner SF3, but not commonly used for that purpose.
 - Hold - The portion of the DAHDSR envelope after the attack portion, but before the decay portion starts.
-
+- Leaf - A value found in a tree structure at the end of a branch.
+- Legacy sound card - A Sound Blaster® (or other sound card) that uses a hardware MIDI synthesiser capable of using banks in the SoundFont® format.
+- Lossless compression - Said of a compression format that retains all of its data when compressed. In terms of audio, there is no loss in quality in losslessly compressed audio.
+- Lossy compression - Said of a compression format that does not retain all of its data when compressed. In terms of audio, there is a loss in quality in lossily compressed audio.
 - MIDI Bank - Groups of up to 128 presets, which can be selected by the two MIDI "Bank Select" control changes (CC00 and CC32).
-
+- OGG - See "Vorbis".
+- Opus - A lossy audio compression format, slightly newer than OGG but with less wide adoption.
+- Proprietary Compression - Any non-Werner SF3 SoundFont® compression system. Usage is not allowed in SFe.
 - RF64 - See "RIFF64".
-
-- RIFF64 - A format mostly compatible with RIFF, SF2.04's basic file format. This is 64-bit, unlike RIFF, which is 32-bit. Therefore, the maximum file size is above four gigabytes in size.
-
+- RIFD - See "Dynamic RIFF".
+- RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
+- RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in the SF2.04 specification for more information.
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
-
-- Soundblaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
-
-- Soundblaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
-
-- Soundblaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
-
-- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the 2.04 specification for more information.
-
-- Version 3 - Refers to Werner SF3, a small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SF programs (usually ogg, but can be any format).
-
-- Version 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the unofficial Cognitone .sf4 file format, which is a variant of Werner SF3.
+- SB - Abbreviation of "Sound Blaster®". For example, "SB X-Fi".
+- SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
+- SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
+- SFe-compatible - Indicates files, data, synthesisers, hardware or software that conform to the SFe specification.
+- Sound Blaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
+- Sound Blaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
+- Sound Blaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
+- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
+- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the SF2.04 specification for more information.
+- Tree structure - A structure consisting of branches and leaves.
+- Version 3 - See "Werner SF3".
+- Version 4 - See "SFe 4".
+- Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
+- Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs.
