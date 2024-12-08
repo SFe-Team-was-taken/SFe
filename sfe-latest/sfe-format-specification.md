@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Version 4.0.20241208a (Draft Specification) - 4.0.11 development
+## Version 4.0.20241208b (Draft Specification) - 4.0.11 development
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,19 +13,19 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | December 8, 2024     | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c <br> Added the SFe Compression 1.0 standard based on FluidSynth Werner SF3 August 2021 specification                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| This version  | December 8, 2024     | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c <br> Added the SFe Compression 1.0 standard based on FluidSynth Werner SF3 August 2021 specification <br> Versioning update again <br> More consistent use of words and formatting                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | 4.0.10        | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits <br> Updated structure in section 4 <br> Fixed a pronoun <br> Merged SFe32 and SFe64 into a single specification once again <br> Added section about chunk header types and long term support of SFe 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 4.0.9b        | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| 4.0.9a        | November 14, 2024    | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 4.0.9         | November 14, 2024    | Updated definitions of "case-insensitive" and "case-sensitive" to use UTF-8 instead of Ascii. <br> 7.2, 7.6 and 7.10 now use UTF-8 instead of ascii. <br> Changed wPreset to use the ISFe bank for implementation in 4.04. <br> Because the preset library management system values are DWORDs, reworking them for 4.05. <br> Added license <br> Re-added 9.7 from SF2.04 with updated information about implementation accuracy <br> Clarified incompatibility of cognitone-formatted banks <br> Changed format extensions <br> Changed ISFe-list sub-chunk to a list <br> Added SFty sub-chunk in ISFe-list sub-chunk                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.0.8         | October 30, 2024     | Started to fix SFe RIFF structure for 4.1-4.4 <br> Now consistent with WernerSF3 <br> Clarified versioning information                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | 4.0.7c        | October 17, 2024     | Fixed some more things <br> Name update                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 4.0.7b        | October 12, 2024     | Updated program SFe32-to-SFe64 specification <br> Fix capitalisation in 1.5a <br> Remove extraneous table of contents entries <br> Fix more registered trademark symbols <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| 4.0.7a        | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4.0.7         | October 10, 2024     | Table of contents added <br> Merge the pages into one <br> Fix the typos and formatting <br> Special thanks for spessasus for authoring these changes! <br>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 4.0.6         | October 3, 2024      | Added milestone classification for some draft specifications in 0.1a  <br>Removed all SFe32-specific information, renamed to SFe64 spec  <br>Renamed 3.1a to 3.1, 6.1a to 6.1, 6.1b to 6.1a, 6.2a to 6.2, and 6.2b to 6.2a, for consistency  <br>Delayed modulator update to version 4.1  <br>Removed 7.1a, because it's not relevant to versions before 5.00  <br>Added LSB to example value in 10.1a  <br>Added more information about future plans  <br>Reworked SFe64 to be a simple 64-bit extension to SFe32 for now, features will come later                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 4.0.5c        | September 2, 2024    | Added clarification for timeframe in which 0.4 will be filled out  <br>Rewritten 1.1a to be clearer, moving links from 1.1b  <br>Removed redundant "important" words in 1.1b  <br>Moved some compatibility info from sections 1.3 and 3.1 to compatibility spec  <br>ROM samples no longer listed as deprecated in 3.2, 5.4, 5.5 and 6.1a  <br>Error handling plans for version 4.00.6 added in 3.3  <br>Fixed capitalisation in 4.5  <br>Added section 4.5a for file format extensions, removed .sf32 and .sf64  <br>Removed isfe reference for 5.1, SFe32 programs can determine WernerSF3 with wMajor=3  <br>Fixed reference to compatibility spec in 5.1a, compatibility spec is not used in SFe64  <br>Rewritten 5.2 to make it clearer, and to mention default modulator definitions for 4.01.  <br>Added heading 3 in formatting of section 7 and section 7.1a for subchunk size alignment.  <br>Removed reverb/chorus definitions in 8.1.2, 8.1.3 and 9.1.5 (will be restored in 4.1)  <br>Fixed some other typos and added a few other clarifications                                                                                                          |
 | 4.0.5b        | September 1, 2024    | Clarified information about sample rates in section 7.10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 4.0.5a        | August 30, 2024      | All remaining SF32/SF64 references should now be renamed to SFe32/SFe64  <br>Added ROM sample specification for the AWE ROM emulator  <br>Replaced draft number references with the new versioning system  <br>Added clarification for the compatibility specification versioning  <br>Fixed mistake in INFO chunk information in the compatibility specification  <br>Clarified that this document is not created by E-mu  <br>Added placeholder for the SF Server link  <br>Specific version number added to title  <br>Added instructions to compatibility spec about how to handle incompatible compression  <br>Error messages modified to remove scom reference and fix version 3 reference to version 4  <br>Added section 1.5a to mention future plans for the SFe format  <br>Added 0.1a to describe specification versioning  <br>Removed unnecessary information about Creative Technology  <br>Proprietary compression formats are now forbidden in the program specification  <br>Added references to SFe Team; a list of developers can be found in 0.3a.  <br>Next version for release by early 2025 will have the SFe file repair program specification |
+| 4.0.5         | August 30, 2024      | All remaining SF32/SF64 references should now be renamed to SFe32/SFe64  <br>Added ROM sample specification for the AWE ROM emulator  <br>Replaced draft number references with the new versioning system  <br>Added clarification for the compatibility specification versioning  <br>Fixed mistake in INFO chunk information in the compatibility specification  <br>Clarified that this document is not created by E-mu  <br>Added placeholder for the SF Server link  <br>Specific version number added to title  <br>Added instructions to compatibility spec about how to handle incompatible compression  <br>Error messages modified to remove scom reference and fix version 3 reference to version 4  <br>Added section 1.5a to mention future plans for the SFe format  <br>Added 0.1a to describe specification versioning  <br>Removed unnecessary information about Creative Technology  <br>Proprietary compression formats are now forbidden in the program specification  <br>Added references to SFe Team; a list of developers can be found in 0.3a.  <br>Next version for release by early 2025 will have the SFe file repair program specification |
 | 4.0.4         | July 4, 2024         | Clarified about legacy compliance and TSC in section 3.2.  <br>Added more clarification in revision history  <br>8-bit mode information updated again  <br>Added info about how SFe32 can be parsed as SFe64  <br>More information about the pdta structure added  <br>Real time synthesis is no longer mandatory  <br>Renamed to version 4 and updated versioning scheme  <br>Added preliminary Werner SF3 compatibility  <br>Removed scom sub-chunk  <br>For now, removed increased character limits in SFe32.  <br>Changed sleaf's name on the contact.  <br>Added information on bank select and TSC mode  <br>Added the isfe sub-chunk for SFe64  <br>One mention of "back and forth" now "bidirectional"  <br>Added and clarified some terms in glossary  <br>Stated that incompatible compression is no longer allowed in 6.1b.  <br>Renamed SF32 and SF64 to SFe32 and SFe64.  <br>Added clarification of "SFe format developers" in 1.5.  <br>Moved compatibility information to the compatibility specification.  <br>Added 5.1a to describe ifil sub-chunk versioning.                                                                                       |
 | 4.0.3         | September 6, 2022    | Added clarification  <br>Renamed 32-bit SF version 3 to SF32  <br>Overall format has been renamed to SFe (SF enhanced)  <br>wBank bit 9 is no longer reserved.  <br>Silicon SF banks for SF64  <br>Added CM reset  <br>Changed isng value  <br>Fixed some pdta sub-chunks for SF64  <br>Corrected sfSampleType reference from bit 15 to bit 16.  <br>Renamed "back and forth" to "bidirectional"  <br>Changed "improved" to "fixed" in revision log  <br>Added a nicer diagram (can you find it?)  <br>Fixed extraneous reference to wBank2 in section 4.  <br>Modified information about the scom sub-chunk.  <br>8-bit mode information updated                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | 4.0.2         | July 22, 2022        | Renamed 64-bit SF3 to SF64 version 3  <br>32-bit SF3 is now 32-bit SF version 3  <br>Changed ASCII to UTF-8  <br>Fixed the wPreset and wBank (removed wBank2)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -43,13 +43,13 @@ Final specifications have version numbers in the format x.yL, where x and y are 
 - x is incremented when a change in the SFe format is made in a way that makes the resulting files incompatible with the previous version.
 - y is incremented when there are new features added to the SFe format.
 - SFe should not skip "y" versions.
-- L is incremented when there are small changes made to the specification, if L is absent, then assume that it is "a."
+- L is incremented when there are small changes made to the specification. The first version will not include L.
 - An example of a final specification version would be 4.0.
 
 Draft specification milestones have version numbers in the format x.y.zL, where x, y and z are numbers and L is a letter. In this case, the versioning works similarly to a final specification, but with these changes:
 
 - z is incremented when the draft undergoes a larger change, or large updates are made to the software.
-- L is incremented when there are small changes, but only when pointed out by others.
+- L is incremented when there are small changes, but only when pointed out by others. The first version will not include L.
 - An example of a draft specification version would be 4.0.5.
 
 During the development of specifications, version numbers will be in the format x.y.aaaabbccL, where x, y, z, a, b and c are numbers, and L is a letter. The versioning is similar to final specifications and milestone drafts, but aaaabbcc is the day in which the specification was updated, and L is incremented when updated.
@@ -66,7 +66,7 @@ To avoid confusion with the official SoundFont standard, the file format is refe
 
 That being said, "soundfont" is rapidly becoming a genericised word via the actions of the VGM (video game music) and lightsaber communities. If you are a member of the VGM, lightsaber, or another community, by not appropriating "SoundFont" for your unrelated formats, you can help keep the meaning of the trademark.
 
-Any excerpts from the SF 2.04 specification are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
+Any excerpts from `SFSPEC24.PDF` are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
 
 
 * * *
@@ -103,7 +103,7 @@ Do not use "draft" specifications (version number x.y.zL) to base final products
 
 ## 0.3 Updates and comments
 
-The website "soundfont.com" is dead (last archive.org snapshot we could found was 2012/13), and the provided email on the SF 2.04 spec probably doesn't work, so contact the SFe Team:
+The website "soundfont.com" is dead (last archive.org snapshot we could found was 2012/13), and the provided email in `SFSPEC24.PDF` probably doesn't work, so contact the SFe Team:
 
 - GitHub: https://github.com/SFe-Team-was-taken
 
@@ -158,66 +158,66 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
 * [Section 3: RIFF-type format structure](#section-3-riff-type-format-structure)
   * [3.1 General RIFF-type format structures](#31-general-riff-type-format-structures)
   * [3.1a Chunk header types](#31a-chunk-header-types)
-  * [3.2 Chunks and subchunks in version 4](#32-chunks-and-subchunks-in-version-4)
+  * [3.2 Chunks and subchunks in SFe 4](#32-chunks-and-subchunks-in-sfe-4)
   * [3.3 Error handling](#33-error-handling)
-* [Section 4: RIFF-type file format of SFe, version 4.0](#section-4-riff-type-file-format-of-sfe-version-40)
-  * [4.1-4.4 File structure of SFe version 4.0](#41-44-file-structure-of-sfe-version-40)
+* [Section 4: RIFF-type file format of SFe 4.0](#section-4-riff-type-file-format-of-sfe-40)
+  * [4.1-4.4 File structure of SFe 4.0](#41-44-file-structure-of-sfe-40)
   * [4.5 Type definitions](#45-type-definitions)
   * [4.5a File format extensions](#45a-file-format-extensions)
-* [Section 5: "info-list" chunk](#section-5-info-list-chunk)
-  * [5.1 "ifil" subchunk](#51-ifil-subchunk)
+* [Section 5: `info-list` chunk](#section-5-info-list-chunk)
+  * [5.1 `ifil` subchunk](#51-ifil-subchunk)
   * [5.1a Versioning rules](#51a-versioning-rules)
-  * [5.2 "isng" subchunk](#52-isng-subchunk)
-  * [5.3 "INAM" subchunk](#53-inam-subchunk)
-  * [5.4 "irom" subchunk](#54-irom-subchunk)
-  * [5.5 "iver" subchunk](#55-iver-subchunk)
-  * [5.6 "ICRD" subchunk](#56-icrd-subchunk)
-  * [5.7 "IENG" subchunk](#57-ieng-subchunk)
-  * [5.8 "IPRD" subchunk](#58-iprd-subchunk)
-  * [5.9 "ICOP" subchunk](#59-icop-subchunk)
-  * [5.10 "ICMT" subchunk](#510-icmt-subchunk)
-  * [5.11 "ISFT" subchunk](#511-isft-subchunk)
-  * [5.12 "ISFe" subchunk](#512-isfe-subchunk)
-    * [5.12.1 "SFty" sub-chunk](#5121-sfty-sub-chunk)
-    * [5.12.2 "SFvx" sub-chunk](#5122-sfvx-sub-chunk)
-    * [5.12.3 "flag" sub-chunk](#5123-flag-sub-chunk)
-* [Section 6: "sdta-list" chunk](#section-6-sdta-list-chunk)
-  * [6.1a "smpl" sub-chunk](#61a-smpl-sub-chunk)
+  * [5.2 `isng` subchunk](#52-isng-subchunk)
+  * [5.3 `INAM` subchunk](#53-inam-subchunk)
+  * [5.4 `irom` subchunk](#54-irom-subchunk)
+  * [5.5 `iver` subchunk](#55-iver-subchunk)
+  * [5.6 `ICRD` subchunk](#56-icrd-subchunk)
+  * [5.7 `IENG` subchunk](#57-ieng-subchunk)
+  * [5.8 `IPRD` subchunk](#58-iprd-subchunk)
+  * [5.9 `ICOP` subchunk](#59-icop-subchunk)
+  * [5.10 `ICMT` subchunk](#510-icmt-subchunk)
+  * [5.11 `ISFT` subchunk](#511-isft-subchunk)
+  * [5.12 `ISFe-list` subchunk](#512-isfe-list-subchunk)
+    * [5.12.1 `SFty` sub-chunk](#5121-sfty-sub-chunk)
+    * [5.12.2 `SFvx` sub-chunk](#5122-sfvx-sub-chunk)
+    * [5.12.3 `flag` sub-chunk](#5123-flag-sub-chunk)
+* [Section 6: `sdta-list` chunk](#section-6-sdta-list-chunk)
+  * [6.1a `smpl` sub-chunk](#61a-smpl-sub-chunk)
   * [6.1b SFe Compression](#61b-sfe-compression)
     * [6.1b.1 What is SFe Compression?](#61b1-what-is-sfe-compression)
     * [6.1b.2 File identification for SFe Compression](#61b2-file-identification-for-sfe-compression)
-    * [6.1b.3 sfSampleType in shdr sub-chunk](#61b3-sfsampletype-in-shdr-sub-chunk)
-    * [6.1b.4 Interpretation of sample data index fields in shdr sub-chunk](#61b4-interpretation-of-sample-data-index-fields-in-shdr-sub-chunk)
+    * [6.1b.3 `sfSampleType` in `shdr` sub-chunk](#61b3-sfsampletype-in-shdr-sub-chunk)
+    * [6.1b.4 Interpretation of sample data index fields in `shdr` sub-chunk](#61b4-interpretation-of-sample-data-index-fields-in-shdr-sub-chunk)
     * [6.1b.5 Using both compressed and uncompressed samples in the same file](#61b5-using-both-compressed-and-uncompressed-samples-in-the-same-file)
     * [6.1b.6 Unsupported features](#61b6-unsupported-features)
     * [6.1b.7 Proprietary compression formats](#61b7-proprietary-compression-formats)
-  * [6.2a "sm24" and "sm32" sub-chunk](#62a-sm24-and-sm32-sub-chunk)
+  * [6.2a `sm24` and `sm32` sub-chunk](#62a-sm24-and-sm32-sub-chunk)
   * [6.2b Using 8-bit samples](#62b-using-8-bit-samples)
-  * [6.2c Orphaned sm24 and sm32 sub-chunk](#62c-orphaned-sm24-and-sm32-sub-chunk)
+  * [6.2c Orphaned `sm24` and `sm32` sub-chunk(s)](#62c-orphaned-sm24-and-sm32-sub-chunks)
   * [6.3 Looping rules](#63-looping-rules)
 * [Section 7: "pdta-list" chunk](#section-7-pdta-list-chunk)
   * [7.1 "Hydra" structure](#71-hydra-structure)
-  * [7.2 "phdr" sub-chunk](#72-phdr-sub-chunk)
-    * [achPresetName Changes](#achpresetname-changes)
-    * [wPreset Changes](#wpreset-changes)
+  * [7.2 `phdr` sub-chunk](#72-phdr-sub-chunk)
+    * [`achPresetName` Changes](#achpresetname-changes)
+    * [`wPreset` Changes](#wpreset-changes)
     * [New Bank System](#new-bank-system)
-    * [Definitions of dwLibrary and dwGenre](#definitions-of-dwlibrary-and-dwgenre)
-    * [Do not access the final sfPresetHeader entry](#do-not-access-the-final-sfpresetheader-entry)
-  * [7.3 "pbag" sub-chunk](#73-pbag-sub-chunk)
-  * [7.4 "pmod" sub-chunk](#74-pmod-sub-chunk)
-  * [7.5 "pgen" sub-chunk](#75-pgen-sub-chunk)
-  * [7.6 "inst" sub-chunk](#76-inst-sub-chunk)
-    * [achInstName Changes](#achinstname-changes)
-  * [7.7 "ibag" sub-chunk](#77-ibag-sub-chunk)
-  * [7.8 "imod" sub-chunk](#78-imod-sub-chunk)
-    * [New options for the SFModulator enum](#new-options-for-the-sfmodulator-enum-1)
+    * [Definitions of `dwLibrary` and `dwGenre`](#definitions-of-dwlibrary-and-dwgenre)
+    * [Do not access the final `sfPresetHeader` entry](#do-not-access-the-final-sfpresetheader-entry)
+  * [7.3 `pbag` sub-chunk](#73-pbag-sub-chunk)
+  * [7.4 `pmod` sub-chunk](#74-pmod-sub-chunk)
+  * [7.5 `pgen` sub-chunk](#75-pgen-sub-chunk)
+  * [7.6 `inst` sub-chunk](#76-inst-sub-chunk)
+    * [`achInstName` Changes](#achinstname-changes)
+  * [7.7 `ibag` sub-chunk](#77-ibag-sub-chunk)
+  * [7.8 `imod` sub-chunk](#78-imod-sub-chunk)
+    * [New options for the `SFModulator` enum](#new-options-for-the-sfmodulator-enum-1)
     * [Preset and instrument modulators](#preset-and-instrument-modulators)
-  * [7.9 "igen" sub-chunk](#79-igen-sub-chunk)
+  * [7.9 `igen` sub-chunk](#79-igen-sub-chunk)
     * [New options for the SFGenerator enum](#new-options-for-the-sfgenerator-enum-1)
-  * [7.10 "shdr" sub-chunk](#710-shdr-sub-chunk)
-    * [achSampleName Changes](#achsamplename-changes)
+  * [7.10 `shdr` sub-chunk](#710-shdr-sub-chunk)
+    * [`achSampleName` Changes](#achsamplename-changes)
     * [Sample Rate Limit Changes](#sample-rate-limit-changes)
-    * [sfSampleType and Werner SF3](#sfsampletype-and-werner-sf3)
+    * [`sfSampleType` and SFe Compression](#sfsampletype-and-sfe-compression)
 * [Section 8: Enumerators](#section-8-enumerators)
   * [8.1.1 Kinds of generator enums](#811-kinds-of-generator-enums)
   * [8.1.2/3 Generator enums definitions](#8123-generator-enums-definitions)
@@ -229,7 +229,7 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
   * [8.4.5-10 Default modulators 5-10](#845-10-default-modulators-5-10)
   * [8.5 Precedence, Absolute/Relative Values and Preset Level Availability of Generators.](#85-precedence-absoluterelative-values-and-preset-level-availability-of-generators)
 * [Section 9: Parameters and synthesis model](#section-9-parameters-and-synthesis-model)
-  * [9.1 SFe version 4 synthesis model](#91-sfe-version-4-synthesis-model)
+  * [9.1 SFe 4 synthesis model](#91-sfe-4-synthesis-model)
   * [9.1.1 Sample-based oscillator](#911-sample-based-oscillator)
   * [9.1.2 Sample looping](#912sample-looping)
   * [9.1.3 Filters](#913-filters)
@@ -269,19 +269,19 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
 
 ## 1.1a Scope and purpose of this document
 
-- This is a draft specification for the SFe file format, version 4.0, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards.
+- This is a draft specification for the SFe 4.0 file format, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards.
 - It's intended to be a source of information on SFe.
 - To create files that support SFe, you will need:
     - The SFe format, compatibility, and program specifications
-    - E-mu's provided documents for SF 2.04 ([sfspec24.pdf](https://freepats.zenvoid.org/sf2/sfspec24.pdf))
+    - E-mu's provided documents for legacy SF2.04 ([sfspec24.pdf](https://freepats.zenvoid.org/sf2/sfspec24.pdf))
     - The Werner SF3 specification ([draft by FluidSynth](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format)) - this will be integrated into SFe for 4.0.11 final release.
-- All features from version 2.04 will be retained.
+- All features from legacy SF2.04 will be retained.
 
 * * *
 
 ## 1.1b Important differences from the 2.04 document
 
-- This is not a standalone document; it refers to the SF 2.04 technical specification. All relevant information from the Werner SF3 specification is included.
+- This is not a standalone document; it refers to `SFSPEC24.PDF`. All relevant information from the Werner SF3 specification is included.
 - This document is unofficial and was not created by E-mu. If you want this to be removed, we will remove it, but we hope that this is because you have your own update to the SF format ready.
 - For copyright reasons, we cannot copy information from the original standard, except for what is required to interpret this document and what is allowed under fair use.
 
@@ -289,9 +289,9 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
 
 ## 1.2 Document organisation
 
-The sections in this specification map to the E-mu Systems® SoundFont® 2.04 specification document.
+The sections in this specification map to `SFSPEC24.PDF`.
 
-- Like the version 2.04 specification, section 1 and 2 gives introductory information about SFe.
+- Like `SFSPEC24.PDF`, section 1 and 2 gives introductory information about SFe.
 - Sections 3–8 provide detailed information about the updates made to the SFe structure.
 - Section 9 shows the synthesis engine.
 - Section 10 describes any error handling that is necessary when opening SFe files.
@@ -316,12 +316,12 @@ New sections may be added in the future, depending on if radical changes are mad
 
 ## 1.4 The background of the SF format
 
-SoundFont® 1 refers to the proprietary version of the format used by the Creative Sound Blaster® AWE32 sound card released in 1994.
+SoundFont® 1 refers to the proprietary version of the format used by the Creative Sound Blaster® AWE32 sound card released in 1994. It got one major feature update to version 1.5. 
 
-- SoundFont® 1 files had a file extension of .SBK and cannot be used by many of SF 2.0x programs.
+- SoundFont® 1 files had a file extension of .SBK and cannot be used by many SF2.0x programs.
 - This is the version used in the Creative DOS drivers.
-- Creative is the brand name used by the company "Creative Technology Ltd."
-- As the specification for SF 1 was never released, we don't know how SF 1 files were structured.
+- Creative is the brand name used by the company Creative Technology Ltd.
+- As the specification for SF 1.x was never released, we don't know how SF 1.x files were structured.
 
 Creative decided to release the specification to the public with version 2.00 in 1996 (specification date October 1995).
 
@@ -340,7 +340,7 @@ Finally, in 2005, version 2.04 was released with 24-bit support (specification d
 
 E-mu then abandoned the format. Creative Technology Ltd is still around, however, as a public company.
 
-Current Creative Labs sound cards do not support the SoundFont® format; the Audigy RX from 2013 was the last model that supported the format. Newer cards, for instance, the AE-9, no longer use wavetable sound synthesis.
+Current Creative Labs sound cards do not support the SoundFont® format; the Audigy RX from 2013 was the last model that supported the format. Newer cards, for instance, the AE-9, no longer use wavetable or MIDI sound synthesis.
 
 At an unknown time, Kenneth Rundt, the author of SynthFont and a series of products based on it, added some custom features, mostly ported over from the DLS format:
 
@@ -352,16 +352,15 @@ At an unknown time, Kenneth Rundt, the author of SynthFont and a series of produ
 Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbis format) around 2010.
 
 - The resulting format was known as SF3.
-- It is commonly used by open source programs.
+- It is commonly used by open source programs, such as MuseScore and FluidSynth.
 - This is the reason why this format is not called .SF3 (it was in 4.0.1, but after **feedback by derselbst** and **mawe42** on GitHub, we changed it to SFe).
-- SFe files will be compatible with Werner SF3 for compression.
-- Currently, the plan is to include the full Werner SF3 specification in 4.0.11.
+- SFe incorporates the Werner SF3 specification as SFe Compression.
 
 Another development was done by Cognitone, which created an open source program that can losslessly compress SoundFont® 2 files (with FLAC). This was done in 2017.
 
 - This was unofficially called SF4.
 - This is intended to be the true version 4, as Cognitone SF4 seems to not have been as widespread as SF3.
-- SF4 has also been rejected by the Werner SF3 community as too loosely defined.
+- SF4 has also been rejected by FluidSynth as too loosely defined.
 
 Finally, stgiga found out that many programs don't mind RIFF64 (RF64) files.
 
@@ -379,29 +378,28 @@ SFe is designed for future improvements.
 
 - These will be done in a more liberal way than the conservative manner of the SoundFont® 2 updates that E-mu has done.
 - SFe is not affected by limitations created by the EMU8000 sound processor and Sound Blaster® cards, and therefore will have more improvements.
-- Additionally, starting from version 5, SFe won't be affected by limitations created by legacy SF players.
+- Additionally, starting from SFe 5, SFe won't be affected by limitations created by legacy SF players.
 - To avoid over-stress of developers of the SFe Team, as well as SFe instrument banks, features will be spread out across versions. We hope to release a new version every 3–5 years.
 
 * * *
 
 ## 1.5a Plans
 
-The features for version 4.0 have been frozen after the release of draft milestone 4.0.4. This doesn't mean that we're done with SFe, in fact, this is only the beginning of the format's development.
+The features for SFe 4.0 have been frozen after the release of draft milestone 4.0.4. This doesn't mean that we're done with SFe, in fact, this is only the beginning of the format's development.
 
-We decided to do a feature freeze for version 4.0 to make sure that SFe program developers have a reasonable set of features to implement. If we add too many features, it can overwhelm developers.
+We decided to do a feature freeze for SFe 4.0 to make sure that SFe program developers have a reasonable set of features to implement. If we add too many features, it can overwhelm developers.
 
 Here are a few things that are planned for SFe:
 
-- Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5 seems to be planned for LTS for legacy SF.)
+- Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5 seems to be planned as an LTS release for legacy SF.)
 - Negotiations with more SF program developers such as FluidSynth and Bassmidi will start soon.
-- Draft milestone 4.0.11 will include SFe Compression, the standardised version of Werner SF3. If you create SF3 compatible banks using the SFe Compression specifications, then it should run on all SF3 compatible players. 
-- For version 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205). Support for the related `PNMM` sub-chunk will also be included.
-- A MIDI lyrics specification for MIDI players will become available in version 4.2.
-- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for version 4.2. Partial reverse engineering is currently underway to ensure that SFe features do not conflict with SFCF.
+- For SFe 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205). Support for the related `PNMM` sub-chunk will also be included.
+- A MIDI lyrics specification for MIDI players, along with Spessasus/Falcosoft RMIDI support, will become available in SFe 4.2.
+- We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for SFe 4.2. Partial reverse engineering is currently underway to ensure that SFe features do not conflict with SFCF.
 
 ## 1.5b Long term support of SFe 4
 
-SFe 4 is a "long-term support" version, and will get feature updates along with later versions such as SFe 5. While this is the case, some features are structurally incompatible with SF2.04, and will not be available in SFe 5.
+SFe 4 is a "long-term support" version, and will get feature updates along with later versions such as SFe 5. While this is the case, some features are structurally incompatible with legacy SF2.04, and will not be available in SFe 5.
 
 If an earlier major version of SFe is the main version used for a longer time than expected, then it can be declared as another LTS version. Such a LTS version will be declared in this section.
 
@@ -409,7 +407,7 @@ If an earlier major version of SFe is the main version used for a longer time th
 
 ## 2.1 Data structure terminology
 
-The data structure terminology used in SFe version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
+The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2.04, with these additions:
 
 - Branch - A subdivision of a tree strucutre containing either sub-branches or leaves that include values.
 - BW64 - Broadcast Wave 64, used in the RF64 Header.
@@ -425,16 +423,17 @@ The data structure terminology used in SFe version 4.0 is broadly the same as th
 - RF64 - See "RIFF64".
 - RIFD - See "Dynamic RIFF".
 - RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
-- RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in the SF2.04 specification for more information.
+- RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
 - SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
 - SFe-compatible - Indicates files, data, synthesisers, hardware or software that conform to the SFe specification.
+- SFe Compression - The compression system based on Werner SF3 that SFe programs should be compliant with.
 - Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
 - Tree structure - A structure consisting of branches and leaves.
 - Version 3 - See "Werner SF3".
 - Version 4 - See "SFe 4".
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
-- Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs.
+- Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
 
 And these changes:
 
@@ -444,7 +443,7 @@ And these changes:
 
 ## 2.2 Synthesis terminology
 
-The synth terminology used in SFe version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
+The synth terminology used in SFe 4.0 is broadly the same as legacy SF2.04, with these additions:
 
 - AWE64 - The successor to the famous AWE32, adding features such as waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
 - DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe. 
@@ -460,7 +459,7 @@ The synth terminology used in SFe version 4.0 is broadly the same as the E-mu® 
 - Sound Blaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
 - Sound Blaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
 - Sound Blaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
-- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the SF2.04 specification for more information.
+- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in `SFSPEC24.PDF` for more information.
 
 
 These changes:
@@ -468,18 +467,18 @@ These changes:
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
 - Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
-- Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
+- Downloadable - legacy SF2.0x, Werner SF3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
 - MIDI Bank - Groups of up to 128 presets, which can be selected by the two MIDI "Bank Select" control changes (CC00 and CC32).
 
 And these removals:
 
-- Preditor (refers to an old SF version 2 editor made by E-mu)
+- Preditor (refers to an old legacy SF2.0x editor made by E-mu)
 
 * * *
 
 ## 2.3 Parameter terminology
 
-The parameter terminology used in SFe version 4.0 is broadly the same as the E-mu® SF2.04 standard, with these additions:
+The parameter terminology used in SFe 4.0 is broadly the same as legacy SF2.04, with these additions:
 
 - Amplification - An increase in volume or amplitude of a signal.
 - Flat - Said of a tone that is lower in pitch than another reference tone.
@@ -488,9 +487,9 @@ The parameter terminology used in SFe version 4.0 is broadly the same as the E-m
 
 ## 3.1 General RIFF-type format structures
 
-RIFF-type formats are the file format used in SoundFont® 2.04, Werner SF3 and SFe standards. There are a few different RIFF-type format structures:
+RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe standards. There are a few different RIFF-type format structures:
 
-- RIFF is the basic version with 32-bit chunk headers, and is used in SoundFont® 2.04 and Werner SF3.
+- RIFF is the basic version with 32-bit chunk headers, and is used in legacy SF2.04 and Werner SF3.
 - RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
 - RIFX is a big-endian version of 32-bit RIFF, while RIFF and RIFF64 are little-endian formats.
 - RIFD is the dynamic version of RIFF developed by spessasus. It will be included in a future version of SFe.
@@ -499,15 +498,15 @@ RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
-- A unique four character code (FourCC).
-- "ckID": type of data in chunk
-- "ckSize": size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
-- "ds64": size of chunk (RIFF64 only)
-- "ckDATA\[ckSize\]": the data inside the chunks, including pad bytes.
+- A unique four character code (FourCC), listed above.
+- `ckID`: type of data in chunk
+- `ckSize`: size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
+- `ds64`: size of chunk (RIFF64 only)
+- `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
 
 Chunks can be further divided into "sub-chunks."
 
-Orders of chunks in all SF files are strictly defined, as in versions 2 and 3, and should be kept to.
+Orders of chunks in all SF files are strictly defined, as in versions 2 and 3, and should be kept to, except for TSC mode.
 
 ## 3.1a Chunk header types
 
@@ -516,25 +515,26 @@ In SFe, there are different chunk header types that are used in the format. Thes
 - 32-bit static
     - This is the same as legacy SF
     - This corresponds to RIFF.
+    - The FourCC used is `RIFF`.
 - 64-bit static
-    - RIFF is replaced with RF64
-    - A ds64 chunk is added
+    - A `ds64` chunk is added
+    - The FourCC used is `RF64`.
     - To prevent loading by incompatible players, the `sfbk` fourcc is replaced with `sfen` (**SF**-**en**hanced)
     - This corresponds to RIFF64.
 
-Future versions of SFe may define different chunk header types. In particular, we are planning on introducing a header type called "Dynamic", which corresponds to RIFD, and allows scaling of chunk sizes beyond 64-bit while saving space for banks that don't use the full 64 bits (which is currently every bank).
+Future versions of SFe may define different chunk header types. In particular, we are planning on introducing a header type called "Dynamic", which uses the `RIFD` FourCC, and allows scaling of chunk sizes beyond 64-bit while saving space for banks that don't use the full 64 bits (which is currently every bank).
 
 * * *
 
-## 3.2 Chunks and subchunks in version 4
+## 3.2 Chunks and subchunks in SFe 4
 
-Like SoundFont® 2.04, there are 3 main chunks:
+Like legacy SF2.04, there are 3 main chunks:
 
-1.  "INFO" Chunk: contains important information about the soundfont.
-2.  "sdta" Chunk: A single sub-chunk containing audio samples.
-3.  "pdta" Chunk: Nine sub-chunks (in the "Hydra" structure, named after a many-headed beast) containing the parameters about how the audio samples should be played. (According to E-mu, the hydra has nine heads. Cut one off, and another two grow.)
+1.  `INFO-list` Chunk: contains important information about the soundfont.
+2.  `sdta-list` Chunk: A single sub-chunk containing audio samples.
+3.  `pdta-list` Chunk: Nine sub-chunks (in the "Hydra" structure, named after a many-headed beast) containing the parameters about how the audio samples should be played. (According to E-mu, the hydra has nine heads. Cut one off, and another two grow.)
 
-The three main chunks should appear in this order, and the nine sub-chunks of the "pdta" chunk should appear in the order described.
+The three main chunks should appear in this order, and the nine sub-chunks of the `pdta-list` chunk should appear in the order described.
 
 * * *
 
@@ -549,12 +549,12 @@ RIFF-type formats have error checking features about:
 Using this information, it is possible to check for damage to an SF(e) file:
 
 - If any damage is detected due to such a mismatch, the file should be rejected as "Structurally Unsound."
-- Like E-mu® SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" files of version 4 and later.
+- Like E-mu® SoundFont® 2.x and Werner SF3, developers can create programs which correct "Structurally Unsound" SFe banks.
 - Please refer to the File Repair Specification for help on how to create such a program.
 
-# Section 4: RIFF-type file format of SFe, version 4.0
+# Section 4: RIFF-type file format of SFe 4.0
 
-## 4.1-4.4 File structure of SFe version 4.0
+## 4.1-4.4 File structure of SFe 4.0
 
 This is the structure of a file with 64-bit chunk header. We will rework this file structure using a similar four-level structure as the original `SFSPEC24.PDF`, as that makes it easier to format the many different header structures.
 
@@ -720,7 +720,7 @@ RF64('sfen'
 
 ## 4.5 Type definitions
 
-The type definitions are identical to those used in SoundFont® version 2.04.
+The type definitions are identical to those used in legacy SF2.04.
 
 * * *
 
@@ -728,17 +728,17 @@ The type definitions are identical to those used in SoundFont® version 2.04.
 
 The file format extension to use for SFe files is generally `.sft`. `.sf4` is avoided due to incompatibility with cognitone formatted banks.
 
-When opening a bank with extension `.sft`, programs must determine the correct version to use.
+When opening a bank with extension `.sft`, programs must determine the correct version to use. The `ifil` value and `ISFe-list` sub-chunk provide hints.
 
-# Section 5: "info-list" chunk
+# Section 5: `info-list` chunk
 
-## 5.1 "ifil" subchunk
+## 5.1 `ifil` subchunk
 
 The value of this subchunk **must** match the values found in the `SFvx` subchunk. If there is a mismatch, the value of `ifil` prevails. 
 
-The size must be exactly four bytes. Reject files with an "ifil" subchunk that isn't four bytes as "Structurally Unsound."
+The size must be exactly four bytes. Reject files with an `ifil` subchunk that isn't four bytes as "Structurally Unsound."
 
-If the "ifil" subchunk is missing, either:
+If the `ifil` subchunk is missing, either:
 
 - Assume version 4.0.
 - Reject the file as "Structurally Unsound."
@@ -747,140 +747,140 @@ If the "ifil" subchunk is missing, either:
 
 ## 5.1a Versioning rules
 
-In SFe version 4, new versioning rules are used to replace the old ones.
+In SFe 4.0, new versioning rules are used to replace the old ones.
 
-The value of wMajor increases every time a change is made to the format that makes it incompatible with existing players.
+The value of `wMajor` increases every time a change is made to the format that makes it incompatible with existing players.
 
-- There will be at least 6 months between the first draft milestone of a new wMajor version and the release of the final specification.
-- Older wMajor versions must be supported, either directly or via translation to the latest version.
+- There will be at least 6 months between the first draft milestone of a new `wMajor` version and the release of the final specification.
+- Older `wMajor` versions must be supported, either directly or via translation to the latest version.
 - We strive to minimize the number of these updates whenever possible in favor of updates that are backward compatible.
 
-The value of wMinor increases every time a change is made to the format while retaining backwards compatibility.
+The value of `wMinor` increases every time a change is made to the format while retaining backwards compatibility.
 
 - These updates generally have only one or two draft milestones before the final specification releases.
 - Feature updates in these versions are smaller.
 
-To signify that the SFe file has been created to a draft specification, please use the description.
+The specification type used is found in the `ISFe-list` sub-chunk.
 
 * * *
 
-## 5.2 "isng" subchunk
+## 5.2 `isng` subchunk
 
-A new default isng sub-chunk value is used in SFe: "SFe version 4"
+A new default isng sub-chunk value is used in SFe: `SFe 4`.
 
-- SFe version 4 players should recognize this and remove the default velocity related filter used in SoundFont® 2.04.
-- The ten "Default Modulators" will also be disabled by default. The Default modulation definition will be added in SFe version 4.1.
-- In the case of a missing isng chunk, files with an ifil sub-chunk with wMajor = 2 or 3 and wMinor >= 1024, or wMajor >= 4, assume an isng sub-chunk value of "SFe version 4." Don't assume "EMU8000."
+- SFe 4.0 players should recognize this and remove the default velocity related filter used in legacy SF2.04.
+- The ten "Default Modulators" will also be disabled by default. The Default modulation definition will be added in SFe 4.1.
+- In the case of a missing isng chunk, files with an ifil sub-chunk with `wMajor` = `2` or `3` and `wMinor` >= `1024`, or `wMajor` >= `4`, assume an isng sub-chunk value of `SFe 4`. Don't assume `EMU8000`.
 
 Additionally, UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "ISNG" subchunk contains a UTF-8 string of any length.
-- Example of value: "SFe version 4" (with appropriate zero bytes)
+- The `isng` subchunk contains a UTF-8 string of any length.
+- Example of value: `SFe 4` (with appropriate zero bytes).
 
-Reject anything not terminated with a zero byte, and assume the value "SFe version 4." Do NOT assume "EMU8000" by default.
+Reject anything not terminated with a zero byte, and assume the value `SFe 4`. Do NOT assume `EMU8000` by default.
 
 * * *
 
-## 5.3 "INAM" subchunk
+## 5.3 `INAM` subchunk
 
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "INAM" subchunk contains a UTF-8 string of any length.
-- Example of value: "GM Sound Set" (with appropriate zero bytes)
+- The `INAM` subchunk contains a UTF-8 string of any length.
+- Example of value: `GM Sound Set` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.4 "irom" subchunk
+## 5.4 `irom` subchunk
 
-- Read the SoundFont® 2.04 specification for info on how to use ROM samples.
+- Read the legacy SF2.04 specification for info on how to use ROM samples.
 - The ROM emulator should be implemented in SFe programs.
-- This subchunk will eventually be reused for other features in a future version of this specification.
+- This subchunk may eventually be reused for other features in a future version of this specification.
 
 * * *
 
-## 5.5 "iver" subchunk
+## 5.5 `iver` subchunk
 
-- Read the SoundFont® 2.04 specification for info on how to use ROM samples.
+- Read the legacy SF2.04 specification for info on how to use ROM samples.
 - The ROM emulator should be implemented in SFe programs.
-- This subchunk will eventually be reused for other features in a future version of this specification.
+- This subchunk may eventually be reused for other features in a future version of this specification.
 
 * * *
 
-## 5.6 "ICRD" subchunk
+## 5.6 `ICRD` subchunk
 
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "ICRD" subchunk contains a UTF-8 string of any length.
-- Example of value: "November 19, 2024" (with appropriate zero bytes)
+- The `ICRD` subchunk contains a UTF-8 string of any length.
+- Example of value: `December 8, 2024` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.7 "IENG" subchunk
+## 5.7 `IENG` subchunk
 
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "IENG" subchunk contains a UTF-8 string of any length.
-- Example of value: "SF Author" (with appropriate zero bytes)
-
-Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
-
-* * *
-
-## 5.8 "IPRD" subchunk
-
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
-
-- The "IPRD" subchunk contains a UTF-8 string of any length.
-- Example of value: "SFe Players" (with appropriate zero bytes)
+- The `IENG` subchunk contains a UTF-8 string of any length.
+- Example of value: `SF Author` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.9 "ICOP" subchunk
+## 5.8 `IPRD` subchunk
 
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "ICOP" subchunk contains a UTF-8 string of any length.
-- Example of value: "Copyright © All Rights Reserved." (with appropriate zero bytes)
+- The `IPRD` subchunk contains a UTF-8 string of any length.
+- Example of value: `SFe Players` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.10 "ICMT" subchunk
+## 5.9 `ICOP` subchunk
 
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "ICMT" subchunk contains a UTF-8 string of any length.
-- Example of value: "This file contains 128 instruments and a drum kit." (with appropriate zero bytes)
+- The `ICOP` subchunk contains a UTF-8 string of any length.
+- Example of value: `Copyright © All Rights Reserved.` (with appropriate zero bytes)
+
+Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
+
+* * *
+
+## 5.10 `ICMT` subchunk
+
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+
+- The `ICMT` subchunk contains a UTF-8 string of any length.
+- Example of value: `This file contains 128 instruments and a drum kit.` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.11 "ISFT" subchunk
+## 5.11 `ISFT` subchunk
 
-This is mostly the same as in SoundFont® 2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
+This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The "ISFT" subchunk contains a UTF-8 string of any length.
-- Example of value: "SFe Editor version 4.0" (with appropriate zero bytes)
+- The `ISFT` subchunk contains a UTF-8 string of any length.
+- Example of value: `SFe Editor version 4.0` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.12 "ISFe" subchunk
+## 5.12 `ISFe-list` subchunk
 
 The `ISFe-list` sub-chunk includes many different sub-chunks to show information about SFe-specific features. Generally, we use the `ISFe-list` sub-chunk to make it clearer that this kind of information is SFe-specific.
 
 Due to compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` subchunk, rather than as a fourth RIFF chunk. Legacy SF players may not support more than three main RIFF chunks. If we can't use list sub-chunks inside other chunks, then instead of an SFe sub-chunk, the sub-chunks defined here will just be part of the `INFO-list` subchunk until SFe 5 is released, which will include a fourth separate `ISFe-list` chunk.
 
-### 5.12.1 "SFty" sub-chunk
+### 5.12.1 `SFty` sub-chunk
 
 The `SFty` sub-chunk is a required sub-chunk identifying the variant of SFe the bank is formatted in. It contains a UTF-8 string of 256 or fewer bytes including one or two terminators of value zero to make the total byte count even.
 
@@ -899,7 +899,7 @@ The UTF-8 should be treated as case-sensitive. In other words, `sfe-static with 
 
 If the SFty sub-chunk is missing, not terminated in a zero-valued byte, or its contents are an undefined value, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe-static`; only use such a value when it is evident beyond a reasonable doubt that the file used is SFe.
 
-### 5.12.2 "SFvx" sub-chunk
+### 5.12.2 `SFvx` sub-chunk
 
 The `SFvx` sub-chunk is a required sub-chunk identifying any extended SFe version attributes. It is always 46 bytes in length, and contains data according to the structure:
 
@@ -942,7 +942,7 @@ If the `SFvx` sub-chunk is missing, or its size is not 46 bytes, the field shoul
 
 The file may optionally be rejected as Structurally Unsound.
 
-### 5.12.3 "flag" sub-chunk
+### 5.12.3 `flag` sub-chunk
 
 The `flag` sub-chunk is a required sub-chunk identifying the feature flags used by a bank. It is always a multiple of 6 bytes in length, and contains a minimum of two records, one for a feature flag and another for a terminal record according to the structure:
 
@@ -961,7 +961,7 @@ The `BYTE` value `byLeaf` represents the leaf of the feature. Leaves correspond 
 
 The `DWORD` value `dwFlags` represents the feature flags themselves, which represent different parts of the feature. Depending on the `byLeaf` value, it can be a number, a series of bytes, etc.
 
-A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (Werner SF3 sample compression formats). While the `flag` sub-chunk uses a tree structure, it should be noted that no branch includes sub-branches; the branches only include leaves.
+A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (SFe Compression sample compression formats). While the `flag` sub-chunk uses a tree structure, it should be noted that no branch includes sub-branches; the branches only include leaves.
 
 Branch numbers between `240` (`F0`) and `255` (`FF`) are private-use branches that will not be defined in the SFe specification itself, and are free to be used by programs.
 
@@ -975,9 +975,9 @@ If the `flag` subchunk is missing, or its size is not a multiple of 6 bytes, th
 
 &nbsp;
 
-# Section 6: "sdta-list" chunk
+# Section 6: `sdta-list` chunk
 
-## 6.1a "smpl" sub-chunk
+## 6.1a `smpl` sub-chunk
 
 This sub-chunk should now be present in SFe files, as currently, there is no ROM where samples can be read from. This does not include AWE ROM emulation.
 
@@ -997,13 +997,13 @@ To implement compression in your SFe bank, please use the SFe Compression specif
 
 SFe Compression is the compression encoding system used by SFe, based on the earlier [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) system widely used by the open source community.
 
-By standardising on Werner SF3 in the form of SFe Compression, we will hopefully ensure that everyone uses the same compression formats. Due to this, we will only make small changes to SFe Compression which correspond to updates to the Werner SF3 specification by other SF player programs. To achieve this, all SFe players should implement Werner SF3.
+By standardising on Werner SF3 in the form of SFe Compression, we will hopefully ensure that everyone uses the same compression formats. Due to this, we will only make small changes to SFe Compression which correspond to updates to the Werner SF3 specification by other SF player programs. To achieve this, all SFe players should implement SFe Compression.
 
 ### 6.1b.2 File identification for SFe Compression
 
 The `wMajor` value in the `ifil` sub-chunk is set to `3` instead of `2`. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
 
-### 6.1b.3 sfSampleType in shdr sub-chunk
+### 6.1b.3 `sfSampleType` in `shdr` sub-chunk
 
 Bit 4 of the `sfSampleType` field indicates a sample that has received some kind of compression. While most Werner SF3 compatible programs compress the samples using the Vorbis format, it cannot be assumed. SFe players must determine the encoding that is used for each sample. 
 
@@ -1014,15 +1014,15 @@ For a sample to be valid:
 
 A sample is not valid if any of these conditions are not true. If a sample is not valid, then all instruments and presets that use the sample should be rejected.
 
-### 6.1b.4 Interpretation of sample data index fields in shdr sub-chunk
+### 6.1b.4 Interpretation of sample data index fields in `shdr` sub-chunk
 
 If bit 4 of the `sfSampleType` field is set, then the interpretation of the four sample data index fields changes:
 
 - `dwStart` points to the first byte of the compressed byte stream relative to the beginning of the `smpl` sub-chunk.
-- `dwEnd` points to the last byte of the compressed byte stream, instead of the first zero-valued sample data point after the sample data in SF2.04.
+- `dwEnd` points to the last byte of the compressed byte stream, instead of the first zero-valued sample data point after the sample data in legacy SF2.04.
 - `dwStartLoop` and `dwEndLoop` specify loop points relative to the start of the individual uncompressed sample data, in sample data points.
 
-If bit 4 of the `sfSampleType` field is clear, then the sample data index fields should be interpreted as in SF2.04.
+If bit 4 of the `sfSampleType` field is clear, then the sample data index fields should be interpreted as in legacy SF2.04.
 
 ### 6.1b.5 Using both compressed and uncompressed samples in the same file
 
@@ -1032,7 +1032,7 @@ For compressed byte streams, it is not necessary to add fourty-six zero-valued s
 
 ### 6.1b.6 Unsupported features
 
-Compressed samples are always 16-bit samples. They do not make use of the `sm24` (or `sm32`) sub-chunk. If an `sm24` sub-chunk is present, its respective byte counterparts to the compressed byte stream stored in the `smpl` sub-chunk remain unused. Since all uncompressed PCM samples are stored before compressed samples in the `smpl` sub-chunk, the size of the `sm24` sub-chunk is minimised. The `sm24` size constraint defined in SF2.04 therefore no longer applies in compressed banks.
+Compressed samples are always 16-bit samples. They do not make use of the `sm24` (or `sm32`) sub-chunk. If an `sm24` sub-chunk is present, its respective byte counterparts to the compressed byte stream stored in the `smpl` sub-chunk remain unused. Since all uncompressed PCM samples are stored before compressed samples in the `smpl` sub-chunk, the size of the `sm24` sub-chunk is minimised. The `sm24` size constraint defined in legacy SF2.04 therefore no longer applies in compressed banks.
 
 Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero. 
 
@@ -1044,27 +1044,27 @@ The only supported compression system for SFe is the Werner SF3-compatible SFe C
 
 * * *
 
-## 6.2a "sm24" and "sm32" sub-chunk
+## 6.2a `sm24` and `sm32` sub-chunk
 
 These sub-chunks are optional.
 
-- The sm32 sub-chunk contains the least significant byte, and the sm24 sub-chunk contains the next least significant byte after sm32.
-- Each sub-chunk is exactly half the size of the smpl sub-chunk for uncompressed SFe files. This may not apply when Werner SF3 is in use.
-- For every two bytes in the smpl sub-chunk, there is one byte in these sub-chunks.
-- Werner SF3 is limited to 16-bit samples. This limitation may be removed in future versions of SFe.
+- The `sm32` sub-chunk contains the least significant byte, and the `sm24` sub-chunk contains the next least significant byte after sm32.
+- Each sub-chunk is exactly half the size of the `smpl` sub-chunk for uncompressed banks. This may not apply when SFe Compression is in use.
+- For every two bytes in the `smpl` sub-chunk, there is one byte in these sub-chunks.
+- Compressed banks are limited to 16-bit samples. This limitation may be removed in future versions of SFe.
 
-![6.2a_1.png](../_resources/6.2a_1.png)
+[Figure]
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
-- If the ifil version is below 2.04 (signifying an E-mu Systems® designed SoundFont® standard before 2.04), both sm24 and sm32 are ignored.
-- If the ifil version is exactly 2.04 (signifying the E-mu Systems® designed SoundFont® 2.04 standard), only sm32 is ignored. The sm24 sub-chunk is still used.
-- If these sub-chunks are not exactly half the size of the smpl sub-chunk (or otherwise invalid), the data should be ignored.
-- If only the sm32 sub-chunk is invalid, the sm24 sub-chunk should still be loaded.
-- However, if only the sm24 sub-chunk is invalid, both sub-chunks should be ignored.
-- If the sm24 sub-chunk is ignored, the synthesizer should only attempt to render the first 16 bits of the samples contained within the smpl sub-chunk.
-- If only the sm32 sub-chunk is ignored, the synthesizer should attempt to render both the smpl and sm24 sub-chunks, resulting in a 24-bit sample.
-- Please only use `sm32` with 64-bit chunk headers.
+- If the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), both `sm24` and `sm32` are ignored.
+- If the `ifil` version is exactly `2.04` (signifying legacy SF2.04), only `sm32` is ignored. The `sm24` sub-chunk is still used.
+- For uncompressed banks, these sub-chunks are not exactly half the size of the `smpl` sub-chunk (or otherwise invalid), the data should be ignored.
+- If only the `sm32` sub-chunk is invalid, the `sm24` sub-chunk should still be loaded.
+- However, if only the `sm24` sub-chunk is invalid, both sub-chunks should be ignored.
+- If the `sm24` sub-chunk is ignored, the synthesizer should only attempt to render the first 16 bits of the samples contained within the `smpl` sub-chunk.
+- If only the `sm32` sub-chunk is ignored, the synthesizer should attempt to render both the `smpl` and `sm24` sub-chunks, resulting in a 24-bit sample.
+- We recommend only using `sm32` with 64-bit chunk headers. Using `sm32` with a 32-bit chunk header is syntactically valid, but it is not practical due to file size limitations.
 
 * * *
 
@@ -1075,15 +1075,15 @@ If the smpl sub-chunk is missing, but the `sm24` or `sm32` sub-chunks are presen
 In this case, the value of the `SFty` sub-chunk inside the `ISFe-list` sub-chunk should be checked. If it is equal to `SFe-static (8-bit)` or `SFe-static (8-bit) with TSC`, then 8-bit sample mode is to be activated.
 
 - The sample depth is eight bits.
-- The length of the sm24 sub-chunk should be rounded up to the nearest byte, as if the sub-chunk was being used with a smpl sub-chunk.
-- This mode is only enabled if all samples are 8-bit. You cannot mix 8-bit and higher sample depths.
-- SFe version 4.0 does not support non-standard sample bit depths (6-bit, 12-bit, 18-bit, etc.)
+- The length of the `sm24` sub-chunk should be rounded up to the nearest byte, as if the sub-chunk was being used with a `smpl` sub-chunk.
+- This mode can only be used if all samples are 8-bit. You cannot mix 8-bit and higher sample depths.
+- SFe 4 does not support non-standard sample bit depths (6-bit, 12-bit, 18-bit, etc.)
 
 If there is an orphaned `sm24` or `sm32` sub-chunk, and the `SFty` sub-chunk is missing or is not equal to a value that corresponds to 8-bit samples being present, then the file should be rejected as Structurally Unsound. 
 
-## 6.2c Orphaned sm24 and sm32 sub-chunk
+## 6.2c Orphaned `sm24` and `sm32` sub-chunk(s)
 
-If somehow, you've got both a sm24 and a sm32 sub-chunk, but no smpl sub-chunk, the sm24 sub-chunk is the most significant byte, and 16-bit sample playback is assumed. Editing software should give a warning if there is a sm24 and a sm32 sub-chunk but no smpl sub-chunk, and should convert it to a 2.01-compliant 16-bit format.
+If somehow, you've got both a `sm24` and a `sm32` sub-chunk, but no `smpl` sub-chunk, the `sm24` sub-chunk is the most significant byte, and 16-bit sample playback is assumed. Editing software should give a warning if there is a `sm24` and a `sm32` sub-chunk but no `smpl` sub-chunk, and should convert it to a 2.01-compliant 16-bit format.
 
 This behaviour should be followed if supported, regardless of whether 8-bit sample playback support is actually supported.
 
@@ -1094,11 +1094,11 @@ This behaviour should be followed if supported, regardless of whether 8-bit samp
 - No more leeway of eight samples is required.
 - Before saving, SFe editors might give a warning about this leeway telling the user that loop and interpolation quality may be affected.
 
-# Section 7: "pdta-list" chunk
+# Section 7: `pdta-list` chunk
 
 ## 7.1 "Hydra" structure
 
-Like in E-mu Systems® SoundFont® 2.04, the format SFe version 4.0 is based on, the structure used is known as the "hydra" structure.
+Like in legacy SF2.04, the format SFe 4.0 is based on, the structure used is known as the "hydra" structure.
 
 According to E-mu Systems®, a hydra has nine heads. Cut one off, and another two grow.
 
@@ -1106,146 +1106,146 @@ No major changes have been made to the structure itself. All nine of the sub-chu
 
 * * *
 
-## 7.2 "phdr" sub-chunk
+## 7.2 `phdr` sub-chunk
 
 The size of this chunk is a multiple of 38 bytes.
 
-Its structure is the same as in SF2.04.
+Its structure is the same as in legacy SF2.04.
 
-### achPresetName Changes
+### `achPresetName` Changes
 
-- In SoundFont® 2.04, achPresetName must be an ASCII string.
+- In legacy SF2.04, `achPresetName` must be an ASCII string.
 - Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
-### wPreset Changes
+### `wPreset` Changes
 
-- In SoundFont® 2.04, bits 2–8 were used to select up to 128 instruments. Bits 1 and 9–16 were unused.
-- Now, bits 10–16 can be used to select alternate banks using the ISFe subchunk.
+- In legacy SF2.04, bits 2–8 were used to select up to 128 instruments. Bits 1 and 9–16 were unused.
+- Bits 10–16 will be usable to select alternate banks using the `ISFe-list` subchunk, starting with SFe 4.3.
 - It's designed to be used with sysex or other commands corresponding to General MIDI extension resets.
-- What bits 9–16 do in version 4:
+- What bits 9–16 do in SFe 4.0:
     - Bit 9 remains reserved.
-    - Bits 10-16 are reserved for MIDI commands as defined in the ISFe subchunk. For now, these bits should be written as clear.
+    - Bits 10-16 are reserved for MIDI commands as defined in the `ISFe-list` subchunk. For now, these bits should be written as clear.
 - It allows you to run multiple standards that may conflict with each other.
 
 ### New Bank System
 
-In legacy SF 2.04, only one MIDI Bank Select could be used (typically MSB).
+In legacy SF2.04, only one MIDI Bank Select could be used (typically MSB).
 
-- Version 4.0.1 had a field called wBank2. Any draft with wBank2 is now obsolete.
-- We commend E-mu for being forward enough thinking to not use a BYTE for bank selection.
-- In SoundFont® 2.04 and 4.0.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
+- SFe draft specification milestone 4.0.1 had a field called `wBank2`. Any draft with `wBank2` is now obsolete.
+- We commend E-mu for being forward enough thinking to not use a `BYTE` for bank selection.
+- In legacy SF2.04 and 4.0.1, bit 1 was only used with bank 128 (for percussion), and bits 2–8 were used to select a single bank between 0 and 127. Bits 9–16 were unused.
 
-Starting from version 4.0.9b, wBank is replaced with byBankMSB and byBankLSB.
+Starting from SFe draft specification milestone 4.0.9b, `wBank` is replaced with `byBankMSB` and `byBankLSB`.
 - This change is completely backwards compatible as there is no change in the format. It is simply for specification readability reasons.
-- RIFF formats are little endian. Therefore, byBankMSB goes before byBankLSB.
-- Like with wBank in SF2.04, bits 2–8 are now used to set the first bank change.
-- If a bank/program change combination produces a different result for midi channel 10, use the percussion toggle in byBankMSB.
+- RIFF formats (with the exception of RIFX) are little endian. Therefore, `byBankMSB` goes before `byBankLSB`.
+- Like with `wBank` in SF2.04, bits 2–8 are now used to set the first bank change.
+- If a bank/program change combination produces a different result for midi channel 10, use the percussion toggle in `byBankMSB`.
 - File editors should warn the user if this issue is found.
 - SFe compatible players should allow the user to swap CC00 and CC32 settings.
-- Order in the phdr chunk in terms of ascending byBankLSB value to ensure legacy SF compatibility.
+- Order in the `phdr` chunk in terms of ascending `byBankLSB` value to ensure legacy SF compatibility.
 
-### Definitions of dwLibrary and dwGenre
+### Definitions of `dwLibrary` and `dwGenre`
 
-Old 2.04 fields "dwLibrary" and "dwGenre" are now defined.
+Old 2.04 fields `dwLibrary` and `dwGenre` are now defined.
 
-- "dwLibrary" is for the overall name of the set of files contained in a library of SFe, version 4 files.
+- `dwLibrary` is for the overall name of the set of files contained in a library of SFe 4 files.
     - This value will correspond to a list in an enum. This is planned for 4.4.
-- "dwGenre" is for the genre of music which the files are optimized for.
+- `dwGenre` is for the genre of music which the files are optimized for.
     - This value will correspond to a list in an enum. This is planned for 4.4.
-- "dwMorphology" has been left out of this draft specification. It will eventually be re-introduced in a future version.
+- `dwMorphology` has been left out of this draft specification. It will eventually be re-introduced in a future version.
 
-### Do not access the final sfPresetHeader entry
+### Do not access the final `sfPresetHeader` entry
 
-The last sfPresetHeader entry shouldn't need to be accessed, apart from the uses described in the SF2.04 specification.
+The last sfPresetHeader entry shouldn't need to be accessed, apart from the uses described in `SFSPEC24.PDF`.
 
 ### This is a required sub-chunk
 
-Files without a "phdr" sub-chunk are "Structurally Unsound."
+Files without a `phdr` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.3 "pbag" sub-chunk
+## 7.3 `pbag` sub-chunk
 
 This refers to the "Preset Bag" of the SFe file. This sub-chunk is a multiple of 4 bytes.
 
-Its structure is the same as in SF2.04.
+Its structure is the same as in legacy SF2.04.
 
-All values in this sub-chunk should be used as directed in the SF2.04 specification.
+All values in this sub-chunk should be used as directed in `SFSPEC24.PDF`.
 
 ### This is a required sub-chunk
 
-Files without a "pbag" sub-chunk are "Structurally Unsound."
+Files without a `pbag` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.4 "pmod" sub-chunk
+## 7.4 `pmod` sub-chunk
 
-The pmod sub-chunk is a multiple of 10 bytes.
+The `pmod` sub-chunk is a multiple of 10 bytes.
 
-The structure is identical to SF2.04's PMod structure for version 4.0. Version 4.1 will add new features.
+The structure is identical to legacy SF2.04's `pmod` structure for SFe 4.0. SFe 4.1 will add new features.
 
-Legacy SF players which do not support any new enum options in versions 4.1 or later should ignore these new options.
+Legacy SF players which do not support any new enum options in SFe 4.1 or later should ignore these new options.
 
 This enum, and all other enums, is two bytes in length.
 
 ### This is a required sub-chunk
 
-Files without a "pmod" sub-chunk are "Structurally Unsound."
+Files without a `pmod` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.5 "pgen" sub-chunk
+## 7.5 `pgen` sub-chunk
 
-The pgen sub-chunk is a multiple of four bytes, like in SF2.04.
+The `pgen` sub-chunk is a multiple of four bytes, like in legacy SF2.04.
 
-The structure and type definitions are the same as in SF2.04. Version 4.1 will add new features. Legacy SF players which do not support any new enum options in versions 4.1 or later should ignore these new options.
+The structure and type definitions are the same as in legacy SF2.04. SFe 4.1 will add new features. Legacy SF players which do not support any new enum options in SFe 4.1 or later should ignore these new options.
 
 This enum is two bytes in length.
 
 ### This is a required sub-chunk
 
-Files without a "pgen" sub-chunk are "Structurally Unsound."
+Files without a `pgen` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.6 "inst" sub-chunk
+## 7.6 `inst` sub-chunk
 
 The inst sub-chunk is a multiple of 22 bytes.
 
 ### achInstName Changes
 
-- In SoundFont® 2.04, achInstName must be an ASCII string.
+- In legacy SF2.04, `achInstName` must be an ASCII string.
 - Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
 ### This is a required sub-chunk
 
-Files without an "inst" sub-chunk are "Structurally Unsound."
+Files without an `inst` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.7 "ibag" sub-chunk
+## 7.7 `ibag` sub-chunk
 
 This refers to the "Instrument Bag" of the SFe file.
 
-This sub-chunk is a multiple of four bytes. This is like the pbag sub-chunk.
+This sub-chunk is a multiple of four bytes. This is like the `pbag` sub-chunk.
 
-All values in this sub-chunk should be used as directed in the SF2.04 specification.
+All values in this sub-chunk should be used as directed in `SFSPEC24.PDF`.
 
 ### This is a required sub-chunk
 
-Files without an "ibag" sub-chunk are "Structurally Unsound."
+Files without an `ibag` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.8 "imod" sub-chunk
+## 7.8 `imod` sub-chunk
 
-The imod sub-chunk is a multiple of 10 bytes, like the pmod sub-chunk.
+The `imod` sub-chunk is a multiple of 10 bytes, like the `pmod` sub-chunk.
 
-The structure is very similar to SF2.04's imod structure, with these differences:
+The structure is very similar to legacy SF2.04's `imod` structure, with these differences:
 
-### New options for the SFModulator enum
+### New options for the `SFModulator` enum
 
-These options are listed elsewhere in the specification.
+These options are listed elsewhere in the specification. Currently, SFe 4.0 does not define any new options.
 
 Legacy SF players which do not support these new enum options should ignore these new options.
 
@@ -1257,17 +1257,17 @@ The Preset Modulator values are added to the Instrument Modulator values, and th
 
 ### This is a required sub-chunk
 
-Files without an imod sub-chunk are "Structurally Unsound."
+Files without an `imod` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.9 "igen" sub-chunk
+## 7.9 `igen` sub-chunk
 
-The igen sub-chunk is a multiple of four bytes, like the pgen sub-chunk.
+The `igen` sub-chunk is a multiple of four bytes, like the `pgen` sub-chunk.
 
-### New options for the SFGenerator enum
+### New options for the `SFGenerator` enum
 
-These options are listed elsewhere in the specification.
+These options are listed elsewhere in the specification. Currently, SFe 4.0 does not define any new options.
 
 Legacy SF players which do not support these new enum options should ignore these new options.
 
@@ -1275,143 +1275,143 @@ This enum is two bytes in length.
 
 ### This is a required sub-chunk
 
-files without an "igen" sub-chunk are "Structurally Unsound."
+files without an `igen` sub-chunk are "Structurally Unsound."
 
 * * *
 
-## 7.10 "shdr" sub-chunk
+## 7.10 `shdr` sub-chunk
 
-The shdr sub-chunk contains the headers for the sample data.
+The `shdr` sub-chunk contains the headers for the sample data.
 
 It is a multiple of 46 bytes.
 
-### achSampleName Changes
+### `achSampleName` Changes
 
-- In SoundFont® 2.04, achSampleName must be an ASCII string.
+- In legacy SF2.04, `achSampleName` must be an ASCII string.
 - Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
 ### Sample Rate Limit Changes
 
-- In SFe, sample rates (dwSampleRate) are stored as a 32-bit integer. This is the same behavior as seen in the legacy SoundFont® 2.04 format. This results in a theoretical maximum sample rate of 4,294,967,295 Hz.
-- In the legacy SoundFont® 2.04 specification, E-mu suggested that sample rates of below 400 Hz or above 50,000 Hz should be avoided as some legacy hardware platforms may not be able to reproduce these sounds. This is not a limitation of the specification, but rather a limitation of legacy sound cards.
-- Despite this, Creative did not use 16-bit integers for sample rate in SF 2.04. It is thus safe to use sample rates in excess of 50,000 Hz. If a sample rate of below 400 Hz or above 50,000 Hz is encountered, no attempt should be made to change the sample rate.
+- In SFe, sample rates (`dwSampleRate`) are stored as a 32-bit integer. This is the same behavior as seen in the legacy SF2.04 format. This results in a theoretical maximum sample rate of 4,294,967,295 Hz.
+- In the legacy SF2.04 specification, E-mu suggested that sample rates of below 400 Hz or above 50,000 Hz should be avoided as some legacy hardware platforms may not be able to reproduce these sounds. This is not a limitation of the specification, but rather a limitation of legacy sound cards.
+- Despite this, Creative did not use 16-bit integers for sample rate in legacy SF2.04. It is thus safe to use sample rates in excess of 50,000 Hz. If a sample rate of below 400 Hz or above 50,000 Hz is encountered, no attempt should be made to change the sample rate.
 - A zero sample rate should be reset.
 
-### sfSampleType and Werner SF3
+### `sfSampleType` and SFe Compression
 
-Bit 4 of "sfSampleType" is reserved for Werner SF3 usage.
+Bit 4 of `sfSampleType` is reserved for SFe Compression usage.
 
-- Read the draft Werner SF3 specification for information!
-- This specification is available at: [SoundFont3Format · FluidSynth/fluidsynth Wiki (GitHub.com)](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format)
-- Once the Werner SF3 specification is finalised, it will be included as part of the SFe specification documents.
+- Read the SFe Compression specification!
 
-The "sfSampleType" enum is two bytes in length.
+The `sfSampleType` enum is two bytes in length.
 
 ### This is a required sub-chunk
 
-Files without a "shdr" sub-chunk are "Structurally Unsound."
+Files without a `shdr` sub-chunk are "Structurally Unsound."
 
 # Section 8: Enumerators
 
 ## 8.1.1 Kinds of generator enums
 
-These are identical to SoundFont® 2.04.
+These are identical to legacy SF2.04.
 
 * * *
 
 ## 8.1.2/3 Generator enums definitions
 
-The Generator Enums used in SFe version 4.0, are the same as the SoundFont® 2.04 standard. SFe version 4.1 will include an overhaul of the modulator system, including new enums.
+The Generator Enums used in SFe 4.0, are the same as the legacy SF2.04 standard. SFe 4.1 will include an overhaul of the modulator system, including new enums.
 
 * * *
 
 ## 8.2.1 Source enum controller palettes
 
-These are identical to SoundFont® 2.04.
+These are identical to legacy SF2.04.
 
 * * *
 
 ## 8.2.2-3 Source Directions and Polarities
 
-These are identical to SoundFont® 2.04.
+These are identical to legacy SF2.04.
 
 * * *
 
 ## 8.2.4 Source Types
 
-In SoundFont® 2.04, there are four sources.
+In legacy SF2.04, there are four sources.
 
 * * *
 
 ## 8.3 Modulator transform enums
 
-These are identical to SoundFont® 2.04 in SFe version 4.0, but SFe version 4.1 will include an overhaul of the modulator system, including new enums.
+These are identical to legacy SF2.04 in SFe 4.0, but SFe 4.1 will include an overhaul of the modulator system, including new enums.
 
 * * *
 
 ## 8.4.1-4 Default modulators 1-4
 
-These have been removed, and no longer exist in SFe version 4.0, but the default modulator definition will be allowed in SFe version 4.1.
+These have been removed, and no longer exist in SFe 4.0, but the default modulator definition will be allowed in SFe 4.1.
 
 * * *
 
 ## 8.4.5-10 Default modulators 5-10
 
-These are identical to SoundFont® 2.04.
+These are identical to legacy SF2.04.
 
 * * *
 
 ## 8.5 Precedence, Absolute/Relative Values and Preset Level Availability of Generators.
 
-The rules for precedence and absolute/relative values are identical to SoundFont® 2.04.
+The rules for precedence and absolute/relative values are identical to legacy SF2.04.
 
 # Section 9: Parameters and synthesis model
 
-## 9.1 SFe version 4 synthesis model
+## 9.1 SFe 4 synthesis model
 
-In SFe, the synthesis model will have massive improvements compared to the EMU8000-based synthesis model of SoundFont® 2.04 and Werner SF3 over time. Currently, it is identical to the synthesis model of SoundFont® 2.04, but version 4.1 will add the first improvements.
+In SFe, the synthesis model will have massive improvements compared to the EMU8000-based synthesis model of legacy SF2.04 and Werner SF3 over time. Currently, it is identical to the synthesis model of legacy SF2.04, but 4.1 will add the first improvements.
+
+A version of SFe in the far future will have a programmable synthesis model. 
 
 * * *
 
 ## 9.1.1 Sample-based oscillator
 
-The method of operation is identical to SoundFont® 2.04.
+The method of operation is identical to legacy SF2.04.
 
 * * *
 
 ## 9.1.2 Sample looping
 
-The method of operation is identical to SoundFont® 2.04, but different types of looping will be added in a future version of SFe.
+The method of operation is identical to legacy SF2.04, but different types of looping will be added in SFe 4.2.
 
 * * *
 
 ## 9.1.3 Filters
 
-The method of operation is identical to SoundFont® 2.04, but different types of filters will be added in SFe version 4.1.
+The method of operation is identical to legacy SF2.04, but different types of filters will be added in SFe 4.1.
 
 * * *
 
 ## 9.1.4 Final gain amplifier
 
-The method of operation is identical to SoundFont® 2.04.
+The method of operation is identical to legacy SF2.04.
 
 * * *
 
 ## 9.1.5 Effects Sends
 
-The method of operation is identical to SoundFont® 2.04, but the chorus and reverb effects will be replaceable with different versions starting with SFe version 4.1.
+The method of operation is identical to legacy SF2.04, but the chorus and reverb effects will be replaceable with different versions starting with SFe 4.1.
 
 * * *
 
 ## 9.1.6 Low Frequency Oscillators (LFOs)
 
-There are two LFOs, which work in the same way as SoundFont® 2.04.
+There are two LFOs, which work in the same way as legacy SF2.04.
 
 * * *
 
 ## 9.1.7 Envelope Generators
 
-There are two envelope generators which work in the same way as SoundFont® 2.04.
+There are two envelope generators which work in the same way as legacy SF2.04.
 
 * * *
 
@@ -1423,36 +1423,36 @@ There are two envelope generators which work in the same way as SoundFont® 2.04
 
 ## 9.2 MIDI functions
 
-Control Change #32 (Bank Select "LSB") has been modified to use the byBankLSB value.
+Control Change #32 (Bank Select "LSB") has been modified to use the `byBankLSB` value.
 
-All other MIDI functions are unchanged from SoundFont® 2.04.
+All other MIDI functions are unchanged from legacy SF2.04.
 
-If a SoundFont® 2.00a file is loaded, see the legacy SoundFont® 2.04 specification for more details for handling of SoundFont® 2.00 files.
+If a SoundFont® 2.00a file is loaded, see `SFSPEC24.PDF` for more details for handling of SoundFont® 2.00 files.
 
 * * *
 
 ## 9.3 Parameter units
 
-All of these are the same as SoundFont® 2.04.
+All of these are the same as legacy SF2.04.
 
 * * *
 
 ## 9.4 SF Generator Model
 
-This is the same as SoundFont® 2.04.
+This is the same as legacy SF2.04.
 
 * * *
 
 ## 9.5 SF Modulator Model
 
-- Modulators work in the same way as SoundFont® 2.04, but an update will be made in SFe version 4.1.
+- Modulators work in the same way as legacy SF2.04, but an update will be made in SFe 4.1.
 - \[New diagrams available soon\]
 
 * * *
 
 ## 9.6 NRPN implementation
 
-The NRPN implementation used by version 4.0 is identical to SoundFont® 2.04.
+The NRPN implementation used by SFe 4.0 is identical to legacy SF2.04.
 
 * * *
 
@@ -1468,14 +1468,14 @@ While the `flag` sub-chunk will be useful to alert users about incompatible prog
 
 ## 10.1 Structural errors
 
-The error correction process for structural errors in SFe is slightly different from that in SF2.04:
+The error correction process for structural errors in SFe is slightly different from that in legacy SF2.04:
 
-- If a ds64 chunk, "BW64" or "RF64" header is found in a file, SFe players that do not support 64-bit chunk headers should output a specific error, as mentioned in the SFe program specification.
-- If the ds64 chunk is missing, the bank uses a 32-bit chunk header. Make sure that ckSize is accurate, using the same techniques as for SF 2.04.
-    - If the value of ckSize is 4,294,967,295 (like in ds64), or any other inaccurate value, reject the file as "Structurally Unsound."
-    - If the value of ckSize is correct, open the file and output a warning message, as mentioned in the SFe program specification.
+- If a `ds64` chunk, `BW64` or `RF64` header is found in a file, SFe players that do not support 64-bit chunk headers should output a specific error, as mentioned in the SFe program specification.
+- If the `ds64` chunk is missing, the bank uses a 32-bit chunk header. Make sure that `ckSize` is accurate, using the same techniques as for SF2.04.
+    - If the value of `ckSize` is 4,294,967,295 (like in `ds64`), or any other inaccurate value, reject the file as "Structurally Unsound."
+    - If the value of `ckSize` is correct, open the file and output a warning message, as mentioned in the SFe program specification.
     - More advanced programs may also recognize files larger than 4GiB with 32-bit headers. However, such a file should be repaired with a 64-bit header as soon as possible.
-- Banks with 64-bit headers, but with a ckSize value that is not 4,294,967,295 should be rejected as "Structurally Unsound," as this is not valid in RIFF64.
+- Banks with 64-bit headers, but with a `ckSize` value that is not 4,294,967,295 should be rejected as "Structurally Unsound," as this is not valid in RIFF64.
 
 * * *
 
@@ -1483,40 +1483,40 @@ The error correction process for structural errors in SFe is slightly different 
 
 This occurs when the file is structurally damaged or manually edited in a manner where more than one preset has the same value of byBankMSB, byBankLSB and wPreset (for instance, 015:000:081).
 
-- In SoundFont® 2.04, the first preset in the location would be used by default, but the other presets would still be retained.
+- In legacy SF2.04, the first preset in the location would be used by default, but the other presets would still be retained.
 - Such other presets must be moved before they can be used.
 - In SFe, the preset to be used is no longer necessarily the first one. Instead, selecting the correct preset (or combination of presets) to use will be permissible.
-- Such a feature is optional, and if not implemented, the player should use the SF2.04 behavior in these cases (use the first preset found).
+- Such a feature is optional, and if not implemented, the player should use the legacy SF2.04 behavior in these cases (use the first preset found).
 - Editors should warn the user if such presets are found.
-- This behavior might change in future versions, so please take the "ifil" value, and later versions of this specification, into account. In particular, later versions of SFe will use the ISFe sub-chunk to determine this behavior.
+- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. In particular, later versions of SFe will use the `ISFe-list` sub-chunk to determine this behavior.
 
 * * *
 
 ## 10.1b Duplicated preset locations across files
 
-This occurs when multiple files are loaded simultaneously (now a required feature for SFe), but some or all of the files have presets with identical byBankMSB, byBankLSB and wPreset values.
+This occurs when multiple files are loaded simultaneously (now a required feature for SFe), but some or all of the files have presets with identical `byBankMSB`, `byBankLSB` and `wPreset` values.
 
-- Behavior was undefined in SoundFont® 2.04.
+- Behavior was undefined in legacy SF2.04.
 - This was because multiple file loading was not a standard feature mandated in the legacy SoundFont® standard.
-- SF version 2 and 3 compatible software developers therefore had the liberty to implement multiple file loading; however, they wanted to.
+- Legacy SF2.04 and Werner SF3 compatible software developers therefore had the liberty to implement multiple file loading; however, they wanted to.
 - This edge case will now be defined in SFe.
-- If multiple presets across loaded files have the same value of byBankMSB, byBankLSB and wPreset, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
+- If multiple presets across loaded files have the same value of `byBankMSB`, `byBankLSB` and `wPreset`, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
 - Such a feature is also optional, and if not implemented, you can either use the first preset found, or you can combine all the presets.
-- This behavior might change in future versions, so please note the "ifil" value, and later versions of this specification, into account. In particular, later versions of SFe will use the ISFe sub-chunk to determine this behavior.
+- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. In particular, later versions of SFe will use the `ISFe-list` sub-chunk to determine this behavior.
 
 * * *
 
 ## 10.2 Undefined chunks
 
-SoundFont® 2.04 players should ignore SFe-specific sub-chunks, as prescribed by E-mu.
+legacy SF2.04 players should ignore SFe-specific sub-chunks, as prescribed by E-mu.
 
-Also, SFe version 4.0 compatible players, which do not support future versions, should ignore sub-chunks which are used in future versions.
+Also, SFe 4.0 compatible players, which do not support future versions, should ignore sub-chunks which are used in future versions.
 
 * * *
 
 ## 10.3 Unknown Enumerators
 
-Any ifil versions of 4.1 or above may have unknown enumeration values for a version 4.0 player.
+Any ifil versions of 4.1 or above may have unknown enumeration values for an SFe 4.0 player.
 
 This is entirely expected, and if unknown enumeration values are found, the Generator/Modulator should be ignored.
 
@@ -1524,13 +1524,13 @@ This is entirely expected, and if unknown enumeration values are found, the Gene
 
 ## 10.4 Illegal Parameter Values
 
-Illegal parameter values are handled as in SoundFont® 2.04.
+Illegal parameter values are handled as in legacy SF2.04.
 
 * * *
 
 ## 10.5 Out of Range Values
 
-Out of range values are handled as in SoundFont® 2.04.
+Out of range values are handled as in legacy SF2.04.
 
 * * *
 
@@ -1549,13 +1549,13 @@ This occurs when the user loads a file that is larger than the maximum size that
 
 ## 10.6 Missing Required Items
 
-If required items are missing, it is handled as in SoundFont® 2.04.
+If required items are missing, it is handled as in legacy SF2.04.
 
 * * *
 
 ## 10.7 Illegal Enumerators
 
-Illegal enumerators are handled as in SoundFont® 2.04.
+Illegal enumerators are handled as in legacy SF2.04.
 
 # Section 11: SiliconSFe
 
@@ -1577,13 +1577,13 @@ The new system will also permit real time synthesis.
 - They should be generated in real time, not from samples.
 - Wavetable synthesis can also be combined with different sounds.
 
-Read the SoundFont® 2.04 specification for information on how to make custom Silicon SF banks for older hardware.
+Read the legacy SF2.04 specification for information on how to make custom Silicon SF banks for older hardware.
 
-A SiliconSFe specification will be available soon.
+A SiliconSFe specification will be available in the final specification.
 
 # Section 12: Glossary
 
-This glossary is broadly the same as the SF2.04 specification's glossary, with these additions and changes:
+This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these additions and changes:
 
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
 - AWE64 - The successor to the famous AWE32, adding features such as waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
@@ -1593,7 +1593,7 @@ This glossary is broadly the same as the SF2.04 specification's glossary, with t
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
 - Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered proprietary compression, usage is not allowed in SFe.
 - DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe. 
-- Downloadable - SF version 2, 3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
+- Downloadable - legacy SF2.0x, Werner SF3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
 - Dynamic RIFF - A RIFF-type format by spessasus to allow formats to scale beyond 64-bit, while saving space. Implemented in future SFe versions. 
 - EMU10K1 - The successor to the EMU8000, designed by E-mu® for the Creative Labs SB Live!.
 - EMU10K2 - An update to the EMU10K1, designed by E-mu® for the Creative Labs SB Audigy.
@@ -1612,19 +1612,20 @@ This glossary is broadly the same as the SF2.04 specification's glossary, with t
 - RF64 - See "RIFF64".
 - RIFD - See "Dynamic RIFF".
 - RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
-- RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in the SF2.04 specification for more information.
+- RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
 - SB - Abbreviation of "Sound Blaster®". For example, "SB X-Fi".
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
 - SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
 - SFe-compatible - Indicates files, data, synthesisers, hardware or software that conform to the SFe specification.
+- SFe Compression - The compression system based on Werner SF3 that SFe programs should be compliant with.
 - Sound Blaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
 - Sound Blaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
 - Sound Blaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
 - Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
-- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in the SF2.04 specification for more information.
+- Synth - Abbreviation of "Synthesiser," see "Synthesiser" in `SFSPEC24.PDF` for more information.
 - Tree structure - A structure consisting of branches and leaves.
 - Version 3 - See "Werner SF3".
 - Version 4 - See "SFe 4".
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
-- Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs.
+- Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
