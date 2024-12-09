@@ -1,15 +1,16 @@
 # SFe file repair program specification
 
-## Version 4.00.8
+## Version 4.0.11 - December 2024
 
-This specification has been written to provide a guideline for how SFe banks can be repaired by a program. This specification is applicable for legacy SF 2.04, Werner SF3 and SFe.
+This specification has been written to provide a guideline for how SFe banks can be repaired by a program. This specification is applicable for legacy SF2.04, Werner SF3 and SFe.
 
 ## 0.1 Revision history
 
-|     |     |     |
-| --- | --- | --- |
-| Revision | Date | Description |
-| 4.00.8 | October 30, 2024 | Initial release |
+|          |                  |                        |
+| -------- | ---------------- | ---------------------- |
+| Revision | Date             | Description            |
+| 4.0.11   | December 9, 2024 | Updated for SFe 4.0.11 |
+| 4.0.8    | October 30, 2024 | Initial release        |
 
 ## 0.2 Specification versioning
 
@@ -46,7 +47,9 @@ Please contact the SFe Team using the links found in the SFe specification.
     - [3.11 Unknown subchunk errors](#311-unknown-subchunk-errors)
     - [3.12 Compressed sample errors](#312-compressed-sample-errors)
     - [3.13 ckSize errors](#313-cksize-errors)
-    - [3.14 SFe64 header errors](#314-sfe64-header-errors)
+    - [3.14 Incompatible chunk header errors](#314-incompatible-chunk-header-errors)
+    - [3.15 Incompatible SFty errors](#315-incompatible-sfty-errors)
+    - [3.16 SFe 8-bit errors](#316-sfe-8-bit-errors)
 - [Section 4: Non-Critical Errors](#section-4-non-critical-errors)
     - [4.1 isng subchunk errors](#41-isng-subchunk-errors)
     - [4.2 INAM, ICRD, IENG, IPRD, ICOP, ICMT or ISFT subchunk errors](#42-inam-icrd-ieng-iprd-icop-icmt-or-isft-subchunk-errors)
@@ -72,6 +75,7 @@ Please contact the SFe Team using the links found in the SFe specification.
     - [4.22 wPreset value errors](#422-wpreset-value-errors)
     - [4.23 Duplicated preset location errors](#423-duplicated-preset-location-errors)
     - [4.24 File size limit errors](#424-file-size-limit-errors)
+    - [4.25 Feature flag errors](#425-feature-flag-errors)
 - [Section 5: Manual Repair](#section-5-manual-repair)
     - [5.1 Introducing manual repair](#51-introducing-manual-repair)
     - [5.2 Where should manual repair be used?](#52-where-should-manual-repair-be-used)
@@ -88,7 +92,7 @@ Please contact the SFe Team using the links found in the SFe specification.
 
 ## 1.1 Scope and purpose of this document
 
-With the increased complexity of SFe (versus SF2.04), damage to files will likely be more common. File repair programs need features to ensure that they work for their job.
+With the increased complexity of SFe (versus legacy SF2.04), damage to files will likely be more common. File repair programs need features to ensure that they work for their job.
 
 In the future, this document, along with the other SFe documents, will be integrated into the SFe specification document.
 
@@ -106,7 +110,7 @@ The SFe file repair specification will be expanded alongside the SFe format spec
 
 "Non-critical" errors are errors that mean that data cannot be read properly, however as they are not Structurally Unsound errors, the file can be loaded. What usually happens is that the damaged data is ignored, and the rest of the bank is loaded.
 
-While non-critical errors don't prevent the use of the bank, it is important that they are fixed to ensure that the bank functions work as intended on all SF players that conform to a specification, whether that be legacy SF 2.04, Werner SF3 or SFe.
+While non-critical errors don't prevent the use of the bank, it is important that they are fixed to ensure that the bank functions work as intended on all SF players that conform to a specification, whether that be legacy SF2.04, Werner SF3 or SFe.
 
 # Section 3: Structurally Unsound Errors
 
@@ -114,9 +118,9 @@ While non-critical errors don't prevent the use of the bank, it is important tha
 
 If the ifil subchunk is missing, or not 4 bytes, a Structurally Unsound error occurs.
 
-To fix this error, file repair programs must determine the correct version number of the SFe program by inspecting the file structure. File repair programs should never simply add the current SFe version, as that can cause a non-critical error relating to an ifil version mismatch.
+To fix this error, file repair programs must determine the correct version number of the SFe program by inspecting the file structure. File repair programs should never simply add the current SFe specification version, as that can cause a non-critical error relating to an ifil version mismatch due to the specification version being written in `ISFe-list` (`SFvx`) and not `ifil`.
 
-If the file is too damaged to determine the correct ifil version, then the repair program should repair these problems first. If, after this, a definitive SF version cannot be determined, the user should be given the option to manually enter a new SF file version.
+If the file is too damaged to determine the correct ifil version, then the repair program should repair these problems first. If, after this, a definitive SF version cannot be determined, the user should be given the option to manually enter a new SF file version. The correct data in `ISFe-list` should also be included if the file is an SFe bank.
 
 Alternatively, file repair programs can allow the user to manually enter the SF file version without allowing the program to automatically determine the necessary version.
 
@@ -244,38 +248,54 @@ This is applicable to SF version 2.00 and later.
 
 If there are PCM samples after compressed samples, a Structurally Unsound error occurs.
 
-In Werner SF3, all PCM samples must go before compressed samples. This is fixed by rearranging the sample data in the smpl chunk, and then updating the SHDR subchunk.
+In Werner SF3 (or SFe Compression), all PCM samples must go before compressed samples. This is fixed by rearranging the sample data in the smpl chunk, and then updating the SHDR subchunk.
 
 This is applicable to SF version 3.00 and later.
 
 ## 3.13 ckSize errors
 
-For SFe32, if the value of ckSize is 4,294,967,295 or another inaccurate value, a Structurally Unsound error occurs. For SFe64, if the value of ckSize is not 4,294,967,295, a Structurally Unsound error occurs.
+When 32-bit static chunk headers are used, if the value of ckSize is 4,294,967,295 or another inaccurate value, a Structurally Unsound error occurs. When 64-bit static chunk headers are used, if the value of ckSize is not 4,294,967,295, a Structurally Unsound error occurs.
 
-This is easily solved by checking the ckSize values and fixing them with the correct file sizes, and in the case of SFe64, setting the ds64 chunk size to the correct value.
+This is easily solved by checking the ckSize values and fixing them with the correct file sizes, and in the case of 64-bit static shunk headers, setting the ds64 chunk size to the correct value.
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
 
-## 3.14 SFe64 header errors
+## 3.14 Incompatible chunk header errors
 
-If there is an SFe32 header in an SFe64 file, a Structurally Unsound error occurs.
+Sometimes, the chunk header format is incompatible. For example, a player that only supports 32-bit static chunk headers will error out on RIFF64 or RIFF-dynamic, while little-endian formatted files will error out on RIFX.
 
-This is easily solved by replacing the SFe32 header with an SFe64 header.
+This is solved by replacing chunk headers with a compatible version, or swapping the endianness of the data.
 
-This is applicable to SFe64 only, version 4.00 and later.
+This is applicable to SF version 4.0 and later.
+
+## 3.15 Incompatible SFty errors
+
+If the SFe type detected is incompatible with the bank, then this error occurs. For example, it can declare TSC or 8-bit samples.
+
+TSC is corrected by rearranging the chunks, while 8-bit samples can be converted to 16-bit.
+
+This is applicable to SF version 4.0 and later.
+
+## 3.16 SFe 8-bit errors
+
+If the `smpl` sub-chunk is missing or unreadable and `sm24` and `sm32` are present, but the `SFty` value does not mention 8-bit samples, then an error occurs.
+
+This is corrected by attempting to repair the `smpl` sub-chunk. If there is no `smpl` sub-chunk, then an SFe player can attempt to load the file with 8-bit sample mode.
+
+This is applicable to SF version 4.0 and later.
 
 # Section 4: Non-Critical Errors
 
 ## 4.1 isng subchunk errors
 
-If the isng subchunk is missing or is not terminated by a zero-valued byte, an SFe player that doesn't implement automatic repair will assume its default sound engine value. For legacy SF 2.04 and Werner SF3, this value is "EMU8000", and for SFe 4.00 and later, this is "SFeXX version Y" where XX is the SFe type and Y is the version number.
+If the isng subchunk is missing or is not terminated by a zero-valued byte, an SFe player that doesn't implement automatic repair will assume its default sound engine value. For legacy SF 2.04 and Werner SF3, this value is `EMU8000`, and for SFe 4.x, this is `SFe 4`.
 
-&nbsp;In the case of a missing isng subchunk, the value to use depends on the ifil value:
+In the case of a missing isng subchunk, the value to use depends on the ifil value:
 
 - If ifil=2.00 or 3.00, use "EMU8000".
 - If ifil=2.01 or 3.01, use "E-mu 10K1" or "E-mu 10K2".
 - If ifil=2.04 or 3.04, use "X-Fi".
-- If ifil=2.128, 3.128, 4.00 or higher, use "SFeXX version Y", where XX is the SFe type and Y is the version number.
+- If ifil=2.1024, 3.1024 or 4.0, use "SFe 4".
 
 If not terminated by a zero-valued byte, then add a zero-valued byte and warn the user to verify if the value is correct.
 
@@ -308,21 +328,19 @@ This is applicable to SF version 2.00 and later.
 
 If the smpl subchunk is missing, and there are no ROM samples, then there are no samples, however technically this is allowed by the specification. However, if the smpl subchunk is missing, but the sm24 and/or sm32 subchunks are present, then an error may occur. The sm24 subchunk is only supported in legacy SF 2.04, Werner SF3 and SFe, and the sm32 subchunk is only supported in SFe, so if these subchunks appear with a bad ifil version, anything there is ignored.
 
-If only the sm24 subchunk is present, then 8-bit sample operation is enabled, and there is no error. However, if only the sm32 subchunk is present, then the sm32 subchunk should be renamed to sm24, enabling standard 8-bit sample operation. 8-bit sample operation is only supported in SFe.
-
 If both the sm24 and sm32 subchunks are present, then these subchunks should be combined into 16-bit samples in one smpl subchunk. Because endianness may not be clear in this situation, you must allow the user to select the endianness of the operation.
 
-If there is a mismatch in the ifil version and the presence of sm24 and/or sm32 subchunks, then allow the user to select whether they want to keep these subchunks and update the ifil version to the correct value, or if they want to remove it while retaining the existing ifil value.
+If there is a mismatch in the ifil version and the presence of both sm24 and sm32 subchunks, then allow the user to select whether they want to keep these subchunks. If there is only one such subchunk, then allow the user to update the bank to use SFe with 8-bit samples.
 
 This is applicable to SF version 2.04 and later.
 
 ## 4.5 PHDR subchunk errors
 
-If a wBank value is invalid (legacy SF2.0x only), a preset was found with no zones, or a value of dwLibrary (legacy SF2.0x only), dwGenre (legacy SF2.0x only), or dwMorphology, then these values are ignored.
+If a wBank value is invalid (legacy SF2.0x only), a preset was found with no zones, or a value of dwLibrary (legacy SF2.0x only), dwGenre (legacy SF2.0x only), or dwMorphology, then these values are ignored. For SFe, `wBank` is split into two smaller values, `byBankMSB` and `byBankLSB`.
 
 For legacy SF2.0x, invalid wBank values should be detected, and the user should be given the choice to select a correct value, or to update the ifil version to one that represents SFe instead.
 
-Because dwLibrary and dwGenre were reserved in legacy SF2.0x, the user should be given the choice to clear the values, or to update the ifil version to one that represents SFe instead. Any dwMorphology value should be cleared because current versions of SFe do not implement this yet.
+Any dwLibrary, dwGenre or dwMorphology value should be cleared because current versions of SFe do not implement this yet.
 
 This is applicable to SF version 2.00 and later.
 
@@ -426,7 +444,7 @@ This is applicable to SF version 2.00 and later.
 
 ## 4.18 Compression errors
 
-If a compressed sample is invalid according to the Werner SF3 specification, or if wSampleLink is non-zero for a compressed sample, then the compressed sample is ignored. This can also happen if the program is unable to decompress the sample.
+If a compressed sample is invalid according to the Werner SF3 (or SFe Compression) specification, or if wSampleLink is non-zero for a compressed sample, then the compressed sample is ignored. This can also happen if the program is unable to decompress the sample.
 
 The user should be given the choice of compression algorithms to use for the sample, and wSampleLink values should be set to zero.
 
@@ -438,23 +456,23 @@ If the ISFe chunk is missing or corrupted, then important information relating t
 
 The ISFe chunk can be repaired, however information in the ISFe chunk should be reconstructed.
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
 
 ## 4.20 ifil chunk errors
 
 The ifil chunk should always match the features that are used in the bank. Otherwise, features may not operate as expected. SFe programs that implement automatic repair should ignore the ifil version if it's incorrect, and instead use the correct determined version.
 
-If features or feature flags from a newer ifil version of SFe are found on a bank with an older declared version of ifil, then the version should be updated to the detected version of ifil.
+If features or feature flags from a newer `ifil` or `SFvx` version of SFe are found on a bank with an older declared version of `SFvx`, then the version should be updated to the detected version of `SFvx`.
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
 
 ## 4.21 Proprietary compression errors
 
 To make life easier for end-users of SFe banks, proprietary compression formats (such as sfArk, SFPack, SF2Pack and sfq) are prohibited.
 
-If a proprietary compression format is supported by the SFe program, then it should be decompressed and automatically recompressed into a lossless format using Werner SF3.
+If a proprietary compression format is supported by the SFe program, then it should be decompressed and automatically recompressed into a lossless format using Werner SF3 (or SFe Compression).
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
 
 ## 4.22 wPreset value errors
 
@@ -462,7 +480,7 @@ With SFe, more wPreset values will be defined. If wPreset values aren't defined,
 
 If such presets are found, then they should be highlighted by the program, and the user should have the opportunity to select a different wPreset value.
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
 
 ## 4.23 Duplicated preset location errors
 
@@ -470,15 +488,23 @@ If a preset location is duplicated, then there could be issues with using the ba
 
 Duplicated preset locations should be highlighted, and the user should have the opportunity to select a different preset value.
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
 
 ## 4.24 File size limit errors
 
-If the file size limit of SFe is exceeded, then it can result in file corruption. Therefore, it is necessary to refrain from exceeding 4 GiB when using SFe32.
+If the file size limit of SFe is exceeded, then it can result in file corruption. Therefore, it is necessary to refrain from exceeding 4 GiB when using 32-bit static chunk headers.
 
-SFe32 headers and structures can be replaced with SFe64 (and in the future SFe64L) if the file size was found to exceed 4 GiB. Alternatively, if TSC mode is supported by the SFe program, then it can be activated by moving the sdta-info chunk to the end and setting the correct feature flag in the ISFe subchunk.
+32-bit static headers and structures can be replaced with 64-bit counterparts if the file size was found to exceed 4 GiB. Alternatively, if TSC mode is supported by the SFe program, then it can be activated by moving the sdta-info chunk to the end and setting the correct feature flag in the ISFe subchunk.
 
-This is applicable to SF version 4.00 and later.
+This is applicable to SF version 4.0 and later.
+
+## 4.25 Feature flag errors
+
+If the feature flags do not match what are being used by an SFe bank, an "incompatible player" error may occur even if the bank is playable.
+
+Feature flags can be updated to accurately reflect the features that the bank uses.
+
+This is applicable to SF version 4.0 and later.
 
 # Section 5: Manual Repair
 
@@ -502,7 +528,7 @@ You can use it to fix a corrupted bank. A manual repair program is very useful i
 
 ## 6.1 Introducing automatic repair
 
-Automatic repair allows SFe players to play some "Structurally Unsound" banks by automatically repairing them at load time. It consists of a partial file repair program built directly into the SFe player. With future versions of this specification, SFe64 players that only support a higher version of the format will also gain the ability to translate old banks to run properly.
+Automatic repair allows SFe players to play some "Structurally Unsound" banks by automatically repairing them at load time. It consists of a partial file repair program built directly into the SFe player. With future versions of this specification, SFe players that only support a higher version of the format will also gain the ability to translate old banks to run properly.
 
 ## 6.2 Where should automatic repair be used?
 
@@ -510,7 +536,7 @@ Automatic repair is intended to be part of SFe players. It is an aid to help SFe
 
 ## 6.3 What is repaired by automatic repair?
 
-Automatic repair fixes structural defects in SFe and SF2.04 banks seamlessly and transparently. It should automatically repair all Structurally Unsound errors listed in section 3 except for "3.12 Compressed sample errors" and anything that requires user input.
+Automatic repair fixes structural defects in SFe and legacy SF2.04 banks seamlessly and transparently. It should automatically repair all Structurally Unsound errors listed in section 3 except for "3.12 Compressed sample errors", "3.16 SFe 8-bit errors" and anything that requires user input.
 
 It should also repair all non-critical errors listed in section 4 except for "4.18 Compression errors", "4.22 wPreset value errors", "4.24 File size limit errors" and anything that requires user input. The repair of "4.21 Proprietary compression errors" is optional and contingent on support for such formats.
 
