@@ -16,8 +16,8 @@ These versions are supported until the next draft milestone is released.
 
 | Version         | Supported          | Supported Until   |
 | --------------- | ------------------ | ------------------|
-| 4.0.10          | :white_check_mark: | 4.0.11 release    |
-| 4.0.1 - 4.0.9   | :x:                | 2024/11/19        |
+| 4.0.11          | :white_check_mark: | 4.0.12 release    |
+| 4.0.1 - 4.0.10  | :x:                | 2024/12/09        |
 
 ## Reporting a Vulnerability
 
