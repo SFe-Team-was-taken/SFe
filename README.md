@@ -24,11 +24,8 @@ We will release the specification when it's done. In the meanwhile, we will regu
 
 ### Why does the specification not include everything?
 
-To make it more concise, we only highlight the differences between the SFe specification and the legacy SoundFont specification (sfspec24). If you want to develop for SFe, we recommend that you also read the legacy SF specification (sfspec24).
+To make it more concise, we only highlight the differences between the SFe specification and the legacy SoundFont specification (`SFSPEC24.PDF`). If you want to develop for SFe, we recommend that you also read the legacy SF2.04 specification (`SFSPEC24.PDF`).
 
 ### How can I contribute?
 
-If you have a proposal for how we could implement a new feature, then you can fork this repository and then create a pull request. 
-
-If you've got an idea, but don't know how to implement it, then add an issue and describe what feature you want to see, and then we should respond to this proposal when we have time.
-
+Please read `contributing.md`.
