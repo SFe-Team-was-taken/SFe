@@ -1,4 +1,4 @@
-# SFe Feature Flags List 4.0.10
+# SFe Feature Flags List 4.0.11
 
 The feature flags system is split like this:
 
@@ -170,7 +170,7 @@ The feature flags system is split like this:
 - Bit 1 on, bit 2 on: Playback support
 - Bit 2: Support for combining two 8-bit chunks into a 16-bit sample
 
-## Branch 03: Compression support (WernerSF3)
+## Branch 03: SFe Compression support
 
 ### Leaf 03:00: Compression flag
 
@@ -196,3 +196,15 @@ The feature flags system is split like this:
 - Bit 1: dwLibrary support (4.4 and later)
 - Bit 2: dwGenre support (4.4 and later)
 - Bit 3: dwMorphology support (future version)
+
+## Branch 05: SiliconSFe support
+
+### Leaf 05:00: User-defined sample ROMs
+
+- Bit 1: Support for user-defined sample ROMs
+
+### Leaf 05:01: ROM emulator
+
+- Bit 1: 1MB ROM emulator support
+
+

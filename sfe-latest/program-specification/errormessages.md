@@ -1,0 +1,23 @@
+# SFe error messages 4.0.11
+
+|                                                                                                                      |              |                                                                                                                   |                   |
+| -------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------- | ----------------- |
+| **Error name**                                                                                                       | **Severity** | **Description**                                                                                                   | **First version** |
+| File is Structurally Unsound!  <br>Chunk size incorrect: \[name of chunk\]!                                          | Fatal        | A chunk or sub-chunk size is incorrect.                                                                           | 4.0               |
+| File is Structurally Unsound!  <br>Main chunk order mismatch!                                                        | Discretion   | The three main subchunks are in the wrong order and TSC is not enabled.                                           | 4.0               |
+| File is Structurally Unsound!  <br>File version subchunk corrupt!                                                    | Discretion   | The ifil sub-chunk is not exactly four bytes long.                                                                | 4.0               |
+| Warning!  <br>Null byte not found in information data: \[name of sub-chunk\]                                         | Non-fatal    | Null bytes are not found in a sub-chunk in the info chunk.                                                        | 4.0               |
+| Warning!  <br>Odd sub-chunk size in information data: \[name of sub-chunk\]                                          | Non-fatal    | Size of a sub-chunk in the information data is an odd number of bytes.                                            | 4.0               |
+| Warning!  <br>Missing ROM: \[irom value\]! Not loading ROM samples!                                                  | Non-fatal    | The ROM was not found. Missing ROM in soundcard (if present), or no ROM dump present on ROM emulation players.    | 4.0               |
+| Warning!  <br>Incorrect ROM version: \[iver value\] referenced, \[ROM version\] provided! Do you still want to load? | Non-fatal    | ROM version is incorrect or incompatible, give users option to attempt to load ROM samples.                       | 4.0               |
+| Warning!  <br>Unrecognised sound engine: \[isng value\]!                                                             | Non-fatal    | Sound engine is not recognised as "SFe 4" or a legacy E-mu sound engine, defaults to "SFe 4".                     | 4.0               |
+| Error!  <br>No samples found!                                                                                        | Discretion   | No samples, in-file or ROM, were found.                                                                           | 4.0               |
+| File is Structurally Unsound!  <br>Unsupported sample compression format!                                            | Discretion   | An incompatible compression format was found.                                                                     | 4.0               |
+| File is Structurally Unsound!  <br>Subchunk order mismatch in pdta!                                                  | Discretion   | The nine hydra sub-chunks are in the wrong order.                                                                 | 4.0               |
+| File is Structurally Unsound!  <br>Missing hydra sub-chunk: \[missing subchunk\]                                     | Fatal        | One or more of the nine hydra sub-chunks are missing.                                                             | 4.0               |
+| File is Structurally Unsound!  <br>Cannot load 64-bit file in 32-bit player                                          | Fatal        | Attempted to load bank with 64-bit chunk headers in an 32-bit-only player                                         | 4.0               |
+| Error!  <br>File too large!                                                                                          | Discretion   | A file size is above the specified limit in this program specification                                            | 4.0               |
+|     |     |     |     |
+|     |     |     |     |
+
+&nbsp;

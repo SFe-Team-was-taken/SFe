@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Version 4.0.11 (Draft Specification) - December 2024
+## Version 4.0.11a (Draft Specification) - December 2024 (Revision A)
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,6 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 4.0.11a       | December 9, 2024     | Corrected some hyphenations for the word "sub-chunk".                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 
 | 4.0.11        | December 9, 2024     | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c <br> Added the SFe Compression 1.0 standard based on FluidSynth Werner SF3 August 2021 specification <br> Versioning update again <br> More consistent use of words and formatting <br> Added SiliconSFe specification <br> Clarified that no new illustrations are required for SFe 4.0. <br> Removed reference to real-time synthesis, as that feature won't be added before SFe 5.0                                                                                                                                                                                                                                           |
 | 4.0.10        | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits <br> Updated structure in section 4 <br> Fixed a pronoun <br> Merged SFe32 and SFe64 into a single specification once again <br> Added section about chunk header types and long term support of SFe 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
@@ -158,26 +159,26 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
 * [Section 3: RIFF-type format structure](#section-3-riff-type-format-structure)
   * [3.1 General RIFF-type format structures](#31-general-riff-type-format-structures)
   * [3.1a Chunk header types](#31a-chunk-header-types)
-  * [3.2 Chunks and subchunks in SFe 4](#32-chunks-and-subchunks-in-sfe-4)
+  * [3.2 Chunks and sub-chunks in SFe 4](#32-chunks-and-sub-chunks-in-sfe-4)
   * [3.3 Error handling](#33-error-handling)
 * [Section 4: RIFF-type file format of SFe 4.0](#section-4-riff-type-file-format-of-sfe-40)
   * [4.1-4.4 File structure of SFe 4.0](#41-44-file-structure-of-sfe-40)
   * [4.5 Type definitions](#45-type-definitions)
   * [4.5a File format extensions](#45a-file-format-extensions)
 * [Section 5: `info-list` chunk](#section-5-info-list-chunk)
-  * [5.1 `ifil` subchunk](#51-ifil-subchunk)
+  * [5.1 `ifil` sub-chunk](#51-ifil-sub-chunk)
   * [5.1a Versioning rules](#51a-versioning-rules)
-  * [5.2 `isng` subchunk](#52-isng-subchunk)
-  * [5.3 `INAM` subchunk](#53-inam-subchunk)
-  * [5.4 `irom` subchunk](#54-irom-subchunk)
-  * [5.5 `iver` subchunk](#55-iver-subchunk)
-  * [5.6 `ICRD` subchunk](#56-icrd-subchunk)
-  * [5.7 `IENG` subchunk](#57-ieng-subchunk)
-  * [5.8 `IPRD` subchunk](#58-iprd-subchunk)
-  * [5.9 `ICOP` subchunk](#59-icop-subchunk)
-  * [5.10 `ICMT` subchunk](#510-icmt-subchunk)
-  * [5.11 `ISFT` subchunk](#511-isft-subchunk)
-  * [5.12 `ISFe-list` subchunk](#512-isfe-list-subchunk)
+  * [5.2 `isng` sub-chunk](#52-isng-sub-chunk)
+  * [5.3 `INAM` sub-chunk](#53-inam-sub-chunk)
+  * [5.4 `irom` sub-chunk](#54-irom-sub-chunk)
+  * [5.5 `iver` sub-chunk](#55-iver-sub-chunk)
+  * [5.6 `ICRD` sub-chunk](#56-icrd-sub-chunk)
+  * [5.7 `IENG` sub-chunk](#57-ieng-sub-chunk)
+  * [5.8 `IPRD` sub-chunk](#58-iprd-sub-chunk)
+  * [5.9 `ICOP` sub-chunk](#59-icop-sub-chunk)
+  * [5.10 `ICMT` sub-chunk](#510-icmt-sub-chunk)
+  * [5.11 `ISFT` sub-chunk](#511-isft-sub-chunk)
+  * [5.12 `ISFe-list` sub-chunk](#512-isfe-list-sub-chunk)
     * [5.12.1 `SFty` sub-chunk](#5121-sfty-sub-chunk)
     * [5.12.2 `SFvx` sub-chunk](#5122-sfvx-sub-chunk)
     * [5.12.3 `flag` sub-chunk](#5123-flag-sub-chunk)
@@ -529,7 +530,7 @@ Future versions of SFe may define different chunk header types. In particular, w
 
 * * *
 
-## 3.2 Chunks and subchunks in SFe 4
+## 3.2 Chunks and sub-chunks in SFe 4
 
 Like legacy SF2.04, there are 3 main chunks:
 
@@ -735,13 +736,13 @@ When opening a bank with extension `.sft`, programs must determine the correct v
 
 # Section 5: `info-list` chunk
 
-## 5.1 `ifil` subchunk
+## 5.1 `ifil` sub-chunk
 
-The value of this subchunk **must** match the values found in the `SFvx` subchunk. If there is a mismatch, the value of `ifil` prevails. 
+The value of this sub-chunk **must** match the values found in the `SFvx` sub-chunk. If there is a mismatch, the value of `ifil` prevails. 
 
-The size must be exactly four bytes. Reject files with an `ifil` subchunk that isn't four bytes as "Structurally Unsound."
+The size must be exactly four bytes. Reject files with an `ifil` sub-chunk that isn't four bytes as "Structurally Unsound."
 
-If the `ifil` subchunk is missing, either:
+If the `ifil` sub-chunk is missing, either:
 
 - Assume version 4.0.
 - Reject the file as "Structurally Unsound."
@@ -767,7 +768,7 @@ The specification type used is found in the `ISFe-list` sub-chunk.
 
 * * *
 
-## 5.2 `isng` subchunk
+## 5.2 `isng` sub-chunk
 
 A new default isng sub-chunk value is used in SFe: `SFe 4`.
 
@@ -777,111 +778,111 @@ A new default isng sub-chunk value is used in SFe: `SFe 4`.
 
 Additionally, UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `isng` subchunk contains a UTF-8 string of any length.
+- The `isng` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `SFe 4` (with appropriate zero bytes).
 
 Reject anything not terminated with a zero byte, and assume the value `SFe 4`. Do NOT assume `EMU8000` by default.
 
 * * *
 
-## 5.3 `INAM` subchunk
+## 5.3 `INAM` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `INAM` subchunk contains a UTF-8 string of any length.
+- The `INAM` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `GM Sound Set` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.4 `irom` subchunk
+## 5.4 `irom` sub-chunk
 
 - Read the legacy SF2.04 specification for info on how to use ROM samples.
 - The ROM emulator should be implemented in SFe programs.
-- This subchunk may eventually be reused for other features in a future version of this specification.
+- This sub-chunk may eventually be reused for other features in a future version of this specification.
 
 * * *
 
-## 5.5 `iver` subchunk
+## 5.5 `iver` sub-chunk
 
 - Read the legacy SF2.04 specification for info on how to use ROM samples.
 - The ROM emulator should be implemented in SFe programs.
-- This subchunk may eventually be reused for other features in a future version of this specification.
+- This sub-chunk may eventually be reused for other features in a future version of this specification.
 
 * * *
 
-## 5.6 `ICRD` subchunk
+## 5.6 `ICRD` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `ICRD` subchunk contains a UTF-8 string of any length.
+- The `ICRD` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `December 9, 2024` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.7 `IENG` subchunk
+## 5.7 `IENG` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `IENG` subchunk contains a UTF-8 string of any length.
+- The `IENG` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `SF Author` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.8 `IPRD` subchunk
+## 5.8 `IPRD` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `IPRD` subchunk contains a UTF-8 string of any length.
+- The `IPRD` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `SFe Players` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.9 `ICOP` subchunk
+## 5.9 `ICOP` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `ICOP` subchunk contains a UTF-8 string of any length.
+- The `ICOP` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `Copyright © All Rights Reserved.` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.10 `ICMT` subchunk
+## 5.10 `ICMT` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `ICMT` subchunk contains a UTF-8 string of any length.
+- The `ICMT` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `This file contains 128 instruments and a drum kit.` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.11 `ISFT` subchunk
+## 5.11 `ISFT` sub-chunk
 
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
-- The `ISFT` subchunk contains a UTF-8 string of any length.
+- The `ISFT` sub-chunk contains a UTF-8 string of any length.
 - Example of value: `SFe Editor version 4.0` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
 * * *
 
-## 5.12 `ISFe-list` subchunk
+## 5.12 `ISFe-list` sub-chunk
 
 The `ISFe-list` sub-chunk includes many different sub-chunks to show information about SFe-specific features. Generally, we use the `ISFe-list` sub-chunk to make it clearer that this kind of information is SFe-specific.
 
-Due to compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` subchunk, rather than as a fourth RIFF chunk. Legacy SF players may not support more than three main RIFF chunks. If we can't use list sub-chunks inside other chunks, then instead of an SFe sub-chunk, the sub-chunks defined here will just be part of the `INFO-list` subchunk until SFe 5 is released, which will include a fourth separate `ISFe-list` chunk.
+Due to compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` sub-chunk, rather than as a fourth RIFF chunk. Legacy SF players may not support more than three main RIFF chunks. If we can't use list sub-chunks inside other chunks, then instead of an SFe sub-chunk, the sub-chunks defined here will just be part of the `INFO-list` sub-chunk until SFe 5 is released, which will include a fourth separate `ISFe-list` chunk.
 
 ### 5.12.1 `SFty` sub-chunk
 
@@ -972,7 +973,7 @@ An exhaustive list of feature flags and their corresponding tree values can be f
 
 The terminal record should never be accessed in normal usage, but its value of `byBranch` and `byLeaf` have strict values depending on the specification version. Any records after the terminal record or with a higher tree value combination (except for the defined private-use area) should be ignored.
 
-If the `flag` subchunk is missing, or its size is not a multiple of 6 bytes, then an effort should be made to recover the data. If data is not recoverable, then it can be rebuilt from the properties of the data in the rest of the bank. Do not reject the file as Structurally Unsound. 
+If the `flag` sub-chunk is missing, or its size is not a multiple of 6 bytes, then an effort should be made to recover the data. If data is not recoverable, then it can be rebuilt from the properties of the data in the rest of the bank. Do not reject the file as Structurally Unsound. 
 
 * * *
 
@@ -1121,11 +1122,11 @@ Its structure is the same as in legacy SF2.04.
 ### `wPreset` Changes
 
 - In legacy SF2.04, bits 2–8 were used to select up to 128 instruments. Bits 1 and 9–16 were unused.
-- Bits 10–16 will be usable to select alternate banks using the `ISFe-list` subchunk, starting with SFe 4.3.
+- Bits 10–16 will be usable to select alternate banks using the `ISFe-list` sub-chunk, starting with SFe 4.3.
 - It's designed to be used with sysex or other commands corresponding to General MIDI extension resets.
 - What bits 9–16 do in SFe 4.0:
     - Bit 9 remains reserved.
-    - Bits 10-16 are reserved for MIDI commands as defined in the `ISFe-list` subchunk. For now, these bits should be written as clear.
+    - Bits 10-16 are reserved for MIDI commands as defined in the `ISFe-list` sub-chunk. For now, these bits should be written as clear.
 - It allows you to run multiple standards that may conflict with each other.
 
 ### New Bank System
