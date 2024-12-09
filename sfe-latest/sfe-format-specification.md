@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Version 4.0.20241208b (Draft Specification) - 4.0.11 development
+## Version 4.0.11 (Draft Specification) - December 2024
 
 Copyright © 2020-2024 SFe Team and contributors
 
@@ -13,7 +13,7 @@ Based on the abandoned E-mu spec (Copyright © 1994–2002 E-mu Systems Inc.)
 |               |                      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |---------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Revision      | Date                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| This version  | December 8, 2024     | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c <br> Added the SFe Compression 1.0 standard based on FluidSynth Werner SF3 August 2021 specification <br> Versioning update again <br> More consistent use of words and formatting                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 4.0.11        | December 9, 2024     | Separated copyright/trademark and draft disclaimers <br> Rewritten 0.2 <br> Separated SFe team and special thanks lists <br> Corrected a name <br> Added and changed a few definitions <br> Added concept of RIFF-type format structures and rewrote 3.1 accordingly <br> Added clarification to 5.12.3 about tree structure <br> Defined new SFty value for 8-bit samples <br> Made it clear that a missing smpl sub-chunk without an SFty value that implies 8-bit samples means that a bank is Structurally Unsound <br> Added 6.2c <br> Added the SFe Compression 1.0 standard based on FluidSynth Werner SF3 August 2021 specification <br> Versioning update again <br> More consistent use of words and formatting <br> Added SiliconSFe specification <br> Clarified that no new illustrations are required for SFe 4.0. <br> Removed reference to real-time synthesis, as that feature won't be added before SFe 5.0                                                                                                                                                                                                                                           |
 | 4.0.10        | November 19, 2024    | Removed leading zeros in versioning <br> Updated license to be truly Open Source <br> SFty sub-chunk now required <br> Added SFvx and flag subchunks <br> Changed version planning <br> Removed references to new enum values for now (will be reintroduced in 4.1) <br> Added UTF-8 to isng <br> Removed info sub-chunk length limits <br> Updated structure in section 4 <br> Fixed a pronoun <br> Merged SFe32 and SFe64 into a single specification once again <br> Added section about chunk header types and long term support of SFe 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 4.0.9c        | November 16, 2024    | Updated SFe Team member listing                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 4.0.9b        | November 14, 2024    | Replaced wBank in a backwards-compatible manner to make it easier for developers to understand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -256,6 +256,9 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
   * [10.6 Missing Required Items](#106-missing-required-items)
   * [10.7 Illegal Enumerators](#107-illegal-enumerators)
 * [Section 11: SiliconSFe](#section-11-siliconsfe)
+  * [11.1 SiliconSFe overview](#111-siliconsfe-overview)
+  * [11.2 Header format](#112-header-format)
+  * [11.3 AWE ROM emulator](#113-awe-rom-emulator)
 * [Section 12: Glossary](#section-12-glossary)
 <!-- End of TOC. -->
 
@@ -263,7 +266,7 @@ Thanks to these people for suggestions: derselbst, mawe42, sagamusix
 
 ## 0.5 Illustrations
 
-\[Again this is coming in a later draft.\]
+There are no extra illustrations used in SFe 4.0 versus legacy SF2.04.
 
 # Section 1: Introduction
 
@@ -813,7 +816,7 @@ Reject anything not terminated with a zero byte. Do NOT reject the file as "Stru
 This is mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
 - The `ICRD` subchunk contains a UTF-8 string of any length.
-- Example of value: `December 8, 2024` (with appropriate zero bytes)
+- Example of value: `December 9, 2024` (with appropriate zero bytes)
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as "Structurally Unsound."
 
@@ -1052,8 +1055,6 @@ These sub-chunks are optional.
 - Each sub-chunk is exactly half the size of the `smpl` sub-chunk for uncompressed banks. This may not apply when SFe Compression is in use.
 - For every two bytes in the `smpl` sub-chunk, there is one byte in these sub-chunks.
 - Compressed banks are limited to 16-bit samples. This limitation may be removed in future versions of SFe.
-
-[Figure]
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
@@ -1559,7 +1560,15 @@ Illegal enumerators are handled as in legacy SF2.04.
 
 # Section 11: SiliconSFe
 
-Traditional SiliconSF banks are provided for compatibility purposes only, but we are unaware of any shipping products using SiliconSF.
+## 11.1 SiliconSFe overview
+
+While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF`, you can use ROM samples formatted in the SiliconSF format with SFe.
+
+## 11.2 Header format
+
+The header format is identical to legacy SF2.04.
+
+## 11.3 AWE ROM emulator
 
 Except for when size concerns prohibit its inclusion, SFe players should include an AWE ROM emulator.
 
@@ -1570,16 +1579,6 @@ Except for when size concerns prohibit its inclusion, SFe players should include
 - Sample names will remain the same, but there will be acceptable alias names.
 - Emulators should also be able to open up SF files (either legacy SF or SFe) containing samples and metadata.
 - There may or may not be instruments or presets.
-
-The new system will also permit real time synthesis.
-
-- Basic waveforms are provided.
-- They should be generated in real time, not from samples.
-- Wavetable synthesis can also be combined with different sounds.
-
-Read the legacy SF2.04 specification for information on how to make custom Silicon SF banks for older hardware.
-
-A SiliconSFe specification will be available in the final specification.
 
 # Section 12: Glossary
 
