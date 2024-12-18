@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-rc1 (10/12/2024)
+## Machine readable version (Markdown) - 4.0-rc1a (18/12/2024)
 
 Copyright © 2024 SFe Team and contributors
 
@@ -23,13 +23,13 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 - Large files (above 4 GiB) must use a 64-bit chunk header format.
 - Programs that are designed to create existing SF2 files can easily be adapted to 64-bit with SFe.
 - 64-bit headers will allow creators of sound banks to replace split banks with a large number of SF2 files, with large monolithic banks, where all samples and instruments can be used in every preset.
-- SFe compatible players require a certain standard of features, which is in the program specification in section 11.
+- SFe compatible players require a certain standard of features, which is in the program specification in section 11. This improves compatibility of SFe banks with players.
 
 ## 1.2 Changelog
 
 | Revision | Date             | Description |
 | -------- | ---------------- | ----------- |
-| 4.0-rc1  | 10 December 2024 | n/a         |
+| 4.0-rc1a | 18 December 2024 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -48,7 +48,7 @@ Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbi
 
 - The resulting format was known as SF3.
 - It is commonly used by open source programs, such as MuseScore and FluidSynth.
-- This is the reason why this format is not called .SF3 (it was in 4.0.1, but after **feedback by derselbst** and **mawe42** on GitHub, we changed it to SFe).
+- This is the reason why this format is not called .SF3.
 - SFe incorporates the Werner SF3 specification as SFe Compression.
 
 Another development was done by Cognitone, which created an open source program that can losslessly compress SoundFont® 2 files (with FLAC). This was done in 2017.
@@ -67,12 +67,11 @@ The SFe project started in 2020 as a proposal for a successor to legacy SF2.04 b
 
 ## 1.4 Scope and purpose
 
-This is the specification for the SFe 4.0 file format, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards.
+This is the specification for the SFe 4.0 file format, based on the famous E-mu Systems® SoundFont® 2.04, and Werner SF3 standards, and is intended to be a source of information on SFe.
 
-- It's intended to be a source of information on SFe.
 - To create files that support SFe, you will need:
   - The SFe format, compatibility, and program specifications
-  - E-mu's provided documents for legacy SF2.04 ([sfspec24.pdf](https://freepats.zenvoid.org/sf2/sfspec24.pdf))
+  - E-mu's provided documents for legacy SF2.04 ([SFSPEC24.PDF](https://freepats.zenvoid.org/sf2/sfspec24.pdf))
 - All features from legacy SF2.04 will be retained.
 
 ## 1.5 Important differences from the legacy SF specification document
@@ -87,7 +86,7 @@ This is the specification for the SFe 4.0 file format, based on the famous E-mu 
 
 The sections in this specification are different to the sections in `SFSPEC24.PDF`, however they roughly correspond to some of these sections:
 
-- Section 1-3 of this specification to sections 0-1 of `SFSPEC24.PDF`
+- Sections 1-3 of this specification to sections 0-1 of `SFSPEC24.PDF`
 
 - Section 4 of this specification to section 2 of `SFSPEC24.PDF`
 
@@ -215,7 +214,7 @@ If an earlier major version of SFe is the main version used for a longer time th
 
 The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2.04, with these additions:
 
-- Branch - A subdivision of a tree strucutre containing either sub-branches or leaves that include values.
+- Branch - A subdivision of a tree structure containing either sub-branches or leaves that include values.
 - BW64 - Broadcast Wave 64, used in the RF64 Header.
 - Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered proprietary compression, usage is not allowed in SFe.
 - FLAC - A lossless audio compression format commonly used in open-source software. Supported by Werner SF3, but not commonly used for that purpose.
@@ -309,7 +308,6 @@ RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe 
 - RIFF is the basic version with 32-bit chunk headers, and is used in legacy SF2.04 and Werner SF3.
 - RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
 - RIFX is a big-endian version of 32-bit RIFF, while RIFF and RIFF64 are little-endian formats.
-- RIFD is the dynamic version of RIFF developed by spessasus. It will be included in a future version of SFe.
 
 RIFF-type formats are created in building blocks known as "chunks."
 
@@ -339,7 +337,7 @@ In SFe, there are different chunk header types that are used in the format. Thes
   - To prevent loading by incompatible players, the `sfbk` fourcc is replaced with `sfen` (**SF**-**en**hanced)
   - This corresponds to RIFF64.
 
-Future versions of SFe may define different chunk header types. In particular, we are planning on introducing a header type called "Dynamic", which uses the `RIFD` FourCC, and allows scaling of chunk sizes beyond 64-bit while saving space for banks that don't use the full 64 bits (which is currently every bank).
+Future versions of SFe may define different chunk header types.
 
 ## 5.4 RIFF error checking features
 
@@ -378,21 +376,21 @@ Only SFe-specific chunks are listed for brevity. In this section, assume that an
 
 The `ISFe-list` sub-chunk includes many different sub-chunks to show information about SFe-specific features. Generally, we use the `ISFe-list` sub-chunk to make it clearer that this kind of information is SFe-specific.
 
-Due to possible compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` sub-chunk, rather than as a fourth RIFF chunk. At least a few legacy soundcards do not error out on the inclusion of a fourth separate chunk. Officially, according to `SFSPEC24.PDF`, additional sub-chunks mean that an SFe file is not conformant to the legacy SF2.04 standard.
+Due to possible compatibility constraints, the `ISFe-list` sub-chunk is found inside the `INFO-list` sub-chunk, rather than as a fourth RIFF chunk. At least a few legacy soundcards (notably the SB X-Fi) do not error out on the inclusion of a fourth separate chunk. Officially, according to `SFSPEC24.PDF`, additional sub-chunks mean that an SFe file is not conformant to the legacy SF2.04 standard.
 
 The `ISFe-list` sub-chunk currently contains these sub-chunks as of version 4.0:
 
 - `SFty` chunk (UTF-8 string)
 - `SFvx` chunk (46 bytes)
-  - `wSFeSpecMajorVersion` (WORD)
-  - `wSFeSpecMinorVersion` (WORD)
-  - `achSFeSpecType[20]` (CHAR)
-  - `wSFeDraftMilestone` (WORD)
-  - `achSFeFullVersion[20]` (CHAR)
+  - `wSFeSpecMajorVersion` (`WORD`)
+  - `wSFeSpecMinorVersion` (`WORD`)
+  - `achSFeSpecType[20]` (`CHAR`)
+  - `wSFeDraftMilestone` (`WORD`)
+  - `achSFeFullVersion[20]` (`CHAR`)
 - `flag` chunk (multiple of 6 bytes)
-  - `byBranch` (BYTE)
-  - `byLeaf` (BYTE)
-  - `dwFlags` (DWORD)
+  - `byBranch` (`BYTE`)
+  - `byLeaf` (`BYTE`)
+  - `dwFlags` (`DWORD`)
 
 ### 5.5.3 Changed and removed chunks
 
@@ -434,16 +432,16 @@ The specification type used is found in the `ISFe-list` sub-chunk.
 
 ### 5.6.3 Specification versions to ifil values
 
-| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil version (wMajor) | ifil version (wMinor) |
-| -------------------- | -------------------- | --------------------- | --------------------- |
-| 4                    | 0                    | 2 or 3                | 1024                  |
+| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor) | ifil (wMinor) |
+| -------------------- | -------------------- | ------------- | ------------- |
+| 4                    | 0                    | 2 or 3        | 1024          |
 
 ### 5.6.4 isng sub-chunk
 
 A new default isng sub-chunk value is used in SFe: `SFe 4`.
 
 - SFe 4.0 players should recognize this and remove the default velocity related filter used in legacy SF2.04.
-- In the case of a missing isng chunk, files with an ifil sub-chunk with `wMajor` = `2` or `3` and `wMinor` >= `1024`, or `wMajor` >= `4`, assume an isng sub-chunk value of `SFe 4`. Don't assume `EMU8000`.
+- In the case of a missing isng chunk, files with an ifil sub-chunk with `wMajor` = 2 or 3  and `wMinor` >= `1024`, or `wMajor` >= 4, assume an isng sub-chunk value of `SFe 4`. Don't assume `EMU8000`.
 
 Additionally, UTF-8 is now used instead of ASCII, and the length limit is removed.
 
@@ -459,17 +457,17 @@ Reject anything not terminated with a zero byte, and assume the value `SFe 4`. D
 |                       |                |                              |               |                 |
 | --------------------- | -------------- | ---------------------------- | ------------- | --------------- |
 | **Sound engine name** | **isng value** | **Creative/E-mu SF version** | **Bit depth** | **Sound cards** |
-| EMU8000               | EMU8000        | 1.0, 1.5, 2.00               | 16 bit        | AWE32, AWE64    |
-| EMU10K1               | E-mu 10K1      | 2.01                         | 16 bit        | SB Live!        |
-| EMU10K2               | E-mu 10K2      | 2.01                         | 16 bit        | SB Audigy       |
-| EMU20K1, EMU20K2      | X-Fi           | 2.04                         | 24 bit        | SB X-Fi         |
+| EMU8000               | `EMU8000`      | 1.0, 1.5, 2.00               | 16 bit        | AWE32, AWE64    |
+| EMU10K1               | `E-mu 10K1`    | 2.01                         | 16 bit        | SB Live!        |
+| EMU10K2               | `E-mu 10K2`    | 2.01                         | 16 bit        | SB Audigy       |
+| EMU20K1, EMU20K2      | `X-Fi`         | 2.04                         | 24 bit        | SB X-Fi         |
 
 #### SFe
 
 |                       |                |                 |               |
 | --------------------- | -------------- | --------------- | ------------- |
 | **Sound engine name** | **isng value** | **SFe version** | **Bit depth** |
-| SFe 4                 | SFe 4          | 4.0             | 32 bit        |
+| SFe 4                 | `SFe 4`        | 4.0             | 32 bit        |
 
 ### 5.6.6 INAM, ICRD, IENG, IPRD, ICOP, ICMT and ISFT sub-chunks
 
@@ -496,7 +494,7 @@ The defined values of the `SFty` chunk are:
 
 The field should not be longer than 28 bytes in SFe 4.0.
 
-If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe-static`; only use such a value when it is evident beyond a reasonable doubt that the file used is SFe.
+If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe-static`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe-static` format.
 
 ### 5.6.9 SFvx sub-chunk
 
@@ -526,7 +524,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc1`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc1a`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -559,7 +557,7 @@ The `DWORD` value `dwFlags` represents the feature flags themselves, which repre
 
 A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (SFe Compression sample compression formats). While the `flag` sub-chunk uses a tree structure, it should be noted that no branch includes sub-branches; the branches only include leaves.
 
-Branch numbers between `240` (`F0`) and `255` (`FF`) are private-use branches that will not be defined in the SFe specification itself, and are free to be used by programs.
+Branch numbers between 240 (`F0`) and 255 (`FF`) are private-use branches that will not be defined in the SFe specification itself, and are free to be used by programs.
 
 An exhaustive list of feature flags and their corresponding tree values can be found in section 6.2.
 
@@ -591,7 +589,7 @@ By standardising on Werner SF3 in the form of SFe Compression, we will hopefully
 
 #### File identification for SFe Compression
 
-The `wMajor` value in the `ifil` sub-chunk is set to `3` instead of `2`. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
+The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
 
 #### sfSampleType in shdr sub-chunk
 
@@ -638,7 +636,7 @@ These sub-chunks are optional.
 - The `sm32` sub-chunk contains the least significant byte, and the `sm24` sub-chunk contains the next least significant byte after `sm32`.
 - Each sub-chunk is exactly half the size of the `smpl` sub-chunk for uncompressed banks. This may not apply when SFe Compression is in use.
 - For every two bytes in the `smpl` sub-chunk, there is one byte in these sub-chunks (if all samples are compressed).
-- These sub-chunks can only be used with compressed samples This limitation may be removed in future versions of SFe.
+- These sub-chunks can only be used with uncompressed samples. This limitation may be removed in future versions of SFe.
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
@@ -677,7 +675,7 @@ If there is both an orphaned `sm24` and an orphaned `sm32` sub-chunk, the `sm24`
 
 Its size is a multiple of 38 bytes, and its structure is the same as in legacy SF2.04.
 
-The last sfPresetHeader entry shouldn't need to be accessed, apart from the uses described in `SFSPEC24.PDF`. The `phdr` sub-chunk is required; files without a `phdr` sub-chunk are Structurally Unsound.
+The last `sfPresetHeader` entry shouldn't need to be accessed, apart from the uses described in `SFSPEC24.PDF`. The `phdr` sub-chunk is required; files without a `phdr` sub-chunk are Structurally Unsound.
 
 #### achPresetName Changes
 
@@ -752,7 +750,7 @@ The feature flags system is split like this:
 
 - Branches: Roughly corresponds to each version (but not all listed features are part of the version). Maximum of 256. Number may increase with later `wMajor` versions.
 - Leaves: Corresponds to each feature. Maximum of 256. These may change with later `wMajor` versions. Contains 32-bit data declaring how much of the feature is implemented.
-- Flags: Each of the 32-bits that comprise a leaf, declaring support for specific features.
+- Flags: Each of the 32 bits that comprise a leaf, declaring support for specific features.
 
 ### 6.2.2 Branch 00 Foundational synthesis engine
 
@@ -1273,7 +1271,7 @@ SFe 4 does not support increased maximum length changes due to backward compatib
 
 This sub-chunk must contain at least two entries. Failure to do so will affect the compatibility with legacy SF players.
 
-wBank changes are not recognised by legacy SF players. On such legacy players, only the m.s.b. is retained.
+`wBank` changes are not recognised by legacy SF players. On such legacy players, only the m.s.b. is retained.
 
 Presets with l.s.b.=0 should be the first presets internally. You may also want to use VArranger's workaround: for example, `115@ConcertGrand`.
 
@@ -1292,8 +1290,8 @@ If the SF version is 2.04 or below, ignore the whole modulator structure if a re
 
 While default modulators 1-4 are not used in SFe version 4, SFe programs must still use them for older versions:
 
-- If the SF version is 2.04, use the SF2.04 version of the Default Modulator 2.
-- If the SF version is 2.01, use the SF2.01 version of the Default Modulator 2.
+- If the SF version is `2.04`, use the SF2.04 version of the Default Modulator 2.
+- If the SF version is `2.01`, use the SF2.01 version of the Default Modulator 2.
 - If the sound engine is `EMU8000`, trigger legacy sound card mode.
 - If the sound engine is `E-mu 10K1`, `E-mu 10K2`, `X-Fi`, or `SFe 4`, do not trigger legacy sound card mode.
 
@@ -1301,7 +1299,7 @@ Parameter units remain the same as SF2.04.
 
 ### 10.1.5 Error handling
 
-Legacy SF players may halt on undefined chunks. Section 10.2 of `SFSPEC21.PDF` and `SFSPEC24.PDF` forbid the addition of sub-chunks to the sdta-list chunk, but Creative/E-mu themselves decided to do it anyway when developing SF2.04 (by using the `sm24` sub-chunk).
+Legacy SF players may halt on undefined chunks. Section 10.2 of `SFSPEC21.PDF` and `SFSPEC24.PDF` forbid the addition of sub-chunks to the `sdta-list` chunk, but Creative/E-mu themselves decided to do it anyway when developing SF2.04 (by using the `sm24` sub-chunk).
 
 Legacy SF players may halt on unknown enums, which goes against the legacy SF2.04 specification. However, at least some legacy soundcards do not error out on an unknown enum.
 
@@ -1341,18 +1339,18 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ### 11.1.1 File format specifications
 
-|                              | **Level 1**                                                                                    | **Level 2**                                                                                    | **Level 3**                                                                                    | **Level 4**                                                                                    |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **File size representation** | Unsigned 32-bit integer  <br>You must not use signed integers                                  | Unsigned 32-bit integer  <br>You must not use signed integers                                  | Unsigned 64-bit integer  <br>You must not use signed integers                                  | Unsigned 64-bit integer  <br>You must not use signed integers                                  |
-| **File size limit**          | System memory                                                                                  | Based on chunk header type                                                                     | Based on chunk header type                                                                     | Based on chunk header type                                                                     |
-| **Sample streaming**         | System memory                                                                                  | System memory and disk streaming                                                               | System memory and disk streaming                                                               | System memory and disk streaming                                                               |
-| **Total file size limit**    | System memory                                                                                  | At least 32 GiB                                                                                | No limit                                                                                       | No limit                                                                                       |
-| **Multiple files**           | Optional                                                                                       | 8 or more                                                                                      | 256 or more                                                                                    | No limit                                                                                       |
-| **Legacy support**           | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                       | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                       | Full quality: SF2.01, SF2.04 and Werner SF3                                                    | Full quality: SF2.01, SF2.04 and Werner SF3                                                    |
-| **Header support**           | 32-bit static                                                                                  | 32-bit static                                                                                  | 32-bit static, 64-bit static                                                                   | 32-bit static, 64-bit static, dynamic, RIFX                                                    |
-| **Sample compression**       | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                    | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                    | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                    | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                    |
-| **File extension**           | SFe: .sft <br>SF2.0x: .sf2  <br>Werner SF3: .sf3  <br>Any other uncompressed format is allowed | SFe: .sft <br>SF2.0x: .sf2  <br>Werner SF3: .sf3  <br>Any other uncompressed format is allowed | SFe: .sft <br>SF2.0x: .sf2  <br>Werner SF3: .sf3  <br>Any other uncompressed format is allowed | SFe: .sft <br>SF2.0x: .sf2  <br>Werner SF3: .sf3  <br>Any other uncompressed format is allowed |
-| **Information/Metadata**     | New chunks, feature flags                                                                      | New chunks, feature flags                                                                      | New chunks, feature flags                                                                      | New chunks, feature flags                                                                      |
+|                              | **Level 1**                                                                                          | **Level 2**                                                                                          | **Level 3**                                                                                          | **Level 4**                                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **File size representation** | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        |
+| **File size limit**          | System memory                                                                                        | Based on chunk header type                                                                           | Based on chunk header type                                                                           | Based on chunk header type                                                                           |
+| **Sample streaming**         | System memory                                                                                        | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     |
+| **Total file size limit**    | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
+| **Multiple files**           | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
+| **Legacy support**           | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
+| **Header support**           | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static, dynamic, RIFX                                                          |
+| **Sample compression**       | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          |
+| **File extension**           | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
+| **Information/Metadata**     | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
 ### 11.1.2 Sample specifications
 
@@ -1390,8 +1388,8 @@ If an implementation is unable to reach the layering requirements without crashi
 |                                                                                                                                            | **Level 1**                                                                                                                                                                                   | **Level 2**                                                                                                                                                                                   | **Level 3**                                                                                                                                                                                   | **Level 4**                                                                                                                                                                                   |
 | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Polyphony limit**                                                                                                                        | 32 or greater with mono samples  <br>16 or greater with stereo samples                                                                                                                        | 256 or greater with mono samples  <br>128 or greater with stereo samples                                                                                                                      | 512 or greater with mono samples  <br>256 or greater with stereo samples                                                                                                                      | No limit                                                                                                                                                                                      |
-| **Percussion toggle**                                                                                                                      | byBankMSB/byBankLSB bit 1                                                                                                                                                                     | byBankMSB/byBankLSB bit 1                                                                                                                                                                     | byBankMSB/byBankLSB bit 1                                                                                                                                                                     | byBankMSB/byBankLSB bit 1                                                                                                                                                                     |
-| **Control change 0/32 (Bank select)**                                                                                                      | CC0: byBankMSB bits 2-8  <br>CC32: byBankLSB bits 2-8                                                                                                                                         | CC0: byBankMSB bits 2-8  <br>CC32: byBankLSB bits 2-8                                                                                                                                         | CC0: byBankMSB bits 2-8  <br>CC32: byBankLSB bits 2-8                                                                                                                                         | CC0: byBankMSB bits 2-8  <br>CC32: byBankLSB bits 2-8                                                                                                                                         |
+| **Percussion toggle**                                                                                                                      | `byBankMSB`/`byBankLSB` bit 1                                                                                                                                                                 | `byBankMSB`/`byBankLSB` bit 1                                                                                                                                                                 | `byBankMSB`/`byBankLSB` bit 1                                                                                                                                                                 | `byBankMSB`/`byBankLSB` bit 1                                                                                                                                                                 |
+| **Control change 0/32 (Bank select)**                                                                                                      | CC0: `byBankMSB` bits 2-8  <br>CC32: `byBankLSB` bits 2-8                                                                                                                                     | CC0: `byBankMSB` bits 2-8  <br>CC32: `byBankLSB` bits 2-8                                                                                                                                     | CC0: `byBankMSB` bits 2-8  <br>CC32: `byBankLSB` bits 2-8                                                                                                                                     | CC0: `byBankMSB` bits 2-8  <br>CC32: `byBankLSB` bits 2-8                                                                                                                                     |
 | **Control change 7/39/8**  <br>**Control change 40/10/42**                                                                                 | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
 | **Control change 1/33/2/34/4/36**  <br>**Control change 5/37/11/43/84**                                                                    | CC1/33 (modulation wheel) required                                                                                                                                                            | CC1/33 (modulation wheel) required                                                                                                                                                            | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
 | **Control change 6/38**                                                                                                                    | GM1 data entry required                                                                                                                                                                       | GM1 data entry required                                                                                                                                                                       | GM1 data entry required                                                                                                                                                                       | GM1 data entry required                                                                                                                                                                       |
@@ -1418,7 +1416,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
-- Downgrade the `ifil` version in the header from `wMajor=2`, `wMinor=128` to `wMajor=2`, `wMinor=4`.
+- Downgrade the `ifil` version in the header from `wMajor=2`, `wMinor=1024` to `wMajor=2`, `wMinor=4`.
 - Overwrite the `isng` value with `X-Fi`.
 - Decompress the samples if the bank uses SFe Compression.
 - Downsample any 32-bit samples to 24-bit, and remove the `sm32` sub-chunk.
@@ -1428,7 +1426,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ### 11.2.3 Conversion from SFe to legacy SF2.01
 
-- Downgrade the `ifil` version in the header from `wMajor=2`, `wMinor=128` to `wMajor=2`, `wMinor=1`.
+- Downgrade the `ifil` version in the header from `wMajor=2`, `wMinor=1024` to `wMajor=2`, `wMinor=1`.
 - Overwrite the `isng` value with `EMU8000` or `E-mu 10K1`.
 - Decompress the samples if the bank uses SFe Compression.
 - Downsample any 24-bit or 32-bit samples to 16-bit, and remove the `sm24` and `sm32` sub-chunks.
@@ -1451,7 +1449,7 @@ If an implementation is unable to reach the layering requirements without crashi
 - Set `ckSize` to the value of `ds64`.
 - Delete `ds64`.
 - Replace `RF64` with `RIFF`.
-- Rename `sfen` to `sfbk` (SFe 4).
+- Rename `sfen` to `sfbk`.
 
 ### 11.3.3 Conversion between 32-bit static and RIFX
 
@@ -1536,7 +1534,7 @@ In the case of a missing `IGEN` sub-chunk, the program should just reconstruct a
 
 If the `IGEN` sub-chunk is not a multiple of 4 bytes, then this indicates a structural error in one or more of the instrument generators. Each generator can be inspected and the structure repaired. The user should also be given the choice between repairing the generators and just deleting them. Repaired generators must be indicated so the user can make any required adjustments. This does not have to be in the file, rather just in the user interface of the program.
 
-The `sampleID` generator value is usually corrected by correcting the incorrect value(s) by inspecting the structure and determining the correct value for the sampleID generator value or terminal sampleID.
+The `sampleID` generator value is usually corrected by correcting the incorrect value(s) by inspecting the structure and determining the correct value for the `sampleID` generator value or terminal `sampleID`.
 
 #### SHDR sub-chunk errors
 
@@ -1590,7 +1588,7 @@ Missing sub-chunks should not be filled in unless there are ROM samples that are
 
 #### smpl, sm24 and sm32 sub-chunk errors
 
-If both the `sm24` and `sm32` sub-chunks are present, then these sub-chunks should be combined into 16-bit samples in one smpsub-chunk. Because endianness may not be clear in this situation, you must allow the user to select the endianness of the operation.
+If both the `sm24` and `sm32` sub-chunks are present, then these sub-chunks should be combined into 16-bit samples in one `smpl` sub-chunk. Because endianness may not be clear in this situation, you must allow the user to select the endianness of the operation.
 
 If there is a mismatch in the `ifil` version and the presence of both `sm24` and `sm32` sub-chunks, then allow the user to select whether they want to keep thesesub-chunks. If there is only one sucsub-chunk, then allow the user to update the bank to use SFe with 8-bit samples.
 
@@ -1608,7 +1606,7 @@ To fix unknown or inappropriate "link" values, they should be corrected to a val
 
 #### PGEN sub-chunk errors
 
-Unknown `sfGenOper` values should be corrected to a value given by the user. Modulators with the same sfGenOper enumerator as another modulator should be highlighted, so it can be changed by the user. Generators and modulators in inappropriate places should also be moved with references corrected. Non-global lists that don't have an instrument generator at the end should have an instrument generator added.
+Unknown `sfGenOper` values should be corrected to a value given by the user. Modulators with the same `sfGenOper` enumerator as another modulator should be highlighted, so it can be changed by the user. Generators and modulators in inappropriate places should also be moved with references corrected. Non-global lists that don't have an instrument generator at the end should have an instrument generator added.
 
 #### INST sub-chunk errors
 
@@ -1624,7 +1622,7 @@ Unknown `sfGenOper` values should be corrected to a value given by the user. Mod
 
 #### SHDR sub-chunk errors
 
-If the sample rate is zero, then it should be corrected automatically to the correct value via automatic pitch detection and then highlighted for the user to verify. Bad original pitch values should be corrected to the value with automatic pitch detection. Non-zero wSampleLink values should be set to zero.
+If the sample rate is zero, then it should be corrected automatically to the correct value via automatic pitch detection and then highlighted for the user to verify. Bad original pitch values should be corrected to the value with automatic pitch detection. Non-zero `wSampleLink` values should be set to zero if SFe Compression is in use.
 
 You should not edit the sample rate unless it is zero.
 
@@ -1650,7 +1648,7 @@ The user should be given the choice of compression algorithms to use for the sam
 
 #### ISFe chunk errors
 
-The `ISFe` chunk can be repaired, however information in the `ISFe` chunk should be reconstructed.
+The `ISFe-list` sub-chunk can be repaired, however information in the `ISFe-list` sub-chunk should be reconstructed.
 
 #### ifil chunk errors
 
@@ -1670,7 +1668,7 @@ Duplicated preset locations should be highlighted, and the user should have the 
 
 #### File size limit errors
 
-32-bit static headers and structures can be replaced with 64-bit counterparts if the file size was found to exceed 4 GiB. Alternatively, if TSC mode is supported by the SFe program, then it can be activated by moving the sdta-info chunk to the end and setting the correct feature flag in the `ISFe=list` sub-chunk.
+32-bit static headers and structures can be replaced with 64-bit counterparts if the file size was found to exceed 4 GiB. Alternatively, if TSC mode is supported by the SFe program, then it can be activated by moving the sdta-info chunk to the end and setting the correct feature flag in the `ISFe-list` sub-chunk.
 
 #### Feature flag errors
 
@@ -1815,7 +1813,7 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
 - AWE64 - The successor to the famous AWE32, adding features such as waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
-- Branch - A subdivision of a tree strucutre containing either sub-branches or leaves that include values.
+- Branch - A subdivision of a tree structure containing either sub-branches or leaves that include values.
 - BW64 - Broadcast Wave 64, used in the RF64 Header.
 - Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
