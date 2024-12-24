@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-rc1a (18/12/2024)
+## Machine readable version (Markdown) - 4.0-20241224
 
 Copyright © 2024 SFe Team and contributors
 
@@ -27,9 +27,9 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision | Date             | Description |
-| -------- | ---------------- | ----------- |
-| 4.0-rc1a | 18 December 2024 | n/a         |
+| Revision     | Date             | Description |
+| ------------ | ---------------- | ----------- |
+| This version | 24 December 2024 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -943,13 +943,11 @@ The feature flags system is split like this:
 - Bit 2: Reserved
 - Bit 3: Reserved
 
-### 6.2.7 Branch 05 SiliconSFe support
-
-#### 05:00 User-defined sample ROMs
+#### 04:02 User-defined sample ROMs
 
 - Bit 1: Support for user-defined sample ROMs
 
-#### 05:01 ROM emulator
+#### 04:03 ROM emulator
 
 - Bit 1: 1MB ROM emulator support
 
