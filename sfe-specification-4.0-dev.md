@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20241224
+## Machine readable version (Markdown) - 4.0-20241224a
 
 Copyright © 2024 SFe Team and contributors
 
@@ -1015,7 +1015,7 @@ This occurs when the file is structurally damaged or manually edited in a manner
 - In SFe, the preset to be used is no longer necessarily the first one. Instead, selecting the correct preset (or combination of presets) to use will be permissible.
 - Such a feature is optional, and if not implemented, the player should use the legacy SF2.04 behavior in these cases (use the first preset found).
 - Editors should warn the user if such presets are found.
-- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. In particular, later versions of SFe will use the `ISFe-list` sub-chunk to determine this behavior.
+- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account.
 
 ## 8.4 Duplicated preset locations across files
 
@@ -1025,9 +1025,10 @@ This occurs when multiple files are loaded simultaneously (now a required featur
 - This was because multiple file loading was not a standard feature mandated in the legacy SoundFont® standard.
 - Legacy SF2.04 and Werner SF3 compatible software developers therefore had the liberty to implement multiple file loading; however, they wanted to.
 - This edge case will now be defined in SFe.
-- If multiple presets across loaded files have the same value of `byBankMSB`, `byBankLSB` and `wPreset`, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
-- Such a feature is also optional, and if not implemented, you can either use the first preset found, or you can combine all the presets.
-- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. In particular, later versions of SFe will use the `ISFe-list` sub-chunk to determine this behavior.
+- If multiple presets across loaded files have the same value of `byBankMSB`, `byBankLSB` and `wPreset`, then the preset to be used may be selectable from all the presets with the same bank location (in the way described in section 8.3).
+- Such a feature is optional, and if not implemented, the player should use the legacy SF2.04 behavior in these cases (use the first preset found).
+- Editors should warn the user if such presets are found.
+- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account.
 
 ## 8.5 Undefined chunks
 
