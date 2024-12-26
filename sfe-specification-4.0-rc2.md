@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-rc1a (18/12/2024)
+## Machine readable version (Markdown) - 4.0-rc2 (Release Candidate 2)
 
 Copyright © 2024 SFe Team and contributors
 
@@ -27,9 +27,9 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision | Date             | Description |
-| -------- | ---------------- | ----------- |
-| 4.0-rc1a | 18 December 2024 | n/a         |
+| Revision     | Date             | Description |
+| ------------ | ---------------- | ----------- |
+| This version | 26 December 2024 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -524,7 +524,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc1a`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc2`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -943,13 +943,11 @@ The feature flags system is split like this:
 - Bit 2: Reserved
 - Bit 3: Reserved
 
-### 6.2.7 Branch 05 SiliconSFe support
-
-#### 05:00 User-defined sample ROMs
+#### 04:02 User-defined sample ROMs
 
 - Bit 1: Support for user-defined sample ROMs
 
-#### 05:01 ROM emulator
+#### 04:03 ROM emulator
 
 - Bit 1: 1MB ROM emulator support
 
@@ -1017,7 +1015,7 @@ This occurs when the file is structurally damaged or manually edited in a manner
 - In SFe, the preset to be used is no longer necessarily the first one. Instead, selecting the correct preset (or combination of presets) to use will be permissible.
 - Such a feature is optional, and if not implemented, the player should use the legacy SF2.04 behavior in these cases (use the first preset found).
 - Editors should warn the user if such presets are found.
-- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. In particular, later versions of SFe will use the `ISFe-list` sub-chunk to determine this behavior.
+- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account.
 
 ## 8.4 Duplicated preset locations across files
 
@@ -1027,9 +1025,10 @@ This occurs when multiple files are loaded simultaneously (now a required featur
 - This was because multiple file loading was not a standard feature mandated in the legacy SoundFont® standard.
 - Legacy SF2.04 and Werner SF3 compatible software developers therefore had the liberty to implement multiple file loading; however, they wanted to.
 - This edge case will now be defined in SFe.
-- If multiple presets across loaded files have the same value of `byBankMSB`, `byBankLSB` and `wPreset`, then the preset to be used may be selectable from all the presets with the same bank location, depending on the player implementation. The preset to be used may also be a combination of multiple presets.
-- Such a feature is also optional, and if not implemented, you can either use the first preset found, or you can combine all the presets.
-- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. In particular, later versions of SFe will use the `ISFe-list` sub-chunk to determine this behavior.
+- If multiple presets across loaded files have the same value of `byBankMSB`, `byBankLSB` and `wPreset`, then the preset to be used may be selectable from all the presets with the same bank location (in the way described in section 8.3).
+- Such a feature is optional, and if not implemented, the player should use the legacy SF2.04 behavior in these cases (use the first preset found).
+- Editors should warn the user if such presets are found.
+- This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account.
 
 ## 8.5 Undefined chunks
 
@@ -1412,7 +1411,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
 - Overwrite the `isng` value with `SFe 4`.
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 1, "4.0-rc1"`, `flag` corresponding to features used in the bank.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 2, "4.0-rc2"`, `flag` corresponding to features used in the bank.
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
