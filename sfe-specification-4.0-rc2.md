@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20241224a
+## Machine readable version (Markdown) - 4.0-rc2 (Release Candidate 2)
 
 Copyright © 2024 SFe Team and contributors
 
@@ -29,7 +29,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description |
 | ------------ | ---------------- | ----------- |
-| This version | 24 December 2024 | n/a         |
+| This version | 26 December 2024 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -524,7 +524,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc1a`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc2`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -1411,7 +1411,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
 - Overwrite the `isng` value with `SFe 4`.
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 1, "4.0-rc1"`, `flag` corresponding to features used in the bank.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 2, "4.0-rc2"`, `flag` corresponding to features used in the bank.
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
