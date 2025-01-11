@@ -1,10 +1,28 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250111a (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250111b (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
+#### Copyright notice
+
 All parts of this specification may be reproduced without additional written permission by the SFe Team, provided that you follow the license in section 2.3.  
+
+The SFe Team is in no way sponsored by or otherwise affiliated with Creative Technology Ltd. or E-mu Systems, Inc.
+
+SoundFont® is a registered trademark of Creative Technology Ltd. The SoundFont® 2.04 file format is copyright © 1994–2002 E-mu Systems Inc.
+
+To avoid confusion with the official SoundFont standard, the file format is referred throughout to as "SF" and/or "SFe". Future versions of SFe may not be compatible with legacy SF players.
+
+That being said, "soundfont" is rapidly becoming a genericised word via the actions of the VGM (video game music) and lightsaber communities. If you are a member of the VGM, lightsaber, or another community, by not appropriating "SoundFont" for your unrelated formats, you can help keep the meaning of the trademark.
+
+Any excerpts from SFSPEC24.PDF are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
+
+#### Disclaimers
+
+This specification is subject to change without notice. Please obtain the latest version from the SFe Team GitHub page at [https://github.com/sfe-team-was-taken](https://github.com/Sfe-Team-was-taken).
+
+This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC24.PDF), which can be found at https://freepats.zenvoid.org/sf2/sfspec24.pdf.
 
 ---
 
@@ -77,7 +95,7 @@ This is the specification for the SFe 4.0 file format, based on the famous E-mu 
 ## 1.5 Important differences from the legacy SF specification document
 
 - This is not a standalone document; it refers to `SFSPEC24.PDF`. All relevant information from the Werner SF3 specification is included.
-- This document is unofficial and was not created by E-mu. If you want this to be removed, we will remove it, but we hope that this is because you have your own update to the SF format ready.
+- This document is unofficial and was not created by E-mu. If they want this to be removed, we will remove it, but we hope that this is because they have their own official update to the SF format ready.
 - For copyright reasons, we cannot copy information from the original standard, except for what is required to interpret this document and what is allowed under fair use.
 - The SFe specification includes many additional requirements over reading the file format.
 - Document organisation has been significantly modified to accommodate the intricacies of the SFe format, and to make it easier to read.
@@ -136,17 +154,7 @@ Thanks to these people or groups:
 - Falcosoft (for feature suggestions that will arrive in a future version of SFe)
 - E-mu Systems (for creating the legacy SoundFont format, of which SFe is based on)
 
-## 2.2 Copyright and Trademark Disclaimers
-
-SoundFont® is a registered trademark of Creative Technology Ltd. The SoundFont® 2.04 file format is copyright © 1994–2002 E-mu Systems Inc.
-
-To avoid confusion with the official SoundFont standard, the file format is referred throughout to as "SF" and/or "SFe". Future versions of SFe may not be compatible with legacy SF players.
-
-That being said, "soundfont" is rapidly becoming a genericised word via the actions of the VGM (video game music) and lightsaber communities. If you are a member of the VGM, lightsaber, or another community, by not appropriating "SoundFont" for your unrelated formats, you can help keep the meaning of the trademark.
-
-Any excerpts from `SFSPEC24.PDF` are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
-
-## 2.3 License
+## 2.2 License
 
 Copyright © 2020-2025 SFe Team and contributors
 
