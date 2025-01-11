@@ -1,8 +1,8 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-rc2 (Release Candidate 2)
+## Machine readable version (Markdown) - 4.0-20250111a (Release Candidate 3)
 
-Copyright © 2024 SFe Team and contributors
+Copyright © 2025 SFe Team and contributors
 
 All parts of this specification may be reproduced without additional written permission by the SFe Team, provided that you follow the license in section 2.3.  
 
@@ -27,9 +27,9 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision     | Date             | Description |
-| ------------ | ---------------- | ----------- |
-| This version | 26 December 2024 | n/a         |
+| Revision     | Date            | Description |
+| ------------ | --------------- | ----------- |
+| This version | 11 January 2025 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -148,7 +148,7 @@ Any excerpts from `SFSPEC24.PDF` are copyrighted by Creative Technology Ltd, and
 
 ## 2.3 License
 
-Copyright © 2024 SFe Team and contributors
+Copyright © 2020-2025 SFe Team and contributors
 
 Permission is granted to use, distribute and modify this specification for any use, provided that:
 
@@ -398,7 +398,9 @@ In the `pdta-list` sub-chunk, the `wBank` chunk has been replaced by `byBankMSB`
 
 ### 5.5.4 String encoding
 
-String encoding is now UTF-8 instead of ASCII. Mojibake may result on legacy SF players when using characters unsupported by ASCII. Because some characters use multiple bytes in UTF-8, you may not be able to use as many multi-byte characters compared to single-byte characters.
+For most string fields, the encoding to use is now UTF-8 instead of ASCII. Mojibake may result on legacy SF players when using characters unsupported by ASCII. Because some characters use multiple bytes in UTF-8, you may not be able to use as many multi-byte characters compared to single-byte characters.
+
+This applies to the `isng`, `INAM`, `irom`, `ICRD`, `IENG`, `IPRD`, `ICOP`, `ICMT`, `ISFT` chunks from legacy SF2.04, as well as the `achPresetName` (`PHDR`), `achInstrumentName` (`INST`) and `achSampleName` (`SHDR`) fields.
 
 ## 5.6 INFO-list sub-chunk
 
@@ -524,7 +526,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc2`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc3`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -677,41 +679,61 @@ Its size is a multiple of 38 bytes, and its structure is the same as in legacy S
 
 The last `sfPresetHeader` entry shouldn't need to be accessed, apart from the uses described in `SFSPEC24.PDF`. The `phdr` sub-chunk is required; files without a `phdr` sub-chunk are Structurally Unsound.
 
-#### achPresetName Changes
+### 5.8.2 New Bank System
 
-- In legacy SF2.04, `achPresetName` must be an ASCII string.
-- Now, UTF-8 replaces ASCII, allowing more characters to be written.
+In SFe 4.0, the bank system has been completely overhauled. Please read this section carefully to ensure that you correctly implement bank selects in your program.
 
-#### New Bank System
+#### Using MIDI Control Change #32 (Bank Select LSB)
 
-In SFe 4.0, `wBank` is replaced with `byBankMSB` and `byBankLSB`. This splits the one `WORD` in legacy SF2.04 into two `BYTE` values, one for each bank. We commend E-mu for being forward enough thinking to not use one `BYTE` to select a bank.
+In legacy SF2.04, the `wBank` field stores the bank that the preset can be found in. Due to a forward-thinking decision by E-mu, it is a `DWORD` (16-bit) instead of a `BYTE` (8-bit). This means that it could theoretically store values for both bank select instructions found in MIDI 1.0.
 
-- RIFF formats (with the exception of RIFX) are little endian. Therefore, `byBankMSB` goes before `byBankLSB`.
-- Bits 2–8 of *both* `byBankMSB` and `byBankLSB` are now used to set a bank change.
-- If a bank/program change combination produces a different result for midi channel 10, use the percussion toggle in `byBankMSB`.
-- File editors should warn the user if this issue is found.
-- SFe compatible players should allow the user to swap CC00 and CC32 settings.
-- Order in the `phdr` chunk in terms of ascending `byBankLSB` value to ensure legacy SF compatibility.
+Bank select LSB support is added by using the unused 8 bits of `wBank` according to the figure below. Bits 2–8 of *both* `byBankMSB` and `byBankLSB` are now used to set a bank change.
 
-### 5.8.2 inst sub-chunk
+<img title="" src="figures/figure1.png" alt="figure1.png" width="480">
+
+Figure: How the bank select logic differs from legacy SF2.04.
+
+#### Introducing byBankMSB and byBankLSB
+
+In the above figure, `wBank` has been replaced with `byBankMSB` and `byBankLSB`. 
+
+This splits the one `WORD` in legacy SF2.04 into two `BYTE` values, one for each bank. `byBankMSB` goes before `byBankLSB` due to RIFF being a little-endian format. For RIFX, `byBankLSB` is first.
+
+#### Using more than one percussion bank
+
+Legacy SF2.04 allows bank developers to define one bank of percussion kits for use in channel 10 that can be switched between using MIDI Program Change instructions by using the `wBank` number `128`.  In other words, if bit 7 is set, bits 0-6 must be clear - you cannot use bank select instructions with channel 10.
+
+SFe 4.0 now allows users to set bit 7 with any value for bits 0-6. The result is that there are 128 percussion banks available when using `byBankMSB`, as shown by the figure below.
+
+<img title="" src="figures/figure2.png" alt="figure2.png" width="480">
+
+Figure: How the percussion bank listing differs from legacy SF2.04.
+
+When byte 7 is set for `byBankMSB`, `byBankLSB` may also be used. Therefore, a total of 16384 (128×128) banks of percussion kits may be used.
+
+#### Flowchart for correct handling of bank select instructions
+
+<img title="" src="figures/figure3.png" alt="figure3.png" width="480">
+
+Figure: The flowchart for bank select instructions in legacy SF2.04.
+
+<img title="" src="figures/figure4.png" alt="figure4.png" width="480">
+
+Figure: The flowchart for bank select instructions in SFe 4.0. 
+
+Notice that not only are extra steps added for bank select LSB and percussion bank select handling, but extra configuration information used by the player is added to determine the correct preset to use. 
+
+### 5.8.3 inst sub-chunk
 
 Its size is a multiple of 22 bytes, and its structure is the same as in legacy SF2.04.
 
-- In legacy SF2.04, `achInstName` must be an ASCII string.
-- Now, UTF-8 replaces ASCII, allowing more characters to be written.
-
 The `inst` sub-chunk is required; files without an `inst` sub-chunk are Structurally Unsound.
 
-### 5.8.3 shdr sub-chunk
+### 5.8.4 shdr sub-chunk
 
 It size is a multiple of 46 bytes, and its structure is the same as in legacy SF2.04.
 
 The `shdr` sub-chunk is required; files without a `shdr` sub-chunk are Structurally Unsound.
-
-#### achSampleName Changes
-
-- In legacy SF2.04, `achSampleName` must be an ASCII string.
-- Now, UTF-8 replaces ASCII, allowing more characters to be written.
 
 #### Sample Rate Limit Changes
 
@@ -726,9 +748,9 @@ Bit 4 of `sfSampleType` is reserved for SFe Compression usage.
 
 - Read section 6.2 for more information on SFe Compression!
 
-### 5.8.4 Other sub-chunks
+### 5.8.5 Other sub-chunks
 
-The `pbag`, `pmod`, `pgen`, `ibag`, `imod` and `igen` sub-chunks work in the same way as legacy SF2.04. Read `SFSPEC24.PDF` for more information. 
+The `pbag`, `pmod`, `pgen`, `ibag`, `imod` and `igen`  sub-chunks work in the same way as legacy SF2.04, with all ASCII strings being replaced with UTF-8. Read `SFSPEC24.PDF` and section 5.5.4 of this document for more information. 
 
 If any of the sub-chunks listed above is missing or invalid, the SFe bank is Structurally Unsound.
 
@@ -814,21 +836,24 @@ The feature flags system is split like this:
 #### 00:07 MIDI Control Changes
 
 - Bit 1: 00 Bank Select MSB
-- Bit 2: 06 Data Entry MSB
-- Bit 3: 32 Bank Select LSB (Multiple banks)
-- Bit 4: 38 Data Entry LSB
-- Bit 5: 64 Sustain
-- Bit 6: 66 Soft
-- Bit 7: 67 Sostenuto
-- Bit 8: 98 NRPN LSB
-- Bit 9: 99 NRPN MSB
-- Bit 10: 100 RPN LSB
-- Bit 11: 101 RPN MSB
-- Bit 12: 120 All sound off
-- Bit 13: 121 Reset all controllers
-- Bit 14: 123 All notes off
-- Bit 15: 32 Bank Select LSB (`byBankLSB` support)
-- Bit 16: Reserved
+- Bit 2: 00 Bank Select MSB for percussion
+- Bit 3: 06 Data Entry MSB
+- Bit 4: 32 Bank Select LSB (Multiple banks)
+- Bit 5: 32 Bank Select LSB (Preset name)
+- Bit 6: 32 Bank Select LSB (`byBankLSB` support)
+- Bit 7: 32 Bank Select LSB for percussion
+- Bit 8: 38 Data Entry LSB
+- Bit 9: 64 Sustain
+- Bit 10: 66 Soft
+- Bit 11: 67 Sostenuto
+- Bit 12: 98 NRPN LSB
+- Bit 13: 99 NRPN MSB
+- Bit 14: 100 RPN LSB
+- Bit 15: 101 RPN MSB
+- Bit 16: 120 All sound off
+- Bit 17: 121 Reset all controllers
+- Bit 18: 123 All notes off
+- Bit 19: Reserved
 
 #### 00:08 Generators
 
@@ -1006,7 +1031,7 @@ The error correction process for structural errors in SFe is slightly different 
 
 While non-critical errors don't prevent the use of the bank, it is important that they are fixed to ensure that the bank functions work as intended on all SF players that conform to a specification, whether that be legacy SF2.04, Werner SF3 or SFe.
 
-## 8.3: Duplicated preset locations within files
+## 8.3 Duplicated preset locations within files
 
 This occurs when the file is structurally damaged or manually edited in a manner where more than one preset has the same value of byBankMSB, byBankLSB and wPreset (for instance, `015:000:081`).
 
@@ -1270,9 +1295,13 @@ SFe 4 does not support increased maximum length changes due to backward compatib
 
 This sub-chunk must contain at least two entries. Failure to do so will affect the compatibility with legacy SF players.
 
-`wBank` changes are not recognised by legacy SF players. On such legacy players, only the m.s.b. is retained.
+On legacy SF2.0x players, both `byBankMSB` and `byBankLSB` are read (as part of a larger `wBank` field), but only presets with a `byBankLSB` value of zero will be loaded.
 
-Presets with l.s.b.=0 should be the first presets internally. You may also want to use VArranger's workaround: for example, `115@ConcertGrand`.
+You may also want to use the VArranger system for implementing LSB: for example, `115@ConcertGrand`. Support for the VArranger system is defined by bit 5 of leaf 00:07 in the `flag` sub-chunk.
+
+Byte 7 of `byBankLSB` is reserved and should be preserved as read, and written as clear, to ensure backwards compatibility with legacy SF2.04. File editors should warn the user if byte 7 of `byBankLSB` is set.
+
+SFe compatible players can also allow the user to swap CC00 and CC32 settings when reading a legacy SF2.0x bank. This allows legacy SF2.04 banks that use player-specific "XG hacks" to function properly.
 
 ### 10.1.4 Generators and modulators
 
@@ -1411,7 +1440,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
 - Overwrite the `isng` value with `SFe 4`.
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 2, "4.0-rc2"`, `flag` corresponding to features used in the bank.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 3, "4.0-rc3"`, `flag` corresponding to features used in the bank.
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
