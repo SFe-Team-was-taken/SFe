@@ -181,13 +181,13 @@ Final specifications have version numbers in the format x.yL, where x and y are 
 - Release candidates have very similar version numbers to final specifications, but include "rc" between y and L.
 - An example of a final specification version would be 4.0.
 
-<img title="" src="figures/figure10.png" alt="figure10.png" width="360">
+<img title="Figure 1" src="figures/figure_1.png" alt="SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in 'L' versions. Later 'y' versions are compatible with earlier players but with reduced sound quality." width="360">
 
-Figure: SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in "L" versions. Later "y" versions are compatible with earlier players but with reduced sound quality.
+Figure 1: SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in "L" versions. Later "y" versions are compatible with earlier players but with reduced sound quality.
 
-<img title="" src="figures/figure11.png" alt="figure11.png" width="360">
+<img title="Figure 2" src="figures/figure_2.png" alt="SFe 'x' versions are not compatible with each other, but can be converted, resulting in reduced sound quality. Compatibility layers can be added to newer players to use older banks. It is also possible to upgrade banks to newer versions." width="360">
 
-Figure: SFe "x" versions are not compatible with each other, but can be converted, resulting in reduced sound quality. Compatibility layers can be added to newer players to use older banks. It is also possible to upgrade banks to newer versions.
+Figure 2: SFe "x" versions are not compatible with each other, but can be converted, resulting in reduced sound quality. Compatibility layers can be added to newer players to use older banks. It is also possible to upgrade banks to newer versions.
 
 Draft specification milestones have version numbers in the format x.y.zL, where x, y and z are numbers and L is a letter. In this case, the versioning works similarly to a final specification, but with these changes:
 
@@ -199,9 +199,9 @@ During the development of specifications, version numbers will be in the format 
 
 Only final specifications are included in the changelog in section 1.2.
 
-<img title="" src="figures/figure12.png" alt="figure12.png" width="360">
+<img title="Figure 3" src="figures/figure_3.png" alt="The SFe development process." width="360">
 
-Figure: The SFe development process
+Figure 3: The SFe development process.
 
 ## 3.2 Future improvements
 
@@ -356,9 +356,9 @@ In SFe, there are different chunk header types that are used in the format. Thes
 
 Future versions of SFe may define different chunk header types.
 
-<img title="" src="figures/figure8.png" alt="figure8.png" width="360">
+<img title="Figure 4" src="figures/figure_4.png" alt="32-bit static versus 64-bit static headers." width="360">
 
-Figure: 32-bit static versus 64-bit static headers. 
+Figure 4: 32-bit static versus 64-bit static headers. 
 
 ## 5.4 RIFF error checking features
 
@@ -393,9 +393,9 @@ An SFe 4 file consists of:
 
 Only SFe-specific chunks are listed for brevity. In this section, assume that any non-listed chunk is identical to SF2.04.
 
-<img title="" src="figures/figure9.png" alt="figure9.png" width="360">
+<img title="Figure 5" src="figures/figure_5.png" alt="Legacy SF2.04 vs SFe 4.0 structures." width="360">
 
-Figure: legacy SF2.04 vs SFe 4.0 structures
+Figure 5: Legacy SF2.04 vs SFe 4.0 structures.
 
 ### 5.5.2 ISFe-list information
 
@@ -687,9 +687,9 @@ These sub-chunks are optional.
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
-<img title="" src="figures/figure5.png" alt="figure5.png" width="360">
+<img title="Figure 6" src="figures/figure_6.png" alt="Available sample types in standard sample mode." width="360">
 
-Figure: Available sample types in standard sample mode.
+Figure 6: Available sample types in standard sample mode.
 
 - If the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), both `sm24` and `sm32` are ignored.
 - If the `ifil` version is exactly `2.04` (signifying legacy SF2.04), only `sm32` is ignored. The `sm24` sub-chunk is still used.
@@ -715,9 +715,9 @@ If there is an orphaned `sm24` or `sm32` sub-chunk, and the `SFty` sub-chunk is 
 
 If there is both an orphaned `sm24` and an orphaned `sm32` sub-chunk, the `sm24` sub-chunk is the most significant byte, and 16-bit sample playback is assumed. Editing software should give a warning if there is a `sm24` and a `sm32` sub-chunk but no `smpl` sub-chunk, and should convert it to a 2.01-compliant 16-bit format. This behaviour should be followed if supported, regardless of whether 8-bit sample playback support is actually supported.
 
-<img title="" src="figures/figure6.png" alt="figure6.png" width="360">
+<img title="Figure 7" src="figures/figure_7.png" alt="Available sample types in 8-bit sample mode." width="360">
 
-Figure: Available sample types in 8-bit sample mode.
+Figure 7: Available sample types in 8-bit sample mode.
 
 ### 5.7.5 Looping rules
 
@@ -742,9 +742,9 @@ In legacy SF2.04, the `wBank` field stores the bank that the preset can be found
 
 Bank select LSB support is added by using the unused 8 bits of `wBank` according to the figure below. Bits 2–8 of *both* `byBankMSB` and `byBankLSB` are now used to set a bank change.
 
-<img title="" src="figures/figure1.png" alt="figure1.png" width="360">
+<img title="Figure 8" src="figures/figure_8.png" alt="How the bank select logic differs from legacy SF2.04." width="360">
 
-Figure: How the bank select logic differs from legacy SF2.04.
+Figure 8: How the bank select logic differs from legacy SF2.04.
 
 #### Introducing byBankMSB and byBankLSB
 
@@ -758,21 +758,21 @@ Legacy SF2.04 allows bank developers to define one bank of percussion kits for u
 
 SFe 4.0 now allows users to set bit 7 with any value for bits 0-6. The result is that there are 128 percussion banks available when using `byBankMSB`, as shown by the figure below.
 
-<img title="" src="figures/figure2.png" alt="figure2.png" width="360">
+<img title="Figure 9" src="figures/figure_9.png" alt="How the percussion bank listing differs from legacy SF2.04." width="360">
 
-Figure: How the percussion bank listing differs from legacy SF2.04.
+Figure 9: How the percussion bank listing differs from legacy SF2.04.
 
 When byte 7 is set for `byBankMSB`, `byBankLSB` may also be used. Therefore, a total of 16384 (128×128) banks of percussion kits may be used.
 
 #### Flowchart for correct handling of bank select instructions
 
-<img title="" src="figures/figure3.png" alt="figure3.png" width="480">
+<img title="Figure 10" src="figures/figure_10.png" alt="The flowchart for bank select instructions in legacy SF2.04." width="480">
 
-Figure: The flowchart for bank select instructions in legacy SF2.04.
+Figure 10: The flowchart for bank select instructions in legacy SF2.04.
 
-<img title="" src="figures/figure4.png" alt="figure4.png" width="480">
+<img title="Figure 11" src="figures/figure_11.png" alt="The flowchart for bank select instructions in SFe 4.0. " width="480">
 
-Figure: The flowchart for bank select instructions in SFe 4.0. 
+Figure 11: The flowchart for bank select instructions in SFe 4.0. 
 
 Notice that not only are extra steps added for bank select LSB and percussion bank select handling, but extra configuration information used by the player is added to determine the correct preset to use. 
 
@@ -829,9 +829,9 @@ The feature flags system is split like this:
 
 Feature flags listed as "reserved" must not be used for private use. Branches 240 (`F0`) to 255 (`FF`) are provided for such use.
 
-<img title="" src="figures/figure7.png" alt="figure7.png" width="360">
+<img title="Figure 12" src="figures/figure_12.png" alt="The tree structure of the feature flags system." width="360">
 
-Figure: The tree structure of the feature flags system.
+Figure 12: The tree structure of the feature flags system.
 
 ### 6.2.2 Branch 00 Foundational synthesis engine
 
