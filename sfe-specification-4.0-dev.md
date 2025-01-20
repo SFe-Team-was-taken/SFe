@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250120b (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250120c (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
@@ -181,6 +181,14 @@ Final specifications have version numbers in the format x.yL, where x and y are 
 - Release candidates have very similar version numbers to final specifications, but include "rc" between y and L.
 - An example of a final specification version would be 4.0.
 
+<img title="" src="figures/figure10.png" alt="figure10.png" width="360">
+
+Figure: SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in "L" versions. Later "y" versions are compatible with earlier players but with reduced sound quality.
+
+<img title="" src="figures/figure11.png" alt="figure11.png" width="360">
+
+Figure: SFe "x" versions are not compatible with each other, but can be converted, resulting in reduced sound quality. Compatibility layers can be added to newer players to use older banks. It is also possible to upgrade banks to newer versions.
+
 Draft specification milestones have version numbers in the format x.y.zL, where x, y and z are numbers and L is a letter. In this case, the versioning works similarly to a final specification, but with these changes:
 
 - z is incremented when the draft undergoes a larger change, or large updates are made to the software.
@@ -190,6 +198,10 @@ Draft specification milestones have version numbers in the format x.y.zL, where 
 During the development of specifications, version numbers will be in the format x.y.aaaabbccL, where x, y, z, a, b and c are numbers, and L is a letter. The versioning is similar to final specifications and milestone drafts, but aaaabbcc is the day in which the specification was updated, and L is incremented when updated.
 
 Only final specifications are included in the changelog in section 1.2.
+
+<img title="" src="figures/figure12.png" alt="figure12.png" width="360">
+
+Figure: The SFe development process
 
 ## 3.2 Future improvements
 
@@ -319,8 +331,7 @@ RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
-- A unique four character code (FourCC), listed above.
-- `ckID`: type of data in chunk
+- `ckID`: type of data in chunk, equal to a unique four character code (FourCC), listed above.
 - `ckSize`: size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
 - `ds64`: size of chunk (RIFF64 only)
 - `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
@@ -344,6 +355,10 @@ In SFe, there are different chunk header types that are used in the format. Thes
   - This corresponds to RIFF64.
 
 Future versions of SFe may define different chunk header types.
+
+<img title="" src="figures/figure8.png" alt="figure8.png" width="360">
+
+Figure: 32-bit static versus 64-bit static headers. 
 
 ## 5.4 RIFF error checking features
 
@@ -377,6 +392,10 @@ An SFe 4 file consists of:
     - Sub-chunks inside `pdta-list` in legacy SF2.04
 
 Only SFe-specific chunks are listed for brevity. In this section, assume that any non-listed chunk is identical to SF2.04.
+
+<img title="" src="figures/figure9.png" alt="figure9.png" width="360">
+
+Figure: legacy SF2.04 vs SFe 4.0 structures
 
 ### 5.5.2 ISFe-list information
 
@@ -440,9 +459,9 @@ The specification type used is found in the `ISFe-list` sub-chunk.
 
 ### 5.6.3 Specification versions to ifil values
 
-| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor) | ifil (wMinor) |
-| -------------------- | -------------------- | ------------- | ------------- |
-| 4                    | 0                    | 2 or 3        | 1024          |
+| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor)                               | ifil (wMinor) |
+| -------------------- | -------------------- | ------------------------------------------- | ------------- |
+| 4                    | 0                    | 2 or 3 (32-bit header)<br>4 (64-bit header) | 1024          |
 
 ### 5.6.4 isng sub-chunk
 
@@ -668,6 +687,10 @@ These sub-chunks are optional.
 
 If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
 
+<img title="" src="figures/figure5.png" alt="figure5.png" width="360">
+
+Figure: Available sample types in standard sample mode.
+
 - If the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), both `sm24` and `sm32` are ignored.
 - If the `ifil` version is exactly `2.04` (signifying legacy SF2.04), only `sm32` is ignored. The `sm24` sub-chunk is still used.
 - For uncompressed banks, these sub-chunks are not exactly half the size of the `smpl` sub-chunk (or otherwise invalid), the data should be ignored.
@@ -692,6 +715,10 @@ If there is an orphaned `sm24` or `sm32` sub-chunk, and the `SFty` sub-chunk is 
 
 If there is both an orphaned `sm24` and an orphaned `sm32` sub-chunk, the `sm24` sub-chunk is the most significant byte, and 16-bit sample playback is assumed. Editing software should give a warning if there is a `sm24` and a `sm32` sub-chunk but no `smpl` sub-chunk, and should convert it to a 2.01-compliant 16-bit format. This behaviour should be followed if supported, regardless of whether 8-bit sample playback support is actually supported.
 
+<img title="" src="figures/figure6.png" alt="figure6.png" width="360">
+
+Figure: Available sample types in 8-bit sample mode.
+
 ### 5.7.5 Looping rules
 
 - No more leeway of eight samples is required.
@@ -711,11 +738,11 @@ In SFe 4.0, the bank system has been completely overhauled. Please read this sec
 
 #### Using MIDI Control Change #32 (Bank Select LSB)
 
-In legacy SF2.04, the `wBank` field stores the bank that the preset can be found in. Due to a forward-thinking decision by E-mu, it is a `DWORD` (16-bit) instead of a `BYTE` (8-bit). This means that it could theoretically store values for both bank select instructions found in MIDI 1.0.
+In legacy SF2.04, the `wBank` field stores the bank that the preset can be found in. Due to a forward-thinking decision by E-mu, it is a `WORD` (16-bit) instead of a `BYTE` (8-bit). This means that it could theoretically store values for both bank select instructions found in MIDI 1.0.
 
 Bank select LSB support is added by using the unused 8 bits of `wBank` according to the figure below. Bits 2–8 of *both* `byBankMSB` and `byBankLSB` are now used to set a bank change.
 
-<img title="" src="figures/figure1.png" alt="figure1.png" width="480">
+<img title="" src="figures/figure1.png" alt="figure1.png" width="360">
 
 Figure: How the bank select logic differs from legacy SF2.04.
 
@@ -731,7 +758,7 @@ Legacy SF2.04 allows bank developers to define one bank of percussion kits for u
 
 SFe 4.0 now allows users to set bit 7 with any value for bits 0-6. The result is that there are 128 percussion banks available when using `byBankMSB`, as shown by the figure below.
 
-<img title="" src="figures/figure2.png" alt="figure2.png" width="480">
+<img title="" src="figures/figure2.png" alt="figure2.png" width="360">
 
 Figure: How the percussion bank listing differs from legacy SF2.04.
 
@@ -801,6 +828,10 @@ The feature flags system is split like this:
 - Flags: Each of the 32 bits that comprise a leaf, declaring support for specific features.
 
 Feature flags listed as "reserved" must not be used for private use. Branches 240 (`F0`) to 255 (`FF`) are provided for such use.
+
+<img title="" src="figures/figure7.png" alt="figure7.png" width="360">
+
+Figure: The tree structure of the feature flags system.
 
 ### 6.2.2 Branch 00 Foundational synthesis engine
 
@@ -1548,6 +1579,7 @@ If an implementation is unable to reach the layering requirements without crashi
 - Add a `ds64` chunk with chunk size.
 - Set `ckSize` to `FF FF FF FF`.
 - Replace `sfbk` with `sfen`.
+- Upgrade the `ifil` version in the header to `wMajor=4`.
 
 ### 11.3.2 Conversion of 64-bit static to 32-bit static
 
@@ -1556,6 +1588,7 @@ If an implementation is unable to reach the layering requirements without crashi
 - Delete `ds64`.
 - Replace `RF64` with `RIFF`.
 - Rename `sfen` to `sfbk`.
+- Downgrade the `ifil` version in the header to `wMajor=2`.
 
 ### 11.3.3 Conversion between 32-bit static and RIFX
 
