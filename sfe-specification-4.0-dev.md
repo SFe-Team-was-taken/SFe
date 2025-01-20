@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250120c (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
@@ -760,9 +760,7 @@ SFe 4.0 now allows users to set bit 7 with any value for bits 0-6. The result is
 
 <img title="Figure 9" src="figures/figure_9.png" alt="How the percussion bank listing differs from legacy SF2.04." width="360">
 
-Figure 9: How the percussion bank listing differs from legacy SF2.04.
-
-When byte 7 is set for `byBankMSB`, `byBankLSB` may also be used. Therefore, a total of 16384 (128×128) banks of percussion kits may be used.
+Figure 9: How the percussion bank listing differs from legacy SF2.04. When byte 7 is set for `byBankMSB`, `byBankLSB` may also be used. Therefore, a total of 16384 (128×128) banks of percussion kits may be used.
 
 #### Flowchart for correct handling of bank select instructions
 
@@ -770,7 +768,7 @@ When byte 7 is set for `byBankMSB`, `byBankLSB` may also be used. Therefore, a t
 
 Figure 10: The flowchart for bank select instructions in legacy SF2.04.
 
-<img title="Figure 11" src="figures/figure_11.png" alt="The flowchart for bank select instructions in SFe 4.0. " width="480">
+<img title="Figure 11" src="figures/figure_11.png" alt="The flowchart for bank select instructions in SFe 4.0." width="480">
 
 Figure 11: The flowchart for bank select instructions in SFe 4.0. 
 
