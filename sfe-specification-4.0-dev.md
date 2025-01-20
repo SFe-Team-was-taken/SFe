@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250120a (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250120b (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
@@ -298,9 +298,7 @@ The parameter terminology used in SFe 4.0 is broadly the same as legacy SF2.04, 
 The file format extension to use for SFe files is generally `.sft`:
 
 - `.sf2` is avoided because SFe files are *not* SoundFonts, but simply banks that use formatting that is very similar to legacy SF2.04.
-
 - `.sf3` is avoided because some Werner SF3 bank players may not support SFe features.
-
 - `.sf4` is avoided due to incompatibility with cognitone formatted banks.
 
 When opening a bank with extension `.sft`, programs must determine the correct version to use. The `ifil` value and `ISFe-list` sub-chunk provide hints.
@@ -494,9 +492,7 @@ Library management systems should be able to read the value of the `ICRD` sub-ch
 If the value of the `ICRD` sub-chunk is missing or not in any of the above two valid formats, the program may either:
 
 - attempt to parse the value (if the chunk is present)
-
 - ignore the value (if present) and show an "unknown" error on the date (and time) field
-
 - overwrite the value with the current date (and time) if the program is an editor
 
 The program must NOT reject a file with a missing or invalid `ICRD` sub-chunk as Structurally Unsound. 
@@ -804,6 +800,8 @@ The feature flags system is split like this:
 - Leaves: Corresponds to each feature. Maximum of 256. These may change with later `wMajor` versions. Contains 32-bit data declaring how much of the feature is implemented.
 - Flags: Each of the 32 bits that comprise a leaf, declaring support for specific features.
 
+Feature flags listed as "reserved" must not be used for private use. Branches 240 (`F0`) to 255 (`FF`) are provided for such use.
+
 ### 6.2.2 Branch 00 Foundational synthesis engine
 
 #### 00:00 Tuning
@@ -811,6 +809,7 @@ The feature flags system is split like this:
 - Bit 1: Coarse tuning
 - Bit 2: Fine tuning
 - Bit 3: Root key
+- Bit 4: Scale tuning
 
 #### 00:01 Looping
 
@@ -821,28 +820,42 @@ The feature flags system is split like this:
 
 - Bit 1: Sound Blaster compatible low pass (12dB filter)
 
-#### 00:03 Amplification and attenuation
+#### 00:03 Filter Parameters
 
-- Bit 1: Attenuation supported in preset
-- Bit 2: Attenuation supported in instrument
-- Bit 3: Reserved
+- Bits 1-16: Maximum supported filter frequency
+- Bits 17-24: Maximum supported filter resonance
+- Bits 25-32: Reserved
+
+#### 00:04 Amplification and attenuation
+
+- Bit 1: Attenuation supported in preset (0.4x)
+- Bit 2: Attenuation supported in instrument (0.4x)
+- Bit 3: Amplification supported in preset (0.4x)
 - Bit 4: Reserved
 - Bit 5: Reserved
+- Bit 6: Reserved
+- Bit 7: Reserved
 
-#### 00:04 Effects blocks
+#### 00:05 Effects blocks
 
-- Bit 1: Reverb supported
-- Bit 2: Chorus supported
-- Bit 3: Pan supported
+- Bit 1: Instrument-level reverb
+- Bit 2: CC91 reverb
+- Bit 3: Combined reverb
+- Bit 4: Adjustable reverb
+- Bit 9: Instrument-level chorus
+- Bit 10: CC93 chorus
+- Bit 11: Combined chorus
+- Bit 12: Adjustable chorus
+- Bit 17: Pan supported 
 
-#### 00:05 Low Frequency Oscillators
+#### 00:06 Low Frequency Oscillators
 
 - Bit 1: Vibrato supported
 - Bit 2: Pitch Modulation
 - Bit 3: Filter Modulation
 - Bit 4: Amplitude Modulation
 
-#### 00:06 Envelopes
+#### 00:07 Envelopes
 
 - Bit 1: Volume delay
 - Bit 2: Volume attack
@@ -860,10 +873,11 @@ The feature flags system is split like this:
 - Bit 14: Modulation release
 - Bit 15: Key to modulation hold
 - Bit 16: Key to modulation decay
-- Bit 17: Modulation of pitch
-- Bit 18: Modulation of filter
+- Bit 17: Modulation of volume
+- Bit 18: Modulation of pitch
+- Bit 19: Modulation of filter
 
-#### 00:07 MIDI Control Changes
+#### 00:08 MIDI Control Changes
 
 - Bit 1: 00 Bank Select MSB
 - Bit 2: 00 Bank Select MSB for percussion
@@ -885,7 +899,7 @@ The feature flags system is split like this:
 - Bit 18: 123 All notes off
 - Bit 19: Reserved
 
-#### 00:08 Generators
+#### 00:09 Generators
 
 - Bit 1: Index gen support
 - Bit 2: Range gen support
@@ -895,7 +909,7 @@ The feature flags system is split like this:
 - Bit 6: PGEN support
 - Bit 7: IGEN support
 
-#### 00:09 Zones
+#### 00:0a Zones
 
 - Bit 1: Key range
 - Bit 2: Velocity range
@@ -905,7 +919,7 @@ The feature flags system is split like this:
 - Bit 6: Sample offset
 - Bit 7: Loop offset
 
-#### 00:0a Reserved
+#### 00:0b Reserved
 
 - Bit 1: Reserved
 - Bit 2: Reserved
@@ -931,7 +945,28 @@ The feature flags system is split like this:
 - Bit 13: PMOD support
 - Bit 14: IMOD support
 
-#### 01:01 NRPN
+#### 01:01 Modulation controllers
+
+- Bit 1: Note-on velocity
+- Bit 2: Note-on key number
+- Bit 3: Poly pressure
+- Bit 4: Channel pressure
+- Bit 5: Pitch wheel
+- Bit 6: Pitch wheel sensitivity
+
+#### 01:02 Modulation parameters 1
+
+- Bits 1-32: MIDI CC000-031
+
+#### 01:03 Modulation parameters 2
+
+- Bits 1-32: MIDI CC064-095
+
+#### 01:04 Modulation parameters 3
+
+- Bits 1-32: MIDI CC096-127
+
+#### 01:05 NRPN
 
 - Bit 1: NRPN select MSB=120
 - Bit 2: NRPN select LSB: 1-2 digits
@@ -939,13 +974,26 @@ The feature flags system is split like this:
 - Bit 4: NRPN select LSB: 4 digits
 - Bit 5: NRPN select LSB: 5 digits
 
-#### 01:02 Reserved
+#### 01:06 Default modulators
 
-- Bit 1 off, bit 2 off: Reserved
-- Bit 1 on, bit 2 off: Reserved
-- Bit 1 on, bit 2 on: Reserved
+- Bit 1: MIDI note on to initial attenuation
+- Bit 2: MIDI note on to filter cutoff
+- Bit 3: MIDI channel pressure to vibrato LFO pitch depth
+- Bit 4: MIDI CC1 to vibrato LFO pitch depth
+- Bit 5: MIDI CC7 to initial attenuation
+- Bit 6: MIDI CC10 to pan position
+- Bit 7: MIDI CC11 to initial attenuation
+- Bit 8: MIDI CC91 to reverb send
+- Bit 9: MIDI CC93 to chorus send
+- Bit 10: MIDI pitch wheel to initial pitch, controlled by pitch wheel sensitivity
+- Bit 17: MIDI note on to filter cutoff (SF2.00)
+- Bit 18: MIDI note on to filter cutoff (SF2.01)
+- Bit 19: MIDI note on to filter cutoff (SF2.04)
+- Bit 24 off, bit 25 off: Reserved
+- Bit 24 on, bit 25 off: Reserved
+- Bit 24 on, bit 25 on: Reserved
 
-#### 01:03 Reserved
+#### 01:07 Reserved
 
 - Bit 1 off, bit 2 off: Reserved
 - Bit 1 on, bit 2 off: Reserved
@@ -1860,7 +1908,41 @@ You must correctly setup your banks to ensure that they run properly; do not use
 - 64-channel MIDI file support is suggested, and may be required in the future for SFe.
 - The ROM emulator may be required in the future, as many SFe files will make full use of it.
 
-## 11.6 Courtesy actions
+## 11.6 How to test your program with SFSpecTest
+
+### 11.6.1 What does SFSpecTest do?
+
+By using SFSpecTest by mrbumpy409 ([available here](https://github.com/mrbumpy409/SoundFont-Spec-Test)), you can test your SFe player and determine which feature flags to set. 
+
+SFSpecTest was written by the author of GeneralUserGS, one of the most popular legacy SF2.04 banks, and is thus a good benchmark for legacy SF2.04 players. 
+
+Because SFe is a superset of legacy SF2.04, it is also a good tool to determine what SF2.04 features your program support, allowing you to set the correct feature flags for your program.
+
+### 11.6.2 Branch 00 Foundational synthesis engine
+
+In leaf 00:00, if your player passes SFSpecTest test #8 (Scale Tune/Root Key), you can set all four defined bits.
+
+In leaf 00:03, set bits 1-16 to the maximum frequency attained in SFSpecTest test #9 (Initial Filter Cutoff), and bits 17-24 to the maximum resonance attained in SFSpecTest test #10 (Filter Resonance).
+
+In leaf 00:04, if your player passes SFSpecTest test #11 (Attenuation Amount), you can set the first two defined bits. If your player passes SFSpecTest test #5a (Modulation LFO A) and #12 (Negative Attenuation Amount), you can also set the third bit.
+
+In leaf 00:05, set bit 1 if you pass SFSpecTest test #17a (Reverb A), bit 2 if you pass SFSpecTest test #17b (Reverb B), bit 3 if you pass SFSpecTest test #17c (Reverb C), bit 9 if you pass SFSpecTest test #18a (Chorus A), bit 10 if you pass SFSpecTest test #18b (Chorus B), and bit 11 if you pass SFSpecTest test #18c (Chorus C). Set bit 4 if your reverb can be adjusted, and set bit 12 if your chorus can be adjusted.
+
+In leaf 00:06, if your player passes SFSpecTest test #5 (Modulation LFO), you can set bit 4. If your player passes SFSpecTest test #6 (Vibrato LFO) and test #7 (Mod Wheel to LFO), you can set bit 2.
+
+In leaf 00:07, if your player passes SFSpecTest test #1 (Volume Envelope), you can set bits 1-6. If your player passes SFSpecTest test #2 (Modulation Envelope), you can set bits 9-14. If your player passes SFSpecTest test #3 (Key Number to Decay), you can set bits 8 and 16. If your player passes SFSpecTest test #4 (Key Number to Hold), you can set bits 7 and 15. 
+
+In leaf 00:0a, set bit 3 if you pass SFSpecTest test #21 (Exclusive Class). Set bit 6 if you pass SFSpecTest #16 (Sample Offset).
+
+### 11.6.3 Branch 01 Modulators and NRPN
+
+In leaf 01:01, set bit 5 if you pass SFSpecTest test #20a (Pitch Bend A) and test #20b (Pitch Bend B). Set bit 6 if you pass SFSpecTest test #20c (Pitch Bend C). 
+
+In leaf 01:02, set bit 1 if you pass SFSpecTest test #15 (CC1 to Filter Cutoff).
+
+In leaf 01:06, set bit 1 if you pass SFSpecTest test #13 (Velocity to Attenuation Curve), and set bit 2 if you pass SFSpecTest test #14a (Velocity to Initial Filter Cutoff Curve A) and test #14b (Velocity to Initial Filter Cutoff Curve B). Set bit 4 if you pass SFSpecTest test #15 (CC1 to Filter Cutoff). Set bit 17 if you emulate SF2.00 behaviour as shown in test #14c (Velocity to Initial Filter Cutoff Curve C), set bit 18 if you emulate SF2.01 behaviour as shown in test #14d (Velocity to Initial Filter Cutoff Curve D), and set bit 19 if you emulate SF2.04 behaviour as seen in test #14e (Velocity to Initial Filter Cutoff Curve E).
+
+## 11.7 Courtesy actions
 
 For the benefit of the SFe community, please:
 
