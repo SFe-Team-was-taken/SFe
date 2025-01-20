@@ -479,19 +479,41 @@ Reject anything not terminated with a zero byte, and assume the value `SFe 4`. D
 | **Sound engine name** | **isng value** | **SFe version** | **Bit depth** |
 | SFe 4                 | `SFe 4`        | 4.0             | 32 bit        |
 
-### 5.6.6 INAM, ICRD, IENG, IPRD, ICOP, ICMT and ISFT sub-chunks
+### 5.6.6 ICRD sub-chunk
+
+To ease the creation of library management systems that are compatible with multiple languages, the naming convention for the `ICRD` sub-chunk has been changed.
+
+The value of `ICRD` must now be compliant with the ISO-8601 standard. There are two valid formats:
+
+- Date only: for example `2025-01-20`
+
+- Date and time: for example `2025-01-20T02:10:48Z` 
+
+Library management systems should be able to read the value of the `ICRD` sub-chunk and show the date (and time if applicable) in the correct language in a field that can be sorted.
+
+If the value of the `ICRD` sub-chunk is missing or not in any of the above two valid formats, the program may either:
+
+- attempt to parse the value (if the chunk is present)
+
+- ignore the value (if present) and show an "unknown" error on the date (and time) field
+
+- overwrite the value with the current date (and time) if the program is an editor
+
+The program must NOT reject a file with a missing or invalid `ICRD` sub-chunk as Structurally Unsound. 
+
+### 5.6.7 INAM, IENG, IPRD, ICOP, ICMT and ISFT sub-chunks
 
 These sub-chunks are mostly the same as in legacy SF2.04, but UTF-8 is now used instead of ASCII, and the length limit is removed.
 
 Reject anything not terminated with a zero byte. Do NOT reject the file as Structurally Unsound.
 
-### 5.6.7 irom and iver sub-chunks
+### 5.6.8 irom and iver sub-chunks
 
 Read the legacy SF2.04 specification for info on how to use ROM samples.
 
 The ROM emulator should be implemented in SFe programs.
 
-### 5.6.8 SFty sub-chunk
+### 5.6.9 SFty sub-chunk
 
 The `SFty` sub-chunk is required and contains a case-sensitive UTF-8 string with even length identifying the type of format used in SFe. Its value is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as.
 
@@ -506,7 +528,7 @@ The field should not be longer than 28 bytes in SFe 4.0.
 
 If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe-static`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe-static` format.
 
-### 5.6.9 SFvx sub-chunk
+### 5.6.10 SFvx sub-chunk
 
 The `SFvx` sub-chunk is required and contains extended SFe version attributes. It is always 46 bytes in length, containing data in the structure below:
 
@@ -546,7 +568,7 @@ If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
 The file may optionally be rejected as Structurally Unsound.
 
-### 5.6.10 flag sub-chunk
+### 5.6.11 flag sub-chunk
 
 The `flag` sub-chunk is required and contains the feature flags used by a bank. It is always a multiple of 6 bytes in length, and contains at least 2 records (1 feature flag and a record at the end) according to the structure:
 
@@ -1610,7 +1632,13 @@ In the case of a missing `isng` sub-chunk, a value of `SFe 4` should be written.
 
 If it doesn't end in a zero-valued byte, then add a zero-valued byte and warn the user to verify if the value is correct.
 
-#### INAM, ICRD, IENG, IPRD, ICOP, ICMT or ISFT sub-chunk errors
+#### ICRD sub-chunk errors
+
+In the case of a missing `ICRD` sub-chunk, a value corresponding to the current ISO-8601 date and time should be written.
+
+Should the `ICRD` sub-chunk not be a valid ISO-8601 date or time, firstly attempt to parse the current value. For example, it may be in a different language. If it can't be parsed, then write a value corresponding to the current ISO-8601 date and time.
+
+#### INAM, IENG, IPRD, ICOP, ICMT or ISFT sub-chunk errors
 
 Missing sub-chunks should be filled in intuitively. For example, for an `INAM` sub-chunk, the file name or `Unnamed bank` are good starting points.
 
