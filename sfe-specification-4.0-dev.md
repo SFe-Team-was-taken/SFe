@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250111b (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250120a (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
@@ -1122,7 +1122,7 @@ These are handled as in legacy SF2.04.
 
 ## 9.1 SiliconSFe overview
 
-While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF`, you can use ROM samples formatted in the SiliconSF format with SFe.
+While we are unaware of any shipping non-Creative/E-mu products using the SiliconSF system found in `SFSPEC24.PDF`, you can use ROM samples formatted in the SiliconSF format with SFe.
 
 ## 9.2 Header format
 
