@@ -1,4 +1,4 @@
-<img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner" width="480">
+<img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner" width="960">
 
 ### What is SFe?
 
