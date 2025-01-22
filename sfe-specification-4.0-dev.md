@@ -1,10 +1,10 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250122 (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
-#### Copyright notice
+### Copyright notice
 
 All parts of this specification may be reproduced without additional written permission by the SFe Team, provided that you follow the license in section 2.3.  
 
@@ -18,7 +18,7 @@ That being said, "soundfont" is rapidly becoming a genericised word via the acti
 
 Any excerpts from SFSPEC24.PDF are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
 
-#### Disclaimers
+### Disclaimers
 
 This specification is subject to change without notice. Please obtain the latest version from the SFe Team GitHub page at [https://github.com/sfe-team-was-taken](https://github.com/Sfe-Team-was-taken).
 
@@ -29,10 +29,11 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 # Table of contents
 
 <!-- TOC -->
+
 * [SF-enhanced (SFe) 4 specification](#sf-enhanced-sfe-4-specification)
   * [Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)](#machine-readable-version-markdown---40-20250120d-release-candidate-3)
-      * [Copyright notice](#copyright-notice)
-      * [Disclaimers](#disclaimers)
+    * [Copyright notice](#copyright-notice)
+    * [Disclaimers](#disclaimers)
 * [Table of contents](#table-of-contents)
 * [Section 1: Introduction](#section-1-introduction)
   * [1.1 Preamble](#11-preamble)
@@ -160,6 +161,22 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 * [Section 9: SiliconSFe](#section-9-siliconsfe)
   * [9.1 SiliconSFe overview](#91-siliconsfe-overview)
   * [9.2 Header format](#92-header-format)
+    * [9.2.1 About the header format](#921-about-the-header-format)
+    * [9.2.2 romRsrc](#922-romrsrc)
+    * [9.2.3 romByteSize](#923-rombytesize)
+    * [9.2.4 interleaveIndex](#924-interleaveindex)
+    * [9.2.5 revision](#925-revision) 
+    * [9.2.6 id](#926-id)
+    * [9.2.7 checksum](#927-checksum)
+    * [9.2.8 checksum2sComplement](#928-checksum2scomplement)
+    * [9.2.9 bankFormat](#929-bankformat)
+    * [9.2.10 product](#9210-product)
+    * [9.2.11 sampleCompType](#9211-samplecomptype)
+    * [9.2.12 style](#9212-style)
+    * [9.2.13 copyright](#9213-copyright) 
+    * [9.2.14 sampleStart](#9214-samplestart)
+    * [9.2.15 sineWaveStart](#9215-sinewavestart)
+    * [9.2.16 sineWave](#9216-sinewave)
   * [9.3 AWE ROM emulator](#93-awe-rom-emulator)
     * [9.3.1 Introducing the AWE ROM emulator](#931-introducing-the-awe-rom-emulator)
     * [9.3.2 ROM emulator sample specification](#932-rom-emulator-sample-specification)
@@ -1421,7 +1438,7 @@ These are handled as in legacy SF2.04.
 
 ---
 
-# Section 9: SiliconSFe
+# Section 9: SiliconSFe and the AWE ROM emulator
 
 ## 9.1 SiliconSFe overview
 
@@ -1429,7 +1446,93 @@ While we are unaware of any shipping non-Creative/E-mu products using the Silico
 
 ## 9.2 Header format
 
-The header format is identical to legacy SF2.04.
+### 9.2.1 About the header format
+
+The SiliconSFe header format is almost identical to legacy SF2.04, however an explanation is provided here due to poor documentation of SiliconSF.
+
+Here is the SiliconSFe header format:
+
+```c
+typedef struct romHdrType{
+    DWORD romRsrc;
+    DWORD romByteSize;
+    CHAR interleaveIndex;
+    CHAR revision[3];
+    CHAR id[4];
+    SHORT checksum;
+    SHORT checksum2sComplement;
+    CHAR bankFormat;
+    CHAR product[16];
+    BYTE sampleCompType;
+    CHAR filler1[2];
+    CHAR style[16];
+    CHAR copyright[80];
+    DWORD sampleStart;
+    DWORD sineWaveStart;
+    DWORD filler2[124];
+    SHORT sineWave[SINEWAVESIZE];
+} romHdr;
+```
+
+### 9.2.2 romRsrc
+
+In the legacy SF2.04 specification, Creative declared this "unused", however it is defined in SiliconSFe as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RF64`, etc.
+
+### 9.2.3 romByteSize
+
+This is an UNSIGNED `DWORD` value with the size of the SiliconSFe ROM blob in bytes. It is limited to 4 GiB. Signed integers are prohibited. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+
+### 9.2.4 interleaveIndex
+
+This is used for interleaved ROMs. You can interleave up to 256 ROMs with one SiliconSFe blob.
+
+### 9.2.5 revision
+
+This is a revision identifier as an integer. It is 3 bytes long.
+
+### 9.2.6 id
+
+This corresponds to the `iver` value in the integrated SF bank. In Creative's documentation, it is erroneously listed as corresponding to the `irom` value.
+
+### 9.2.7 checksum
+
+This stores the `CRC-16 (ARC)` checksum of the integrated SF bank.
+
+### 9.2.8 checksum2sComplement
+
+This stores the twos-complement of the value found in `checksum`.
+
+### 9.2.9 bankFormat
+
+In the legacy SF2.04 specification, Creative declared this "unused", but it seems to correspond to the `wMajor` value in `ifil`. For an unknown or other format, this value is `0`.
+
+### 9.2.10 product
+
+This stores the product name, conventionally `SiliconSFe`. It is a UTF-8 string.
+
+### 9.2.11 sampleCompType
+
+In the legacy SF2.04 specification, Creative said that it indicates the type of sample precompensation that is used in the SiliconSF blob. For the purpose of SiliconSFe, this value is `1` if any kind of sample precompensation is used, and `0` otherwise.
+
+### 9.2.12 style
+
+This is a string that describes the musical style of the contents of the integrated SF bank.
+
+### 9.2.13 copyright
+
+This stores copyright information about the SiliconSFe blob. It is a UTF-8 string.
+
+### 9.2.14 sampleStart
+
+This stores the location in the SiliconSFe blob where the bank samples start. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+
+### 9.2.15 sineWaveStart
+
+This stores the location in the SiliconSFe blob where the test sine wave sample starts. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+
+### 9.2.16 sineWave
+
+This contains `WORD` values that correspond to a sine wave sample.
 
 ## 9.3 AWE ROM emulator
 
