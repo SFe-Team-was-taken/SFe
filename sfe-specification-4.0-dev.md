@@ -162,21 +162,21 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [9.1 SiliconSFe overview](#91-siliconsfe-overview)
   * [9.2 Header format](#92-header-format)
     * [9.2.1 About the header format](#921-about-the-header-format)
-    * [9.2.2 romRsrc](#922-romrsrc)
+    * [9.2.2 romRiffHeader](#922-romriffheader)
     * [9.2.3 romByteSize](#923-rombytesize)
-    * [9.2.4 interleaveIndex](#924-interleaveindex)
-    * [9.2.5 revision](#925-revision) 
-    * [9.2.6 id](#926-id)
-    * [9.2.7 checksum](#927-checksum)
-    * [9.2.8 checksum2sComplement](#928-checksum2scomplement)
-    * [9.2.9 bankFormat](#929-bankformat)
-    * [9.2.10 product](#9210-product)
+    * [9.2.4 romInterleaveIndex](#924-rominterleaveindex)
+    * [9.2.5 romRevision](#925-romrevision) 
+    * [9.2.6 romVer](#926-romver)
+    * [9.2.7 bankChecksum](#927-bankchecksum)
+    * [9.2.8 bankChecksum2sComplement](#928-bankchecksum2scomplement)
+    * [9.2.9 bankSFeVersion](#929-banksfeversion)
+    * [9.2.10 bankProduct](#9210-bankproduct)
     * [9.2.11 sampleCompType](#9211-samplecomptype)
-    * [9.2.12 style](#9212-style)
-    * [9.2.13 copyright](#9213-copyright) 
-    * [9.2.14 sampleStart](#9214-samplestart)
-    * [9.2.15 sineWaveStart](#9215-sinewavestart)
-    * [9.2.16 sineWave](#9216-sinewave)
+    * [9.2.12 bankStyle](#9212-bankstyle)
+    * [9.2.13 bankCopyright](#9213-bankcopyright) 
+    * [9.2.14 romSFeBankStart](#9214-romsfebankstart)
+    * [9.2.15 romSineWaveStart](#9215-romsinewavestart)
+    * [9.2.16 sampleSineWave](#9216-samplesinewave)
   * [9.3 AWE ROM emulator](#93-awe-rom-emulator)
     * [9.3.1 Introducing the AWE ROM emulator](#931-introducing-the-awe-rom-emulator)
     * [9.3.2 ROM emulator sample specification](#932-rom-emulator-sample-specification)
@@ -1454,85 +1454,113 @@ Here is the SiliconSFe header format:
 
 ```c
 typedef struct romHdrType{
-    DWORD romRsrc;
+    DWORD romRiffHdr;
     DWORD romByteSize;
-    CHAR interleaveIndex;
-    CHAR revision[3];
-    CHAR id[4];
-    SHORT checksum;
-    SHORT checksum2sComplement;
-    CHAR bankFormat;
-    CHAR product[16];
-    BYTE sampleCompType;
+    CHAR romInterleaveIndex;
+    CHAR romRevision[3];
+    CHAR romVer[4];
+    SHORT bankChecksum;
+    SHORT bankChecksum2sComplement;
+    CHAR bankSFeVersion;
+    CHAR bankProduct[16];
+    BYTE bankSampleCompType;
     CHAR filler1[2];
-    CHAR style[16];
-    CHAR copyright[80];
-    DWORD sampleStart;
-    DWORD sineWaveStart;
+    CHAR bankStyle[16];
+    CHAR bankCopyright[80];
+    DWORD romSFeBankStart;
+    DWORD romSineWaveStart;
     DWORD filler2[124];
-    SHORT sineWave[SINEWAVESIZE];
+    SHORT sampleSineWave[SINEWAVESIZE];
 } romHdr;
 ```
 
-### 9.2.2 romRsrc
+### 9.2.2 romRiffHeader
 
-In the legacy SF2.04 specification, Creative declared this "unused", however it is defined in SiliconSFe as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RF64`, etc.
+In SiliconSFe, it is defined as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RF64`, `RIFD`, etc.
+
+In the legacy SF2.04 specification, this is named `romRsrc` and was declared by Creative as "unused". The name in SiliconSFe more accurately describes its usage.
 
 ### 9.2.3 romByteSize
 
-This is an UNSIGNED `DWORD` value with the size of the SiliconSFe ROM blob in bytes. It is limited to 4 GiB. Signed integers are prohibited. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+This is an UNSIGNED `DWORD` value with the size of the SiliconSFe ROM blob in bytes. It is limited to 4 GiB in SiliconSFe 1.0. Signed integers are prohibited.
 
-### 9.2.4 interleaveIndex
+### 9.2.4 romInterleaveIndex
 
 This is used for interleaved ROMs. You can interleave up to 256 ROMs with one SiliconSFe blob.
 
-### 9.2.5 revision
+In the legacy SF2.04 specification, this is named `interleaveIndex`.
 
-This is a revision identifier as an integer. It is 3 bytes long.
+### 9.2.5 romRevision
 
-### 9.2.6 id
+This is a revision identifier as an integer. It is 3 bytes long and is independent from the version number found in `romVer`.
 
-This corresponds to the `iver` value in the integrated SF bank. In Creative's documentation, it is erroneously listed as corresponding to the `irom` value.
+In the legacy SF2.04 specification, this is named `revision`.
 
-### 9.2.7 checksum
+### 9.2.6 romVer
+
+This corresponds to the `iver` value in the integrated SF bank.
+
+In the legacy SF2.04 specification, it is called `id` and is erroneously listed as corresponding to the `irom` value. The name in SiliconSFe more accurately describes its usage.
+
+### 9.2.7 bankChecksum
 
 This stores the `CRC-16 (ARC)` checksum of the integrated SF bank.
 
-### 9.2.8 checksum2sComplement
+In the legacy SF2.04 specification, this is named `checksum`.
+
+### 9.2.8 bankChecksum2sComplement
 
 This stores the twos-complement of the value found in `checksum`.
 
-### 9.2.9 bankFormat
+In the legacy SF2.04 specification, this is named `checksum2sComplement`.
 
-In the legacy SF2.04 specification, Creative declared this "unused", but it seems to correspond to the `wMajor` value in `ifil`. For an unknown or other format, this value is `0`.
+### 9.2.9 bankSFeVersion
 
-### 9.2.10 product
+This value should be the same as the `wSFeSpecMajorVersion` value in the `SFvx` sub-chunk in SFe, and the same as the `wMajor` value in the `ifil` sub-chunk in non-SFe. For an unknown or other format, this value is `0`.
+
+In the legacy SF2.04 specification, this is named `bankFormat` and was declared by Creative as "unused".
+
+### 9.2.10 bankProduct
 
 This stores the product name, conventionally `SiliconSFe`. It is a UTF-8 string.
 
+In the legacy SF2.04 specification, this is named `product` and was declared by Creative as "unused".
+
 ### 9.2.11 sampleCompType
 
-In the legacy SF2.04 specification, Creative said that it indicates the type of sample precompensation that is used in the SiliconSF blob. For the purpose of SiliconSFe, this value is `1` if any kind of sample precompensation is used, and `0` otherwise.
+For the purpose of SiliconSFe, this value is `1` if any kind of sample precompensation is used, and `0` otherwise.
 
-### 9.2.12 style
+In the legacy SF2.04 specification, Creative said that it indicates the type of sample precompensation that is used in the SiliconSF blob.
 
-This is a string that describes the musical style of the contents of the integrated SF bank.
+### 9.2.12 bankStyle
 
-### 9.2.13 copyright
+This is a UTF-8 string that describes the musical style of the contents of the integrated SF bank.
 
-This stores copyright information about the SiliconSFe blob. It is a UTF-8 string.
+In the legacy SF2.04 specification, this is named `style`.
 
-### 9.2.14 sampleStart
+### 9.2.13 bankCopyright
 
-This stores the location in the SiliconSFe blob where the bank samples start. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+This is a UTF-8 string that stores copyright information about the SiliconSFe blob.
 
-### 9.2.15 sineWaveStart
+In the legacy SF2.04 specification, this is named `copyright`.
 
-This stores the location in the SiliconSFe blob where the test sine wave sample starts. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+### 9.2.14 romSFeBankStart
 
-### 9.2.16 sineWave
+This stores the location in the SiliconSFe blob where the integrated SF bank starts.
+
+In the legacy SF2.04 specification, this is named `sampleStart`. The name in SiliconSFe more accurately describes its usage.
+
+### 9.2.15 romSineWaveStart
+
+This stores the location in the SiliconSFe blob where the test sine wave sample starts.
+
+In the legacy SF2.04 specification, this is named `sineWaveStart`.
+
+### 9.2.16 sampleSineWave
 
 This contains `WORD` values that correspond to a sine wave sample.
+
+In the legacy SF2.04 specification, this is named `sineWave`.
 
 ## 9.3 AWE ROM emulator
 
