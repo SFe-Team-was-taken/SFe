@@ -1,6 +1,4 @@
-# SF-enhanced (SFe)
-
-## Bringing soundfonts to new heights
+<img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner" width="960">
 
 ### What is SFe?
 
@@ -20,7 +18,7 @@ The goals of the SFe project are to:
 
 ### When will the specification become available?
 
-We will release the specification when it's done. In the meanwhile, we will regularly release drafts of the SFe specification.
+We plan on releasing the first version of the SFe specification, version 4.0, on 8 February 2025. However, this is subject to change.
 
 ### Why does the specification not include everything?
 
@@ -29,3 +27,9 @@ To make it more concise, we only highlight the differences between the SFe speci
 ### How can I contribute?
 
 Please read `contributing.md`.
+
+---
+
+Copyright © 2025 SFe Team and contributors.
+
+The SFe Team is in no way sponsored by or otherwise affiliated with Creative Technology Ltd. or E-mu Systems, Inc. SoundFont® is a registered trademark of Creative Technology Ltd.

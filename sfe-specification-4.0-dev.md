@@ -1,10 +1,10 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-20250122 (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
-#### Copyright notice
+### Copyright notice
 
 All parts of this specification may be reproduced without additional written permission by the SFe Team, provided that you follow the license in section 2.3.  
 
@@ -18,7 +18,7 @@ That being said, "soundfont" is rapidly becoming a genericised word via the acti
 
 Any excerpts from SFSPEC24.PDF are copyrighted by Creative Technology Ltd, and are only used for reference. However, we are confident that the base file format is not copyrightable.
 
-#### Disclaimers
+### Disclaimers
 
 This specification is subject to change without notice. Please obtain the latest version from the SFe Team GitHub page at [https://github.com/sfe-team-was-taken](https://github.com/Sfe-Team-was-taken).
 
@@ -28,7 +28,250 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 
 # Table of contents
 
-[to be auto-generated]
+<!-- TOC -->
+
+* [SF-enhanced (SFe) 4 specification](#sf-enhanced-sfe-4-specification)
+  * [Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)](#machine-readable-version-markdown---40-20250120d-release-candidate-3)
+    * [Copyright notice](#copyright-notice)
+    * [Disclaimers](#disclaimers)
+* [Table of contents](#table-of-contents)
+* [Section 1: Introduction](#section-1-introduction)
+  * [1.1 Preamble](#11-preamble)
+  * [1.2 Changelog](#12-changelog)
+  * [1.3 History of improvements to the SF format](#13-history-of-improvements-to-the-sf-format)
+  * [1.4 Scope and purpose](#14-scope-and-purpose)
+  * [1.5 Important differences from the legacy SF specification document](#15-important-differences-from-the-legacy-sf-specification-document)
+  * [1.6 Document organisation](#16-document-organisation)
+* [Section 2: Credits and copyright](#section-2-credits-and-copyright)
+  * [2.1 Credits](#21-credits)
+    * [SFe Team](#sfe-team)
+    * [Special thanks](#special-thanks)
+  * [2.2 License](#22-license)
+* [Section 3: Versioning and updates](#section-3-versioning-and-updates)
+  * [3.1 Specification Versioning](#31-specification-versioning)
+  * [3.2 Future improvements](#32-future-improvements)
+  * [3.3 Long term support of SFe 4](#33-long-term-support-of-sfe-4)
+* [Section 4: Terminology](#section-4-terminology)
+  * [4.1 Data structure terminology](#41-data-structure-terminology)
+  * [4.2 Synthesis terminology](#42-synthesis-terminology)
+  * [4.3 Parameter terminology](#43-parameter-terminology)
+* [Section 5: SFe file format structure](#section-5-sfe-file-format-structure)
+  * [5.1 File format extensions](#51-file-format-extensions)
+  * [5.2 General RIFF-type format structures](#52-general-riff-type-format-structures)
+  * [5.3 Chunk header types](#53-chunk-header-types)
+  * [5.4 RIFF error checking features](#54-riff-error-checking-features)
+  * [5.5 Structure of the SFe 4 file format](#55-structure-of-the-sfe-4-file-format)
+    * [5.5.1 SFe 4 file format structure outline](#551-sfe-4-file-format-structure-outline)
+    * [5.5.2 ISFe-list information](#552-isfe-list-information)
+    * [5.5.3 Changed and removed chunks](#553-changed-and-removed-chunks)
+    * [5.5.4 String encoding](#554-string-encoding)
+  * [5.6 INFO-list sub-chunk](#56-info-list-sub-chunk)
+    * [5.6.1 ifil sub-chunk](#561-ifil-sub-chunk)
+    * [5.6.2 Versioning rules](#562-versioning-rules)
+    * [5.6.3 Specification versions to ifil values](#563-specification-versions-to-ifil-values)
+    * [5.6.4 isng sub-chunk](#564-isng-sub-chunk)
+    * [5.6.5 List of sound engines](#565-list-of-sound-engines)
+      * [Creative/E-mu](#creativee-mu)
+      * [SFe](#sfe)
+    * [5.6.6 ICRD sub-chunk](#566-icrd-sub-chunk)
+    * [5.6.7 INAM, IENG, IPRD, ICOP, ICMT and ISFT sub-chunks](#567-inam-ieng-iprd-icop-icmt-and-isft-sub-chunks)
+    * [5.6.8 irom and iver sub-chunks](#568-irom-and-iver-sub-chunks)
+    * [5.6.9 SFty sub-chunk](#569-sfty-sub-chunk)
+    * [5.6.10 SFvx sub-chunk](#5610-sfvx-sub-chunk)
+    * [5.6.11 flag sub-chunk](#5611-flag-sub-chunk)
+  * [5.7 sdta-list chunk](#57-sdta-list-chunk)
+    * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
+    * [5.7.2 SFe Compression](#572-sfe-compression)
+      * [What is SFe Compression?](#what-is-sfe-compression)
+      * [File identification for SFe Compression](#file-identification-for-sfe-compression)
+      * [sfSampleType in shdr sub-chunk](#sfsampletype-in-shdr-sub-chunk)
+      * [Interpretation of sample data index fields in shdr sub-chunk](#interpretation-of-sample-data-index-fields-in-shdr-sub-chunk)
+      * [Using both compressed and uncompressed samples in the same file](#using-both-compressed-and-uncompressed-samples-in-the-same-file)
+      * [Unsupported features](#unsupported-features)
+      * [Proprietary compression formats](#proprietary-compression-formats)
+    * [5.7.3 sm24 and sm32 sub-chunk](#573-sm24-and-sm32-sub-chunk)
+    * [5.7.4 Using 8-bit samples](#574-using-8-bit-samples)
+    * [5.7.5 Looping rules](#575-looping-rules)
+  * [5.8 pdta-list chunk](#58-pdta-list-chunk)
+    * [5.8.1 phdr sub-chunk](#581-phdr-sub-chunk)
+    * [5.8.2 New Bank System](#582-new-bank-system)
+      * [Using MIDI Control Change #32 (Bank Select LSB)](#using-midi-control-change-32-bank-select-lsb)
+      * [Introducing byBankMSB and byBankLSB](#introducing-bybankmsb-and-bybanklsb)
+      * [Using more than one percussion bank](#using-more-than-one-percussion-bank)
+      * [Flowchart for correct handling of bank select instructions](#flowchart-for-correct-handling-of-bank-select-instructions)
+    * [5.8.3 inst sub-chunk](#583-inst-sub-chunk)
+    * [5.8.4 shdr sub-chunk](#584-shdr-sub-chunk)
+      * [Sample Rate Limit Changes](#sample-rate-limit-changes)
+      * [sfSampleType and SFe Compression](#sfsampletype-and-sfe-compression)
+    * [5.8.5 Other sub-chunks](#585-other-sub-chunks)
+* [Section 6: SFe enumerations and feature flags](#section-6-sfe-enumerations-and-feature-flags)
+  * [6.1 About SFe enumerations](#61-about-sfe-enumerations)
+  * [6.2 Feature flags](#62-feature-flags)
+    * [6.2.1 Feature flag tree structure](#621-feature-flag-tree-structure)
+    * [6.2.2 Branch 00 Foundational synthesis engine](#622-branch-00-foundational-synthesis-engine)
+      * [00:00 Tuning](#0000-tuning)
+      * [00:01 Looping](#0001-looping)
+      * [00:02 Filter Types](#0002-filter-types)
+      * [00:03 Filter Parameters](#0003-filter-parameters)
+      * [00:04 Amplification and attenuation](#0004-amplification-and-attenuation)
+      * [00:05 Effects blocks](#0005-effects-blocks)
+      * [00:06 Low Frequency Oscillators](#0006-low-frequency-oscillators)
+      * [00:07 Envelopes](#0007-envelopes)
+      * [00:08 MIDI Control Changes](#0008-midi-control-changes)
+      * [00:09 Generators](#0009-generators)
+      * [00:0a Zones](#000a-zones)
+      * [00:0b Reserved](#000b-reserved)
+    * [6.2.3 Branch 01 Modulators and NRPN](#623-branch-01-modulators-and-nrpn)
+      * [01:00 Modulators](#0100-modulators)
+      * [01:01 Modulation controllers](#0101-modulation-controllers)
+      * [01:02 Modulation parameters 1](#0102-modulation-parameters-1)
+      * [01:03 Modulation parameters 2](#0103-modulation-parameters-2)
+      * [01:04 Modulation parameters 3](#0104-modulation-parameters-3)
+      * [01:05 NRPN](#0105-nrpn)
+      * [01:06 Default modulators](#0106-default-modulators)
+      * [01:07 Reserved](#0107-reserved)
+    * [6.2.4 Branch 02 Sample bitdepth support](#624-branch-02-sample-bitdepth-support)
+      * [02:00 24-bit support](#0200-24-bit-support)
+      * [02:01 32-bit support](#0201-32-bit-support)
+    * [6.2.5 Branch 03 SFe Compression support](#625-branch-03-sfe-compression-support)
+      * [03:00 Compression flag](#0300-compression-flag)
+      * [03:01 Sample compression formats](#0301-sample-compression-formats)
+    * [6.2.6 Branch 04 Metadata upgrades](#626-branch-04-metadata-upgrades)
+      * [04:00 Metadata improvements](#0400-metadata-improvements)
+      * [04:01 Reserved](#0401-reserved)
+      * [04:02 User-defined sample ROMs](#0402-user-defined-sample-roms)
+      * [04:03 ROM emulator](#0403-rom-emulator)
+* [Section 7: Parameters and synthesis model](#section-7-parameters-and-synthesis-model)
+  * [7.1 About the synthesis model](#71-about-the-synthesis-model)
+  * [7.2 MIDI functions](#72-midi-functions)
+    * [7.2.1 MIDI bank select](#721-midi-bank-select)
+    * [7.2.2 Other MIDI functions](#722-other-midi-functions)
+  * [7.3 Parameter units, generators, modulators and NRPNs](#73-parameter-units-generators-modulators-and-nrpns)
+  * [7.4 On implementation accuracy](#74-on-implementation-accuracy)
+* [Section 8: SFe error handling](#section-8-sfe-error-handling)
+  * [8.1 Structurally Unsound errors](#81-structurally-unsound-errors)
+  * [8.2 Non-critical errors](#82-non-critical-errors)
+  * [8.3 Duplicated preset locations within files](#83-duplicated-preset-locations-within-files)
+  * [8.4 Duplicated preset locations across files](#84-duplicated-preset-locations-across-files)
+  * [8.5 Undefined chunks](#85-undefined-chunks)
+  * [8.6 Unknown Enumerators](#86-unknown-enumerators)
+  * [8.7 Maximum File Size Limit Exceeded](#87-maximum-file-size-limit-exceeded)
+  * [8.8 MIDI Errors](#88-midi-errors)
+  * [8.9 Illegal parameter values, out of range values, missing required items and illegal enumerators](#89-illegal-parameter-values-out-of-range-values-missing-required-items-and-illegal-enumerators)
+* [Section 9: SiliconSFe](#section-9-siliconsfe)
+  * [9.1 SiliconSFe overview](#91-siliconsfe-overview)
+  * [9.2 Header format](#92-header-format)
+    * [9.2.1 About the header format](#921-about-the-header-format)
+    * [9.2.2 romRsrc](#922-romrsrc)
+    * [9.2.3 romByteSize](#923-rombytesize)
+    * [9.2.4 interleaveIndex](#924-interleaveindex)
+    * [9.2.5 revision](#925-revision) 
+    * [9.2.6 id](#926-id)
+    * [9.2.7 checksum](#927-checksum)
+    * [9.2.8 checksum2sComplement](#928-checksum2scomplement)
+    * [9.2.9 bankFormat](#929-bankformat)
+    * [9.2.10 product](#9210-product)
+    * [9.2.11 sampleCompType](#9211-samplecomptype)
+    * [9.2.12 style](#9212-style)
+    * [9.2.13 copyright](#9213-copyright) 
+    * [9.2.14 sampleStart](#9214-samplestart)
+    * [9.2.15 sineWaveStart](#9215-sinewavestart)
+    * [9.2.16 sineWave](#9216-sinewave)
+  * [9.3 AWE ROM emulator](#93-awe-rom-emulator)
+    * [9.3.1 Introducing the AWE ROM emulator](#931-introducing-the-awe-rom-emulator)
+    * [9.3.2 ROM emulator sample specification](#932-rom-emulator-sample-specification)
+* [# Section 10: Compatibility information](#-section-10-compatibility-information)
+  * [10.1 Specification and structural compatibility](#101-specification-and-structural-compatibility)
+    * [10.1.1 Legacy SF2.04 specification compatibility](#1011-legacy-sf204-specification-compatibility)
+    * [10.1.2 INFO chunk and legacy compatibility](#1012-info-chunk-and-legacy-compatibility)
+    * [10.1.3 phdr sub-chunk](#1013-phdr-sub-chunk)
+    * [10.1.4 Generators and modulators](#1014-generators-and-modulators)
+    * [10.1.5 Error handling](#1015-error-handling)
+  * [10.2 Sample compatibility](#102-sample-compatibility)
+    * [10.2.1 32-bit samples](#1021-32-bit-samples)
+    * [10.2.2 8-bit samples](#1022-8-bit-samples)
+    * [10.2.3 ROM samples](#1023-rom-samples)
+    * [10.2.4 Proprietary compression formats](#1024-proprietary-compression-formats)
+* [Section 11: Program specification](#section-11-program-specification)
+  * [11.1 Program compatibility levels](#111-program-compatibility-levels)
+    * [11.1.1 File format specifications](#1111-file-format-specifications)
+    * [11.1.2 Sample specifications](#1112-sample-specifications)
+    * [11.1.3 Instrument specifications](#1113-instrument-specifications)
+    * [11.1.4 Preset specifications](#1114-preset-specifications)
+    * [11.1.5 Player specifications](#1115-player-specifications)
+  * [11.2 Converting between legacy SF and SFe](#112-converting-between-legacy-sf-and-sfe)
+    * [11.2.1 Conversion from legacy SF2.04 to SFe](#1121-conversion-from-legacy-sf204-to-sfe)
+    * [11.2.2 Conversion from SFe to legacy SF2.04](#1122-conversion-from-sfe-to-legacy-sf204)
+    * [11.2.3 Conversion from SFe to legacy SF2.01](#1123-conversion-from-sfe-to-legacy-sf201)
+  * [11.3 Converting between chunk header types](#113-converting-between-chunk-header-types)
+    * [11.3.1 Conversion of 32-bit static to 64-bit static](#1131-conversion-of-32-bit-static-to-64-bit-static)
+    * [11.3.2 Conversion of 64-bit static to 32-bit static](#1132-conversion-of-64-bit-static-to-32-bit-static)
+    * [11.3.3 Conversion between 32-bit static and RIFX](#1133-conversion-between-32-bit-static-and-rifx)
+  * [11.4 File repair programs](#114-file-repair-programs)
+    * [11.4.1 Repairing Structurally Unsound errors](#1141-repairing-structurally-unsound-errors)
+      * [ifil sub-chunk errors](#ifil-sub-chunk-errors)
+      * [PHDR sub-chunk errors](#phdr-sub-chunk-errors)
+      * [PBAG sub-chunk errors](#pbag-sub-chunk-errors)
+      * [PMOD sub-chunk errors](#pmod-sub-chunk-errors)
+      * [PGEN sub-chunk errors](#pgen-sub-chunk-errors)
+      * [INST sub-chunk errors](#inst-sub-chunk-errors)
+      * [IBAG sub-chunk errors](#ibag-sub-chunk-errors)
+      * [IMOD sub-chunk errors](#imod-sub-chunk-errors)
+      * [IGEN sub-chunk errors](#igen-sub-chunk-errors)
+      * [SHDR sub-chunk errors](#shdr-sub-chunk-errors)
+      * [Unknown sub-chunk errors](#unknown-sub-chunk-errors)
+      * [Compressed sample errors](#compressed-sample-errors)
+      * [ckSize errors](#cksize-errors)
+      * [Incompatible chunk header errors](#incompatible-chunk-header-errors)
+      * [Incompatible SFty errors](#incompatible-sfty-errors)
+      * [8-bit sample errors](#8-bit-sample-errors)
+    * [11.4.2 Repairing non-critical errors](#1142-repairing-non-critical-errors)
+      * [isng sub-chunk errors](#isng-sub-chunk-errors)
+      * [ICRD sub-chunk errors](#icrd-sub-chunk-errors)
+      * [INAM, IENG, IPRD, ICOP, ICMT or ISFT sub-chunk errors](#inam-ieng-iprd-icop-icmt-or-isft-sub-chunk-errors)
+      * [irom or iver sub-chunk errors](#irom-or-iver-sub-chunk-errors)
+      * [smpl, sm24 and sm32 sub-chunk errors](#smpl-sm24-and-sm32-sub-chunk-errors)
+      * [PHDR sub-chunk errors](#phdr-sub-chunk-errors-1)
+      * [PBAG sub-chunk errors](#pbag-sub-chunk-errors-1)
+      * [PMOD or IMOD sub-chunk errors](#pmod-or-imod-sub-chunk-errors)
+      * [PGEN sub-chunk errors](#pgen-sub-chunk-errors-1)
+      * [INST sub-chunk errors](#inst-sub-chunk-errors-1)
+      * [IBAG sub-chunk errors](#ibag-sub-chunk-errors-1)
+      * [IGEN sub-chunk errors](#igen-sub-chunk-errors-1)
+      * [SHDR sub-chunk errors](#shdr-sub-chunk-errors-1)
+      * [Undefined and unknown enum, palette value and source type errors](#undefined-and-unknown-enum-palette-value-and-source-type-errors)
+      * [Precedence errors](#precedence-errors)
+      * [Parameter value and padding errors](#parameter-value-and-padding-errors)
+      * [Unknown chunk errors](#unknown-chunk-errors)
+      * [Compression errors](#compression-errors)
+      * [ISFe chunk errors](#isfe-chunk-errors)
+      * [ifil chunk errors](#ifil-chunk-errors)
+      * [Proprietary compression errors](#proprietary-compression-errors)
+      * [wPreset value errors](#wpreset-value-errors)
+      * [Duplicated preset location errors](#duplicated-preset-location-errors)
+      * [File size limit errors](#file-size-limit-errors)
+      * [Feature flag errors](#feature-flag-errors)
+    * [11.4.3 Manual repair](#1143-manual-repair)
+    * [11.4.4 Automatic repair](#1144-automatic-repair)
+  * [11.5 Why these guidelines?](#115-why-these-guidelines)
+    * [11.5.1 File Size Representation](#1151-file-size-representation)
+    * [11.5.2 File Size Limit](#1152-file-size-limit)
+    * [11.5.3 Sample Streaming](#1153-sample-streaming)
+    * [11.5.4 Total File Size Limit and Multiple Files](#1154-total-file-size-limit-and-multiple-files)
+    * [11.5.5 Legacy Support](#1155-legacy-support)
+    * [11.5.6 Header Support](#1156-header-support)
+    * [11.5.7 Sample Compression](#1157-sample-compression)
+    * [11.5.8 File Extension, Structure, Information and Metadata](#1158-file-extension-structure-information-and-metadata)
+    * [11.5.9 Sample Specifications](#1159-sample-specifications)
+    * [11.5.10 Instrument Specifications](#11510-instrument-specifications)
+    * [11.5.11 Player Specifications](#11511-player-specifications)
+  * [11.6 How to test your program with SFSpecTest](#116-how-to-test-your-program-with-sfspectest)
+    * [11.6.1 What does SFSpecTest do?](#1161-what-does-sfspectest-do)
+    * [11.6.2 Branch 00 Foundational synthesis engine](#1162-branch-00-foundational-synthesis-engine)
+    * [11.6.3 Branch 01 Modulators and NRPN](#1163-branch-01-modulators-and-nrpn)
+  * [11.7 Courtesy actions](#117-courtesy-actions)
+* [Section 12: Glossary](#section-12-glossary)
+<!-- TOC -->
 
 ---
 
@@ -1195,7 +1438,7 @@ These are handled as in legacy SF2.04.
 
 ---
 
-# Section 9: SiliconSFe
+# Section 9: SiliconSFe and the AWE ROM emulator
 
 ## 9.1 SiliconSFe overview
 
@@ -1203,7 +1446,93 @@ While we are unaware of any shipping non-Creative/E-mu products using the Silico
 
 ## 9.2 Header format
 
-The header format is identical to legacy SF2.04.
+### 9.2.1 About the header format
+
+The SiliconSFe header format is almost identical to legacy SF2.04, however an explanation is provided here due to poor documentation of SiliconSF.
+
+Here is the SiliconSFe header format:
+
+```c
+typedef struct romHdrType{
+    DWORD romRsrc;
+    DWORD romByteSize;
+    CHAR interleaveIndex;
+    CHAR revision[3];
+    CHAR id[4];
+    SHORT checksum;
+    SHORT checksum2sComplement;
+    CHAR bankFormat;
+    CHAR product[16];
+    BYTE sampleCompType;
+    CHAR filler1[2];
+    CHAR style[16];
+    CHAR copyright[80];
+    DWORD sampleStart;
+    DWORD sineWaveStart;
+    DWORD filler2[124];
+    SHORT sineWave[SINEWAVESIZE];
+} romHdr;
+```
+
+### 9.2.2 romRsrc
+
+In the legacy SF2.04 specification, Creative declared this "unused", however it is defined in SiliconSFe as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RF64`, etc.
+
+### 9.2.3 romByteSize
+
+This is an UNSIGNED `DWORD` value with the size of the SiliconSFe ROM blob in bytes. It is limited to 4 GiB. Signed integers are prohibited. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+
+### 9.2.4 interleaveIndex
+
+This is used for interleaved ROMs. You can interleave up to 256 ROMs with one SiliconSFe blob.
+
+### 9.2.5 revision
+
+This is a revision identifier as an integer. It is 3 bytes long.
+
+### 9.2.6 id
+
+This corresponds to the `iver` value in the integrated SF bank. In Creative's documentation, it is erroneously listed as corresponding to the `irom` value.
+
+### 9.2.7 checksum
+
+This stores the `CRC-16 (ARC)` checksum of the integrated SF bank.
+
+### 9.2.8 checksum2sComplement
+
+This stores the twos-complement of the value found in `checksum`.
+
+### 9.2.9 bankFormat
+
+In the legacy SF2.04 specification, Creative declared this "unused", but it seems to correspond to the `wMajor` value in `ifil`. For an unknown or other format, this value is `0`.
+
+### 9.2.10 product
+
+This stores the product name, conventionally `SiliconSFe`. It is a UTF-8 string.
+
+### 9.2.11 sampleCompType
+
+In the legacy SF2.04 specification, Creative said that it indicates the type of sample precompensation that is used in the SiliconSF blob. For the purpose of SiliconSFe, this value is `1` if any kind of sample precompensation is used, and `0` otherwise.
+
+### 9.2.12 style
+
+This is a string that describes the musical style of the contents of the integrated SF bank.
+
+### 9.2.13 copyright
+
+This stores copyright information about the SiliconSFe blob. It is a UTF-8 string.
+
+### 9.2.14 sampleStart
+
+This stores the location in the SiliconSFe blob where the bank samples start. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+
+### 9.2.15 sineWaveStart
+
+This stores the location in the SiliconSFe blob where the test sine wave sample starts. For 64-bit chunk headers, this value is increased to an UNSIGNED `QWORD` value (8 bytes).
+
+### 9.2.16 sineWave
+
+This contains `WORD` values that correspond to a sine wave sample.
 
 ## 9.3 AWE ROM emulator
 
