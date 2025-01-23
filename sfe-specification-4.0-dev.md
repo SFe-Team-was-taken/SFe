@@ -44,8 +44,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [1.6 Document organisation](#16-document-organisation)
 * [Section 2: Credits and copyright](#section-2-credits-and-copyright)
   * [2.1 Credits](#21-credits)
-    * [SFe Team](#sfe-team)
-    * [Special thanks](#special-thanks)
   * [2.2 License](#22-license)
 * [Section 3: Versioning and updates](#section-3-versioning-and-updates)
   * [3.1 Specification Versioning](#31-specification-versioning)
@@ -71,8 +69,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [5.6.3 Specification versions to ifil values](#563-specification-versions-to-ifil-values)
     * [5.6.4 isng sub-chunk](#564-isng-sub-chunk)
     * [5.6.5 List of sound engines](#565-list-of-sound-engines)
-      * [Creative/E-mu](#creativee-mu)
-      * [SFe](#sfe)
     * [5.6.6 ICRD sub-chunk](#566-icrd-sub-chunk)
     * [5.6.7 INAM, IENG, IPRD, ICOP, ICMT and ISFT sub-chunks](#567-inam-ieng-iprd-icop-icmt-and-isft-sub-chunks)
     * [5.6.8 irom and iver sub-chunks](#568-irom-and-iver-sub-chunks)
@@ -82,65 +78,24 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [5.7 sdta-list chunk](#57-sdta-list-chunk)
     * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
     * [5.7.2 SFe Compression](#572-sfe-compression)
-      * [What is SFe Compression?](#what-is-sfe-compression)
-      * [File identification for SFe Compression](#file-identification-for-sfe-compression)
-      * [sfSampleType in shdr sub-chunk](#sfsampletype-in-shdr-sub-chunk)
-      * [Interpretation of sample data index fields in shdr sub-chunk](#interpretation-of-sample-data-index-fields-in-shdr-sub-chunk)
-      * [Using both compressed and uncompressed samples in the same file](#using-both-compressed-and-uncompressed-samples-in-the-same-file)
-      * [Unsupported features](#unsupported-features)
-      * [Proprietary compression formats](#proprietary-compression-formats)
     * [5.7.3 sm24 and sm32 sub-chunk](#573-sm24-and-sm32-sub-chunk)
     * [5.7.4 Using 8-bit samples](#574-using-8-bit-samples)
     * [5.7.5 Looping rules](#575-looping-rules)
   * [5.8 pdta-list chunk](#58-pdta-list-chunk)
     * [5.8.1 phdr sub-chunk](#581-phdr-sub-chunk)
     * [5.8.2 New Bank System](#582-new-bank-system)
-      * [Using MIDI Control Change #32 (Bank Select LSB)](#using-midi-control-change-32-bank-select-lsb)
-      * [Introducing byBankMSB and byBankLSB](#introducing-bybankmsb-and-bybanklsb)
-      * [Using more than one percussion bank](#using-more-than-one-percussion-bank)
-      * [Flowchart for correct handling of bank select instructions](#flowchart-for-correct-handling-of-bank-select-instructions)
     * [5.8.3 inst sub-chunk](#583-inst-sub-chunk)
     * [5.8.4 shdr sub-chunk](#584-shdr-sub-chunk)
-      * [Sample Rate Limit Changes](#sample-rate-limit-changes)
-      * [sfSampleType and SFe Compression](#sfsampletype-and-sfe-compression)
     * [5.8.5 Other sub-chunks](#585-other-sub-chunks)
 * [Section 6: SFe enumerations and feature flags](#section-6-sfe-enumerations-and-feature-flags)
   * [6.1 About SFe enumerations](#61-about-sfe-enumerations)
   * [6.2 Feature flags](#62-feature-flags)
     * [6.2.1 Feature flag tree structure](#621-feature-flag-tree-structure)
     * [6.2.2 Branch 00 Foundational synthesis engine](#622-branch-00-foundational-synthesis-engine)
-      * [00:00 Tuning](#0000-tuning)
-      * [00:01 Looping](#0001-looping)
-      * [00:02 Filter Types](#0002-filter-types)
-      * [00:03 Filter Parameters](#0003-filter-parameters)
-      * [00:04 Amplification and attenuation](#0004-amplification-and-attenuation)
-      * [00:05 Effects blocks](#0005-effects-blocks)
-      * [00:06 Low Frequency Oscillators](#0006-low-frequency-oscillators)
-      * [00:07 Envelopes](#0007-envelopes)
-      * [00:08 MIDI Control Changes](#0008-midi-control-changes)
-      * [00:09 Generators](#0009-generators)
-      * [00:0a Zones](#000a-zones)
-      * [00:0b Reserved](#000b-reserved)
     * [6.2.3 Branch 01 Modulators and NRPN](#623-branch-01-modulators-and-nrpn)
-      * [01:00 Modulators](#0100-modulators)
-      * [01:01 Modulation controllers](#0101-modulation-controllers)
-      * [01:02 Modulation parameters 1](#0102-modulation-parameters-1)
-      * [01:03 Modulation parameters 2](#0103-modulation-parameters-2)
-      * [01:04 Modulation parameters 3](#0104-modulation-parameters-3)
-      * [01:05 NRPN](#0105-nrpn)
-      * [01:06 Default modulators](#0106-default-modulators)
-      * [01:07 Reserved](#0107-reserved)
     * [6.2.4 Branch 02 Sample bitdepth support](#624-branch-02-sample-bitdepth-support)
-      * [02:00 24-bit support](#0200-24-bit-support)
-      * [02:01 32-bit support](#0201-32-bit-support)
     * [6.2.5 Branch 03 SFe Compression support](#625-branch-03-sfe-compression-support)
-      * [03:00 Compression flag](#0300-compression-flag)
-      * [03:01 Sample compression formats](#0301-sample-compression-formats)
     * [6.2.6 Branch 04 Metadata upgrades](#626-branch-04-metadata-upgrades)
-      * [04:00 Metadata improvements](#0400-metadata-improvements)
-      * [04:01 Reserved](#0401-reserved)
-      * [04:02 User-defined sample ROMs](#0402-user-defined-sample-roms)
-      * [04:03 ROM emulator](#0403-rom-emulator)
 * [Section 7: Parameters and synthesis model](#section-7-parameters-and-synthesis-model)
   * [7.1 About the synthesis model](#71-about-the-synthesis-model)
   * [7.2 MIDI functions](#72-midi-functions)
@@ -209,48 +164,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [11.3.3 Conversion between 32-bit static and RIFX](#1133-conversion-between-32-bit-static-and-rifx)
   * [11.4 File repair programs](#114-file-repair-programs)
     * [11.4.1 Repairing Structurally Unsound errors](#1141-repairing-structurally-unsound-errors)
-      * [ifil sub-chunk errors](#ifil-sub-chunk-errors)
-      * [PHDR sub-chunk errors](#phdr-sub-chunk-errors)
-      * [PBAG sub-chunk errors](#pbag-sub-chunk-errors)
-      * [PMOD sub-chunk errors](#pmod-sub-chunk-errors)
-      * [PGEN sub-chunk errors](#pgen-sub-chunk-errors)
-      * [INST sub-chunk errors](#inst-sub-chunk-errors)
-      * [IBAG sub-chunk errors](#ibag-sub-chunk-errors)
-      * [IMOD sub-chunk errors](#imod-sub-chunk-errors)
-      * [IGEN sub-chunk errors](#igen-sub-chunk-errors)
-      * [SHDR sub-chunk errors](#shdr-sub-chunk-errors)
-      * [Unknown sub-chunk errors](#unknown-sub-chunk-errors)
-      * [Compressed sample errors](#compressed-sample-errors)
-      * [ckSize errors](#cksize-errors)
-      * [Incompatible chunk header errors](#incompatible-chunk-header-errors)
-      * [Incompatible SFty errors](#incompatible-sfty-errors)
-      * [8-bit sample errors](#8-bit-sample-errors)
     * [11.4.2 Repairing non-critical errors](#1142-repairing-non-critical-errors)
-      * [isng sub-chunk errors](#isng-sub-chunk-errors)
-      * [ICRD sub-chunk errors](#icrd-sub-chunk-errors)
-      * [INAM, IENG, IPRD, ICOP, ICMT or ISFT sub-chunk errors](#inam-ieng-iprd-icop-icmt-or-isft-sub-chunk-errors)
-      * [irom or iver sub-chunk errors](#irom-or-iver-sub-chunk-errors)
-      * [smpl, sm24 and sm32 sub-chunk errors](#smpl-sm24-and-sm32-sub-chunk-errors)
-      * [PHDR sub-chunk errors](#phdr-sub-chunk-errors-1)
-      * [PBAG sub-chunk errors](#pbag-sub-chunk-errors-1)
-      * [PMOD or IMOD sub-chunk errors](#pmod-or-imod-sub-chunk-errors)
-      * [PGEN sub-chunk errors](#pgen-sub-chunk-errors-1)
-      * [INST sub-chunk errors](#inst-sub-chunk-errors-1)
-      * [IBAG sub-chunk errors](#ibag-sub-chunk-errors-1)
-      * [IGEN sub-chunk errors](#igen-sub-chunk-errors-1)
-      * [SHDR sub-chunk errors](#shdr-sub-chunk-errors-1)
-      * [Undefined and unknown enum, palette value and source type errors](#undefined-and-unknown-enum-palette-value-and-source-type-errors)
-      * [Precedence errors](#precedence-errors)
-      * [Parameter value and padding errors](#parameter-value-and-padding-errors)
-      * [Unknown chunk errors](#unknown-chunk-errors)
-      * [Compression errors](#compression-errors)
-      * [ISFe chunk errors](#isfe-chunk-errors)
-      * [ifil chunk errors](#ifil-chunk-errors)
-      * [Proprietary compression errors](#proprietary-compression-errors)
-      * [wPreset value errors](#wpreset-value-errors)
-      * [Duplicated preset location errors](#duplicated-preset-location-errors)
-      * [File size limit errors](#file-size-limit-errors)
-      * [Feature flag errors](#feature-flag-errors)
     * [11.4.3 Manual repair](#1143-manual-repair)
     * [11.4.4 Automatic repair](#1144-automatic-repair)
   * [11.5 Why these guidelines?](#115-why-these-guidelines)
@@ -271,7 +185,8 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [11.6.3 Branch 01 Modulators and NRPN](#1163-branch-01-modulators-and-nrpn)
   * [11.7 Courtesy actions](#117-courtesy-actions)
 * [Section 12: Glossary](#section-12-glossary)
-<!-- TOC -->
+  
+  <!-- TOC -->
 
 ---
 
@@ -348,22 +263,17 @@ This is the specification for the SFe 4.0 file format, based on the famous E-mu 
 The sections in this specification are different to the sections in `SFSPEC24.PDF`, however they roughly correspond to some of these sections:
 
 - Sections 1-3 of this specification to sections 0-1 of `SFSPEC24.PDF`
-
 - Section 4 of this specification to section 2 of `SFSPEC24.PDF`
-
 - Section 5 of this specification to sections 3-7 of `SFSPEC24.PDF`
-
 - Section 6 of this specification to section 8 of `SFSPEC24.PDF`
-
 - Section 7 of this specification to section 9 of `SFSPEC24.PDF`
-
 - Section 8 of this specification to section 10 of `SFSPEC24.PDF`
-
 - Section 9 of this specification to section 11 of `SFSPEC24.PDF`
-
 - Section 12 of this specification to section 12 of `SFSPEC24.PDF`
 
 Section 6 also contains feature flags along with enumerators, section 9 also contains information about the AWE ROM emulator that can be implemented, and sections 10 and 11 include information on compatibility concerns and guidance on writing SFe-compatible software respectively.
+
+Significant differences from the previous version of the specification will be highlighted. 
 
 ---
 
