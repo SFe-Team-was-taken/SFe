@@ -1345,7 +1345,7 @@ These are handled as in legacy SF2.04.
 
 ## 9.1 SiliconSFe overview
 
-While we are unaware of any shipping non-Creative/E-mu products using the SiliconSF system found in `SFSPEC24.PDF`, you can use ROM samples formatted in the SiliconSF format with SFe.
+While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF` (the AWE cards used an early predecessor of SiliconSF), you can use ROM samples formatted in the SiliconSF format with SFe.
 
 ## 9.2 Header format
 
@@ -1403,17 +1403,17 @@ In the legacy SF2.04 specification, this is named `revision`.
 
 This corresponds to the `iver` value in the integrated SF bank.
 
-In the legacy SF2.04 specification, it is called `id` and is erroneously listed as corresponding to the `irom` value. The name in SiliconSFe more accurately describes its usage.
+In the legacy SF2.04 specification, this is named `id` and is erroneously listed as corresponding to the `irom` value. The name in SiliconSFe more accurately describes its usage.
 
 ### 9.2.7 bankChecksum
 
-This stores the `CRC-16 (ARC)` checksum of the integrated SF bank.
+This stores the `CRC-16(ARC)` checksum of the integrated SF bank.
 
 In the legacy SF2.04 specification, this is named `checksum`.
 
 ### 9.2.8 bankChecksum2sComplement
 
-This stores the twos-complement of the value found in `checksum`.
+This stores the twos-complement of the value found in `bankChecksum`.
 
 In the legacy SF2.04 specification, this is named `checksum2sComplement`.
 
@@ -1425,9 +1425,9 @@ In the legacy SF2.04 specification, this is named `bankFormat` and was declared 
 
 ### 9.2.10 bankProduct
 
-This stores the product name, conventionally `SiliconSFe`. It is a UTF-8 string.
+This is a UTF-8 string that stores the product name (conventionally `SiliconSFe`).
 
-In the legacy SF2.04 specification, this is named `product` and was declared by Creative as "unused".
+In the legacy SF2.04 specification, this is named `product`.
 
 ### 9.2.11 sampleCompType
 
@@ -1461,7 +1461,7 @@ In the legacy SF2.04 specification, this is named `sineWaveStart`.
 
 ### 9.2.16 sampleSineWave
 
-This contains `WORD` values that correspond to a sine wave sample.
+This contains `SHORT` values that correspond to a sine wave sample.
 
 In the legacy SF2.04 specification, this is named `sineWave`.
 
