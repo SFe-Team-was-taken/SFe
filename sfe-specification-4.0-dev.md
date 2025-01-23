@@ -29,12 +29,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 # Table of contents
 
 <!-- TOC -->
-
-* [SF-enhanced (SFe) 4 specification](#sf-enhanced-sfe-4-specification)
-  * [Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)](#machine-readable-version-markdown---40-20250120d-release-candidate-3)
-    * [Copyright notice](#copyright-notice)
-    * [Disclaimers](#disclaimers)
-* [Table of contents](#table-of-contents)
 * [Section 1: Introduction](#section-1-introduction)
   * [1.1 Preamble](#11-preamble)
   * [1.2 Changelog](#12-changelog)
@@ -185,8 +179,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [11.6.3 Branch 01 Modulators and NRPN](#1163-branch-01-modulators-and-nrpn)
   * [11.7 Courtesy actions](#117-courtesy-actions)
 * [Section 12: Glossary](#section-12-glossary)
-  
-  <!-- TOC -->
+<!-- TOC -->
 
 ---
 
