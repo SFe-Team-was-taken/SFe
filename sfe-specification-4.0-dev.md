@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250122 (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0-rc3 (Release Candidate 3)
 
 Copyright © 2025 SFe Team and contributors
 
@@ -31,7 +31,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 <!-- TOC -->
 
 * [SF-enhanced (SFe) 4 specification](#sf-enhanced-sfe-4-specification)
-  * [Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)](#machine-readable-version-markdown---40-20250120d-release-candidate-3)
+  * [Machine readable version (Markdown) - 4.0-rc3 (Release Candidate 3)](#machine-readable-version-markdown---40-rc3-release-candidate-3)
     * [Copyright notice](#copyright-notice)
     * [Disclaimers](#disclaimers)
 * [Table of contents](#table-of-contents)
@@ -290,7 +290,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date            | Description |
 | ------------ | --------------- | ----------- |
-| This version | 11 January 2025 | n/a         |
+| This version | 23 January 2025 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -745,9 +745,9 @@ To ease the creation of library management systems that are compatible with mult
 
 The value of `ICRD` must now be compliant with the ISO-8601 standard. There are two valid formats:
 
-- Date only: for example `2025-01-20`
+- Date only: for example `2025-01-23`
 
-- Date and time: for example `2025-01-20T02:10:48Z` 
+- Date and time: for example `2025-01-23T07:41:00Z` 
 
 Library management systems should be able to read the value of the `ICRD` sub-chunk and show the date (and time if applicable) in the correct language in a field that can be sorted.
 
