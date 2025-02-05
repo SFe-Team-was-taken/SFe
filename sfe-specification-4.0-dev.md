@@ -198,7 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date            | Description |
 | ------------ | --------------- | ----------- |
-| 4.0          | 5 February 2025 | n/a         |
+| 4.0          | 6 February 2025 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -399,8 +399,6 @@ The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2
 - SFe Compression - The compression system based on Werner SF3 that SFe programs should be compliant with.
 - Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
 - Tree structure - A structure consisting of branches and leaves.
-- Version 3 - See "Werner SF3".
-- Version 4 - See "SFe 4".
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
 - Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
 
@@ -453,13 +451,14 @@ The parameter terminology used in SFe 4.0 is broadly the same as legacy SF2.04, 
 
 ## 5.1 File format extensions
 
-The file format extension to use for SFe files is generally `.sft`:
+The file format extension to use for SFe files is generally `.sf4`:
 
 - `.sf2` is avoided because SFe files are *not* SoundFonts, but simply banks that use formatting that is very similar to legacy SF2.04.
 - `.sf3` is avoided because some Werner SF3 bank players may not support SFe features.
-- `.sf4` is avoided due to incompatibility with cognitone formatted banks.
 
-When opening a bank with extension `.sft`, programs must determine the correct version to use. The `ifil` value and `ISFe-list` sub-chunk provide hints.
+Despite `.sf4` also being used by cognitone-formatted banks, these banks never existed due to a (fatal bug)[https://github.com/cognitone/sf2convert/issues/1] in cognitone's sf2convert program.
+
+The presence of a legacy SF file extension such as `.sf2` or `.sf3` does not necessarily denote a legacy SF bank! SFe-compatible programs are expected to parse the `ifil` value and `ISFe-list` sub-chunk to properly load the bank, regardless of the extension.
 
 The file type should be referred to as `SFe bank` and should *not* be referred to as `SoundFont` or anything containing `SoundFont`. `SFSPEC24.PDF` states that files with additional chunks don't conform to the legacy SF2.04 standard.
 
@@ -471,20 +470,20 @@ RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe 
 
 - RIFF is the basic version with 32-bit chunk headers, and is used in legacy SF2.04 and Werner SF3.
 - RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
-- RIFX is a big-endian version of 32-bit RIFF, while RIFF and RIFF64 are little-endian formats.
+- RIFX is a big-endian version of 32-bit RIFF, while RIFF/RIFF64 are little-endian formats.
 
 RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
-- `ckID`: type of data in chunk, equal to a unique four character code (FourCC), listed above.
+- `ckID`: type of data in chunk, equal to a unique 4-character code (FourCC), listed above.
 - `ckSize`: size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
 - `ds64`: size of chunk (RIFF64 only)
 - `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
 
 Chunks can be further divided into "sub-chunks."
 
-Orders of chunks in all SF files are strictly defined, as in versions 2 and 3, and should be kept to, except for TSC mode.
+Orders of chunks in all SFe banks are strictly defined, as in legacy SF2.04, and should be kept to, except for TSC mode.
 
 ## 5.3 Chunk header types
 
@@ -1747,9 +1746,9 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Total file size limit**    | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
 | **Multiple files**           | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
 | **Legacy support**           | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
-| **Header support**           | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static, dynamic, RIFX                                                          |
+| **Header support**           | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static, RIFX                                                                   |
 | **Sample compression**       | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          |
-| **File extension**           | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
+| **File extension**           | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
 | **Information/Metadata**     | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
 ### 11.1.2 Sample specifications
@@ -2170,7 +2169,7 @@ You must correctly setup your banks to ensure that they run properly; do not use
 
 ### 11.5.8 File Extension, Structure, Information and Metadata
 
-- The file extension is `.sft`. Chunk headers must be detected.
+- The file extension is `.sf4`. Chunk headers must be detected.
 - Do not save SFe files with an extension `.sf2`, as it may confuse legacy SF2.0x players. Remember that SFe files are not SoundFonts!
 - Use the `ifil` and `SFvx` sub-chunks to determine version, do not use the file extension.
 - For SFe, you must use the prescribed chunk sizes and limits in the specification.
@@ -2179,7 +2178,7 @@ You must correctly setup your banks to ensure that they run properly; do not use
 
 - Level 3 requires 96kHz frequency, because it is the next standard frequency above 50kHz as specified by SF2.04.
 - 88.2kHz is not recommended because it is non-standard.
-- Stray sdta sub-chunks must be ignored. Erroring out on extra sdta chunks is not compliant with SF2.04.
+- Stray `sdta` sub-chunks must be ignored. Erroring out on extra `sdta` chunks is not compliant with SF2.04.
 - There must not be additional limitations to sample length, besides the file size limits.
 - Sample linking features from legacy SF2.04 must be supported (with the exception of SFe Compression).
 
@@ -2291,7 +2290,5 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
 - Synth - Abbreviation of "Synthesiser," see "Synthesiser" in `SFSPEC24.PDF` for more information.
 - Tree structure - A structure consisting of branches and leaves.
-- Version 3 - See "Werner SF3".
-- Version 4 - See "SFe 4".
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
 - Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
