@@ -198,7 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date            | Description |
 | ------------ | --------------- | ----------- |
-| This version | 11 January 2025 | n/a         |
+| 4.0          | 5 February 2025 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -535,6 +535,7 @@ An SFe 4 file consists of:
     - Sub-chunks inside `sdta-list` in legacy SF2.04 - `smpl`, `sm24`
     - `sm32` chunk (BYTE array)
   - `LIST`
+    - `pdta` ascii string
     - Sub-chunks inside `pdta-list` in legacy SF2.04
 
 Only SFe-specific chunks are listed for brevity. In this section, assume that any non-listed chunk is identical to SF2.04.
