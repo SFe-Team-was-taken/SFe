@@ -198,7 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date            | Description |
 | ------------ | --------------- | ----------- |
-| 4.0          | 6 February 2025 | n/a         |
+| 4.0          | 5 February 2025 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
