@@ -1,4 +1,4 @@
-Copyright © 2020-\[year\] SFe Team and contributors
+Copyright © 2020-2025 SFe Team and contributors
 
 Permission is granted to use, distribute and modify this specification for any use, provided that:
 
