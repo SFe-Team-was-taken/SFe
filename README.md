@@ -6,6 +6,8 @@ Like many members of the soundfont community, we are tired of the limitations of
 
 To do this, we looked at many features that soundfont creators have requested, and are working on incorporating them into the SFe format.
 
+In 2025, the first version of SFe, version 4.0, launches. We hope that you enjoy it.
+
 ### What are the goals of SFe?
 
 The goals of the SFe project are to:
@@ -15,10 +17,6 @@ The goals of the SFe project are to:
 - Enable sample libraries that we could never have imagined 
 - Create a viable competitor to commercial sample library formats (Kontakt, etc.)
 - Allow intercompatibility between other open source sample library formats (such as SFZ)
-
-### When will the specification become available?
-
-We plan on releasing the first version of the SFe specification, version 4.0, on 8 February 2025. However, this is subject to change.
 
 ### Why does the specification not include everything?
 

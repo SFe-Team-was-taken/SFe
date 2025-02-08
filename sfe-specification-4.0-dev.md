@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0-20250122 (Release Candidate 3)
+## Machine readable version (Markdown) - 4.0
 
 Copyright © 2025 SFe Team and contributors
 
@@ -29,12 +29,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 # Table of contents
 
 <!-- TOC -->
-
-* [SF-enhanced (SFe) 4 specification](#sf-enhanced-sfe-4-specification)
-  * [Machine readable version (Markdown) - 4.0-20250120d (Release Candidate 3)](#machine-readable-version-markdown---40-20250120d-release-candidate-3)
-    * [Copyright notice](#copyright-notice)
-    * [Disclaimers](#disclaimers)
-* [Table of contents](#table-of-contents)
 * [Section 1: Introduction](#section-1-introduction)
   * [1.1 Preamble](#11-preamble)
   * [1.2 Changelog](#12-changelog)
@@ -44,8 +38,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [1.6 Document organisation](#16-document-organisation)
 * [Section 2: Credits and copyright](#section-2-credits-and-copyright)
   * [2.1 Credits](#21-credits)
-    * [SFe Team](#sfe-team)
-    * [Special thanks](#special-thanks)
   * [2.2 License](#22-license)
 * [Section 3: Versioning and updates](#section-3-versioning-and-updates)
   * [3.1 Specification Versioning](#31-specification-versioning)
@@ -71,8 +63,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [5.6.3 Specification versions to ifil values](#563-specification-versions-to-ifil-values)
     * [5.6.4 isng sub-chunk](#564-isng-sub-chunk)
     * [5.6.5 List of sound engines](#565-list-of-sound-engines)
-      * [Creative/E-mu](#creativee-mu)
-      * [SFe](#sfe)
     * [5.6.6 ICRD sub-chunk](#566-icrd-sub-chunk)
     * [5.6.7 INAM, IENG, IPRD, ICOP, ICMT and ISFT sub-chunks](#567-inam-ieng-iprd-icop-icmt-and-isft-sub-chunks)
     * [5.6.8 irom and iver sub-chunks](#568-irom-and-iver-sub-chunks)
@@ -82,65 +72,24 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [5.7 sdta-list chunk](#57-sdta-list-chunk)
     * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
     * [5.7.2 SFe Compression](#572-sfe-compression)
-      * [What is SFe Compression?](#what-is-sfe-compression)
-      * [File identification for SFe Compression](#file-identification-for-sfe-compression)
-      * [sfSampleType in shdr sub-chunk](#sfsampletype-in-shdr-sub-chunk)
-      * [Interpretation of sample data index fields in shdr sub-chunk](#interpretation-of-sample-data-index-fields-in-shdr-sub-chunk)
-      * [Using both compressed and uncompressed samples in the same file](#using-both-compressed-and-uncompressed-samples-in-the-same-file)
-      * [Unsupported features](#unsupported-features)
-      * [Proprietary compression formats](#proprietary-compression-formats)
     * [5.7.3 sm24 and sm32 sub-chunk](#573-sm24-and-sm32-sub-chunk)
     * [5.7.4 Using 8-bit samples](#574-using-8-bit-samples)
     * [5.7.5 Looping rules](#575-looping-rules)
   * [5.8 pdta-list chunk](#58-pdta-list-chunk)
     * [5.8.1 phdr sub-chunk](#581-phdr-sub-chunk)
     * [5.8.2 New Bank System](#582-new-bank-system)
-      * [Using MIDI Control Change #32 (Bank Select LSB)](#using-midi-control-change-32-bank-select-lsb)
-      * [Introducing byBankMSB and byBankLSB](#introducing-bybankmsb-and-bybanklsb)
-      * [Using more than one percussion bank](#using-more-than-one-percussion-bank)
-      * [Flowchart for correct handling of bank select instructions](#flowchart-for-correct-handling-of-bank-select-instructions)
     * [5.8.3 inst sub-chunk](#583-inst-sub-chunk)
     * [5.8.4 shdr sub-chunk](#584-shdr-sub-chunk)
-      * [Sample Rate Limit Changes](#sample-rate-limit-changes)
-      * [sfSampleType and SFe Compression](#sfsampletype-and-sfe-compression)
     * [5.8.5 Other sub-chunks](#585-other-sub-chunks)
 * [Section 6: SFe enumerations and feature flags](#section-6-sfe-enumerations-and-feature-flags)
   * [6.1 About SFe enumerations](#61-about-sfe-enumerations)
   * [6.2 Feature flags](#62-feature-flags)
     * [6.2.1 Feature flag tree structure](#621-feature-flag-tree-structure)
     * [6.2.2 Branch 00 Foundational synthesis engine](#622-branch-00-foundational-synthesis-engine)
-      * [00:00 Tuning](#0000-tuning)
-      * [00:01 Looping](#0001-looping)
-      * [00:02 Filter Types](#0002-filter-types)
-      * [00:03 Filter Parameters](#0003-filter-parameters)
-      * [00:04 Amplification and attenuation](#0004-amplification-and-attenuation)
-      * [00:05 Effects blocks](#0005-effects-blocks)
-      * [00:06 Low Frequency Oscillators](#0006-low-frequency-oscillators)
-      * [00:07 Envelopes](#0007-envelopes)
-      * [00:08 MIDI Control Changes](#0008-midi-control-changes)
-      * [00:09 Generators](#0009-generators)
-      * [00:0a Zones](#000a-zones)
-      * [00:0b Reserved](#000b-reserved)
     * [6.2.3 Branch 01 Modulators and NRPN](#623-branch-01-modulators-and-nrpn)
-      * [01:00 Modulators](#0100-modulators)
-      * [01:01 Modulation controllers](#0101-modulation-controllers)
-      * [01:02 Modulation parameters 1](#0102-modulation-parameters-1)
-      * [01:03 Modulation parameters 2](#0103-modulation-parameters-2)
-      * [01:04 Modulation parameters 3](#0104-modulation-parameters-3)
-      * [01:05 NRPN](#0105-nrpn)
-      * [01:06 Default modulators](#0106-default-modulators)
-      * [01:07 Reserved](#0107-reserved)
     * [6.2.4 Branch 02 Sample bitdepth support](#624-branch-02-sample-bitdepth-support)
-      * [02:00 24-bit support](#0200-24-bit-support)
-      * [02:01 32-bit support](#0201-32-bit-support)
     * [6.2.5 Branch 03 SFe Compression support](#625-branch-03-sfe-compression-support)
-      * [03:00 Compression flag](#0300-compression-flag)
-      * [03:01 Sample compression formats](#0301-sample-compression-formats)
     * [6.2.6 Branch 04 Metadata upgrades](#626-branch-04-metadata-upgrades)
-      * [04:00 Metadata improvements](#0400-metadata-improvements)
-      * [04:01 Reserved](#0401-reserved)
-      * [04:02 User-defined sample ROMs](#0402-user-defined-sample-roms)
-      * [04:03 ROM emulator](#0403-rom-emulator)
 * [Section 7: Parameters and synthesis model](#section-7-parameters-and-synthesis-model)
   * [7.1 About the synthesis model](#71-about-the-synthesis-model)
   * [7.2 MIDI functions](#72-midi-functions)
@@ -180,13 +129,14 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [9.3 AWE ROM emulator](#93-awe-rom-emulator)
     * [9.3.1 Introducing the AWE ROM emulator](#931-introducing-the-awe-rom-emulator)
     * [9.3.2 ROM emulator sample specification](#932-rom-emulator-sample-specification)
-* [# Section 10: Compatibility information](#-section-10-compatibility-information)
+* [Section 10: Compatibility information](#section-10-compatibility-information)
   * [10.1 Specification and structural compatibility](#101-specification-and-structural-compatibility)
     * [10.1.1 Legacy SF2.04 specification compatibility](#1011-legacy-sf204-specification-compatibility)
     * [10.1.2 INFO chunk and legacy compatibility](#1012-info-chunk-and-legacy-compatibility)
     * [10.1.3 phdr sub-chunk](#1013-phdr-sub-chunk)
-    * [10.1.4 Generators and modulators](#1014-generators-and-modulators)
-    * [10.1.5 Error handling](#1015-error-handling)
+    * [10.1.4 Player implementation quirks](#1014-player-implementation-quirks)
+    * [10.1.5 Generators and modulators](#1015-generators-and-modulators)
+    * [10.1.6 Error handling](#1016-error-handling)
   * [10.2 Sample compatibility](#102-sample-compatibility)
     * [10.2.1 32-bit samples](#1021-32-bit-samples)
     * [10.2.2 8-bit samples](#1022-8-bit-samples)
@@ -209,48 +159,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [11.3.3 Conversion between 32-bit static and RIFX](#1133-conversion-between-32-bit-static-and-rifx)
   * [11.4 File repair programs](#114-file-repair-programs)
     * [11.4.1 Repairing Structurally Unsound errors](#1141-repairing-structurally-unsound-errors)
-      * [ifil sub-chunk errors](#ifil-sub-chunk-errors)
-      * [PHDR sub-chunk errors](#phdr-sub-chunk-errors)
-      * [PBAG sub-chunk errors](#pbag-sub-chunk-errors)
-      * [PMOD sub-chunk errors](#pmod-sub-chunk-errors)
-      * [PGEN sub-chunk errors](#pgen-sub-chunk-errors)
-      * [INST sub-chunk errors](#inst-sub-chunk-errors)
-      * [IBAG sub-chunk errors](#ibag-sub-chunk-errors)
-      * [IMOD sub-chunk errors](#imod-sub-chunk-errors)
-      * [IGEN sub-chunk errors](#igen-sub-chunk-errors)
-      * [SHDR sub-chunk errors](#shdr-sub-chunk-errors)
-      * [Unknown sub-chunk errors](#unknown-sub-chunk-errors)
-      * [Compressed sample errors](#compressed-sample-errors)
-      * [ckSize errors](#cksize-errors)
-      * [Incompatible chunk header errors](#incompatible-chunk-header-errors)
-      * [Incompatible SFty errors](#incompatible-sfty-errors)
-      * [8-bit sample errors](#8-bit-sample-errors)
     * [11.4.2 Repairing non-critical errors](#1142-repairing-non-critical-errors)
-      * [isng sub-chunk errors](#isng-sub-chunk-errors)
-      * [ICRD sub-chunk errors](#icrd-sub-chunk-errors)
-      * [INAM, IENG, IPRD, ICOP, ICMT or ISFT sub-chunk errors](#inam-ieng-iprd-icop-icmt-or-isft-sub-chunk-errors)
-      * [irom or iver sub-chunk errors](#irom-or-iver-sub-chunk-errors)
-      * [smpl, sm24 and sm32 sub-chunk errors](#smpl-sm24-and-sm32-sub-chunk-errors)
-      * [PHDR sub-chunk errors](#phdr-sub-chunk-errors-1)
-      * [PBAG sub-chunk errors](#pbag-sub-chunk-errors-1)
-      * [PMOD or IMOD sub-chunk errors](#pmod-or-imod-sub-chunk-errors)
-      * [PGEN sub-chunk errors](#pgen-sub-chunk-errors-1)
-      * [INST sub-chunk errors](#inst-sub-chunk-errors-1)
-      * [IBAG sub-chunk errors](#ibag-sub-chunk-errors-1)
-      * [IGEN sub-chunk errors](#igen-sub-chunk-errors-1)
-      * [SHDR sub-chunk errors](#shdr-sub-chunk-errors-1)
-      * [Undefined and unknown enum, palette value and source type errors](#undefined-and-unknown-enum-palette-value-and-source-type-errors)
-      * [Precedence errors](#precedence-errors)
-      * [Parameter value and padding errors](#parameter-value-and-padding-errors)
-      * [Unknown chunk errors](#unknown-chunk-errors)
-      * [Compression errors](#compression-errors)
-      * [ISFe chunk errors](#isfe-chunk-errors)
-      * [ifil chunk errors](#ifil-chunk-errors)
-      * [Proprietary compression errors](#proprietary-compression-errors)
-      * [wPreset value errors](#wpreset-value-errors)
-      * [Duplicated preset location errors](#duplicated-preset-location-errors)
-      * [File size limit errors](#file-size-limit-errors)
-      * [Feature flag errors](#feature-flag-errors)
     * [11.4.3 Manual repair](#1143-manual-repair)
     * [11.4.4 Automatic repair](#1144-automatic-repair)
   * [11.5 Why these guidelines?](#115-why-these-guidelines)
@@ -290,9 +199,11 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date            | Description |
 | ------------ | --------------- | ----------- |
-| This version | 11 January 2025 | n/a         |
+| 4.0          | 8 February 2025 | n/a         |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
+
+Changes from the previous version of the specification are highlighted.
 
 ## 1.3 History of improvements to the SF format
 
@@ -303,7 +214,7 @@ At an unknown time, Kenneth Rundt, the author of SynthFont and a series of produ
 - Always play the sample to the end
 - Velocity to volume envelope attack (from DLS)
 - Velocity to modulation envelope attack (from DLS)
-- Vibrato lfo to volume (from DLS)
+- Vibrato LFO to volume (from DLS)
 
 Werner Schweer found a way to compress SoundFont® 2 files (with the lossy Vorbis format) around 2010.
 
@@ -348,22 +259,17 @@ This is the specification for the SFe 4.0 file format, based on the famous E-mu 
 The sections in this specification are different to the sections in `SFSPEC24.PDF`, however they roughly correspond to some of these sections:
 
 - Sections 1-3 of this specification to sections 0-1 of `SFSPEC24.PDF`
-
 - Section 4 of this specification to section 2 of `SFSPEC24.PDF`
-
 - Section 5 of this specification to sections 3-7 of `SFSPEC24.PDF`
-
 - Section 6 of this specification to section 8 of `SFSPEC24.PDF`
-
 - Section 7 of this specification to section 9 of `SFSPEC24.PDF`
-
 - Section 8 of this specification to section 10 of `SFSPEC24.PDF`
-
 - Section 9 of this specification to section 11 of `SFSPEC24.PDF`
-
 - Section 12 of this specification to section 12 of `SFSPEC24.PDF`
 
 Section 6 also contains feature flags along with enumerators, section 9 also contains information about the AWE ROM emulator that can be implemented, and sections 10 and 11 include information on compatibility concerns and guidance on writing SFe-compatible software respectively.
+
+Significant differences from the previous version of the specification will be highlighted. 
 
 ---
 
@@ -457,9 +363,9 @@ SFe is designed for future improvements.
 
 Here are a few things that are planned for SFe:
 
-- Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5 seems to be planned as an LTS release for legacy SF.)
+- Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5.x seems to be planned as an LTS release for legacy SF.)
 - Negotiations with more SF program developers such as FluidSynth and Bassmidi will start soon.
-- For SFe 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205). Support for the related `PNMM` sub-chunk will also be included.
+- For SFe 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205). Support for the related `PNMM` sub-chunk will also be included, as well as Markdown support for `ICMT`.
 - A MIDI lyrics specification for MIDI players, along with Spessasus/Falcosoft RMIDI support, will become available in SFe 4.2.
 - We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for SFe 4.2. Care has been taken to ensure that SFe parameter usage does not conflict with SFCF. 
 
@@ -487,6 +393,8 @@ The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2
 - OGG - See "Vorbis".
 - Opus - A lossy audio compression format, slightly newer than OGG but with less wide adoption.
 - Proprietary Compression - Any non-Werner SF3 SoundFont® compression system. Usage is not allowed in SFe.
+- Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs. 
+- Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
 - RF64 - See "RIFF64".
 - RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
@@ -496,8 +404,6 @@ The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2
 - SFe Compression - The compression system based on Werner SF3 that SFe programs should be compliant with.
 - Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
 - Tree structure - A structure consisting of branches and leaves.
-- Version 3 - See "Werner SF3".
-- Version 4 - See "SFe 4".
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
 - Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
 
@@ -550,13 +456,14 @@ The parameter terminology used in SFe 4.0 is broadly the same as legacy SF2.04, 
 
 ## 5.1 File format extensions
 
-The file format extension to use for SFe files is generally `.sft`:
+The file format extension to use for SFe files is generally `.sf4`:
 
 - `.sf2` is avoided because SFe files are *not* SoundFonts, but simply banks that use formatting that is very similar to legacy SF2.04.
 - `.sf3` is avoided because some Werner SF3 bank players may not support SFe features.
-- `.sf4` is avoided due to incompatibility with cognitone formatted banks.
 
-When opening a bank with extension `.sft`, programs must determine the correct version to use. The `ifil` value and `ISFe-list` sub-chunk provide hints.
+Despite `.sf4` also being used by cognitone-formatted banks, these banks never existed due to a (fatal bug)[https://github.com/cognitone/sf2convert/issues/1] in cognitone's sf2convert program.
+
+The presence of a legacy SF file extension such as `.sf2` or `.sf3` does not necessarily denote a legacy SF bank! SFe-compatible programs are expected to parse the `ifil` value and `ISFe-list` sub-chunk to properly load the bank, regardless of the extension.
 
 The file type should be referred to as `SFe bank` and should *not* be referred to as `SoundFont` or anything containing `SoundFont`. `SFSPEC24.PDF` states that files with additional chunks don't conform to the legacy SF2.04 standard.
 
@@ -568,20 +475,20 @@ RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe 
 
 - RIFF is the basic version with 32-bit chunk headers, and is used in legacy SF2.04 and Werner SF3.
 - RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
-- RIFX is a big-endian version of 32-bit RIFF, while RIFF and RIFF64 are little-endian formats.
+- RIFX is a big-endian version of 32-bit RIFF, while RIFF/RIFF64 are little-endian formats.
 
 RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
-- `ckID`: type of data in chunk, equal to a unique four character code (FourCC), listed above.
+- `ckID`: type of data in chunk, equal to a unique 4-character code (FourCC), listed above.
 - `ckSize`: size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
 - `ds64`: size of chunk (RIFF64 only)
 - `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
 
 Chunks can be further divided into "sub-chunks."
 
-Orders of chunks in all SF files are strictly defined, as in versions 2 and 3, and should be kept to, except for TSC mode.
+Orders of chunks in all SFe banks are strictly defined, as in legacy SF2.04, and should be kept to, except for TSC mode.
 
 ## 5.3 Chunk header types
 
@@ -632,6 +539,7 @@ An SFe 4 file consists of:
     - Sub-chunks inside `sdta-list` in legacy SF2.04 - `smpl`, `sm24`
     - `sm32` chunk (BYTE array)
   - `LIST`
+    - `pdta` ascii string
     - Sub-chunks inside `pdta-list` in legacy SF2.04
 
 Only SFe-specific chunks are listed for brevity. In this section, assume that any non-listed chunk is identical to SF2.04.
@@ -711,7 +619,7 @@ The specification type used is found in the `ISFe-list` sub-chunk.
 A new default isng sub-chunk value is used in SFe: `SFe 4`.
 
 - SFe 4.0 players should recognize this and remove the default velocity related filter used in legacy SF2.04.
-- In the case of a missing isng chunk, files with an ifil sub-chunk with `wMajor` = 2 or 3  and `wMinor` >= `1024`, or `wMajor` >= 4, assume an isng sub-chunk value of `SFe 4`. Don't assume `EMU8000`.
+- In the case of a missing isng chunk, files with an ifil sub-chunk with `wMajor` = 2 or 3 and `wMinor` >= `1024`, or `wMajor` >= 4, assume an isng sub-chunk value of `SFe 4`. Don't assume `EMU8000`.
 
 Additionally, UTF-8 is now used instead of ASCII, and the length limit is removed.
 
@@ -734,10 +642,11 @@ Reject anything not terminated with a zero byte, and assume the value `SFe 4`. D
 
 #### SFe
 
-|                       |                |                 |               |
-| --------------------- | -------------- | --------------- | ------------- |
-| **Sound engine name** | **isng value** | **SFe version** | **Bit depth** |
-| SFe 4                 | `SFe 4`        | 4.0             | 32 bit        |
+|                          |                     |                 |                         |
+| -------------------------| ------------------- | --------------- | ----------------------- |
+| **Sound engine name**    | **isng value**      | **SFe version** | **Bit depth**           |
+| SFe 4                    | `SFe 4`             | 4.0             | 16 bit, 24 bit, 32 bit  |
+| SFe 4 quirks mode        | `SFe 4 (quirks)`    | 4.0             | 16 bit, 24 bit          |
 
 ### 5.6.6 ICRD sub-chunk
 
@@ -745,9 +654,9 @@ To ease the creation of library management systems that are compatible with mult
 
 The value of `ICRD` must now be compliant with the ISO-8601 standard. There are two valid formats:
 
-- Date only: for example `2025-01-20`
+- Date only: for example `2025-02-08`
 
-- Date and time: for example `2025-01-20T02:10:48Z` 
+- Date and time: for example `2025-02-08T02:28:00Z` 
 
 Library management systems should be able to read the value of the `ICRD` sub-chunk and show the date (and time if applicable) in the correct language in a field that can be sorted.
 
@@ -814,7 +723,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0-rc3`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -845,7 +754,7 @@ The `BYTE` value `byLeaf` represents the leaf of the feature. Leaves correspond 
 
 The `DWORD` value `dwFlags` represents the feature flags themselves, which represent different parts of the feature. Depending on the `byLeaf` value, it can be a number, a series of bytes, etc.
 
-A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag 03:01" refers to the feature flag with branch number `3` and leaf number `1` (SFe Compression sample compression formats). While the `flag` sub-chunk uses a tree structure, it should be noted that no branch includes sub-branches; the branches only include leaves.
+A tree value is a combination of a branch value and a leaf value, and is conventionally written in the format `[branch]:[leaf]` with hexadecimal values, for example "feature flag `03:01`" refers to the feature flag with branch number `3` and leaf number `1` (SFe Compression sample compression formats). While the `flag` sub-chunk uses a tree structure, it should be noted that no branch includes sub-branches; the branches only include leaves.
 
 Branch numbers between 240 (`F0`) and 255 (`FF`) are private-use branches that will not be defined in the SFe specification itself, and are free to be used by programs.
 
@@ -1261,6 +1170,8 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 17: MIDI note on to filter cutoff (SF2.00)
 - Bit 18: MIDI note on to filter cutoff (SF2.01)
 - Bit 19: MIDI note on to filter cutoff (SF2.04)
+- Bit 20: Reserved
+- Bit 21: Reserved
 - Bit 24 off, bit 25 off: Reserved
 - Bit 24 on, bit 25 off: Reserved
 - Bit 24 on, bit 25 on: Reserved
@@ -1274,6 +1185,14 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 4: Reserved
 - Bit 5: Reserved
 - Bit 6: Reserved
+
+#### 01:08 Reserved
+
+- Bit 1: Reserved
+- Bit 2: Reserved
+- Bit 3: Reserved
+- Bit 4: Reserved
+- Bit 5: Reserved
 
 ### 6.2.4 Branch 02 Sample bitdepth support
 
@@ -1326,6 +1245,10 @@ Figure 12: The tree structure of the feature flags system.
 
 - Bit 1: 1MB ROM emulator support
 
+#### 04:04 Reserved
+
+- Bit 1: Reserved
+
 ---
 
 # Section 7: Parameters and synthesis model
@@ -1340,7 +1263,7 @@ When the synthesis model is changed, there will be a detailed description of eve
 
 ### 7.2.1 MIDI bank select
 
-Control Change #32 (Bank Select "LSB") has been modified to use the `byBankLSB` value.
+Control Change #32 (Bank Select LSB) has been modified to use the `byBankLSB` value.
 
 ### 7.2.2 Other MIDI functions
 
@@ -1442,7 +1365,7 @@ These are handled as in legacy SF2.04.
 
 ## 9.1 SiliconSFe overview
 
-While we are unaware of any shipping non-Creative/E-mu products using the SiliconSF system found in `SFSPEC24.PDF`, you can use ROM samples formatted in the SiliconSF format with SFe.
+While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF` (the AWE cards used an early predecessor of SiliconSF), you can use ROM samples formatted in the SiliconSF format with SFe.
 
 ## 9.2 Header format
 
@@ -1500,17 +1423,17 @@ In the legacy SF2.04 specification, this is named `revision`.
 
 This corresponds to the `iver` value in the integrated SF bank.
 
-In the legacy SF2.04 specification, it is called `id` and is erroneously listed as corresponding to the `irom` value. The name in SiliconSFe more accurately describes its usage.
+In the legacy SF2.04 specification, this is named `id` and is erroneously listed as corresponding to the `irom` value. The name in SiliconSFe more accurately describes its usage.
 
 ### 9.2.7 bankChecksum
 
-This stores the `CRC-16 (ARC)` checksum of the integrated SF bank.
+This stores the `CRC-16(ARC)` checksum of the integrated SF bank.
 
 In the legacy SF2.04 specification, this is named `checksum`.
 
 ### 9.2.8 bankChecksum2sComplement
 
-This stores the twos-complement of the value found in `checksum`.
+This stores the twos-complement of the value found in `bankChecksum`.
 
 In the legacy SF2.04 specification, this is named `checksum2sComplement`.
 
@@ -1522,9 +1445,9 @@ In the legacy SF2.04 specification, this is named `bankFormat` and was declared 
 
 ### 9.2.10 bankProduct
 
-This stores the product name, conventionally `SiliconSFe`. It is a UTF-8 string.
+This is a UTF-8 string that stores the product name (conventionally `SiliconSFe`).
 
-In the legacy SF2.04 specification, this is named `product` and was declared by Creative as "unused".
+In the legacy SF2.04 specification, this is named `product`.
 
 ### 9.2.11 sampleCompType
 
@@ -1558,7 +1481,7 @@ In the legacy SF2.04 specification, this is named `sineWaveStart`.
 
 ### 9.2.16 sampleSineWave
 
-This contains `WORD` values that correspond to a sine wave sample.
+This contains `SHORT` values that correspond to a sine wave sample.
 
 In the legacy SF2.04 specification, this is named `sineWave`.
 
@@ -1737,7 +1660,7 @@ Sample specification is fixed at 44.1khz Mono with no links and tuning at 60 wit
 
 ---
 
-# # Section 10: Compatibility information
+# Section 10: Compatibility information
 
 ## 10.1 Specification and structural compatibility
 
@@ -1761,35 +1684,44 @@ This sub-chunk must contain at least two entries. Failure to do so will affect t
 
 On legacy SF2.0x players, both `byBankMSB` and `byBankLSB` are read (as part of a larger `wBank` field), but only presets with a `byBankLSB` value of zero will be loaded.
 
-You may also want to use the VArranger system for implementing LSB: for example, `115@ConcertGrand`. Support for the VArranger system is defined by bit 5 of leaf 00:07 in the `flag` sub-chunk.
+You may also want to use the VArranger system for implementing LSB: for example, `115@ConcertGrand`. Support for the VArranger system is defined by bit 5 of leaf `00:07` in the `flag` sub-chunk.
 
 Byte 7 of `byBankLSB` is reserved and should be preserved as read, and written as clear, to ensure backwards compatibility with legacy SF2.04. File editors should warn the user if byte 7 of `byBankLSB` is set.
 
-SFe compatible players can also allow the user to swap CC00 and CC32 settings when reading a legacy SF2.0x bank. This allows legacy SF2.04 banks that use player-specific "XG hacks" to function properly.
+### 10.1.4 Player implementation quirks
 
-### 10.1.4 Generators and modulators
+Some legacy SF2.0x players include quirks which are automatically loaded for all legacy SF banks. For example, a player may include bank translation when a reset is detected, to support standards that require the use of both bank select MSB and LSB, or may include changes to the modulator implementation to improve sound quality.
+
+If an SFe bank uses an `isng` value of `SFe 4`, then programs must disable quirks. However, an `isng` value of `SFe 4 (quirks)` enables quirks mode. This means that the bank should be treated the same as `E-mu 10K2` (SF2.01) or `X-Fi` (SF2.04), ensuring that banks converted from legacy SF2.0x that rely on quirks work properly.
+
+SFe editors that encounter a value of `SFe 4 (quirks)` should overwrite such a value with `SFe 4` on save.
+
+### 10.1.5 Generators and modulators
 
 In case of compatibility issues, the `shAmount` and `wAmount` options have been kept in for SFe 4. They may be removed in future versions of SFe.
 
-If the SF version is below `2.1024`, and the isng value is equal to `EMU8000` or another E-mu sound engine:
+If the `iver` value is below `2.1024`, and the `isng` value is equal to `EMU8000` or another E-mu sound engine:
 
 - A 12dB low pass filter is used to ensure compatibility with the original AWE32 sound processor.
 - Controller sources remain amplitude based.
 - Ignore the whole modulator structure if a reserved source type is found.
 - The Controller Source Type #16-#20 acts identically to the Controller Source Type #0-#4.
 
-If the SF version is 2.04 or below, ignore the whole modulator structure if a reserved source type is found.
+If the `iver` value is `2.04` or below, ignore the whole modulator structure if a reserved source type is found.
 
-While default modulators 1-4 are not used in SFe version 4, SFe programs must still use them for older versions:
+While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions:
 
-- If the SF version is `2.04`, use the SF2.04 version of the Default Modulator 2.
-- If the SF version is `2.01`, use the SF2.01 version of the Default Modulator 2.
-- If the sound engine is `EMU8000`, trigger legacy sound card mode.
-- If the sound engine is `E-mu 10K1`, `E-mu 10K2`, `X-Fi`, or `SFe 4`, do not trigger legacy sound card mode.
+- If the `iver` value is `2.04`, use the SF2.04 version of the Default Modulator 2.
+- If the `iver` value is `2.01`, use the SF2.01 version of the Default Modulator 2.
+- If the `isng` value is `EMU8000`, trigger legacy sound card mode.
+- If the `isng` value is `E-mu 10K1`, `E-mu 10K2`, `X-Fi`, or `SFe 4`, do not trigger legacy sound card mode.
+- If the `isng` value is `SFe 4 (quirks)`, use the SF2.04 version of the Default Modulator 2 if a valid `sm24` sub-chunk is found, otherwise use the SF2.01 version.
+
+In SFe 4.0, programs should not define their own default modulators. This can cause playback issues if a SFe bank is used with a player that uses a different default modulator configuration to that of the editing software used.
 
 Parameter units remain the same as SF2.04.
 
-### 10.1.5 Error handling
+### 10.1.6 Error handling
 
 Legacy SF players may halt on undefined chunks. Section 10.2 of `SFSPEC21.PDF` and `SFSPEC24.PDF` forbid the addition of sub-chunks to the `sdta-list` chunk, but Creative/E-mu themselves decided to do it anyway when developing SF2.04 (by using the `sm24` sub-chunk).
 
@@ -1799,7 +1731,7 @@ Legacy SF players may halt on unknown enums, which goes against the legacy SF2.0
 
 ### 10.2.1 32-bit samples
 
-Players fully compliant with legacy SF2.04 should be able to play files with 32-bit samples at 24-bit quality. However, these files may fail on software (such as Polyphone 2.4.x) that looks specifically for `sm24` and reject anything else. It is therefore not recommended to use 32-bit samples with legacy SF2.0x players. 
+Players fully compliant with legacy SF2.04 should be able to play files with 32-bit samples at 24-bit quality. However, these files may fail on software (such as Polyphone 2.4.x) that looks specifically for `sm24` and rejects anything else. It is therefore not recommended to use 32-bit samples with legacy SF2.0x players. 
 
 The `sm32` sub-chunk is implemented in the same way as `sm24` was by E-mu, to maximise compatibility, but due to the massive size, unpracticality and compatibility implications of 32-bit samples, we recommend that you use the `sm32` sub-chunk only with 64-bit chunk headers.
 
@@ -1839,22 +1771,23 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Total file size limit**    | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
 | **Multiple files**           | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
 | **Legacy support**           | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
-| **Header support**           | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static, dynamic, RIFX                                                          |
+| **Header support**           | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static, RIFX                                                                   |
 | **Sample compression**       | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          | Werner SF3 format  <br>Uncompressed, OGG  <br>Proprietary formats forbidden                          |
-| **File extension**           | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sft` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
+| **File extension**           | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
 | **Information/Metadata**     | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
 ### 11.1.2 Sample specifications
 
-|                              | **Level 1**                                                   | **Level 2**                                                            | **Level 3**                                                            | **Level 4**                                                            |
-| ---------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| **Maximum sample rate**      | 44 100 Hz or greater                                          | 50 000 Hz or greater                                                   | 96 000 Hz or greater                                                   | No limit                                                               |
-| **Sample bit depth**         | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks     | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 24-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 32-bit or greater  <br>Ignore unsupported sdta sub-chunks              |
-| **Individual sample length** | 24-bit or greater                                             | 32-bit or greater                                                      | 32-bit or greater                                                      | Based on chunk header type                                             |
-| **Loop point sets**          | 1                                                             | 1                                                                      | 1                                                                      | 1                                                                      |
-| **Sample linking**           | Mono, Left/Right <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression |
-| **Number of channels**       | Mono, Stereo                                                  | Mono, Stereo                                                           | Mono, Stereo                                                           | Mono, Stereo                                                           |
-| **Sample name length**       | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
+|                                      | **Level 1**                                                   | **Level 2**                                                            | **Level 3**                                                            | **Level 4**                                                            |
+| ------------------------------------ | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Maximum sample rate**              | 44 100 Hz or greater                                          | 50 000 Hz or greater                                                   | 96 000 Hz or greater                                                   | No limit                                                               |
+| **Sample bit depth**                 | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks     | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 24-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 32-bit or greater  <br>Ignore unsupported sdta sub-chunks              |
+| **8-bit samples**                    | Optional                                                      | Optional                                                               | Optional                                                               | Mandatory                                                              |
+| **Maximum individual sample length** | 16,777,216 samples or greater                                 | 4,294,967,296 samples or greater                                       | 4,294,967,296 samples or greater                                       | Based on chunk header type                                             |
+| **Loop point sets**                  | 1                                                             | 1                                                                      | 1                                                                      | 1                                                                      |
+| **Sample linking**                   | Mono, Left/Right <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression |
+| **Number of channels**               | Mono, Stereo                                                  | Mono, Stereo                                                           | Mono, Stereo                                                           | Mono, Stereo                                                           |
+| **Sample name length**               | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
 
 ### 11.1.3 Instrument specifications
 
@@ -1903,8 +1836,8 @@ If an implementation is unable to reach the layering requirements without crashi
 ### 11.2.1 Conversion from legacy SF2.04 to SFe
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
-- Overwrite the `isng` value with `SFe 4`.
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Release Candidate, 3, "4.0-rc3"`, `flag` corresponding to features used in the bank.
+- Overwrite the `isng` value with `SFe 4 (quirks)`.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0"`, `flag` corresponding to features used in the bank.
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
@@ -2262,7 +2195,7 @@ You must correctly setup your banks to ensure that they run properly; do not use
 
 ### 11.5.8 File Extension, Structure, Information and Metadata
 
-- The file extension is `.sft`. Chunk headers must be detected.
+- The file extension is `.sf4`. Chunk headers must be detected.
 - Do not save SFe files with an extension `.sf2`, as it may confuse legacy SF2.0x players. Remember that SFe files are not SoundFonts!
 - Use the `ifil` and `SFvx` sub-chunks to determine version, do not use the file extension.
 - For SFe, you must use the prescribed chunk sizes and limits in the specification.
@@ -2271,7 +2204,7 @@ You must correctly setup your banks to ensure that they run properly; do not use
 
 - Level 3 requires 96kHz frequency, because it is the next standard frequency above 50kHz as specified by SF2.04.
 - 88.2kHz is not recommended because it is non-standard.
-- Stray sdta sub-chunks must be ignored. Erroring out on extra sdta chunks is not compliant with SF2.04.
+- Stray `sdta` sub-chunks must be ignored. Erroring out on extra `sdta` chunks is not compliant with SF2.04.
 - There must not be additional limitations to sample length, besides the file size limits.
 - Sample linking features from legacy SF2.04 must be supported (with the exception of SFe Compression).
 
@@ -2302,33 +2235,33 @@ You must correctly setup your banks to ensure that they run properly; do not use
 
 By using SFSpecTest by mrbumpy409 ([available here](https://github.com/mrbumpy409/SoundFont-Spec-Test)), you can test your SFe player and determine which feature flags to set. 
 
-SFSpecTest was written by the author of GeneralUserGS, one of the most popular legacy SF2.04 banks, and is thus a good benchmark for legacy SF2.04 players. 
+SFSpecTest was written by the author of GeneralUserGS, one of the most popular legacy SF2.0x banks, and is thus a good benchmark for legacy SF2.04 players. 
 
 Because SFe is a superset of legacy SF2.04, it is also a good tool to determine what SF2.04 features your program support, allowing you to set the correct feature flags for your program.
 
 ### 11.6.2 Branch 00 Foundational synthesis engine
 
-In leaf 00:00, if your player passes SFSpecTest test #8 (Scale Tune/Root Key), you can set all four defined bits.
+In leaf `00:00`, if your player passes SFSpecTest test #8 (Scale Tune/Root Key), you can set all four defined bits.
 
-In leaf 00:03, set bits 1-16 to the maximum frequency attained in SFSpecTest test #9 (Initial Filter Cutoff), and bits 17-24 to the maximum resonance attained in SFSpecTest test #10 (Filter Resonance).
+In leaf `00:03`, set bits 1-16 to the maximum frequency attained in SFSpecTest test #9 (Initial Filter Cutoff), and bits 17-24 to the maximum resonance attained in SFSpecTest test #10 (Filter Resonance).
 
-In leaf 00:04, if your player passes SFSpecTest test #11 (Attenuation Amount), you can set the first two defined bits. If your player passes SFSpecTest test #5a (Modulation LFO A) and #12 (Negative Attenuation Amount), you can also set the third bit.
+In leaf `00:04`, if your player passes SFSpecTest test #11 (Attenuation Amount), you can set the first two defined bits. If your player passes SFSpecTest test #5a (Modulation LFO A) and #12 (Negative Attenuation Amount), you can also set the third bit.
 
-In leaf 00:05, set bit 1 if you pass SFSpecTest test #17a (Reverb A), bit 2 if you pass SFSpecTest test #17b (Reverb B), bit 3 if you pass SFSpecTest test #17c (Reverb C), bit 9 if you pass SFSpecTest test #18a (Chorus A), bit 10 if you pass SFSpecTest test #18b (Chorus B), and bit 11 if you pass SFSpecTest test #18c (Chorus C). Set bit 4 if your reverb can be adjusted, and set bit 12 if your chorus can be adjusted.
+In leaf `00:05`, set bit 1 if you pass SFSpecTest test #17a (Reverb A), bit 2 if you pass SFSpecTest test #17b (Reverb B), bit 3 if you pass SFSpecTest test #17c (Reverb C), bit 9 if you pass SFSpecTest test #18a (Chorus A), bit 10 if you pass SFSpecTest test #18b (Chorus B), and bit 11 if you pass SFSpecTest test #18c (Chorus C). Set bit 4 if your reverb can be adjusted, and set bit 12 if your chorus can be adjusted.
 
-In leaf 00:06, if your player passes SFSpecTest test #5 (Modulation LFO), you can set bit 4. If your player passes SFSpecTest test #6 (Vibrato LFO) and test #7 (Mod Wheel to LFO), you can set bit 2.
+In leaf `00:06`, if your player passes SFSpecTest test #5 (Modulation LFO), you can set bit 4. If your player passes SFSpecTest test #6 (Vibrato LFO) and test #7 (Mod Wheel to LFO), you can set bit 2.
 
-In leaf 00:07, if your player passes SFSpecTest test #1 (Volume Envelope), you can set bits 1-6. If your player passes SFSpecTest test #2 (Modulation Envelope), you can set bits 9-14. If your player passes SFSpecTest test #3 (Key Number to Decay), you can set bits 8 and 16. If your player passes SFSpecTest test #4 (Key Number to Hold), you can set bits 7 and 15. 
+In leaf `00:07`, if your player passes SFSpecTest test #1 (Volume Envelope), you can set bits 1-6. If your player passes SFSpecTest test #2 (Modulation Envelope), you can set bits 9-14. If your player passes SFSpecTest test #3 (Key Number to Decay), you can set bits 8 and 16. If your player passes SFSpecTest test #4 (Key Number to Hold), you can set bits 7 and 15. 
 
-In leaf 00:0a, set bit 3 if you pass SFSpecTest test #21 (Exclusive Class). Set bit 6 if you pass SFSpecTest #16 (Sample Offset).
+In leaf `00:0a`, set bit 3 if you pass SFSpecTest test #21 (Exclusive Class). Set bit 6 if you pass SFSpecTest #16 (Sample Offset).
 
 ### 11.6.3 Branch 01 Modulators and NRPN
 
-In leaf 01:01, set bit 5 if you pass SFSpecTest test #20a (Pitch Bend A) and test #20b (Pitch Bend B). Set bit 6 if you pass SFSpecTest test #20c (Pitch Bend C). 
+In leaf `01:01`, set bit 5 if you pass SFSpecTest test #20a (Pitch Bend A) and test #20b (Pitch Bend B). Set bit 6 if you pass SFSpecTest test #20c (Pitch Bend C). 
 
-In leaf 01:02, set bit 1 if you pass SFSpecTest test #15 (CC1 to Filter Cutoff).
+In leaf `01:02`, set bit 1 if you pass SFSpecTest test #15 (CC1 to Filter Cutoff).
 
-In leaf 01:06, set bit 1 if you pass SFSpecTest test #13 (Velocity to Attenuation Curve), and set bit 2 if you pass SFSpecTest test #14a (Velocity to Initial Filter Cutoff Curve A) and test #14b (Velocity to Initial Filter Cutoff Curve B). Set bit 4 if you pass SFSpecTest test #15 (CC1 to Filter Cutoff). Set bit 17 if you emulate SF2.00 behaviour as shown in test #14c (Velocity to Initial Filter Cutoff Curve C), set bit 18 if you emulate SF2.01 behaviour as shown in test #14d (Velocity to Initial Filter Cutoff Curve D), and set bit 19 if you emulate SF2.04 behaviour as seen in test #14e (Velocity to Initial Filter Cutoff Curve E).
+In leaf `01:06`, set bit 1 if you pass SFSpecTest test #13 (Velocity to Attenuation Curve), and set bit 2 if you pass SFSpecTest test #14a (Velocity to Initial Filter Cutoff Curve A) and test #14b (Velocity to Initial Filter Cutoff Curve B). Set bit 4 if you pass SFSpecTest test #15 (CC1 to Filter Cutoff). Set bit 17 if you emulate SF2.00 behaviour as shown in test #14c (Velocity to Initial Filter Cutoff Curve C), set bit 18 if you emulate SF2.01 behaviour as shown in test #14d (Velocity to Initial Filter Cutoff Curve D), and set bit 19 if you emulate SF2.04 behaviour as seen in test #14e (Velocity to Initial Filter Cutoff Curve E).
 
 ## 11.7 Courtesy actions
 
@@ -2368,6 +2301,8 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - OGG - See "Vorbis".
 - Opus - A lossy audio compression format, slightly newer than OGG but with less wide adoption.
 - Proprietary Compression - Any non-Werner SF3 SoundFont® compression system. Usage is not allowed in SFe.
+- Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs.
+- Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
 - RF64 - See "RIFF64".
 - RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
@@ -2383,7 +2318,5 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
 - Synth - Abbreviation of "Synthesiser," see "Synthesiser" in `SFSPEC24.PDF` for more information.
 - Tree structure - A structure consisting of branches and leaves.
-- Version 3 - See "Werner SF3".
-- Version 4 - See "SFe 4".
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
 - Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
