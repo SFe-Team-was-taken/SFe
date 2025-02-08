@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0
+## Machine readable version (Markdown) - 4.0a
 
 Copyright © 2025 SFe Team and contributors
 
@@ -197,9 +197,10 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision     | Date            | Description |
-| ------------ | --------------- | ----------- |
-| 4.0          | 8 February 2025 | n/a         |
+| Revision     | Date            | Description            |
+| ------------ | --------------- | ---------------------- |
+| 4.0a         | 8 February 2025 | A few clarifications   |
+| 4.0          | 8 February 2025 | n/a                    |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -235,7 +236,7 @@ Finally, stgiga found out that many programs don't mind RIFF64 (RF64) files.
 - It gives us a new horizon to experiment with longer, higher quality samples.
 - There are also many other advantages of the RIFF64 format.
 
-The SFe project started in 2020 as a proposal for a successor to legacy SF2.04 by Polyphone developer and SFe team member davy7125. Starting off as "SF3", it was renamed to avoid confusion with Werner SF3, firstly to "SF32 and SF64" but eventually to "SFe".
+The SFe project started in 2020 as a proposal for a successor to legacy SF2.04 by Polyphone developer and SFe team member davy7125. Starting off as "SF3", it was renamed to avoid confusion with Werner SF3, firstly to "SF32 and SF64" but eventually to **SFe**.
 
 ## 1.4 Scope and purpose
 
@@ -286,7 +287,7 @@ Significant differences from the previous version of the specification will be h
 **Members:**
 
 - sylvia-leaf (they/them) | Discord - @tanukilvia | Email - [sylvialeaf6284@gmail.com](mailto:sylvialeaf6284@gmail.com)
-- Stgiga (they/them) | Discord - @stgiga
+- stgiga (they/them) | Discord - @stgiga | Email - [stgigamovement@yahoo.com](mailto:stgigamovement@yahoo.com)
 - spessasus
 - davy7125
 
@@ -328,7 +329,7 @@ Final specifications have version numbers in the format x.yL, where x and y are 
 - SFe should not skip "y" versions.
 - L is incremented when there are small changes made to the specification. The first version will not include L.
 - Release candidates have very similar version numbers to final specifications, but include "rc" between y and L.
-- An example of a final specification version would be 4.0.
+- An example of a final specification version would be 4.0a.
 
 <img title="Figure 1" src="figures/figure_1.png" alt="SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in 'L' versions. Later 'y' versions are compatible with earlier players but with reduced sound quality." width="360">
 
@@ -396,7 +397,7 @@ The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2
 - Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs. 
 - Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
 - RF64 - See "RIFF64".
-- RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
+- RIFF64 - A 64-bit RIFF-type format. Contrast to 32-bit versions of the RIFF format. Therefore, the maximum file size is above 4 gigabytes in size. (Updated in 4.0a)
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
 - SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
@@ -723,7 +724,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0a`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -1003,7 +1004,7 @@ Figure 12: The tree structure of the feature flags system.
 
 #### 00:03 Filter Parameters
 
-- Bits 1-16: Maximum supported filter frequency
+- Bits 1-16: Maximum supported filter frequency/cutoff
 - Bits 17-24: Maximum supported filter resonance
 - Bits 25-32: Reserved
 
@@ -1837,7 +1838,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
 - Overwrite the `isng` value with `SFe 4 (quirks)`.
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0"`, `flag` corresponding to features used in the bank.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0a"`, `flag` corresponding to features used in the bank.
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
@@ -2304,7 +2305,7 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs.
 - Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
 - RF64 - See "RIFF64".
-- RIFF64 - A 64-bit RIFF-type format. Contrast to the RIFF format, which is 32-bit. Therefore, the maximum file size is above 4 gigabytes in size.
+- RIFF64 - A 64-bit RIFF-type format. Contrast to 32-bit versions of the RIFF format. Therefore, the maximum file size is above 4 gigabytes in size. (Updated in 4.0a)
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
 - SB - Abbreviation of "Sound Blaster®". For example, "SB X-Fi".
