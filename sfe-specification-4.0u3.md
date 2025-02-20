@@ -301,7 +301,6 @@ Thanks to these people or groups:
 
 - derselbst (for format suggestions)
 - mawe42 (for format suggestions)
-- sagamusix (for feature suggestions)
 - Werner Schweer (for creating Werner SF3, of which SFe Compression is based on)
 - Falcosoft (for feature suggestions that will arrive in a future version of SFe)
 - E-mu Systems (for creating the legacy SoundFont format, of which SFe is based on)
