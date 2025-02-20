@@ -6,5 +6,6 @@ Our code of conduct is very simple:
 - Don't do anything illegal, inappropriate, or otherwise objectionable.
 - We aren't affiliated with Creative, please don't claim that we are.
 - Please refrain from using AI tools.
+- Feature removal is considered vandalism.
 
 If you don't follow these rules, you may not be able to continue contributing to the project.
