@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 3
+## Machine readable version (Markdown) - 4.0 Update 5
 
 Copyright © 2025 SFe Team and contributors
 
@@ -197,12 +197,14 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision     | Date            | Description                                                                                     |
-| ------------ | --------------- | ----------------------------------------------------------------------------------------------- |
-| 4.0u3        | 9 February 2025 | Improved the base preset fallback implementation <br> Versioning changes                        | 
-| 4.0b         | 9 February 2025 | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression" | 
-| 4.0a         | 8 February 2025 | A few clarifications                                                                            |
-| 4.0          | 8 February 2025 | n/a                                                                                             |
+| Revision     | Date             | Description                                                                                                                             |
+| ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional <br>      |
+| 4.0u4        | 20 February 2025 | Removed a name from special thanks on request                                                                                           |
+| 4.0u3        | 9 February 2025  | Improved the base preset fallback implementation <br> Versioning changes                                                                | 
+| 4.0b         | 9 February 2025  | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression"                                         | 
+| 4.0a         | 8 February 2025  | A few clarifications                                                                                                                    |
+| 4.0          | 8 February 2025  | n/a                                                                                                                                     |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -477,14 +479,14 @@ RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe 
 
 - RIFF is the basic version with 32-bit chunk headers, and is used in legacy SF2.04 and Werner SF3.
 - RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
-- RIFX is a big-endian version of 32-bit RIFF, while RIFF/RIFF64 are little-endian formats.
+- Both RIFF and RIFF64 are little-endian formats. (Update 5)
 
 RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
 - `ckID`: type of data in chunk, equal to a unique 4-character code (FourCC), listed above.
-- `ckSize`: size of chunk (RIFF, RIFX), equal to 4,294,967,295 (RIFF64)
+- `ckSize`: size of chunk (RIFF), equal to 4,294,967,295 (RIFF64) (Update 5)
 - `ds64`: size of chunk (RIFF64 only)
 - `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
 
@@ -772,7 +774,7 @@ If the `flag` sub-chunk is missing or an incorrect size, then an effort should 
 
 This sub-chunk will now be present in most SFe files, as there is likely to be no ROM where samples can be read from. This does not include AWE ROM emulation. It works in an almost identical manner to legacy SF2.04, with these important differences:
 
-- This contains one or more samples of audio in linearly coded 16-bit, signed words. These words are little-endian if the header is `RIFF` or `RF64`, and big-endian if the header is `RIFX`.
+- This contains one or more samples of audio in linearly coded 16-bit, signed words. These words are little-endian. (Update 5)
 - No more leeway of 46 zero-valued samples is required after each sample.
 - Before saving, SFe editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
 - If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
@@ -801,6 +803,7 @@ For a sample to be valid:
 - the type of compression and/or encoding must be recognised and supported by the program.
 - the compression and/or encoding format must be valid.
 - the compressed sample must only have one channel.
+- the compressed sample must be compressed using only supported formats. (Update 5)
 
 A sample is not valid if any of these conditions are not true. If a sample is not valid, then all instruments and presets that use the sample should be rejected.
 
@@ -819,6 +822,15 @@ If bit 4 of the `sfSampleType` field is clear, then the sample data index fields
 You can use both compressed and uncompressed samples with SFe Compression. Simply place uncompressed PCM samples at the beginning of the `smpl` sub-chunk before the compressed sample byte stream. Because each sample is compressed individually, the resulting byte streams of all encoded samples are written to the `smpl` sub-chunk. The `smpl` sub-chunk may also contain uncompressed little-endian PCM samples.
 
 For compressed byte streams, it is not necessary to add fourty-six zero-valued sample data points after each sample. The length of the `smpl` sub-chunk is not required to be a multiple of two for compressed banks, and its surrounding `LIST` chunk is also not padded to a multiple of two as a consequence.
+
+#### Supported compression formats for samples (Update 5)
+
+Currently, SFe Compression requires any compressed samples to be in these formats:
+- wav (essentially uncompressed)
+- ogg
+- opus
+- flac
+- mp3
 
 #### Unsupported features
 
@@ -904,7 +916,7 @@ Figure 8: How the bank select logic differs from legacy SF2.04.
 
 In the above figure, `wBank` has been replaced with `byBankMSB` and `byBankLSB`. 
 
-This splits the one `WORD` in legacy SF2.04 into two `BYTE` values, one for each bank. `byBankMSB` goes before `byBankLSB` due to RIFF being a little-endian format. For RIFX, `byBankLSB` is first.
+This splits the one `WORD` in legacy SF2.04 into two `BYTE` values, one for each bank. `byBankMSB` goes before `byBankLSB` due to RIFF being a little-endian format. (Update 5)
 
 #### Using more than one percussion bank
 
@@ -1355,7 +1367,7 @@ This occurs when the user loads a file that is larger than the maximum size that
 
 ## 8.8 MIDI Errors
 
-If a non-existent bank/preset combination is selected, the software should revert to the preset with `byBankMSB` and `byBankLSB` values of zero. If there is no such preset, then the software should revert to the preset with the lowest possible `byBankMSB` value, and then the `byBankLSB` value. (Updated in 4.0b)
+If a non-existent bank/preset combination is selected, the software should use the lowest value for the selected bank that results in an existent combination. If this doesn't exist, then the software should select the next available preset. (Update 5)
 
 If the `wPreset` value cannot be matched, then the first preset value that is available is used. (Update 3)
 
@@ -1371,7 +1383,7 @@ These are handled as in legacy SF2.04.
 
 ## 9.1 SiliconSFe overview
 
-While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF` (the AWE cards used an early predecessor of SiliconSF), you can use ROM samples formatted in the SiliconSF format with SFe.
+While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF` (the AWE cards used an early predecessor of SiliconSF), you can use ROM samples formatted in the SiliconSF format with SFe. However, SiliconSFe support is explicitly optional. (Update 5)
 
 ## 9.2 Header format
 
@@ -1779,23 +1791,24 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Total file size limit**    | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
 | **Multiple files**           | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
 | **Legacy support**           | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
-| **Header support**           | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static, RIFX                                                                   |
+| **Header support** (Update 5)| 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
 | **Sample compression**       | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               |
 | **File extension**           | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
 | **Information/Metadata**     | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
 ### 11.1.2 Sample specifications
 
-|                                      | **Level 1**                                                   | **Level 2**                                                            | **Level 3**                                                            | **Level 4**                                                            |
-| ------------------------------------ | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| **Maximum sample rate**              | 44 100 Hz or greater                                          | 50 000 Hz or greater                                                   | 96 000 Hz or greater                                                   | No limit                                                               |
-| **Sample bit depth**                 | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks     | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 24-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 32-bit or greater  <br>Ignore unsupported sdta sub-chunks              |
-| **8-bit samples**                    | Optional                                                      | Optional                                                               | Optional                                                               | Mandatory                                                              |
-| **Maximum individual sample length** | 16,777,216 samples or greater                                 | 4,294,967,296 samples or greater                                       | 4,294,967,296 samples or greater                                       | Based on chunk header type                                             |
-| **Loop point sets**                  | 1                                                             | 1                                                                      | 1                                                                      | 1                                                                      |
-| **Sample linking**                   | Mono, Left/Right <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression | Mono, Left/Right, "Link"  <br>Includes ROM samples and SFe Compression |
-| **Number of channels**               | Mono, Stereo                                                  | Mono, Stereo                                                           | Mono, Stereo                                                           | Mono, Stereo                                                           |
-| **Sample name length**               | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
+|                                               | **Level 1**                                                   | **Level 2**                                                            | **Level 3**                                                            | **Level 4**                                                            |
+| --------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Maximum sample rate**                       | 44 100 Hz or greater                                          | 50 000 Hz or greater                                                   | 96 000 Hz or greater                                                   | No limit                                                               |
+| **Sample bit depth**                          | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks     | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 24-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 32-bit or greater  <br>Ignore unsupported sdta sub-chunks              |
+| **8-bit samples**                             | Optional                                                      | Optional                                                               | Optional                                                               | Mandatory                                                              |
+| **Maximum individual sample length**          | 16,777,216 samples or greater                                 | 4,294,967,296 samples or greater                                       | 4,294,967,296 samples or greater                                       | Based on chunk header type                                             |
+| **Loop point sets**                           | 1                                                             | 1                                                                      | 1                                                                      | 1                                                                      |
+| **Sample linking** (Update 5)                 | Mono, Left/Right <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 |
+| **Number of channels**                        | Mono, Stereo                                                  | Mono, Stereo                                                           | Mono, Stereo                                                           | Mono, Stereo                                                           |
+| **Sample name length**                        | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
+| **Sample compression algorithms** (Update 5)  | WAV, OGG                                                      | WAV, OGG, FLAC                                                         | WAV, OGG, OPUS, FLAC                                                   | WAV, OGG, OPUS, FLAC, MP3                                              |
 
 ### 11.1.3 Instrument specifications
 
@@ -1837,7 +1850,7 @@ If an implementation is unable to reach the layering requirements without crashi
 | **GM1 reset**                                                                                                                              | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
 | **SMF formats**                                                                                                                            | 0 and 1                                                                                                                                                                                       | 0 and 1                                                                                                                                                                                       | 0, 1 and 2                                                                                                                                                                                    | Any                                                                                                                                                                                           |
 | **Number of channels**                                                                                                                     | 16 or greater                                                                                                                                                                                 | 16 or greater                                                                                                                                                                                 | 64 or greater                                                                                                                                                                                 | No limit                                                                                                                                                                                      |
-| **ROM emulator**                                                                                                                           | ROM sample support or emulator optional                                                                                                                                                       | ROM sample support or emulator optional                                                                                                                                                       | ROM sample support or emulator required                                                                                                                                                       | ROM sample support or emulator required                                                                                                                                                       |
+| **ROM emulator** (Update 5)                                                                                                                | ROM sample support or emulator optional                                                                                                                                                       | ROM sample support or emulator optional                                                                                                                                                       | ROM sample support or emulator optional                                                                                                                                                       | ROM sample support or emulator optional                                                                                                                                                       |
 
 ## 11.2 Converting between legacy SF and SFe
 
