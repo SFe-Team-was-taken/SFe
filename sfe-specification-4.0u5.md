@@ -156,7 +156,6 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [11.3 Converting between chunk header types](#113-converting-between-chunk-header-types)
     * [11.3.1 Conversion of 32-bit static to 64-bit static](#1131-conversion-of-32-bit-static-to-64-bit-static)
     * [11.3.2 Conversion of 64-bit static to 32-bit static](#1132-conversion-of-64-bit-static-to-32-bit-static)
-    * [11.3.3 Conversion between 32-bit static and RIFX](#1133-conversion-between-32-bit-static-and-rifx)
   * [11.4 File repair programs](#114-file-repair-programs)
     * [11.4.1 Repairing Structurally Unsound errors](#1141-repairing-structurally-unsound-errors)
     * [11.4.2 Repairing non-critical errors](#1142-repairing-non-critical-errors)
@@ -199,7 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional <br>      |
+| 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional           |
 | 4.0u4        | 20 February 2025 | Removed a name from special thanks on request                                                                                           |
 | 4.0u3        | 9 February 2025  | Improved the base preset fallback implementation <br> Versioning changes                                                                | 
 | 4.0b         | 9 February 2025  | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression"                                         | 
@@ -1898,11 +1897,6 @@ If an implementation is unable to reach the layering requirements without crashi
 - Replace `RF64` with `RIFF`.
 - Rename `sfen` to `sfbk`.
 - Downgrade the `ifil` version in the header to `wMajor=2`.
-
-### 11.3.3 Conversion between 32-bit static and RIFX
-
-- Replace `RIFF` with `RIFX` (or vice versa).
-- Swap the bytes to convert between big endian and little endian.
 
 ## 11.4 File repair programs
 
