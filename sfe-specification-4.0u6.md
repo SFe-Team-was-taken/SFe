@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 5
+## Machine readable version (Markdown) - 4.0 Update 6
 
 Copyright © 2025 SFe Team and contributors
 
@@ -198,6 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u6        | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data     |
 | 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional           |
 | 4.0u4        | 20 February 2025 | Removed a name from special thanks on request                                                                                           |
 | 4.0u3        | 9 February 2025  | Improved the base preset fallback implementation <br> Versioning changes                                                                | 
@@ -825,11 +826,12 @@ For compressed byte streams, it is not necessary to add fourty-six zero-valued s
 #### Supported compression formats for samples (Update 5)
 
 Currently, SFe Compression requires any compressed samples to be in these formats:
-- wav (essentially uncompressed)
+- wav (in container, essentially uncompressed)
 - ogg
 - opus
 - flac
-- mp3
+
+If your sample is as raw data without a wav container, then read "Using both compressed and uncompressed samples in the same file" for more information.
 
 #### Unsupported features
 
@@ -1235,7 +1237,6 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 1: OGG
 - Bit 2: Opus
 - Bit 3: FLAC
-- Bit 4: MP3
 
 ### 6.2.6 Branch 04 Metadata upgrades
 
@@ -1807,7 +1808,7 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Sample linking** (Update 5)                 | Mono, Left/Right <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 |
 | **Number of channels**                        | Mono, Stereo                                                  | Mono, Stereo                                                           | Mono, Stereo                                                           | Mono, Stereo                                                           |
 | **Sample name length**                        | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
-| **Sample compression algorithms** (Update 5)  | WAV, OGG                                                      | WAV, OGG, FLAC                                                         | WAV, OGG, OPUS, FLAC                                                   | WAV, OGG, OPUS, FLAC, MP3                                              |
+| **Sample compression algorithms** (Update 5)  | WAV, OGG                                                      | WAV, OGG, FLAC                                                         | WAV, OGG, OPUS, FLAC                                                   | WAV, OGG, OPUS, FLAC                                                   |
 
 ### 11.1.3 Instrument specifications
 
