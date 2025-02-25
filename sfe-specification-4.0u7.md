@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 6
+## Machine readable version (Markdown) - 4.0 Update 7
 
 Copyright © 2025 SFe Team and contributors
 
@@ -198,6 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u7        | 25 February 2025 | Added names of two new SFe Team members                                                                                                 | 
 | 4.0u6        | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data     |
 | 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional           |
 | 4.0u4        | 20 February 2025 | Removed a name from special thanks on request                                                                                           |
@@ -294,6 +295,8 @@ Significant differences from the previous version of the specification will be h
 - stgiga (they/them) | Discord - @stgiga | Email - [stgigamovement@yahoo.com](mailto:stgigamovement@yahoo.com)
 - spessasus
 - davy7125
+- Falcosoft
+- Cacodemon345
 
 Want to join the SFe Team? Please contact sylvia-leaf using the above contact.
 
