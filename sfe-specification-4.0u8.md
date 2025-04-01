@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 7
+## Machine readable version (Markdown) - 4.0 Update 8
 
 Copyright © 2025 SFe Team and contributors
 
@@ -71,9 +71,9 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [5.6.11 flag sub-chunk](#5611-flag-sub-chunk)
   * [5.7 sdta-list chunk](#57-sdta-list-chunk)
     * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
-    * [5.7.2 SFe Compression](#572-sfe-compression)
-    * [5.7.3 sm24 and sm32 sub-chunk](#573-sm24-and-sm32-sub-chunk)
-    * [5.7.4 Using 8-bit samples](#574-using-8-bit-samples)
+    * [5.7.2 About sdta structure modes (Update 8)](#572-about-sdta-structure-modes-update-8)
+    * [5.7.3 SFe Compression and USDP modes (Update 8)](#573-sfe-compression-and-usdp-modes-update-8)
+    * [5.7.4 Legacy modes (Update 8)](#574-legacy-modes-update-8)
     * [5.7.5 Looping rules](#575-looping-rules)
   * [5.8 pdta-list chunk](#58-pdta-list-chunk)
     * [5.8.1 phdr sub-chunk](#581-phdr-sub-chunk)
@@ -138,8 +138,8 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [10.1.5 Generators and modulators](#1015-generators-and-modulators)
     * [10.1.6 Error handling](#1016-error-handling)
   * [10.2 Sample compatibility](#102-sample-compatibility)
-    * [10.2.1 32-bit samples](#1021-32-bit-samples)
-    * [10.2.2 8-bit samples](#1022-8-bit-samples)
+    * [10.2.1 SFe Compression and USDP mode (Update 8)](#1021-sfe-compression-and-usdp-mode-update-8)
+    * [10.2.2 Legacy sdta structure modes (Update 8)](#1022-legacy-sdta-structure-modes-update-8)
     * [10.2.3 ROM samples](#1023-rom-samples)
     * [10.2.4 Incompatible compression formats](#1024-incompatible-compression-formats)
 * [Section 11: Program specification](#section-11-program-specification)
@@ -198,6 +198,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u8        | 1 April 2025     | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes      |
 | 4.0u7        | 25 February 2025 | Added names of two new SFe Team members                                                                                                 | 
 | 4.0u6        | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data     |
 | 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional           |
@@ -544,7 +545,6 @@ An SFe 4 file consists of:
   - `LIST`
     - `sdta` ascii string
     - Sub-chunks inside `sdta-list` in legacy SF2.04 - `smpl`, `sm24`
-    - `sm32` chunk (BYTE array)
   - `LIST`
     - `pdta` ascii string
     - Sub-chunks inside `pdta-list` in legacy SF2.04
@@ -589,13 +589,13 @@ This applies to the `isng`, `INAM`, `irom`, `ICRD`, `IENG`, `IPRD`, `ICOP`, `ICM
 
 ### 5.6.1 ifil sub-chunk
 
-The value of the `ifil` sub-chunk is equal to `2.1024` or `3.1024` depending on whether SFe Compression is used.
+The value of the `ifil` sub-chunk is equal to `2.1024` or `3.1024` when using a 32-bit header depending on whether SFe Compression is used, and `4.0` when using a 64-bit header. (Update 8)
 
 The size must be exactly four bytes. Reject files with an `ifil` sub-chunk that isn't four bytes as Structurally Unsound.
 
 If the `ifil` sub-chunk is missing, either:
 
-- Assume version 4.0.
+- Assume version `2.1024`, `3.1024` or `4.0`. (Update 8)
 - Reject the file as Structurally Unsound.
 
 ### 5.6.2 Versioning rules
@@ -617,9 +617,11 @@ The specification type used is found in the `ISFe-list` sub-chunk.
 
 ### 5.6.3 Specification versions to ifil values
 
-| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor)                               | ifil (wMinor) |
-| -------------------- | -------------------- | ------------------------------------------- | ------------- |
-| 4                    | 0                    | 2 or 3 (32-bit header)<br>4 (64-bit header) | 1024          |
+| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor)                               | ifil (wMinor)                                      |
+| -------------------- | -------------------- | ------------------------------------------- | -------------------------------------------------- |
+| 4                    | 0                    | 2 or 3 (32-bit header)<br>4 (64-bit header) | 1024 (32-bit header)<br>0 (64-bit header)          |
+
+(Changed for Update 8)
 
 ### 5.6.4 isng sub-chunk
 
@@ -695,10 +697,8 @@ The defined values of the `SFty` chunk are:
 
 - the 12 bytes representing `SFe-static` as 10 UTF-8 characters followed by two zero bytes.
 - the 20 bytes representing `SFe-static with TSC` as 19 UTF-8 characters followed by one zero byte.
-- the 20 bytes representing `SFe-static (8-bit)` as 18 UTF-8 characters followed by two zero bytes.
-- the 28 bytes representing `SFe-static (8-bit) with TSC` as 27 UTF-8 characters followed by one zero byte.
 
-The field should not be longer than 28 bytes in SFe 4.0.
+The field should not be longer than 20 bytes in SFe 4.0.
 
 If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe-static`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe-static` format.
 
@@ -783,9 +783,17 @@ This sub-chunk will now be present in most SFe files, as there is likely to be n
 - If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
 - If this sub-chunk is missing, and no ROM samples are found, show a suitable error message.
 
-### 5.7.2 SFe Compression
+### 5.7.2 About sdta structure modes (Update 8)
 
-To implement compression in your SFe bank, please use the SFe Compression specification, listed in this section (5.7.2).
+In SFe 4, there are four different types of sample data structures that are used:
+- SFe Compression (SFeC) mode
+- Unified sample data pool (UDSP) mode
+- Legacy 24-bit (sm24) mode
+- Legacy 16-bit mode
+
+### 5.7.3 SFe Compression and USDP modes (Update 8)
+
+To implement compression in your SFe bank, please use the SFe Compression specification, listed in this section (5.7.3). 
 
 #### What is SFe Compression?
 
@@ -793,22 +801,48 @@ SFe Compression is the compression encoding system used by SFe, based on the ear
 
 By standardising on Werner SF3 in the form of SFe Compression, we will hopefully ensure that everyone uses the same compression formats. Due to this, we will only make small changes to SFe Compression which correspond to updates to the Werner SF3 specification by other SF player programs. To achieve this, all SFe players should implement SFe Compression.
 
-#### File identification for SFe Compression
+#### What is UDSP mode?
+
+UDSP mode provides the containerisation of SFe Compression without actually compressing the samples. It works by using WAV containers for each sample, and UDSP samples can be combined with compressed samples.
+
+This allows useful features, most notably variable sample bitdepths and the usage of WAV metadata that can be read by an SFe editor program.
+
+#### File identification
 
 The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
 
 #### sfSampleType in shdr sub-chunk
 
-Bit 4 of the `sfSampleType` field indicates a sample that has received some kind of compression. While most Werner SF3 compatible programs compress the samples using the Vorbis format, it cannot be assumed. SFe players must determine the encoding that is used for each sample.
+Bit 4 of the `sfSampleType` field indicates a containerised sample that is not necessarily compressed. While most Werner SF3 compatible programs compress the samples using the Vorbis format, it cannot be assumed. SFe players must determine the encoding that is used for each sample.
 
-For a sample to be valid:
+#### Supported compression formats for samples (Update 8)
+
+Currently, SFe Compression requires any compressed samples to be in these formats:
+- wav (uncompressed)
+- ogg
+- opus
+- flac
+
+#### Considerations for compressed samples
+
+For a compressed sample to be valid:
 
 - the type of compression and/or encoding must be recognised and supported by the program.
 - the compression and/or encoding format must be valid.
 - the compressed sample must only have one channel.
 - the compressed sample must be compressed using only supported formats. (Update 5)
 
-A sample is not valid if any of these conditions are not true. If a sample is not valid, then all instruments and presets that use the sample should be rejected.
+A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (Update 8)
+
+#### Considerations for uncompressed (wav) samples
+
+For a wav sample to be valid:
+
+- the `wFormatTag` value must equal `1` (PCM Integer) or `3` (IEEE 754 Float)
+- the sample must only have one channel.
+- the sample rates in the metadata and `dwSampleRate` must match.
+
+A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (Update 8)
 
 #### Interpretation of sample data index fields in shdr sub-chunk
 
@@ -822,72 +856,29 @@ If bit 4 of the `sfSampleType` field is clear, then the sample data index fields
 
 #### Using both compressed and uncompressed samples in the same file
 
-You can use both compressed and uncompressed samples with SFe Compression. Simply place uncompressed PCM samples at the beginning of the `smpl` sub-chunk before the compressed sample byte stream. Because each sample is compressed individually, the resulting byte streams of all encoded samples are written to the `smpl` sub-chunk. The `smpl` sub-chunk may also contain uncompressed little-endian PCM samples.
+You can use both compressed and uncompressed samples with SFe Compression. The preferred method of doing this is to use wav containers for uncompressed samples.
+
+The legacy Werner SF3 practice of placing uncompressed PCM samples at the beginning of the `smpl` sub-chunk before the compressed sample byte stream is still supported, but deprecated. Because each sample is compressed individually, the resulting byte streams of all encoded samples are written to the `smpl` sub-chunk. The `smpl` sub-chunk may also contain uncompressed little-endian PCM samples.
 
 For compressed byte streams, it is not necessary to add fourty-six zero-valued sample data points after each sample. The length of the `smpl` sub-chunk is not required to be a multiple of two for compressed banks, and its surrounding `LIST` chunk is also not padded to a multiple of two as a consequence.
 
-#### Supported compression formats for samples (Update 5)
-
-Currently, SFe Compression requires any compressed samples to be in these formats:
-- wav (in container, essentially uncompressed)
-- ogg
-- opus
-- flac
-
-If your sample is as raw data without a wav container, then read "Using both compressed and uncompressed samples in the same file" for more information.
-
-#### Unsupported features
-
-Compressed samples are always 16-bit samples. They do not make use of the `sm24` (or `sm32`) sub-chunk. If an `sm24` sub-chunk is present, its respective byte counterparts to the compressed byte stream stored in the `smpl` sub-chunk remain unused. Since all uncompressed PCM samples are stored before compressed samples in the `smpl` sub-chunk, the size of the `sm24` sub-chunk is minimised. The `sm24` size constraint defined in legacy SF2.04 therefore no longer applies in compressed banks.
+#### Sample links are not used in SFe Compression
 
 Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero.
+
+However, when uncompressed samples are used, sample links are still usable. Stereo samples can be implemented in USDP mode by linking together two mono samples.
 
 #### Incompatible compression formats
 
 The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (`.sfark`, `.sfpack`, `.sf2pack`, `.sfogg`, `.sfq`, `.sf4`) must not be used. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression. (Updated in 4.0b)
 
-### 5.7.3 sm24 and sm32 sub-chunk
+### 5.7.4 Legacy modes (Update 8)
 
-These sub-chunks are optional.
+The legacy 16-bit and 24-bit modes were used in the legacy SoundFont format, and are kept in for compatibility purposes. 
 
-- The `sm32` sub-chunk contains the least significant byte, and the `sm24` sub-chunk contains the next least significant byte after `sm32`.
-- Each sub-chunk is exactly half the size of the `smpl` sub-chunk for uncompressed banks. This may not apply when SFe Compression is in use.
-- For every two bytes in the `smpl` sub-chunk, there is one byte in these sub-chunks (if all samples are compressed).
-- These sub-chunks can only be used with uncompressed samples. This limitation may be removed in future versions of SFe.
+If the `ifil` version is `2.04` or greater, and there an `sm24` sub-chunk is present, then the `sdta` structure mode is legacy 24-bit (`sm24`) mode. Legacy 24-bit mode can only function with uncompressed samples due to the segmented structure of samples stored in this way, and we strongly recommend against using legacy 24-bit mode, because USDP mode will soon become a requirement to achieve an SFe compatibility level and is easier to work with. 
 
-If these sub-chunks are present, they are combined with the other sub-chunks to create a sample with higher bitdepth.
-
-<img title="Figure 6" src="figures/figure_6.png" alt="Available sample types in standard sample mode." width="360">
-
-Figure 6: Available sample types in standard sample mode.
-
-- If the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), both `sm24` and `sm32` are ignored.
-- If the `ifil` version is exactly `2.04` (signifying legacy SF2.04), only `sm32` is ignored. The `sm24` sub-chunk is still used.
-- For uncompressed banks, these sub-chunks are not exactly half the size of the `smpl` sub-chunk (or otherwise invalid), the data should be ignored.
-- If only the `sm32` sub-chunk is invalid, the `sm24` sub-chunk should still be loaded.
-- However, if only the `sm24` sub-chunk is invalid, both sub-chunks should be ignored.
-- If the `sm24` sub-chunk is ignored, the synthesizer should only attempt to render the first 16 bits of the samples contained within the `smpl` sub-chunk.
-- If only the `sm32` sub-chunk is ignored, the synthesizer should attempt to render both the `smpl` and `sm24` sub-chunks, resulting in a 24-bit sample.
-- We recommend only using `sm32` with 64-bit chunk headers. Using `sm32` with a 32-bit chunk header is syntactically valid, but it is not practical due to file size limitations.
-
-### 5.7.4 Using 8-bit samples
-
-If the `smpl` sub-chunk is missing, but the `sm24` or `sm32` sub-chunks are present, then the `sm24` or `sm32` sub-chunk is considered "orphaned".
-
-In this case, the value of the `SFty` sub-chunk inside the `ISFe-list` sub-chunk should be checked. If it is equal to `SFe-static (8-bit)` or `SFe-static (8-bit) with TSC`, then 8-bit sample mode is to be activated.
-
-- The sample depth is eight bits.
-- The length of the `sm24` sub-chunk should be rounded up to the nearest byte, as if the sub-chunk was being used with a `smpl` sub-chunk.
-- This mode can only be used if all samples are 8-bit. You cannot mix 8-bit and higher sample depths.
-- SFe 4 does not support non-standard sample bit depths (6-bit, 12-bit, 18-bit, etc.)
-
-If there is an orphaned `sm24` or `sm32` sub-chunk, and the `SFty` sub-chunk is missing or is not equal to a value that corresponds to 8-bit samples being present, then the file should be rejected as Structurally Unsound.
-
-If there is both an orphaned `sm24` and an orphaned `sm32` sub-chunk, the `sm24` sub-chunk is the most significant byte, and 16-bit sample playback is assumed. Editing software should give a warning if there is a `sm24` and a `sm32` sub-chunk but no `smpl` sub-chunk, and should convert it to a 2.01-compliant 16-bit format. This behaviour should be followed if supported, regardless of whether 8-bit sample playback support is actually supported.
-
-<img title="Figure 7" src="figures/figure_7.png" alt="Available sample types in 8-bit sample mode." width="360">
-
-Figure 7: Available sample types in 8-bit sample mode.
+Note that if the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), then the `sdta` structure mode is legacy 16-bit mode, and `sm24` is ignored.
 
 ### 5.7.5 Looping rules
 
@@ -1217,16 +1208,28 @@ Figure 12: The tree structure of the feature flags system.
 #### 02:00 24-bit support
 
 - Bit 1 off, bit 2 off: No support
-- Bit 1 on, bit 2 off: Read support only
-- Bit 1 on, bit 2 on: Playback support
-- Bit 3: 8-bit support
+- Bit 1 on, bit 2 off: Read support only (legacy)
+- Bit 1 on, bit 2 on: Playback support (legacy)
+- Bit 3 on, bit 4 off: Read support only (USDP)
+- Bit 3 on, bit 4 on: Playback support (USDP)
 
-#### 02:01 32-bit support
+#### 02:01 8-bit support
 
 - Bit 1 off, bit 2 off: No support
 - Bit 1 on, bit 2 off: Read support only
 - Bit 1 on, bit 2 on: Playback support
-- Bit 2: Support for combining two 8-bit chunks into a 16-bit sample
+
+#### 02:02 32-bit support
+
+- Bit 1 off, bit 2 off: No support
+- Bit 1 on, bit 2 off: Read support only
+- Bit 1 on, bit 2 on: Playback support
+
+#### 02:03 64-bit support
+
+- Bit 1 off, bit 2 off: No support
+- Bit 1 on, bit 2 off: Read support only
+- Bit 1 on, bit 2 on: Playback support
 
 ### 6.2.5 Branch 03 SFe Compression support
 
@@ -1240,6 +1243,7 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 1: OGG
 - Bit 2: Opus
 - Bit 3: FLAC
+- Bit 4: WAV (USDP)
 
 ### 6.2.6 Branch 04 Metadata upgrades
 
@@ -1752,15 +1756,21 @@ The base preset fallback implementation in section 8.8 is designed to work with 
 
 ## 10.2 Sample compatibility
 
-### 10.2.1 32-bit samples
+### 10.2.1 SFe Compression and USDP mode (Update 8)
 
-Players fully compliant with legacy SF2.04 should be able to play files with 32-bit samples at 24-bit quality. However, these files may fail on software (such as Polyphone 2.4.x) that looks specifically for `sm24` and rejects anything else. It is therefore not recommended to use 32-bit samples with legacy SF2.0x players. 
+Support for the USDP mode is a requirement for SFe Compression compatibility, because it uses the same features as SFe Compression with the exception of uncompressed samples instead of compressed ones. 
 
-The `sm32` sub-chunk is implemented in the same way as `sm24` was by E-mu, to maximise compatibility, but due to the massive size, unpracticality and compatibility implications of 32-bit samples, we recommend that you use the `sm32` sub-chunk only with 64-bit chunk headers.
+If a player doesn't support certain sample parameters that it finds inside the container, then it should attempt to playback the sample with the highest quality that is possible.
 
-### 10.2.2 8-bit samples
+While the legacy Werner SF3 method of combining compressed and uncompressed samples is deprecated, support for this method is required for SFe Compression compatibility to ensure that all Werner SF3 banks work properly.
 
-The legacy specification instructs programs to ignore an `sm24` sub-chunk that is not paired with an `smpl` sub-chunk. Software that is compatible with legacy SF2.04, but is incompatible with SFe, will not play 8-bit samples, as legacy software cannot read the `ISFe-info` sub-chunk. Legacy sound cards will also ignore lone `sm24` chunks.
+`sfSampleType` is supported in USDP mode, but not SFe Compression. It should be ignored only if a containerised sample is found with a compressed format, otherwise it should be retained.
+
+### 10.2.2 Legacy sdta structure modes (Update 8)
+
+All players must implement legacy 16-bit mode.
+
+While legacy 24-bit mode support is optional, we recommend that if you implement 24-bit support for USDP mode, then legacy 24-bit mode is implemented to ensure compatibility with legacy SF2.04 banks. This ensures that a player's 24-bit support is not limited to just SFe banks.
 
 ### 10.2.3 ROM samples
 
@@ -1861,15 +1871,14 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
 - Overwrite the `isng` value with `SFe 4 (quirks)`.
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0u3"`, `flag` corresponding to features used in the bank.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0u8"`, `flag` corresponding to features used in the bank.
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
 - Downgrade the `ifil` version in the header from `wMajor=2`, `wMinor=1024` to `wMajor=2`, `wMinor=4`.
 - Overwrite the `isng` value with `X-Fi`.
-- Decompress the samples if the bank uses SFe Compression.
-- Downsample any 32-bit samples to 24-bit, and remove the `sm32` sub-chunk.
-- Convert all 8-bit samples to 16-bit by moving the sample data to the `smpl` sub-chunk.
+- Decompress/decontainerise the samples if the bank uses SFe Compression.
+- Convert the sdta structure to legacy 24-bit.
 - If the first 8 bits of either `wPreset` or `wBank` are identical to another patch, keep only the patch with bits 9-16 clear. If this is not found, keep only the last of the patches in the record. Clear bits 9-16 of all patches afterwards.
 - Remove the `ISFe-list` sub-chunk.
 
@@ -1877,9 +1886,8 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Downgrade the `ifil` version in the header from `wMajor=2`, `wMinor=1024` to `wMajor=2`, `wMinor=1`.
 - Overwrite the `isng` value with `EMU8000` or `E-mu 10K1`.
-- Decompress the samples if the bank uses SFe Compression.
-- Downsample any 24-bit or 32-bit samples to 16-bit, and remove the `sm24` and `sm32` sub-chunks.
-- Convert all 8-bit samples to 16-bit by moving the sample data to the `smpl` sub-chunk.
+- Decompress/decontainerise the samples if the bank uses SFe Compression.
+- Convert the sdta structure to legacy 16-bit.
 - If the first 8 bits of either `wPreset` or `wBank` are identical to another patch, keep only the patch with bits 9-16 clear. If this is not found, keep only the last of the patches in the record. Clear bits 9-16 of all patches afterwards.
 - Remove the `ISFe-list` sub-chunk.
 
@@ -2006,11 +2014,7 @@ Incompatible chunk header errors are solved by replacing chunk headers with a co
 
 #### Incompatible SFty errors
 
-TSC-related errors are corrected by rearranging the chunks, while 8-bit samples can be converted to 16-bit.
-
-#### 8-bit sample errors
-
-8-bit sample errors are corrected by attempting to repair the `smpl` sub-chunk. If there is no `smpl` sub-chunk, then an SFe player can attempt to load the file with 8-bit sample mode.
+TSC-related errors are corrected by rearranging the chunks.
 
 ### 11.4.2 Repairing non-critical errors
 
@@ -2037,12 +2041,6 @@ With the exception of the `INAM` chunk, if the sub-chunk's value cannot be faith
 #### irom or iver sub-chunk errors
 
 Missing sub-chunks should not be filled in unless there are ROM samples that are linked.
-
-#### smpl, sm24 and sm32 sub-chunk errors
-
-If both the `sm24` and `sm32` sub-chunks are present, then these sub-chunks should be combined into 16-bit samples in one `smpl` sub-chunk. Because endianness may not be clear in this situation, you must allow the user to select the endianness of the operation.
-
-If there is a mismatch in the `ifil` version and the presence of both `sm24` and `sm32` sub-chunks, then allow the user to select whether they want to keep thesesub-chunks. If there is only one sucsub-chunk, then allow the user to update the bank to use SFe with 8-bit samples.
 
 #### PHDR sub-chunk errors
 
@@ -2142,7 +2140,7 @@ Automatic repair allows SFe players to play some "Structurally Unsound" banks by
 
 Automatic repair is intended to be part of SFe players. It is an aid to help SFe players play banks that are otherwise "Structurally Unsound". It is not a substitute for repairing the bank using file repair programs. File repair programs should always include an option to use manual repair.
 
-Automatic repair fixes structural defects in SFe and legacy SF2.04 banks seamlessly and transparently. It should automatically repair all Structurally Unsound errors listed in section 11.4.1 except for compressed sample errors, 8-bit sample errors and anything that requires user input.
+Automatic repair fixes structural defects in SFe and legacy SF2.04 banks seamlessly and transparently. It should automatically repair all Structurally Unsound errors listed in section 11.4.1 except for compressed sample errors and anything that requires user input.
 
 It should also repair all non-critical errors listed in section 11.4.2 except for compression errors, `wPreset` value errors, file size limit errors and anything that requires user input. The repair of incompatible compression errors is optional and contingent on support for such formats. (Updated in 4.0b)
 
