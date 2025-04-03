@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 8
+## Machine readable version (Markdown) - 4.0 Update 9
 
 Copyright © 2025 SFe Team and contributors
 
@@ -20,9 +20,9 @@ Any excerpts from SFSPEC24.PDF are copyrighted by Creative Technology Ltd, and a
 
 ### Disclaimers
 
-This specification is subject to change without notice. Please obtain the latest version from the SFe Team GitHub page at [https://github.com/sfe-team-was-taken](https://github.com/Sfe-Team-was-taken).
+This specification is subject to change without notice. Please obtain the latest version from the SFe Team GitHub page at [https://github.com/sfe-team-was-taken](https://github.com/SFe-Team-was-taken).
 
-This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC24.PDF), which can be found at https://freepats.zenvoid.org/sf2/sfspec24.pdf.
+This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC24.PDF), which can be found at https://github.com/davy7125/soundfont-standard-v3/raw/master/sfspec24.pdf.
 
 ---
 
@@ -71,10 +71,11 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [5.6.11 flag sub-chunk](#5611-flag-sub-chunk)
   * [5.7 sdta-list chunk](#57-sdta-list-chunk)
     * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
-    * [5.7.2 About sdta structure modes (Update 8)](#572-about-sdta-structure-modes-update-8)
-    * [5.7.3 SFe Compression and USDP modes (Update 8)](#573-sfe-compression-and-usdp-modes-update-8)
-    * [5.7.4 Legacy modes (Update 8)](#574-legacy-modes-update-8)
+    * [5.7.2 About sdta structure modes (Update 9)](#572-about-sdta-structure-modes-update-9)
+    * [5.7.3 Containerised modes (Update 9)](#573-containerised-modes-update-9)
+    * [5.7.4 Non-containerised modes (Update 9)](#574-non-containerised-modes-update-9)
     * [5.7.5 Looping rules](#575-looping-rules)
+    * [5.7.6 Implementation of stereo samples](#576-implementation-of-stereo-samples)
   * [5.8 pdta-list chunk](#58-pdta-list-chunk)
     * [5.8.1 phdr sub-chunk](#581-phdr-sub-chunk)
     * [5.8.2 New Bank System](#582-new-bank-system)
@@ -138,7 +139,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [10.1.5 Generators and modulators](#1015-generators-and-modulators)
     * [10.1.6 Error handling](#1016-error-handling)
   * [10.2 Sample compatibility](#102-sample-compatibility)
-    * [10.2.1 SFe Compression and USDP mode (Update 8)](#1021-sfe-compression-and-usdp-mode-update-8)
+    * [10.2.1 SFe Compression and uncompressed containerised mode (Update 9)](#1021-sfe-compression-and-uncompressed-containerised-mode-update-9)
     * [10.2.2 Legacy sdta structure modes (Update 8)](#1022-legacy-sdta-structure-modes-update-8)
     * [10.2.3 ROM samples](#1023-rom-samples)
     * [10.2.4 Incompatible compression formats](#1024-incompatible-compression-formats)
@@ -198,6 +199,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u9        | 3 April 2025     | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link   | 
 | 4.0u8        | 1 April 2025     | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes      |
 | 4.0u7        | 25 February 2025 | Added names of two new SFe Team members                                                                                                 | 
 | 4.0u6        | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data     |
@@ -782,30 +784,35 @@ This sub-chunk will now be present in most SFe files, as there is likely to be n
 - Before saving, SFe editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
 - If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
 - If this sub-chunk is missing, and no ROM samples are found, show a suitable error message.
+- This sub-chunk supports containerisation in banks with a `wMajor` value of `3` or greater. (Update 9)
 
-### 5.7.2 About sdta structure modes (Update 8)
+### 5.7.2 About sdta structure modes (Update 9)
 
 In SFe 4, there are four different types of sample data structures that are used:
-- SFe Compression (SFeC) mode
-- Unified sample data pool (UDSP) mode
-- Legacy 24-bit (sm24) mode
-- Legacy 16-bit mode
+- SFe Compression (SFeC) mode (containerised)
+- Uncompressed containerised (UCC) mode (containerised)
+- Legacy 24-bit (sm24) mode (non-containerised)
+- Legacy 16-bit mode (non-containerised)
 
-### 5.7.3 SFe Compression and USDP modes (Update 8)
+### 5.7.3 Containerised modes (Update 9)
 
-To implement compression in your SFe bank, please use the SFe Compression specification, listed in this section (5.7.3). 
+#### What is a containerised mode? (Update 9)
 
-#### What is SFe Compression?
+Containerised sample data structure modes use containerisation, which is where each sample has metadata stored in a "container". This is in contrast to a non-containerised format, which stores wave data from each sample directly next to each other, as seen in the legacy SoundFont format.
 
-SFe Compression is the compression encoding system used by SFe, based on the earlier [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) system widely used by the open source community.
+Such containers include information such as sample rate, bitdepth, compression format used, audio information and more. These are already used by the earlier [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) system widely used by the open source community, to store information about compression that a Werner SF3-compatible player could use to decompress the sample.
 
-By standardising on Werner SF3 in the form of SFe Compression, we will hopefully ensure that everyone uses the same compression formats. Due to this, we will only make small changes to SFe Compression which correspond to updates to the Werner SF3 specification by other SF player programs. To achieve this, all SFe players should implement SFe Compression.
+Containerised modes provide many other advantages such as variable bitdepths, conserving sample quality while reducing wasted space, and detailed sample data can also be included directly. Because of said advantages, containerised modes are mandatory with 64-bit chunk headers, and are strongly recommended for 32-bit chunk headers.
 
-#### What is UDSP mode?
+[Diagram goes here]
 
-UDSP mode provides the containerisation of SFe Compression without actually compressing the samples. It works by using WAV containers for each sample, and UDSP samples can be combined with compressed samples.
+#### What are SFe Compression and uncompressed containerised modes? (Update 9)
 
-This allows useful features, most notably variable sample bitdepths and the usage of WAV metadata that can be read by an SFe editor program.
+SFe Compression is the encoding system for compressed samples used by SFe, based on Werner SF3.
+
+By standardising on Werner SF3 in the form of SFe Compression, we will hopefully ensure that everyone uses the same compression formats. Due to this, we will mostly make small changes to SFe Compression which correspond to updates to the Werner SF3 specification by other SF player programs. We may also make other standardisation changes to streamline the format. To achieve this, all SFe players should implement SFe Compression.
+
+Uncompressed containerised mode provides the containerisation of SFe Compression without actually compressing the samples.
 
 #### File identification
 
@@ -864,19 +871,19 @@ For compressed byte streams, it is not necessary to add fourty-six zero-valued s
 
 #### Sample links are not used in SFe Compression
 
-Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero.
+Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero. This is because the file size of two compressed samples that have the same length (as used in linked samples) may differ. (Update 9)
 
-However, when uncompressed samples are used, sample links are still usable. Stereo samples can be implemented in USDP mode by linking together two mono samples.
+However, when uncompressed samples are used, sample links are still usable. Therefore, stereo samples remain usable in uncompressed containerised mode. Please refer to section 5.7.6 for more information about using stereo samples. (Update 9)
 
 #### Incompatible compression formats
 
 The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (`.sfark`, `.sfpack`, `.sf2pack`, `.sfogg`, `.sfq`, `.sf4`) must not be used. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression. (Updated in 4.0b)
 
-### 5.7.4 Legacy modes (Update 8)
+### 5.7.4 Non-containerised modes (Update 9)
 
-The legacy 16-bit and 24-bit modes were used in the legacy SoundFont format, and are kept in for compatibility purposes. 
+The legacy non-containerised 16-bit and 24-bit modes were used in the legacy SoundFont format, but should not be used for SFe banks. The use of non-containerised modes is strongly discouraged, and is only intended for users who want to create an SFe bank that can play on legacy players with reduced quality using 32-bit chunk headers. (Update 9)
 
-If the `ifil` version is `2.04` or greater, and there an `sm24` sub-chunk is present, then the `sdta` structure mode is legacy 24-bit (`sm24`) mode. Legacy 24-bit mode can only function with uncompressed samples due to the segmented structure of samples stored in this way, and we strongly recommend against using legacy 24-bit mode, because USDP mode will soon become a requirement to achieve an SFe compatibility level and is easier to work with. 
+If the `ifil` version is `2.04` or greater, and there an `sm24` sub-chunk is present, then the `sdta` structure mode is legacy 24-bit (`sm24`) mode. Legacy 24-bit mode can only function with uncompressed samples due to the segmented structure of samples stored in this way, and we strongly recommend against using legacy 24-bit mode, because containerisation support is a requirement for SFe level 1 and is easier to work with. (Update 9) 
 
 Note that if the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), then the `sdta` structure mode is legacy 16-bit mode, and `sm24` is ignored.
 
@@ -884,6 +891,12 @@ Note that if the `ifil` version is below `2.04` (signifying legacy SF2.01 or ear
 
 - No more leeway of eight samples is required.
 - Before saving, SFe editors might give a warning about this leeway telling the user that loop and interpolation quality may be affected.
+
+### 5.7.6 Implementation of stereo samples
+
+For avoidance of doubt, stereo samples are implemented in the same way as in legacy SF2.04. 
+
+This means that stereo samples cannot be directly used in SFe 4. Instead, two mono samples are to be linked together using `wSampleLink` to create a stereo sample, which is handled in the same way as in legacy SF2.04.
 
 ## 5.8 pdta-list chunk
 
@@ -1208,10 +1221,10 @@ Figure 12: The tree structure of the feature flags system.
 #### 02:00 24-bit support
 
 - Bit 1 off, bit 2 off: No support
-- Bit 1 on, bit 2 off: Read support only (legacy)
-- Bit 1 on, bit 2 on: Playback support (legacy)
-- Bit 3 on, bit 4 off: Read support only (USDP)
-- Bit 3 on, bit 4 on: Playback support (USDP)
+- Bit 1 on, bit 2 off: Read support only (non-containerised)
+- Bit 1 on, bit 2 on: Playback support (non-containerised)
+- Bit 3 on, bit 4 off: Read support only (uncompressed containerised)
+- Bit 3 on, bit 4 on: Playback support (uncompressed containerised)
 
 #### 02:01 8-bit support
 
@@ -1243,7 +1256,7 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 1: OGG
 - Bit 2: Opus
 - Bit 3: FLAC
-- Bit 4: WAV (USDP)
+- Bit 4: WAV (containerised)
 
 ### 6.2.6 Branch 04 Metadata upgrades
 
@@ -1756,21 +1769,23 @@ The base preset fallback implementation in section 8.8 is designed to work with 
 
 ## 10.2 Sample compatibility
 
-### 10.2.1 SFe Compression and USDP mode (Update 8)
+### 10.2.1 SFe Compression and uncompressed containerised mode (Update 9)
 
-Support for the USDP mode is a requirement for SFe Compression compatibility, because it uses the same features as SFe Compression with the exception of uncompressed samples instead of compressed ones. 
+Support for the uncompressed containerised mode is a requirement for SFe Compression compatibility, because it uses the same features as SFe Compression with the exception of uncompressed samples instead of compressed ones. 
 
 If a player doesn't support certain sample parameters that it finds inside the container, then it should attempt to playback the sample with the highest quality that is possible.
 
-While the legacy Werner SF3 method of combining compressed and uncompressed samples is deprecated, support for this method is required for SFe Compression compatibility to ensure that all Werner SF3 banks work properly.
+While the legacy Werner SF3 method of combining compressed and uncompressed samples is deprecated, support for this method is required for SFe Compression compatibility to ensure that all Werner SF3 banks work properly. Official support for non-containerised samples will be removed in a future SFe version, but can be kept in to ensure compatibility with legacy SF2.0x.
 
-`sfSampleType` is supported in USDP mode, but not SFe Compression. It should be ignored only if a containerised sample is found with a compressed format, otherwise it should be retained.
+`sfSampleType` is supported in uncompressed containerised mode, but not SFe Compression. It should be ignored only if a containerised sample is found with a compressed format, otherwise it should be retained.
 
 ### 10.2.2 Legacy sdta structure modes (Update 8)
 
 All players must implement legacy 16-bit mode.
 
-While legacy 24-bit mode support is optional, we recommend that if you implement 24-bit support for USDP mode, then legacy 24-bit mode is implemented to ensure compatibility with legacy SF2.04 banks. This ensures that a player's 24-bit support is not limited to just SFe banks.
+While legacy 24-bit mode support is optional, we recommend that if you implement 24-bit support for uncompressed containerised mode, then non-containerised 24-bit mode is implemented to ensure compatibility with legacy SF2.04 banks. This ensures that a player's 24-bit support is not limited to just SFe banks. This does not include SFe-only players, which are not currently permitted. (Update 9)
+
+Support for legacy structure modes is deprecated and will be removed in a future SFe version. SFe editors must default to using containerised samples (UCC and SFeC modes) in newly-created banks, and SFe converters must output a bank with containerised samples. If a bank containing non-containerised samples is loaded, SFe players should warn the user about deprecation of non-containerised samples in SFe. (Update 9)
 
 ### 10.2.3 ROM samples
 
@@ -1796,18 +1811,18 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ### 11.1.1 File format specifications
 
-|                              | **Level 1**                                                                                          | **Level 2**                                                                                          | **Level 3**                                                                                          | **Level 4**                                                                                          |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| **File size representation** | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        |
-| **File size limit**          | System memory                                                                                        | Based on chunk header type                                                                           | Based on chunk header type                                                                           | Based on chunk header type                                                                           |
-| **Sample streaming**         | System memory                                                                                        | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     |
-| **Total file size limit**    | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
-| **Multiple files**           | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
-| **Legacy support**           | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
-| **Header support** (Update 5)| 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
-| **Sample compression**       | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               | Werner SF3 format  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write               |
-| **File extension**           | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
-| **Information/Metadata**     | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
+|                                 | **Level 1**                                                                                          | **Level 2**                                                                                          | **Level 3**                                                                                          | **Level 4**                                                                                          |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **File size representation**    | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        |
+| **File size limit**             | System memory                                                                                        | Based on chunk header type                                                                           | Based on chunk header type                                                                           | Based on chunk header type                                                                           |
+| **Sample streaming**            | System memory                                                                                        | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     |
+| **Total file size limit**       | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
+| **Multiple files**              | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
+| **Legacy support**              | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
+| **Header support** (Update 5)   | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
+| **Sample containers** (Update 9)| SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG, OPUS, FLAC  <br>Incompatible formats forbidden for write |
+| **File extension**              | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
+| **Information/Metadata**        | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
 ### 11.1.2 Sample specifications
 
@@ -1819,9 +1834,11 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Maximum individual sample length**          | 16,777,216 samples or greater                                 | 4,294,967,296 samples or greater                                       | 4,294,967,296 samples or greater                                       | Based on chunk header type                                             |
 | **Loop point sets**                           | 1                                                             | 1                                                                      | 1                                                                      | 1                                                                      |
 | **Sample linking** (Update 5)                 | Mono, Left/Right <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 |
-| **Number of channels**                        | Mono, Stereo                                                  | Mono, Stereo                                                           | Mono, Stereo                                                           | Mono, Stereo                                                           |
+| **Number of channels**                        | Mono, Stereo\*                                                | Mono, Stereo\*                                                         | Mono, Stereo\*                                                         | Mono, Stereo\*                                                         |
 | **Sample name length**                        | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
 | **Sample compression algorithms** (Update 5)  | WAV, OGG                                                      | WAV, OGG, FLAC                                                         | WAV, OGG, OPUS, FLAC                                                   | WAV, OGG, OPUS, FLAC                                                   |
+
+\*Stereo samples are implemented as two mono samples linked together. (Update 9)
 
 ### 11.1.3 Instrument specifications
 
