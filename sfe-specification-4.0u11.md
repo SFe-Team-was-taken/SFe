@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 10
+## Machine readable version (Markdown) - 4.0 Update 11
 
 Copyright © 2025 SFe Team and contributors
 
@@ -199,6 +199,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u11       | 5 April 2025     | Simplified the isng chunk implementation                                                                                                |
 | 4.0u10       | 3 April 2025     | Further restricted the use of non-containerised sdta formats.                                                                           |
 | 4.0u9        | 3 April 2025     | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link   | 
 | 4.0u8        | 1 April 2025     | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes      |
@@ -654,11 +655,10 @@ Reject anything not terminated with a zero byte, and assume the value `SFe 4`. D
 
 #### SFe
 
-|                          |                     |                 |                         |
-| -------------------------| ------------------- | --------------- | ----------------------- |
-| **Sound engine name**    | **isng value**      | **SFe version** | **Bit depth**           |
-| SFe 4                    | `SFe 4`             | 4.0             | 16 bit, 24 bit, 32 bit  |
-| SFe 4 quirks mode        | `SFe 4 (quirks)`    | 4.0             | 16 bit, 24 bit          |
+|                          |                     |                 |                                                   |
+| -------------------------| ------------------- | --------------- | ------------------------------------------------- |
+| **Sound engine name**    | **isng value**      | **SFe version** | **Bit depth**                                     |
+| SFe 4                    | `SFe 4`             | 4.0             | 8 bit, 16 bit, 24 bit, 32 bit, 64 bit (Update 11) |
 
 ### 5.6.6 ICRD sub-chunk
 
@@ -1731,9 +1731,7 @@ Byte 7 of `byBankLSB` is reserved and should be preserved as read, and written a
 
 Some legacy SF2.0x players include quirks which are automatically loaded for all legacy SF banks. For example, a player may include bank translation when a reset is detected, to support standards that require the use of both bank select MSB and LSB, or may include changes to the modulator implementation to improve sound quality.
 
-If an SFe bank uses an `isng` value of `SFe 4`, then programs must disable quirks. However, an `isng` value of `SFe 4 (quirks)` enables quirks mode. This means that the bank should be treated the same as `E-mu 10K2` (SF2.01) or `X-Fi` (SF2.04), ensuring that banks converted from legacy SF2.0x that rely on quirks work properly.
-
-SFe editors that encounter a value of `SFe 4 (quirks)` should overwrite such a value with `SFe 4` on save.
+If an SFe bank uses an `isng` value of `SFe 4`, then programs must disable implementation quirks that were used with legacy SoundFonts. When converting legacy SoundFonts to SFe banks, programs must take implementation quirks that were used with legacy SoundFonts and translate them into the equivalent functions in SFe (if implemented) to the maximum extent possible. (Update 11)
 
 ### 10.1.5 Generators and modulators
 
@@ -1748,13 +1746,12 @@ If the `iver` value is below `2.1024`, and the `isng` value is equal to `EMU8000
 
 If the `iver` value is `2.04` or below, ignore the whole modulator structure if a reserved source type is found.
 
-While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions:
+While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions. (Update 11)
 
 - If the `iver` value is `2.04`, use the SF2.04 version of the Default Modulator 2.
 - If the `iver` value is `2.01`, use the SF2.01 version of the Default Modulator 2.
 - If the `isng` value is `EMU8000`, trigger legacy sound card mode.
 - If the `isng` value is `E-mu 10K1`, `E-mu 10K2`, `X-Fi`, or `SFe 4`, do not trigger legacy sound card mode.
-- If the `isng` value is `SFe 4 (quirks)`, use the SF2.04 version of the Default Modulator 2 if a valid `sm24` sub-chunk is found, otherwise use the SF2.01 version.
 
 In SFe 4.0, programs should not define their own default modulators. This can cause playback issues if a SFe bank is used with a player that uses a different default modulator configuration to that of the editing software used.
 
@@ -1890,8 +1887,9 @@ If an implementation is unable to reach the layering requirements without crashi
 ### 11.2.1 Conversion from legacy SF2.04 to SFe
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
-- Overwrite the `isng` value with `SFe 4 (quirks)`.
+- Overwrite the `isng` value with `SFe 4`. (Update 11)
 - Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0u8"`, `flag` corresponding to features used in the bank.
+- Automatically modify the bank to take into account any of the program's implementation quirks (if applicable). (Update 11)
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
