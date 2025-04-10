@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 11
+## Machine readable version (Markdown) - 4.0 Update 12
 
 Copyright © 2025 SFe Team and contributors
 
@@ -199,6 +199,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u12       | 10 April 2025    | Made changes in SFty values                                                                                                             |
 | 4.0u11       | 5 April 2025     | Simplified the isng chunk implementation                                                                                                |
 | 4.0u10       | 3 April 2025     | Further restricted the use of non-containerised sdta formats.                                                                           |
 | 4.0u9        | 3 April 2025     | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link   | 
@@ -698,12 +699,12 @@ The `SFty` sub-chunk is required and contains a case-sensitive UTF-8 string with
 
 The defined values of the `SFty` chunk are:
 
-- the 12 bytes representing `SFe-static` as 10 UTF-8 characters followed by two zero bytes.
-- the 20 bytes representing `SFe-static with TSC` as 19 UTF-8 characters followed by one zero byte.
+- the 14 bytes representing `SFe standard` as 12 UTF-8 characters followed by two zero bytes. (Update 12)
+- the 22 bytes representing `SFe standard with TSC` as 21 UTF-8 characters followed by one zero byte. (Update 12)
 
-The field should not be longer than 20 bytes in SFe 4.0.
+The field should not be longer than 22 bytes in SFe 4.0. (Update 12)
 
-If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe-static`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe-static` format.
+If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe standard`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe standard` format. (Update 12)
 
 ### 5.6.10 SFvx sub-chunk
 
@@ -1888,7 +1889,7 @@ If an implementation is unable to reach the layering requirements without crashi
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
 - Overwrite the `isng` value with `SFe 4`. (Update 11)
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe-static"`, `SFvx = 4, 0, Final, 0, "4.0u8"`, `flag` corresponding to features used in the bank.
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe standard"`, `SFvx = 4, 0, Final, 0, "4.0u12"`, `flag` corresponding to features used in the bank. (Update 12)
 - Automatically modify the bank to take into account any of the program's implementation quirks (if applicable). (Update 11)
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
