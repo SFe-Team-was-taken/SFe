@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 12
+## Machine readable version (Markdown) - 4.0 Update 13
 
 Copyright © 2025 SFe Team and contributors
 
@@ -199,6 +199,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u13       | 21 April 2025    | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                           |
 | 4.0u12       | 10 April 2025    | Made changes in SFty values                                                                                                             |
 | 4.0u11       | 5 April 2025     | Simplified the isng chunk implementation                                                                                                |
 | 4.0u10       | 3 April 2025     | Further restricted the use of non-containerised sdta formats.                                                                           |
@@ -695,7 +696,7 @@ The ROM emulator should be implemented in SFe programs.
 
 ### 5.6.9 SFty sub-chunk
 
-The `SFty` sub-chunk is required and contains a case-sensitive UTF-8 string with even length identifying the type of format used in SFe. Its value is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as.
+The `SFty` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains a case-sensitive UTF-8 string with even length identifying the type of format used in SFe. Its value is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as. (Update 13)
 
 The defined values of the `SFty` chunk are:
 
@@ -708,7 +709,9 @@ If the `SFty` sub-chunk is missing or its contents are an undefined value or in 
 
 ### 5.6.10 SFvx sub-chunk
 
-The `SFvx` sub-chunk is required and contains extended SFe version attributes. It is always 46 bytes in length, containing data in the structure below:
+The `SFvx` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains extended SFe version attributes. (Update 13)
+
+It is always 46 bytes in length, containing data in the structure below:
 
 ```c
 struct SFeExtendedVersion
@@ -748,7 +751,9 @@ The file may optionally be rejected as Structurally Unsound.
 
 ### 5.6.11 flag sub-chunk
 
-The `flag` sub-chunk is required and contains the feature flags used by a bank. It is always a multiple of 6 bytes in length, and contains at least 2 records (1 feature flag and a record at the end) according to the structure:
+The `flag` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains the feature flags used by a bank. (Update 13)
+
+It is always a multiple of 6 bytes in length, and contains at least 2 records (1 feature flag and a record at the end) according to the structure:
 
 ```c
 struct SFeFeatureFlag
