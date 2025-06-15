@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 13
+## Machine readable version (Markdown) - 4.0 Update 14
 
 Copyright © 2025 SFe Team and contributors
 
@@ -199,6 +199,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u14       | 15 June 2025     | Information on compression has been updated <br> sfSampleType information rewritten                                                     |
 | 4.0u13       | 21 April 2025    | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                           |
 | 4.0u12       | 10 April 2025    | Made changes in SFty values                                                                                                             |
 | 4.0u11       | 5 April 2025     | Simplified the isng chunk implementation                                                                                                |
@@ -884,7 +885,7 @@ However, when uncompressed samples are used, sample links are still usable. Ther
 
 #### Incompatible compression formats
 
-The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (`.sfark`, `.sfpack`, `.sf2pack`, `.sfogg`, `.sfq`, `.sf4`) must not be used. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression. (Updated in 4.0b)
+The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (`.sfark`, `.sfpack`, `.sf2pack`, `.sfogg`, `.sfq`, `.sf4`) must not be used, but programs can remain compatible with existing legacy SF2.0x banks compressed in such formats. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression. (Update 14)
 
 ### 5.7.4 Non-containerised modes (Update 9)
 
@@ -974,11 +975,21 @@ The `shdr` sub-chunk is required; files without a `shdr` sub-chunk are Structura
 - Despite this, Creative did not use 16-bit integers for sample rate in legacy SF2.04. It is thus safe to use sample rates in excess of 50,000 Hz. If a sample rate of below 400 Hz or above 50,000 Hz is encountered, no attempt should be made to change the sample rate.
 - A zero sample rate should be reset.
 
-#### sfSampleType and SFe Compression
+#### sfSampleType Changes (Update 14)
 
-Bit 4 of `sfSampleType` is reserved for SFe Compression usage.
+In legacy SF2.04, `sfSampleType` is treated as an enum, with eight fixed values. This worked fine when there were only a few possible bits, however it could become a limitation for future expansion.
 
-- Read section 6.2 for more information on SFe Compression!
+Therefore, the specification for `sfSampleType` discourages the use of fixed enums, in favour of bit flags (as described in `SFSPEC24.PDF`):
+
+- If bit 1 is set, a sample is mono (has one channel).
+- If bit 2 is set, a sample is the right part of a stereo sample.
+- If bit 3 is set, a sample is the left part of a stereo sample.
+- If bit 4 is set, a sample is compressed using SFe Compression.
+  - Read section 6.2 for more information on SFe Compression.
+- If bit 15 is set, a sample is stored in ROM.
+  - Read section 9 for more information on ROM samples.
+
+Note that all unused bits are reserved and should not be used by SFe implementations.
 
 ### 5.8.5 Other sub-chunks
 
