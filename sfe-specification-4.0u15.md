@@ -69,6 +69,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [5.6.9 SFty sub-chunk](#569-sfty-sub-chunk)
     * [5.6.10 SFvx sub-chunk](#5610-sfvx-sub-chunk)
     * [5.6.11 flag sub-chunk](#5611-flag-sub-chunk)
+    * [5.6.12 DMOD sub-chunk (Update 15)](#5612-dmod-sub-chunk-update-15)
   * [5.7 sdta-list chunk](#57-sdta-list-chunk)
     * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
     * [5.7.2 About sdta structure modes (Update 9)](#572-about-sdta-structure-modes-update-9)
@@ -199,6 +200,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision     | Date             | Description                                                                                                                             |
 | ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u15       | 18 June 2025     | Added DMOD subchunk                                                                                                                     |
 | 4.0u14       | 15 June 2025     | Information on compression has been updated <br> sfSampleType information rewritten                                                     |
 | 4.0u13       | 21 April 2025    | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                           |
 | 4.0u12       | 10 April 2025    | Made changes in SFty values                                                                                                             |
@@ -381,8 +383,8 @@ Here are a few things that are planned for SFe:
 
 - Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5.x seems to be planned as an LTS release for legacy SF.)
 - Developers of Bassmidi-based programs have already provided feedback, and negotiations with more SF program developers such as FluidSynth will start soon.
-- For SFe 4.1, there will be an overhaul of the default modulators system, inspired by the [DMOD proposal by spessasus](https://github.com/davy7125/polyphone/issues/205). Support for the related `PNMM` sub-chunk will also be included, as well as Markdown support for `ICMT`.
-- A MIDI lyrics specification for MIDI players, along with Spessasus/Falcosoft RMIDI support, will become available in SFe 4.2.
+- For SFe 4.1, support for the `PNMM` sub-chunk will also be included, as well as Markdown support for `ICMT`.
+- A MIDI lyrics specification for MIDI players, along with Spessasus/Falcosoft RMIDI support, will become available in SFe 4.2. `xmod` support will be added to expand the 16-bit generators to 32-bit.
 - We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for SFe 4.2. Care has been taken to ensure that SFe parameter usage does not conflict with SFCF. 
 
 ## 3.3 Long term support of SFe 4
@@ -780,6 +782,26 @@ An exhaustive list of feature flags and their corresponding tree values can be f
 The final record should never be accessed in normal usage, but its value of `byBranch` and `byLeaf` have strict values depending on the specification version. Any records after the terminal record or with a higher tree value combination (except for the defined private-use area) should be ignored.
 
 If the `flag` sub-chunk is missing or an incorrect size, then an effort should be made to recover the data. If data is not recoverable, then it can be rebuilt from the properties of the data in the rest of the bank. Do not reject the file as Structurally Unsound.
+
+### 5.6.12 DMOD sub-chunk (Update 15)
+
+The `DMOD` sub-chunk is nested inside the `INFO-list` sub-chunk. It is optional and contains the redefined default modulators of an SFe bank.
+
+It is always a multiple of 10 bytes in length, and contains at least 2 records (1 feature flag and a record at the end) according to a structure identical to that of a `PMOD` or `IMOD` modulator list:
+
+```c
+struct sfModList
+{
+  SFModulator sfModSrcOper;
+  SFGenerator sfModDestOper;
+  SHORT modAmount;
+  SFModulator sfModAmtSrcOper;
+  SFTransform sfModTransOper;
+};
+```
+The `DMOD` sub-chunk replaces all default modulators at load time, and acts exactly like the default modulator list in legacy SF2.04.
+
+If the `DMOD` sub-chunk is present but without any modulators, then there are no default modulators. The legacy SF2.04 default modulator list is *not* reloaded.
 
 ## 5.7 sdta-list chunk
 
@@ -1864,7 +1886,7 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Samples per instrument**       | 64 or greater                                 | 4096 or greater                                | 16384 or greater                               | No limit                                       |
 | **Simultaneous sample playback** | 2 or greater                                  | 32 or greater                                  | 64 or greater                                  | No limit                                       |
 | **Modulators**                   | All 4.0 modulators                            | All 4.0 modulators                             | All 4.0 modulators                             | All 4.0 modulators                             |
-| **Default modulators**           | All 4.0 default modulators                    | All 4.0 default modulators                     | All 4.0 default modulators                     | All 4.0 default modulators                     |
+| **Default modulators**           | All 4.0 default modulators                    | All 4.0 default modulators plus DMOD           | All 4.0 default modulators plus DMOD           | All 4.0 default modulators plus DMOD           |
 | **Enumerators**                  | All 4.0 enumerators                           | All 4.0 enumerators                            | All 4.0 enumerators                            | All 4.0 enumerators                            |
 | **Instrument name length**       | Display 8 characters  <br>Write 20 characters | Display 20 characters  <br>Write 20 characters | Display 20 characters  <br>Write 20 characters | Display 20 characters  <br>Write 20 characters |
 
