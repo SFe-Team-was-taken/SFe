@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 14
+## Machine readable version (Markdown) - 4.0 Update 16
 
 Copyright © 2025 SFe Team and contributors
 
@@ -29,6 +29,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
 # Table of contents
 
 <!-- TOC -->
+
 * [Section 1: Introduction](#section-1-introduction)
   * [1.1 Preamble](#11-preamble)
   * [1.2 Changelog](#12-changelog)
@@ -70,6 +71,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [5.6.10 SFvx sub-chunk](#5610-sfvx-sub-chunk)
     * [5.6.11 flag sub-chunk](#5611-flag-sub-chunk)
     * [5.6.12 DMOD sub-chunk (Update 15)](#5612-dmod-sub-chunk-update-15)
+    * [5.6.13 xdta-list sub-chunk (Update 16)](#5613-xdta-list-sub-chunk-update-16)
   * [5.7 sdta-list chunk](#57-sdta-list-chunk)
     * [5.7.1 smpl sub-chunk](#571-smpl-sub-chunk)
     * [5.7.2 About sdta structure modes (Update 9)](#572-about-sdta-structure-modes-update-9)
@@ -80,9 +82,14 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [5.8 pdta-list chunk](#58-pdta-list-chunk)
     * [5.8.1 phdr sub-chunk](#581-phdr-sub-chunk)
     * [5.8.2 New Bank System](#582-new-bank-system)
-    * [5.8.3 inst sub-chunk](#583-inst-sub-chunk)
-    * [5.8.4 shdr sub-chunk](#584-shdr-sub-chunk)
-    * [5.8.5 Other sub-chunks](#585-other-sub-chunks)
+    * [5.8.3 pbag sub-chunk (Update 16)](#583-pbag-sub-chunk-update-16)
+    * [5.8.4 pmod sub-chunk (Update 16)](#584-pmod-sub-chunk-update-16)
+    * [5.8.5 pgen sub-chunk (Update 16)](#585-pgen-sub-chunk-update-16)
+    * [5.8.6 inst sub-chunk (Update 16)](#586-inst-sub-chunk-update-16)
+    * [5.8.7 ibag sub-chunk (Update 16)](#587-ibag-sub-chunk-update-16)
+    * [5.8.8 imod sub-chunk (Update 16)](#588-imod-sub-chunk-update-16)
+    * [5.8.9 igen sub-chunk](#589-igen-sub-chunk)
+    * [5.8.10 shdr sub-chunk](#5810-shdr-sub-chunk)
 * [Section 6: SFe enumerations and feature flags](#section-6-sfe-enumerations-and-feature-flags)
   * [6.1 About SFe enumerations](#61-about-sfe-enumerations)
   * [6.2 Feature flags](#62-feature-flags)
@@ -139,6 +146,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [10.1.4 Player implementation quirks](#1014-player-implementation-quirks)
     * [10.1.5 Generators and modulators](#1015-generators-and-modulators)
     * [10.1.6 Error handling](#1016-error-handling)
+    * [10.1.7 xdta-list sub-chunk](#1017-xdta-list-sub-chunk-update-16)
   * [10.2 Sample compatibility](#102-sample-compatibility)
     * [10.2.1 SFe Compression and uncompressed containerised mode (Update 9)](#1021-sfe-compression-and-uncompressed-containerised-mode-update-9)
     * [10.2.2 Legacy sdta structure modes (Update 8)](#1022-legacy-sdta-structure-modes-update-8)
@@ -181,7 +189,8 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [11.6.3 Branch 01 Modulators and NRPN](#1163-branch-01-modulators-and-nrpn)
   * [11.7 Courtesy actions](#117-courtesy-actions)
 * [Section 12: Glossary](#section-12-glossary)
-<!-- TOC -->
+  
+  <!-- TOC -->
 
 ---
 
@@ -198,24 +207,25 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision     | Date             | Description                                                                                                                             |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 4.0u15       | 18 June 2025     | Added DMOD subchunk                                                                                                                     |
-| 4.0u14       | 15 June 2025     | Information on compression has been updated <br> sfSampleType information rewritten                                                     |
-| 4.0u13       | 21 April 2025    | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                           |
-| 4.0u12       | 10 April 2025    | Made changes in SFty values                                                                                                             |
-| 4.0u11       | 5 April 2025     | Simplified the isng chunk implementation                                                                                                |
-| 4.0u10       | 3 April 2025     | Further restricted the use of non-containerised sdta formats.                                                                           |
-| 4.0u9        | 3 April 2025     | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link   | 
-| 4.0u8        | 1 April 2025     | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes      |
-| 4.0u7        | 25 February 2025 | Added names of two new SFe Team members                                                                                                 | 
-| 4.0u6        | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data     |
-| 4.0u5        | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional           |
-| 4.0u4        | 20 February 2025 | Removed a name from special thanks on request                                                                                           |
-| 4.0u3        | 9 February 2025  | Improved the base preset fallback implementation <br> Versioning changes                                                                | 
-| 4.0b         | 9 February 2025  | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression"                                         | 
-| 4.0a         | 8 February 2025  | A few clarifications                                                                                                                    |
-| 4.0          | 8 February 2025  | n/a                                                                                                                                     |
+| Revision | Date             | Description                                                                                                                           |
+| -------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u16   | 27 June 2025     | Added xdta-list subchunk <br> SFe Compression update                                                                                  |
+| 4.0u15   | 18 June 2025     | Added DMOD subchunk                                                                                                                   |
+| 4.0u14   | 15 June 2025     | Information on compression has been updated <br> sfSampleType information rewritten                                                   |
+| 4.0u13   | 21 April 2025    | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                         |
+| 4.0u12   | 10 April 2025    | Made changes in SFty values                                                                                                           |
+| 4.0u11   | 5 April 2025     | Simplified the isng chunk implementation                                                                                              |
+| 4.0u10   | 3 April 2025     | Further restricted the use of non-containerised sdta formats.                                                                         |
+| 4.0u9    | 3 April 2025     | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link |
+| 4.0u8    | 1 April 2025     | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes    |
+| 4.0u7    | 25 February 2025 | Added names of two new SFe Team members                                                                                               |
+| 4.0u6    | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data   |
+| 4.0u5    | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional         |
+| 4.0u4    | 20 February 2025 | Removed a name from special thanks on request                                                                                         |
+| 4.0u3    | 9 February 2025  | Improved the base preset fallback implementation <br> Versioning changes                                                              |
+| 4.0b     | 9 February 2025  | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression"                                       |
+| 4.0a     | 8 February 2025  | A few clarifications                                                                                                                  |
+| 4.0      | 8 February 2025  | n/a                                                                                                                                   |
 
 For draft specification revision history, see `draft-revision-history.md` (available in the SFe specification package or on the GitHub repository).
 
@@ -626,9 +636,9 @@ The specification type used is found in the `ISFe-list` sub-chunk.
 
 ### 5.6.3 Specification versions to ifil values
 
-| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor)                               | ifil (wMinor)                                      |
-| -------------------- | -------------------- | ------------------------------------------- | -------------------------------------------------- |
-| 4                    | 0                    | 2 or 3 (32-bit header)<br>4 (64-bit header) | 1024 (32-bit header)<br>0 (64-bit header)          |
+| wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor)                               | ifil (wMinor)                             |
+| -------------------- | -------------------- | ------------------------------------------- | ----------------------------------------- |
+| 4                    | 0                    | 2 or 3 (32-bit header)<br>4 (64-bit header) | 1024 (32-bit header)<br>0 (64-bit header) |
 
 (Changed for Update 8)
 
@@ -660,10 +670,10 @@ Reject anything not terminated with a zero byte, and assume the value `SFe 4`. D
 
 #### SFe
 
-|                          |                     |                 |                                                   |
-| -------------------------| ------------------- | --------------- | ------------------------------------------------- |
-| **Sound engine name**    | **isng value**      | **SFe version** | **Bit depth**                                     |
-| SFe 4                    | `SFe 4`             | 4.0             | 8 bit, 16 bit, 24 bit, 32 bit, 64 bit (Update 11) |
+|                       |                |                 |                                                   |
+| --------------------- | -------------- | --------------- | ------------------------------------------------- |
+| **Sound engine name** | **isng value** | **SFe version** | **Bit depth**                                     |
+| SFe 4                 | `SFe 4`        | 4.0             | 8 bit, 16 bit, 24 bit, 32 bit, 64 bit (Update 11) |
 
 ### 5.6.6 ICRD sub-chunk
 
@@ -799,9 +809,22 @@ struct sfModList
   SFTransform sfModTransOper;
 };
 ```
+
 The `DMOD` sub-chunk replaces all default modulators at load time, and acts exactly like the default modulator list in legacy SF2.04.
 
 If the `DMOD` sub-chunk is present but without any modulators, then there are no default modulators. The legacy SF2.04 default modulator list is *not* reloaded.
+
+### 5.6.13 xdta-list sub-chunk (Update 16)
+
+The `xdta-list` sub-chunk is nested inside the `INFO-list` sub-chunk. It is optional and contains a replication of the `pdta-list` sub-chunks in the same order. Refer to section 5.8 for more information.
+
+Information about `pdta-list` sub-chunk behaviour in `xdta-list` is described in the corresponding sections.
+
+SFe programs should only write an `xdta-list` sub-chunk if standard `pdta-list` limits are exceeded, but if it is unclear whether this is the case, this sub-chunk should be written anyway.
+
+If the `xdta-list` sub-chunk is present but doesn't match the `pdta-list` chunk, then the `pdta-list` chunk takes precedence and the `xdta-list` sub-chunk is ignored. 
+
+If the `xdta-list` sub-chunk is missing, then the `pdta-list` chunk should be loaded.
 
 ## 5.7 sdta-list chunk
 
@@ -819,6 +842,7 @@ This sub-chunk will now be present in most SFe files, as there is likely to be n
 ### 5.7.2 About sdta structure modes (Update 9)
 
 In SFe 4, there are four different types of sample data structures that are used:
+
 - SFe Compression (SFeC) mode (containerised)
 - Uncompressed containerised (UCC) mode (containerised)
 - Legacy 24-bit (sm24) mode (non-containerised)
@@ -848,13 +872,27 @@ Uncompressed containerised mode provides the containerisation of SFe Compression
 
 The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
 
-#### sfSampleType in shdr sub-chunk
+#### sfSampleType in shdr sub-chunk (Update 16)
 
-Bit 4 of the `sfSampleType` field indicates a containerised sample that is not necessarily compressed. While most Werner SF3 compatible programs compress the samples using the Vorbis format, it cannot be assumed. SFe players must determine the encoding that is used for each sample.
+Bit 5 of the `sfSampleType` field indicates a containerised sample that is not necessarily compressed. This is used to retain backwards compatibility with Werner SF3.
+
+Along with bit 5, SFe Compression defines other bits to help programs determine sample format:
+
+- Bit 6 clear, bit 7 clear: ogg (vorbis)
+- Bit 6 set, bit 7 clear: flac
+- Bit 6 set, bit 7 clear: opus
+- Bit 6 set, bit 7 set: wav
+
+This means that Werner SF3 banks work properly with SFe.
+
+Additionally, bit 8 can be used to force a player to detect the sample format used, as in WernerSF3. Bit 8 should only be used if the player can read formats beyond the supported compression formats below.
+
+Therefore, in uncompressed SFe banks, the typical `sfSampleType` values are increased by 112 compared with SF2.04 banks. 
 
 #### Supported compression formats for samples (Update 8)
 
 Currently, SFe Compression requires any compressed samples to be in these formats:
+
 - wav (uncompressed)
 - ogg
 - opus
@@ -934,7 +972,28 @@ This means that stereo samples cannot be directly used in SFe 4. Instead, two mo
 
 Its size is a multiple of 38 bytes, and its structure is the same as in legacy SF2.04.
 
-The last `sfPresetHeader` entry shouldn't need to be accessed, apart from the uses described in `SFSPEC24.PDF`. The `phdr` sub-chunk is required; files without a `phdr` sub-chunk are Structurally Unsound.
+The last `sfPresetHeader` entry shouldn't need to be accessed, apart from the uses described in `SFSPEC24.PDF`.
+
+The `phdr` sub-chunk is required; files without a `phdr` sub-chunk are Structurally Unsound.
+
+#### UTF-8 in achPresetName (Update 16)
+
+The value of achPresetName is now UTF-8 instead of ASCII.
+
+#### phdr in xdta-list (Update 16)
+
+The values in `phdr` are parsed slightly differently in `xdta-list`:
+
+- `achPresetName[20]` in `xdta-list` represents the *second half* of the preset name.
+  - This is combined with the `achPresetName` in `pdta-list` for a total of 40 characters.
+- `wPreset` is unused.
+  - SFe editors must write a value of zero for `wPreset` in `xdta-list`.
+- `wBank` is unused. 
+  - SFe editors must write a value of zero for `wBank` in `xdta-list`
+  - However, SFe players may use `wBank` in `xdta-list` for internal uses.
+- `wPresetBagNdx` represents the upper 16 bits of the preset bag index.
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+- `dwLibrary`, `dwGenre` and `dwMorphology` remain unused.
 
 ### 5.8.2 New Bank System
 
@@ -978,13 +1037,96 @@ Figure 11: The flowchart for bank select instructions in SFe 4.0.
 
 Notice that not only are extra steps added for bank select LSB and percussion bank select handling, but extra configuration information used by the player is added to determine the correct preset to use. 
 
-### 5.8.3 inst sub-chunk
+### 5.8.3 pbag sub-chunk (Update 16)
+
+Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
+
+The `pbag` sub-chunk is required; files without a `pbag` sub-chunk are Structurally Unsound.
+
+#### pbag in xdta-list (Update 16)
+
+The values in `pbag` are parsed slightly differently in `xdta-list`:
+
+- `wGenNdx` represents the upper 16 bits of the generator index
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+- `wModNdx` represents the upper 16 bits of the modulator index
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+
+### 5.8.4 pmod sub-chunk (Update 16)
+
+Its size is a multiple of 10 bytes, and its structure is the same as in legacy SF2.04.
+
+The `pmod` sub-chunk is required; files without a `pmod` sub-chunk are Structurally Unsound.
+
+#### pmod in xdta-list (Update 16)
+
+In `xdta-list`, `pmod` contains only a terminal modulator record.
+
+### 5.8.5 pgen sub-chunk (Update 16)
+
+Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
+
+The `pgen` sub-chunk is required; files without a `pgen` sub-chunk are Structurally Unsound.
+
+#### pgen in xdta-list (Update 16)
+
+In `xdta-list`, `pgen` contains only a terminal modulator record, similarly to `pmod`.
+
+### 5.8.6 inst sub-chunk (Update 16)
 
 Its size is a multiple of 22 bytes, and its structure is the same as in legacy SF2.04.
 
 The `inst` sub-chunk is required; files without an `inst` sub-chunk are Structurally Unsound.
 
-### 5.8.4 shdr sub-chunk
+#### UTF-8 in achInstName (Update 16)
+
+The value of achInstName is now UTF-8 instead of ASCII.
+
+#### inst in xdta-list (Update 16)
+
+The values in `inst` are parsed slightly differently in `xdta-list`:
+
+- `achInstrumentName[20]` in `xdta-list` represents the *second half* of the instrument name.
+  - This is combined with the `achInstrumentName` in `pdta-list` for a total of 40 characters.
+- `wInstBagNdx` in `xdta-list` represents the upper 16 bits of the instrument bag index.
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+
+### 5.8.7 ibag sub-chunk (Update 16)
+
+Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
+
+The `ibag` sub-chunk is required; files without an `ibag` sub-chunk are Structurally Unsound.
+
+#### ibag in xdta-list (Update 16)
+
+The values in `ibag` are parsed slightly differently in `xdta-list`:
+
+- `wGenNdx` represents the upper 16 bits of the generator index
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+- `wModNdx` represents the upper 16 bits of the modulator index
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+
+### 5.8.8 imod sub-chunk (Update 16)
+
+Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
+
+The `imod` sub-chunk is required; files without an `imod` sub-chunk are Structurally Unsound.
+
+#### imod in xdta-list (Update 16)
+
+In `xdta-list`, `imod` contains only a terminal modulator record, similarly to `pmod`.
+
+### 5.8.9 igen sub-chunk
+
+Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
+
+The `igen` sub-chunk is required; files without a `igen` sub-chunk are Structurally Unsound.
+
+#### pgen in xdta-list (Update 16)
+
+In `xdta-list`, `igen` contains only a terminal modulator record, similarly to `pmod`.
+
+### 5.8.10 shdr sub-chunk
 
 It size is a multiple of 46 bytes, and its structure is the same as in legacy SF2.04.
 
@@ -997,7 +1139,11 @@ The `shdr` sub-chunk is required; files without a `shdr` sub-chunk are Structura
 - Despite this, Creative did not use 16-bit integers for sample rate in legacy SF2.04. It is thus safe to use sample rates in excess of 50,000 Hz. If a sample rate of below 400 Hz or above 50,000 Hz is encountered, no attempt should be made to change the sample rate.
 - A zero sample rate should be reset.
 
-#### sfSampleType Changes (Update 14)
+#### UTF-8 in achSampleName (Update 16)
+
+The value of achSampleName is now UTF-8 instead of ASCII.
+
+#### sfSampleType Changes (Update 16)
 
 In legacy SF2.04, `sfSampleType` is treated as an enum, with eight fixed values. This worked fine when there were only a few possible bits, however it could become a limitation for future expansion.
 
@@ -1006,18 +1152,65 @@ Therefore, the specification for `sfSampleType` discourages the use of fixed enu
 - If bit 1 is set, a sample is mono (has one channel).
 - If bit 2 is set, a sample is the right part of a stereo sample.
 - If bit 3 is set, a sample is the left part of a stereo sample.
-- If bit 4 is set, a sample is compressed using SFe Compression.
+- If bit 4 is set, a sample is a linked sample.
+- If bit 5 is set, a sample is compressed using SFe Compression.
   - Read section 6.2 for more information on SFe Compression.
-- If bit 15 is set, a sample is stored in ROM.
+- If bit 6 is clear and bit 7 clear, all samples are in ogg format.
+- If bit 6 is set and bit 7 clear, all samples are in flac format.
+- If bit 6 is clear and bit 7 set, all samples are in opus format.
+- If bit 6 is set and bit 7 set, all samples are in containerised wav format. 
+- If bit 16 is set, a sample is stored in ROM.
   - Read section 9 for more information on ROM samples.
 
 Note that all unused bits are reserved and should not be used by SFe implementations.
 
-### 5.8.5 Other sub-chunks
+### List of valid sfSampleType values (Update 16)
 
-The `pbag`, `pmod`, `pgen`, `ibag`, `imod` and `igen`  sub-chunks work in the same way as legacy SF2.04, with all ASCII strings being replaced with UTF-8. Read `SFSPEC24.PDF` and section 5.5.4 of this document for more information. 
+| Value | Name                    | Description                                        |
+| ----- | ----------------------- | -------------------------------------------------- |
+| 1     | `monoSample`            | Mono sample                                        |
+| 2     | `rightSample`           | Right part of a stereo sample                      |
+| 4     | `leftSample`            | Left part of a stereo sample                       |
+| 8     | `linkedSample`          | Linked sample                                      |
+| 17    | `vorbisMonoSample`      | Mono sample compressed with OGG Vorbis             |
+| 49    | `flacMonoSample`        | Mono sample compressed with FLAC                   |
+| 81    | `opusMonoSample`        | Mono sample compressed with Opus                   |
+| 113   | `wavMonoSample`         | WAV containerised mono sample                      |
+| 114   | `wavRightSample`        | WAV containerised right part of a stereo sample    |
+| 116   | `wavLeftSample`         | WAV containerised left part of a stereo sample     |
+| 120   | `wavLinkedSample`       | WAV containerised linked sample                    |
+| 32769 | `RomMonoSample`         | `monoSample` stored in ROM                         |
+| 32770 | `RomRightSample`        | `rightSample` stored in ROM                        | 
+| 32772 | `RomLeftSample`         | `leftSample` stored in ROM                         |
+| 32776 | `RomLinkedSample`       | `linkedSample` stored in ROM                       |
+| 32785 | `RomVorbisMonoSample`   | `vorbisMonoSample` stored in ROM                   |
+| 32817 | `RomFlacMonoSample`     | `flacMonoSample` stored in ROM                     |
+| 32849 | `RomOpusMonoSample`     | `opusMonoSample` stored in ROM                     |
+| 32881 | `RomWavMonoSample`      | `wavMonoSample` stored in ROM                      |
+| 32882 | `RomWavRightSample`     | `wavRightSample` stored in ROM                     |
+| 32884 | `RomWavLeftSample`      | `wavLeftSample` stored in ROM                      |
+| 32888 | `RomWavLinkedSample`    | `wavLinkedSample` stored in ROM                    |
 
-If any of the sub-chunks listed above is missing or invalid, the SFe bank is Structurally Unsound.
+All other values are invalid.
+
+#### shdr in xdta-list (Update 16)
+
+The values in `shdr` are parsed slightly differently in `xdta-list`:
+
+- `achSampleName[20]` in `xdta-list` represents the *second half* of the sample name.
+  - This is combined with the `achSampleName` in `pdta-list` for a total of 40 characters.
+- `dwStart`, `dwEnd`, `dwStartloop` and `dwEndloop` in `xdta-list` may or may not be used:
+  - With 32-bit chunk headers, these values are unused, as they are already 32-bit.
+  - With 64-bit chunk headers, these values represent the upper 32 bits of the sample data field index.
+    - `fullIndex = (xdtaDword << 32) | pdtaDword`
+- `dwSampleRate` in `xdta-list` is unused, because it is already a 32-bit integer.
+  - SFe software should write a value of zero.
+- `byOriginalPitch` and `chPitchCorrection` are unused.
+  - SFe software should write a value of zero.
+- `wSampleLink` in `xdta-list` represents the upper 16 bits of the sample link index.
+  - `fullIndex = (xdtaWord << 16) | pdtaWord`
+- `sfSampleType` in `xdta-list` is unused.
+  - SFe software should write a value of zero.
 
 ---
 
@@ -1804,6 +1997,14 @@ Legacy SF players may halt on unknown enums, which goes against the legacy SF2.0
 
 The base preset fallback implementation in section 8.8 is designed to work with almost any `byBankMSB` and `byBankLSB` structure, including missing presets. However, this implementation may be too complicated, and players compatible with SFe 4.0 levels 1 to 3 may use a simpler system to implement base preset fallback. (Update 3)
 
+### 10.1.7 xdta-list sub-chunk (Update 16)
+
+The sub-chunks nested inside the `xdta-list` sub-chunk use the exact same structure and rules as their `pdta-list` counterparts, allowing the reuse of `pdta-list` parsers with minimal changes.
+
+If an application cannot display more than fourty characters, the extended name fields may be ignored.
+
+Software may copy `pdta-list` values into `xdta-list`, but values must be handled as described in this specification, for example ignoring values. 
+
 ## 10.2 Sample compatibility
 
 ### 10.2.1 SFe Compression and uncompressed containerised mode (Update 9)
@@ -1850,32 +2051,32 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ### 11.1.1 File format specifications
 
-|                                 | **Level 1**                                                                                          | **Level 2**                                                                                          | **Level 3**                                                                                          | **Level 4**                                                                                          |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| **File size representation**    | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        |
-| **File size limit**             | System memory                                                                                        | Based on chunk header type                                                                           | Based on chunk header type                                                                           | Based on chunk header type                                                                           |
-| **Sample streaming**            | System memory                                                                                        | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     |
-| **Total file size limit**       | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
-| **Multiple files**              | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
-| **Legacy support**              | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
-| **Header support** (Update 5)   | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
-| **Sample containers** (Update 9)| SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG, OPUS, FLAC  <br>Incompatible formats forbidden for write |
-| **File extension**              | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
-| **Information/Metadata**        | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
+|                                  | **Level 1**                                                                                          | **Level 2**                                                                                          | **Level 3**                                                                                          | **Level 4**                                                                                          |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **File size representation**     | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 32-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        | Unsigned 64-bit integer  <br>You must not use signed integers                                        |
+| **File size limit**              | System memory                                                                                        | Based on chunk header type                                                                           | Based on chunk header type                                                                           | Based on chunk header type                                                                           |
+| **Sample streaming**             | System memory                                                                                        | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     | System memory and disk streaming                                                                     |
+| **Total file size limit**        | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
+| **Multiple files**               | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
+| **Legacy support**               | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
+| **Header support** (Update 5)    | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
+| **Sample containers** (Update 9) | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG, OPUS, FLAC  <br>Incompatible formats forbidden for write |
+| **File extension**               | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
+| **Information/Metadata**         | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
 ### 11.1.2 Sample specifications
 
-|                                               | **Level 1**                                                   | **Level 2**                                                            | **Level 3**                                                            | **Level 4**                                                            |
-| --------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| **Maximum sample rate**                       | 44 100 Hz or greater                                          | 50 000 Hz or greater                                                   | 96 000 Hz or greater                                                   | No limit                                                               |
-| **Sample bit depth**                          | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks     | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 24-bit or greater  <br>Ignore unsupported sdta sub-chunks              | 32-bit or greater  <br>Ignore unsupported sdta sub-chunks              |
-| **8-bit samples**                             | Optional                                                      | Optional                                                               | Optional                                                               | Mandatory                                                              |
-| **Maximum individual sample length**          | 16,777,216 samples or greater                                 | 4,294,967,296 samples or greater                                       | 4,294,967,296 samples or greater                                       | Based on chunk header type                                             |
-| **Loop point sets**                           | 1                                                             | 1                                                                      | 1                                                                      | 1                                                                      |
-| **Sample linking** (Update 5)                 | Mono, Left/Right <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 | Mono, Left/Right, "Link"  <br>Includes SFe Compression                 |
-| **Number of channels**                        | Mono, Stereo\*                                                | Mono, Stereo\*                                                         | Mono, Stereo\*                                                         | Mono, Stereo\*                                                         |
-| **Sample name length**                        | Display 8 characters  <br>Write 20 characters                 | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         | Display 20 characters  <br>Write 20 characters                         |
-| **Sample compression algorithms** (Update 5)  | WAV, OGG                                                      | WAV, OGG, FLAC                                                         | WAV, OGG, OPUS, FLAC                                                   | WAV, OGG, OPUS, FLAC                                                   |
+|                                              | **Level 1**                                               | **Level 2**                                               | **Level 3**                                               | **Level 4**                                               |
+| -------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| **Maximum sample rate**                      | 44 100 Hz or greater                                      | 50 000 Hz or greater                                      | 96 000 Hz or greater                                      | No limit                                                  |
+| **Sample bit depth**                         | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks | 16-bit or greater  <br>Ignore unsupported sdta sub-chunks | 24-bit or greater  <br>Ignore unsupported sdta sub-chunks | 32-bit or greater  <br>Ignore unsupported sdta sub-chunks |
+| **8-bit samples**                            | Optional                                                  | Optional                                                  | Optional                                                  | Mandatory                                                 |
+| **Maximum individual sample length**         | 16,777,216 samples or greater                             | 4,294,967,296 samples or greater                          | 4,294,967,296 samples or greater                          | Based on chunk header type                                |
+| **Loop point sets**                          | 1                                                         | 1                                                         | 1                                                         | 1                                                         |
+| **Sample linking** (Update 5)                | Mono, Left/Right <br>Includes SFe Compression             | Mono, Left/Right, "Link"  <br>Includes SFe Compression    | Mono, Left/Right, "Link"  <br>Includes SFe Compression    | Mono, Left/Right, "Link"  <br>Includes SFe Compression    |
+| **Number of channels**                       | Mono, Stereo\*                                            | Mono, Stereo\*                                            | Mono, Stereo\*                                            | Mono, Stereo\*                                            |
+| **Sample name length**                       | Display 8 characters  <br>Write 20 characters             | Display 20 characters  <br>Write 20 characters            | Display 20 characters  <br>Write 20 characters            | Display 20 characters  <br>Write 20 characters            |
+| **Sample compression algorithms** (Update 5) | WAV, OGG                                                  | WAV, OGG, FLAC                                            | WAV, OGG, OPUS, FLAC                                      | WAV, OGG, OPUS, FLAC                                      |
 
 \*Stereo samples are implemented as two mono samples linked together. (Update 9)
 
