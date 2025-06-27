@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 16
+## Machine readable version (Markdown) - 4.0 Update 17
 
 Copyright © 2025 SFe Team and contributors
 
@@ -50,7 +50,7 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
   * [4.3 Parameter terminology](#43-parameter-terminology)
 * [Section 5: SFe file format structure](#section-5-sfe-file-format-structure)
   * [5.1 File format extensions](#51-file-format-extensions)
-  * [5.2 General RIFF-type format structures](#52-general-riff-type-format-structures)
+  * [5.2 General RIFF-type format structures (Update 17)](#52-general-riff-type-format-structures-update-17)
   * [5.3 Chunk header types](#53-chunk-header-types)
   * [5.4 RIFF error checking features](#54-riff-error-checking-features)
   * [5.5 Structure of the SFe 4 file format](#55-structure-of-the-sfe-4-file-format)
@@ -164,8 +164,8 @@ This specification assumes familiarity of the SoundFont 2.04 file format (SFSPEC
     * [11.2.2 Conversion from SFe to legacy SF2.04](#1122-conversion-from-sfe-to-legacy-sf204)
     * [11.2.3 Conversion from SFe to legacy SF2.01](#1123-conversion-from-sfe-to-legacy-sf201)
   * [11.3 Converting between chunk header types](#113-converting-between-chunk-header-types)
-    * [11.3.1 Conversion of 32-bit static to 64-bit static](#1131-conversion-of-32-bit-static-to-64-bit-static)
-    * [11.3.2 Conversion of 64-bit static to 32-bit static](#1132-conversion-of-64-bit-static-to-32-bit-static)
+    * [11.3.1 Conversion of 32-bit static to 64-bit static (Update 17)](#1131-conversion-of-32-bit-static-to-64-bit-static-update-17)
+    * [11.3.2 Conversion of 64-bit static to 32-bit static (Update 17)](#1132-conversion-of-64-bit-static-to-32-bit-static-update-17)
   * [11.4 File repair programs](#114-file-repair-programs)
     * [11.4.1 Repairing Structurally Unsound errors](#1141-repairing-structurally-unsound-errors)
     * [11.4.2 Repairing non-critical errors](#1142-repairing-non-critical-errors)
@@ -209,6 +209,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision | Date             | Description                                                                                                                           |
 | -------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u17   | 27 June 2025     | RIFF64 headers replaced with simpler RIFS format                                                                                      | 
 | 4.0u16   | 27 June 2025     | Added xdta-list subchunk <br> SFe Compression update                                                                                  |
 | 4.0u15   | 18 June 2025     | Added DMOD subchunk                                                                                                                   |
 | 4.0u14   | 15 June 2025     | Information on compression has been updated <br> sfSampleType information rewritten                                                   |
@@ -255,7 +256,7 @@ Another development was done by Cognitone, which created an open source program 
 - This is intended to be the true version 4, as Cognitone SF4 seems to not have been as widespread as SF3.
 - SF4 has also been rejected by FluidSynth as too loosely defined.
 
-Finally, stgiga found out that many programs don't mind RIFF64 (RF64) files.
+Finally, stgiga found out that many programs don't mind RIFF64 files.
 
 - RIFF64 files have a much larger size limit than 32-bit RIFF files.
 - It gives us a new horizon to experiment with longer, higher quality samples.
@@ -412,7 +413,6 @@ If an earlier major version of SFe is the main version used for a longer time th
 The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2.04, with these additions:
 
 - Branch - A subdivision of a tree structure containing either sub-branches or leaves that include values.
-- BW64 - Broadcast Wave 64, used in the RF64 Header.
 - Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered an incompatible compression format, usage is not allowed in SFe. (Updated in 4.0b)
 - FLAC - A lossless audio compression format commonly used in open-source software. Supported by Werner SF3, but not commonly used for that purpose.
 - Leaf - A value found in a tree structure at the end of a branch.
@@ -422,14 +422,13 @@ The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2
 - Opus - A lossy audio compression format, slightly newer than OGG but with less wide adoption.
 - Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs. 
 - Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
-- RF64 - See "RIFF64".
-- RIFF64 - A 64-bit RIFF-type format. Contrast to 32-bit versions of the RIFF format. Therefore, the maximum file size is above 4 gigabytes in size. (Updated in 4.0a)
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
+- RIFS - "RIFF-like static 64-bit", a simple 64-bit RIFF-like format that uses the exact same syntax as RIFF but with 8-byte chunk size instead of 4-byte. (Update 17) 
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
 - SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
 - SFe-compatible - Indicates files, data, synthesisers, hardware or software that conform to the SFe specification.
 - SFe Compression - The compression system based on Werner SF3 that SFe programs should be compliant with.
-- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
+- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFS. See "RIFF-type format", "RIFF" and "RIFS". (Update 17)
 - Tree structure - A structure consisting of branches and leaves.
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
 - Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.
@@ -496,21 +495,22 @@ The file type should be referred to as `SFe bank` and should *not* be referred t
 
 SFe currently does not use a MIME type.
 
-## 5.2 General RIFF-type format structures
+## 5.2 General RIFF-type format structures (Update 17)
 
 RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe standards. There are a few different RIFF-type format structures:
 
 - RIFF is the basic version with 32-bit chunk headers, and is used in legacy SF2.04 and Werner SF3.
-- RIFF64 (also called RF64) is mostly compatible with RIFF, but uses 64-bit chunk headers.
-- Both RIFF and RIFF64 are little-endian formats. (Update 5)
+- RIFS is a simple extension to RIFF to allow 64-bit chunk headers, and is simpler than RIFF64. It has these changes from RIFF:
+  - Initial FourCC is `RIFS` instead of `RIFF`.
+  - 8 byte chunk size instead of 4 byte.
+- Both RIFF and RIFS are little-endian formats. (Update 17)
 
 RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
 - `ckID`: type of data in chunk, equal to a unique 4-character code (FourCC), listed above.
-- `ckSize`: size of chunk (RIFF), equal to 4,294,967,295 (RIFF64) (Update 5)
-- `ds64`: size of chunk (RIFF64 only)
+- `ckSize`: size of chunk, 4 bytes in RIFF and 8 bytes in RIFS (Update 17)
 - `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
 
 Chunks can be further divided into "sub-chunks."
@@ -525,11 +525,10 @@ In SFe, there are different chunk header types that are used in the format. Thes
   - This is the same as legacy SF
   - This corresponds to RIFF.
   - The FourCC used is `RIFF`.
-- 64-bit static
-  - A `ds64` chunk is added
-  - The FourCC used is `RF64`.
+- 64-bit static (Update 17)
+  - This corresponds to RIFS.
+  - The FourCC used is `RIFS`.
   - To prevent loading by incompatible players, the `sfbk` fourcc is replaced with `sfen` (**SF**-**en**hanced)
-  - This corresponds to RIFF64.
 
 Future versions of SFe may define different chunk header types.
 
@@ -1556,14 +1555,7 @@ While the `flag` sub-chunk will be useful to alert users about incompatible prog
 
 "Structurally Unsound" errors are those defined by E-mu (in legacy SF2.04), Werner Schweer (in Werner SF3) and the SFe Team (in SFe) to prevent the bank from working properly in a way that means that it can not be used. These errors must be fixed before an SF player can load it, unless the SF player implements SFe automatic repair.
 
-The error correction process for structural errors in SFe is slightly different from that in legacy SF2.04:
-
-- If a `ds64` chunk, `BW64` or `RF64` header is found in a file, SFe players that do not support 64-bit chunk headers should output a specific error, as mentioned in the SFe program specification.
-- If the `ds64` chunk is missing, the bank uses a 32-bit chunk header. Make sure that `ckSize` is accurate, using the same techniques as for SF2.04.
-  - If the value of `ckSize` is 4,294,967,295 (like in `ds64`), or any other inaccurate value, reject the file as "Structurally Unsound."
-  - If the value of `ckSize` is correct, open the file and output a warning message, as mentioned in the SFe program specification.
-  - More advanced programs may also recognize files larger than 4GiB with 32-bit headers. However, such a file should be repaired with a 64-bit header as soon as possible.
-- Banks with 64-bit headers, but with a `ckSize` value that is not 4,294,967,295 should be rejected as "Structurally Unsound," as this is not valid in RIFF64.
+The error correction process for structural errors in SFe is slightly different from that in legacy SF2.04; if a `RIFS` header is found in a file, SFe players that do not support 64-bit chunk headers should output a specific error, as mentioned in the SFe program specification. (Update 17)
 
 ## 8.2 Non-critical errors
 
@@ -1670,7 +1662,7 @@ typedef struct romHdrType{
 
 ### 9.2.2 romRiffHeader
 
-In SiliconSFe, it is defined as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RF64`, `RIFD`, etc.
+In SiliconSFe, it is defined as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RIFS`, `RIFD`, etc. (Update 17)
 
 In the legacy SF2.04 specification, this is named `romRsrc` and was declared by Creative as "unused". The name in SiliconSFe more accurately describes its usage.
 
@@ -2151,20 +2143,17 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ## 11.3 Converting between chunk header types
 
-### 11.3.1 Conversion of 32-bit static to 64-bit static
+### 11.3.1 Conversion of 32-bit static to 64-bit static (Update 17)
 
-- Replace `RIFF` with `RF64`.
-- Add a `ds64` chunk with chunk size.
-- Set `ckSize` to `FF FF FF FF`.
+- Replace `RIFF` with `RIFS`.
+- Convert all `ckSize` values to 8 bytes.
 - Replace `sfbk` with `sfen`.
 - Upgrade the `ifil` version in the header to `wMajor=4`.
 
-### 11.3.2 Conversion of 64-bit static to 32-bit static
+### 11.3.2 Conversion of 64-bit static to 32-bit static (Update 17)
 
 - Make sure file size does not exceed 4GiB.
-- Set `ckSize` to the value of `ds64`.
-- Delete `ds64`.
-- Replace `RF64` with `RIFF`.
+- Replace `RIFS` with `RIFF`.
 - Rename `sfen` to `sfbk`.
 - Downgrade the `ifil` version in the header to `wMajor=2`.
 
@@ -2264,7 +2253,7 @@ In SFe Compression, all PCM samples must go before compressed samples. This is f
 
 #### ckSize errors
 
-`ckSize` errors are easily solved by checking the `ckSize` values and fixing them with the correct file sizes, and in the case of 64-bit static shunk headers, setting the `ds64` chunk size to the correct value.
+`ckSize` errors are easily solved by checking the `ckSize` values and fixing them with the correct chunk sizes.
 
 #### Incompatible chunk header errors
 
@@ -2456,7 +2445,7 @@ You must correctly setup your banks to ensure that they run properly; do not use
 
 - The header should be `RIFF` and `sfbk` with 32-bit chunk headers to preserve legacy SF2.0x compatibility.
 - 32-bit only programs should recognise 64-bit chunk headers and give an error.
-- The header should be `RF64` and `sfen` with 64-bit chunk headers.
+- The header should be `RIFS` and `sfen` with 64-bit chunk headers. (Update 17)
 - All programs that support 64-bit chunk headeres must also support 32-bit chunk headers.
 
 ### 11.5.7 Sample Compression
@@ -2556,7 +2545,6 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Articulation - Modulation of available parameters and usage of extra samples to produce expressive musical notes.
 - AWE64 - The successor to the famous AWE32, adding features such as waveguide synthesis. Used the EMU8000 synthesizer chip, like the preceding AWE32. Available in "Value" or "Gold" versions.
 - Branch - A subdivision of a tree structure containing either sub-branches or leaves that include values.
-- BW64 - Broadcast Wave 64, used in the RF64 Header.
 - Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
 - Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered an incompatible compression format, usage is not allowed in SFe. (Updated in 4.0b)
@@ -2577,9 +2565,8 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Opus - A lossy audio compression format, slightly newer than OGG but with less wide adoption.
 - Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs.
 - Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
-- RF64 - See "RIFF64".
-- RIFF64 - A 64-bit RIFF-type format. Contrast to 32-bit versions of the RIFF format. Therefore, the maximum file size is above 4 gigabytes in size. (Updated in 4.0a)
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
+- RIFS - "RIFF-like static 64-bit", a simple 64-bit RIFF-like format that uses the exact same syntax as RIFF but with 8-byte chunk size instead of 4-byte. (Update 17) 
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
 - SB - Abbreviation of "Sound Blaster®". For example, "SB X-Fi".
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
@@ -2589,7 +2576,7 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Sound Blaster® Live! - The successor to the AWE64, which improved the synthesizer chip to the EMU10K1, supporting modulators.
 - Sound Blaster® Audigy - The successor to the SB Live!, containing the EMU10K2 chip.
 - Sound Blaster® X-Fi - The successor to the SB Audigy, containing the EMU20K1 or EMU20K2 chip. Supports 24-Bit SoundFont® 2 files (2.04).
-- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFF64. See "RIFF-type format", "RIFF" and "RIFF64".
+- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFS. See "RIFF-type format", "RIFF" and "RIFS".
 - Synth - Abbreviation of "Synthesiser," see "Synthesiser" in `SFSPEC24.PDF` for more information.
 - Tree structure - A structure consisting of branches and leaves.
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
