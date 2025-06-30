@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 17
+## Machine readable version (Markdown) - 4.0 Update 18
 
 Copyright © 2025 SFe Team and contributors
 
@@ -209,6 +209,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision | Date             | Description                                                                                                                           |
 | -------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u18   | 30 June 2025     | Fix typo                                                                                                                              |
 | 4.0u17   | 27 June 2025     | RIFF64 headers replaced with simpler RIFS format                                                                                      | 
 | 4.0u16   | 27 June 2025     | Added xdta-list subchunk <br> SFe Compression update                                                                                  |
 | 4.0u15   | 18 June 2025     | Added DMOD subchunk                                                                                                                   |
@@ -1121,7 +1122,7 @@ Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF
 
 The `igen` sub-chunk is required; files without a `igen` sub-chunk are Structurally Unsound.
 
-#### pgen in xdta-list (Update 16)
+#### igen in xdta-list (Update 16)
 
 In `xdta-list`, `igen` contains only a terminal modulator record, similarly to `pmod`.
 
