@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 19
+## Machine readable version (Markdown) - 4.0 Update 20
 
 Copyright © 2025 SFe Team and contributors
 
@@ -209,6 +209,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision | Date             | Description                                                                                                                           |
 | -------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.0u20   | 8 July 2025      | Versioning change
 | 4.0u19   | 6 July 2025      | Made it clearer that samples need to be containerised!                                                                                |
 | 4.0u18   | 30 June 2025     | Fix typo                                                                                                                              |
 | 4.0u17   | 27 June 2025     | RIFF64 headers replaced with simpler RIFS format                                                                                      | 
@@ -609,7 +610,7 @@ This applies to the `isng`, `INAM`, `irom`, `ICRD`, `IENG`, `IPRD`, `ICOP`, `ICM
 
 ### 5.6.1 ifil sub-chunk
 
-The value of the `ifil` sub-chunk is equal to `2.1024` or `3.1024` when using a 32-bit header depending on whether SFe Compression is used, and `4.0` when using a 64-bit header. (Update 8)
+The value of the `ifil` sub-chunk is equal to `2.1024` or `3.1024` when using a 32-bit header, and `4.0` when using a 64-bit header. `2.1024` and `3.1024` are interchangeable. (Update 20)
 
 The size must be exactly four bytes. Reject files with an `ifil` sub-chunk that isn't four bytes as Structurally Unsound.
 
@@ -838,7 +839,7 @@ This sub-chunk will now be present in most SFe files, as there is likely to be n
 - Before saving, SFe editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
 - If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
 - If this sub-chunk is missing, and no ROM samples are found, show a suitable error message.
-- This sub-chunk supports containerisation in banks with a `wMajor` value of `3` or greater. (Update 9)
+- This sub-chunk requires containerisation with SFe files, but can use non-containerised samples in legacy SF2.0x. (Update 20)
 
 ### 5.7.2 About sdta structure modes (Update 19)
 
@@ -876,6 +877,8 @@ Uncompressed containerised mode provides the containerisation of SFe Compression
 #### File identification
 
 The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
+
+However, containerised samples in an SFe bank may continue to use an `wMajor` value of 2. (Update 20)
 
 #### sfSampleType in shdr sub-chunk (Update 16)
 
