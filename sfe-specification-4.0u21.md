@@ -1,6 +1,6 @@
 # SF-enhanced (SFe) 4 specification
 
-## Machine readable version (Markdown) - 4.0 Update 20
+## Machine readable version (Markdown) - 4.0 Update 21
 
 Copyright © 2025 SFe Team and contributors
 
@@ -209,7 +209,8 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision | Date             | Description                                                                                                                           |
 | -------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 4.0u20   | 8 July 2025      | Versioning change
+| 4.0u21   | 14 July 2025     | Default modulator update                                                                                                              |
+| 4.0u20   | 8 July 2025      | Versioning change                                                                                                                     |
 | 4.0u19   | 6 July 2025      | Made it clearer that samples need to be containerised!                                                                                |
 | 4.0u18   | 30 June 2025     | Fix typo                                                                                                                              |
 | 4.0u17   | 27 June 2025     | RIFF64 headers replaced with simpler RIFS format                                                                                      | 
@@ -815,6 +816,108 @@ struct sfModList
 The `DMOD` sub-chunk replaces all default modulators at load time, and acts exactly like the default modulator list in legacy SF2.04.
 
 If the `DMOD` sub-chunk is present but without any modulators, then there are no default modulators. The legacy SF2.04 default modulator list is *not* reloaded.
+
+#### Default modulator changes
+
+The default modulators list used by SFe 4.0 is similar to that of legacy SF2.04, with these changes:
+
+- Default modulator 2 (MIDI note-on velocity to filter cutoff) is optional.
+  - The use of the SF2.04 version of default modulator 2 is required.
+  - However, you may use the SF2.01 version if a legacy SF2.01 bank is detected.
+- Default modulators 8 (MIDI CC91 to reverb effects send) and 9 (MIDI CC93 to chorus effects send) have an increased amount.
+  - Instead of 20.0%, 100.0% is used.
+  - You may use 20.0% when loading an legacy SF2.0x bank.
+- Default modulators 11-16 are added.
+
+#### Default Modulator 11 (MIDI poly pressure to vibrato LFO pitch depth)
+
+Source enumeration: 0x000a
+  - type: 0 (linear)
+  - polarity: 0 (unipolar)
+  - direction: 0 (forward)
+  - control change: 0 (false)
+  - index: 10 (poly pressure)
+Destination enumeration: vibrato LFO to pitch
+Amount: 50 cents / max excursion
+Amount source enumeration: 0x0 (no controller)
+Transform enumeration: 0 (linear)
+
+Same as default modulator 3 but for poly pressure.
+
+#### Default modulator 12 (MIDI CC92 to modulator LFO volume depth)
+
+Source enumeration: 0x00dc
+  - type: 0 (linear)
+  - polarity: 0 (unipolar)
+  - direction: 0 (forward)
+  - control change: 1 (true)
+  - index: 92 (tremolo depth)
+Destination enumeration: vibrato LFO to pitch
+Amount: 24 cB
+Amount source enumeration: 0x0 (no controller)
+Transform enumeration: 0 (linear)
+
+This implements the MIDI tremolo control change function.
+
+#### Default modulator 13 (MIDI CC73 to volume envelope attack)
+
+Source enumeration: 0x0ac9
+  - type: 2 (convex)
+  - polarity: 1 (bipolar)
+  - direction: 0 (forward)
+  - control change: 1 (true)
+  - index: 73 (attack time)
+Destination enumeration: volume envelope attack
+Amount: 6000 timecents
+Amount source enumeration: 0x0 (no controller)
+Transform enumeration: 0 (linear)
+
+This implements the MIDI attack time function.
+
+#### Default modulator 14 (MIDI CC72 to volume envelope attack)
+
+Source enumeration: 0x02c8
+  - type: 0 (linear)
+  - polarity: 1 (bipolar)
+  - direction: 0 (forward)
+  - control change: 1 (true)
+  - index: 72 (release time)
+Destination enumeration: volume envelope release
+Amount: 3600 timecents
+Amount source enumeration: 0x0 (no controller)
+Transform enumeration: 0 (linear)
+
+This implements the MIDI release time function.
+
+#### Default modulator 15 (MIDI CC74 to filter cutoff)
+
+Source enumeration: 0x02ca
+  - type: 0 (linear)
+  - polarity: 1 (bipolar)
+  - direction: 0 (forward)
+  - control change: 1 (true)
+  - index: 74 (brightness)
+Destination enumeration: filter cutoff
+Amount: 6000 absolute cents
+Amount source enumeration: 0x0 (no controller)
+Transform enumeration: 0 (linear)
+
+This implements the MIDI brightness function.
+
+#### Default modulator 16 (MIDI CC71 to filter resonance)
+
+Source enumeration: 0x02c7
+  - type: 0 (linear)
+  - polarity: 1 (bipolar)
+  - direction: 0 (forward)
+  - control change: 1 (true)
+  - index: 71 (filter resonance)
+Destination enumeration: filter resonance
+Amount: 250 cB
+Amount source enumeration: 0x0 (no controller)
+Transform enumeration: 0 (linear)
+
+This implements the MIDI filter resonance function.
 
 ### 5.6.13 xdta-list sub-chunk (Update 16)
 
@@ -1426,7 +1529,7 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 4: NRPN select LSB: 4 digits
 - Bit 5: NRPN select LSB: 5 digits
 
-#### 01:06 Default modulators
+#### 01:06 Default modulators (Update 21)
 
 - Bit 1: MIDI note on to initial attenuation
 - Bit 2: MIDI note on to filter cutoff
@@ -1438,14 +1541,20 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 8: MIDI CC91 to reverb send
 - Bit 9: MIDI CC93 to chorus send
 - Bit 10: MIDI pitch wheel to initial pitch, controlled by pitch wheel sensitivity
+- Bit 11: MIDI poly pressure to vibrato LFO pitch depth
+- Bit 12: MIDI CC92 to modulator LFO volume depth
+- Bit 13: MIDI CC73 to volume envelope attack
+- Bit 14: MIDI CC72 to volume envelope release
+- Bit 15: MIDI CC74 to initial filter cutoff
+- Bit 16: MIDI CC71 to initial filter resonance 
 - Bit 17: MIDI note on to filter cutoff (SF2.00)
 - Bit 18: MIDI note on to filter cutoff (SF2.01)
 - Bit 19: MIDI note on to filter cutoff (SF2.04)
 - Bit 20: Reserved
 - Bit 21: Reserved
-- Bit 24 off, bit 25 off: Reserved
-- Bit 24 on, bit 25 off: Reserved
-- Bit 24 on, bit 25 on: Reserved
+- Bit 24 off, bit 25 off: DMOD not supported
+- Bit 24 on, bit 25 off: DMOD read support only
+- Bit 24 on, bit 25 on: DMOD playback support
 
 #### 01:07 Reserved
 
@@ -1985,10 +2094,10 @@ If the `iver` value is below `2.1024`, and the `isng` value is equal to `EMU8000
 
 If the `iver` value is `2.04` or below, ignore the whole modulator structure if a reserved source type is found.
 
-While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions. (Update 11)
+While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions. (Update 21)
 
-- If the `iver` value is `2.04`, use the SF2.04 version of the Default Modulator 2.
-- If the `iver` value is `2.01`, use the SF2.01 version of the Default Modulator 2.
+- If the `iver` value is `2.04`, use the SF2.04 version of the Default Modulator 2 (optional).
+- If the `iver` value is `2.01`, use the SF2.01 version of the Default Modulator 2 (optional).
 - If the `isng` value is `EMU8000`, trigger legacy sound card mode.
 - If the `isng` value is `E-mu 10K1`, `E-mu 10K2`, `X-Fi`, or `SFe 4`, do not trigger legacy sound card mode.
 
@@ -2115,7 +2224,7 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Control change 12/13/44/45**  <br>**Control change 16/17/18/19**  <br>**Control change 48/49/50/51**  <br>**Control change 80/81/82/83** | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
 | **Control change 64/66/67**                                                                                                                | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
 | **Control change 68/69**                                                                                                                   | Optional                                                                                                                                                                                      | Optional                                                                                                                                                                                      | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
-| **Control change 70/71/72/73/74**  <br>**Control change 75/76/77/78/79**                                                                   | CC70 variation  <br>CC71 timbre  <br>CC72 release time  <br>CC73 attack time  <br>CC74 brightness  <br>CC75 decay time  <br>CC76 vibrato rate  <br>CC77 vibrato depth  <br>CC78 vibrato delay | CC70 variation  <br>CC71 timbre  <br>CC72 release time  <br>CC73 attack time  <br>CC74 brightness  <br>CC75 decay time  <br>CC76 vibrato rate  <br>CC77 vibrato depth  <br>CC78 vibrato delay | CC70 variation  <br>CC71 timbre  <br>CC72 release time  <br>CC73 attack time  <br>CC74 brightness  <br>CC75 decay time  <br>CC76 vibrato rate  <br>CC77 vibrato depth  <br>CC78 vibrato delay | CC70 variation  <br>CC71 timbre  <br>CC72 release time  <br>CC73 attack time  <br>CC74 brightness  <br>CC75 decay time  <br>CC76 vibrato rate  <br>CC77 vibrato depth  <br>CC78 vibrato delay |
+| **Control change 70/71/72/73/74**  <br>**Control change 75/76/77/78/79** (Update 21)                                                       | CC72 release time  <br>CC73 attack time  <br>CC74 brightness                                                                                                                                  | CC72 release time  <br>CC73 attack time  <br>CC74 brightness                                                                                                                                  | CC72 release time  <br>CC73 attack time  <br>CC74 brightness                                                                                                                                  | CC72 release time  <br>CC73 attack time  <br>CC74 brightness                                                                                                                                  |
 | **Control change 91/93**                                                                                                                   | Reverb and chorus                                                                                                                                                                             | Reverb and chorus                                                                                                                                                                             | Reverb and chorus                                                                                                                                                                             | Reverb and chorus                                                                                                                                                                             |
 | **Control change 92/94/95**                                                                                                                | GM1 level effects unit required                                                                                                                                                               | GM1 level effects unit required                                                                                                                                                               | GM1 level effects unit required                                                                                                                                                               | GM1 level effects unit required                                                                                                                                                               |
 | **Control change 96/97/98**  <br>**Control change 99/100/101**                                                                             | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     | Mandatory                                                                                                                                                                                     |
