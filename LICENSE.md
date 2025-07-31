@@ -1,3 +1,9 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 Copyright © 2020-2025 SFe Team and contributors
 
 Permission is granted to use, distribute and modify this specification for any use, provided that:
