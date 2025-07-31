@@ -1,6 +1,13 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 # Code of conduct
 
 Our code of conduct is very simple:
+
 - **Please be respectful to other people and other projects.**
 - **When working with other projects, please work constructively.**
 - Don't do anything illegal, inappropriate, or otherwise objectionable.

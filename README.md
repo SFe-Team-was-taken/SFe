@@ -1,4 +1,12 @@
-<img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner" width="960">
+---
+hide:
+  - navigation
+  - toc
+---
+
+# SFe - An Introduction
+
+<img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner">
 
 ### What is SFe?
 
@@ -24,10 +32,4 @@ To make it more concise, we only highlight the differences between the SFe speci
 
 ### How can I contribute?
 
-Please read `contributing.md`.
-
----
-
-Copyright © 2025 SFe Team and contributors.
-
-The SFe Team is in no way sponsored by or otherwise affiliated with Creative Technology Ltd. or E-mu Systems, Inc. SoundFont® is a registered trademark of Creative Technology Ltd.
+Please read [contributing to SFe](contributing.md).
