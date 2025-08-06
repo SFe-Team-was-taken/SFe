@@ -1,12 +1,10 @@
----
-hide:
-  - navigation
-  - toc
----
-
-# SFe - An Introduction
-
 <img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner">
+
+This is the official repository for the SFe specification.
+
+The specification can be accessed at:
+
+https://sfe-team-was-taken.github.io/SFe/
 
 ### What is SFe?
 
