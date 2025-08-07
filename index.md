@@ -1,10 +1,12 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
+# SFe - An Introduction
+
 <img title="Figure 1" src="sfe-logos/sfe4_banner.png" alt="SFe 4 logo banner">
-
-This is the official repository for the SFe specification.
-
-The specification can be accessed at:
-
-https://sfe-team-was-taken.github.io/SFe/
 
 ### What is SFe?
 
@@ -20,7 +22,7 @@ The goals of the SFe project are to:
 
 - Unite proprietary extensions to the SoundFont format
 - Add the most requested features by soundfont developers
-- Enable sample libraries that we could never have imagined 
+- Enable sample libraries that we could never have imagined
 - Create a viable competitor to commercial sample library formats (Kontakt, etc.)
 - Allow intercompatibility between other open source sample library formats (such as SFZ)
 
