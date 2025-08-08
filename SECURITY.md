@@ -14,10 +14,10 @@ These versions are supported for 30 days after the next version.
 
 These versions are supported until the next draft milestone is released.
 
-| Version         | Supported          | Supported Until   |
-| --------------- | ------------------ | ------------------|
-| 4.0.11          | :white_check_mark: | 4.0.12 release    |
-| 4.0.1 - 4.0.10  | :x:                | 2024/12/09        |
+| Version         | Supported          | Supported Until     |
+| --------------- | ------------------ | ------------------- |
+| 4.0             | :white_check_mark: | 1 year after 4.1    |
+| 4.0 draft       | :x:                | Next draft release  |
 
 ## Reporting a Vulnerability
 
