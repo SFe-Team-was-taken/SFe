@@ -5,3 +5,44 @@
 .md-typeset__table table:not([class]) {
     display: table;
 }
+
+.md-tabs {
+    background-color: #ffffff00;
+    color: teal;
+}
+
+.md-header {
+    border-radius: 40px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: #90ee90cf;
+    color: teal;
+}
+
+.md-footer {
+    border-radius: 40px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: #90ee90cf;
+}
+
+.md-footer-meta {
+    background-color: #ffffff00;
+    color: teal;
+}
+
+.md-copyright {
+    color: teal;
+}
+
+.md-copyright__highlight {
+    color: teal;
+}
+
+.md-social {
+    color: teal;
+}
