@@ -66,6 +66,8 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
+  font:
+    text: Open Sans
 
   features:
     - content.code.copy
@@ -107,3 +109,9 @@ nav:
   - code-of-conduct.md
   - License: LICENSE.md
   - Revision History: draft-revision-history.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/SFe-Team-was-taken
+      name: SFe Team on GitHub
