@@ -67,7 +67,7 @@ theme:
         icon: material/brightness-4
         name: Switch to system preference
   font:
-    text: Open Sans
+    # text: Open Sans
 
   features:
     - content.code.copy
@@ -80,8 +80,6 @@ theme:
     - navigation.expand
 
     - toc.follow
-
-    - header.autohide
 
 extra_css:
   - stylesheets/extra.css

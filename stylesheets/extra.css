@@ -9,6 +9,17 @@
 .md-tabs {
     background-color: #ffffff00;
     color: teal;
+    margin: 10px;
+    font-weight: 400;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.md-tabs__item--active {
+    background-color: #90ee907f;
+    border-radius: 40px;
+    font-weight: 700;
+    backdrop-filter: blur(0.3em);
 }
 
 .md-header {
@@ -16,9 +27,9 @@
     padding: 10px;
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 10px;
-    background-color: #90ee90cf;
+    background-color: #90ee907f;
     color: teal;
+    backdrop-filter: blur(0.3em);
 }
 
 .md-footer {
@@ -27,13 +38,32 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-    background-color: #90ee90cf;
+    background-color: #90ee907f;
 }
 
 .md-footer-meta {
     background-color: #ffffff00;
     color: teal;
 }
+
+.md-top {
+    background-color: #90ee907f;
+    backdrop-filter: blur(0.3em);
+}
+
+.md-top:hover {
+    background-color: #90ee907f;
+    backdrop-filter: blur(1em);
+    color: teal;
+    font-weight: 700;
+}
+
+.md-top:focus {
+    background-color: #90ee907f;
+    backdrop-filter: blur(0.3em);
+    color: teal;
+}
+
 
 .md-copyright {
     color: teal;
@@ -45,4 +75,26 @@
 
 .md-social {
     color: teal;
+}
+
+.md-typeset code {
+    font-size: 1em;
+    background-color: #a8d7a87f;
+    border-radius: 0.1em;
+    padding: 0.1em 0.2em;
+}
+
+@font-face {
+    font-family: "UnifontExMono";
+    src: "assets/fonts/UnifontExMono.ttf";
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: "assets/fonts/OpenSans-VariableFont_wdth,wght.ttf";
+}
+
+:root {
+    --md-text-font: "Open Sans";
+    --md-code-font: "UnifontExMono";
 }

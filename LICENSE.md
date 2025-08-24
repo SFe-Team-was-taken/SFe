@@ -14,8 +14,9 @@ Permission is granted to use, distribute and modify this specification for any u
 
 For the benefit of the SFe community, please:
 
-- share all modifications implemented in a program under this license
-- do not remove the link to the latest version of the specification
+- share all modifications implemented in a program under this license (so anyone can use them)
+- do not remove the link to the latest version of the specification (when sharing it)
+- respect the right to repair for all hardware incorporating implementations of the specification
 
 The above requirements are not required due to requirements listed by the Open Source Definition, but are good practice when redistributing the specification. 
 
