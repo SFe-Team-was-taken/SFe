@@ -14,5 +14,6 @@ Our code of conduct is very simple:
 - We aren't affiliated with Creative, please don't claim that we are.
 - Please refrain from using AI tools.
 - Feature removal is considered vandalism.
+- Don't make unsolicited requests for audio samples.
 
 If you don't follow these rules, you may not be able to continue contributing to the project.
