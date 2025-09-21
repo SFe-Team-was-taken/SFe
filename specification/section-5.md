@@ -7,7 +7,7 @@ The file format extension to use for SFe files is generally `.sf4`:
 - `.sf2` is avoided because SFe files are *not* SoundFonts, but simply banks that use formatting that is very similar to legacy SF2.04.
 - `.sf3` is avoided because some Werner SF3 bank players may not support SFe features.
 
-Despite `.sf4` also being used by cognitone-formatted banks, these banks never existed due to a (fatal bug)[https://github.com/cognitone/sf2convert/issues/1] in cognitone's sf2convert program.
+Despite `.sf4` also being used by cognitone-formatted banks, these banks never existed due to a [fatal bug](https://github.com/cognitone/sf2convert/issues/1) in cognitone's sf2convert program.
 
 The presence of a legacy SF file extension such as `.sf2` or `.sf3` does not necessarily denote a legacy SF bank! SFe-compatible programs are expected to parse the `ifil` value and `ISFe-list` sub-chunk to properly load the bank, regardless of the extension.
 
