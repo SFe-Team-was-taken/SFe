@@ -7,7 +7,7 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Branch - A subdivision of a tree structure containing either sub-branches or leaves that include values.
 - Case-insensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as identical.
 - Case-sensitive - Indicates that a UTF-8 character or string treats alphabetic characters of upper or lower case as distinct.
-- Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered an incompatible compression format, usage is not allowed in SFe. (Updated in 4.0b)
+- Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered an incompatible compression format, usage is not allowed in SFe. (since 4.0.2)
 - DAHDSR - Stands for Delay, attack, hold, decay, sustain, release. The six-step envelope system used in SF and SFe.
 - Downloadable - legacy SF2.0x, Werner SF3 or SFe file obtained from the internet. (Old meaning referred to the obsolete ROM system)
 - EMU10K1 - The successor to the EMU8000, designed by E-mu® for the Creative Labs SB Live!.
@@ -26,7 +26,7 @@ This glossary is broadly the same as the glossary in `SFSPEC24.PDF`, with these 
 - Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs.
 - Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
-- RIFS - "RIFF-like static 64-bit", a simple 64-bit RIFF-like format that uses the exact same syntax as RIFF but with 8-byte chunk size instead of 4-byte. (Update 17)
+- RIFS - "RIFF-like static 64-bit", a simple 64-bit RIFF-like format that uses the exact same syntax as RIFF but with 8-byte chunk size instead of 4-byte. (since 4.0.17)
 - ROM samples - Obsolete feature used in legacy sound cards, most modern SF2 files do not use this feature.
 - SB - Abbreviation of "Sound Blaster®". For example, "SB X-Fi".
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.

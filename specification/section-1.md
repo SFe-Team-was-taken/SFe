@@ -13,6 +13,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision | Date              | Description                                                                                                                           |
 |----------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| 4.0.23   | 21 September 2025 | New member of SFe Team added! <br> Another versioning update <br> Further sample containerisation clarification                       | 
 | 4.0.22   | 21 September 2025 | Sample containerisation update <br> Versioning update                                                                                 |
 | 4.0.21   | 14 July 2025      | Default modulator update                                                                                                              |
 | 4.0.20   | 8 July 2025       | Versioning change                                                                                                                     |

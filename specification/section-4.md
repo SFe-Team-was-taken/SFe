@@ -5,7 +5,7 @@
 The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2.04, with these additions:
 
 - Branch - A subdivision of a tree structure containing either sub-branches or leaves that include values.
-- Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered an incompatible compression format, usage is not allowed in SFe. (Updated in 4.0b)
+- Cognitone SF4 - An incompatible modification to Werner SF3 to allow support for FLAC audio compression. Because it is considered an incompatible compression format, usage is not allowed in SFe. (since 4.0.2)
 - FLAC - A lossless audio compression format commonly used in open-source software. Supported by Werner SF3, but not commonly used for that purpose.
 - Leaf - A value found in a tree structure at the end of a branch.
 - Lossless compression - Said of a compression format that retains all of its data when compressed. In terms of audio, there is no loss in quality in losslessly compressed audio.
@@ -15,12 +15,12 @@ The data structure terminology used in SFe 4.0 is broadly the same as legacy SF2
 - Quirk - Any player-specific function that is automatically enabled and modifies the behaviour of any numeric parameters used by legacy SF2.0x, including preset locations, parameters, units, modulators or NRPNs.
 - Quirks mode - A mode in an SFe-compatible player that enables the implementation quirks.
 - RIFF-type format - Formats similar to RIFF (Resource Interchange File Format), see "RIFF" in `SFSPEC24.PDF` for more information.
-- RIFS - "RIFF-like static 64-bit", a simple 64-bit RIFF-like format that uses the exact same syntax as RIFF but with 8-byte chunk size instead of 4-byte. (Update 17)
+- RIFS - "RIFF-like static 64-bit", a simple 64-bit RIFF-like format that uses the exact same syntax as RIFF but with 8-byte chunk size instead of 4-byte. (since 4.0.17)
 - SFe - A family of enhancements to the SoundFont® 2.04 formats, unofficially created after E-mu/Creative abandoned the original format. May not be structurally compatible with legacy SF2.04.
 - SFe 4 - This new specification, based on SoundFont® 2.04 and Werner SF3, with a set of new features making it more realistic. Not to be confused with the incompatible Cognitone SF4 file format.
 - SFe-compatible - Indicates files, data, synthesisers, hardware or software that conform to the SFe specification.
 - SFe Compression - The compression system based on Werner SF3 that SFe programs should be compliant with.
-- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFS. See "RIFF-type format", "RIFF" and "RIFS". (Update 17)
+- Static RIFF - Any RIFF-type format with a fixed chunk size field width, including RIFF or RIFS. See "RIFF-type format", "RIFF" and "RIFS". (since 4.0.17)
 - Tree structure - A structure consisting of branches and leaves.
 - Vorbis - A lossy audio compression format commonly used in open-source software. The basic compression format that most Werner SF3 and SFe-compatible software should be expected to implement.
 - Werner SF3 - A small upgrade to SoundFont® 2.04 created by Werner Schweer to allow an open source compression solution for SoundFont® programs. Standardised as SFe Compression.

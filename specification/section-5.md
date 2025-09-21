@@ -15,7 +15,7 @@ The file type should be referred to as `SFe bank` and should *not* be referred t
 
 SFe currently does not use a MIME type.
 
-## 5.2 General RIFF-type format structures (Update 17)
+## 5.2 General RIFF-type format structures (since 4.0.17)
 
 RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe standards. There are a few different RIFF-type format structures:
 
@@ -23,14 +23,14 @@ RIFF-type formats are the file format used in legacy SF2.04, Werner SF3 and SFe 
 - RIFS is a simple extension to RIFF to allow 64-bit chunk headers, and is simpler than RIFF64. It has these changes from RIFF:
     - Initial FourCC is `RIFS` instead of `RIFF`.
     - 8 byte chunk size instead of 4 byte.
-- Both RIFF and RIFS are little-endian formats. (Update 17)
+- Both RIFF and RIFS are little-endian formats. (since 4.0.17)
 
 RIFF-type formats are created in building blocks known as "chunks."
 
 Chunks are defined using this structure:
 
 - `ckID`: type of data in chunk, equal to a unique 4-character code (FourCC), listed above.
-- `ckSize`: size of chunk, 4 bytes in RIFF and 8 bytes in RIFS (Update 17)
+- `ckSize`: size of chunk, 4 bytes in RIFF and 8 bytes in RIFS (since 4.0.17)
 - `ckDATA[ckSize]`: the data inside the chunks, including pad bytes.
 
 Chunks can be further divided into "sub-chunks."
@@ -45,7 +45,7 @@ In SFe, there are different chunk header types that are used in the format. Thes
     - This is the same as legacy SF
     - This corresponds to RIFF.
     - The FourCC used is `RIFF`.
-- 64-bit static (Update 17)
+- 64-bit static (since 4.0.17)
     - This corresponds to RIFS.
     - The FourCC used is `RIFS`.
     - To prevent loading by incompatible players, the `sfbk` fourcc is replaced with `sfen` (**SF-en**hanced)
@@ -127,13 +127,13 @@ This applies to the `isng`, `INAM`, `irom`, `ICRD`, `IENG`, `IPRD`, `ICOP`, `ICM
 
 ### 5.6.1 ifil sub-chunk
 
-The value of the `ifil` sub-chunk is equal to `2.1024` or `3.1024` when using a 32-bit header, and `4.0` when using a 64-bit header. `2.1024` and `3.1024` are interchangeable. (Update 20)
+The value of the `ifil` sub-chunk is equal to `2.1024` or `3.1024` when using a 32-bit header, and `4.0` when using a 64-bit header. `2.1024` and `3.1024` are interchangeable. (since 4.0.20)
 
 The size must be exactly four bytes. Reject files with an `ifil` sub-chunk that isn't four bytes as Structurally Unsound.
 
 If the `ifil` sub-chunk is missing, either:
 
-- Assume version `2.1024`, `3.1024` or `4.0`. (Update 8)
+- Assume version `2.1024`, `3.1024` or `4.0`. (since 4.0.8)
 - Reject the file as Structurally Unsound.
 
 ### 5.6.2 Versioning rules
@@ -192,7 +192,7 @@ Reject anything not terminated with a zero byte, and assume the value `SFe 4`. D
 |                       |                |                 |                                                   |
 |-----------------------|----------------|-----------------|---------------------------------------------------|
 | **Sound engine name** | **isng value** | **SFe version** | **Bit depth**                                     |
-| SFe 4                 | `SFe 4`        | 4.0             | 8 bit, 16 bit, 24 bit, 32 bit, 64 bit (Update 11) |
+| SFe 4                 | `SFe 4`        | 4.0             | 8 bit, 16 bit, 24 bit, 32 bit, 64 bit (since 4.0.11) |
 
 ### 5.6.6 ICRD sub-chunk
 
@@ -228,20 +228,20 @@ The ROM emulator should be implemented in SFe programs.
 
 ### 5.6.9 SFty sub-chunk
 
-The `SFty` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains a case-sensitive UTF-8 string with even length identifying the type of format used in SFe. Its value is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as. (Update 13)
+The `SFty` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains a case-sensitive UTF-8 string with even length identifying the type of format used in SFe. Its value is used by SFe-compatible players to assist in loading banks by telling the program what variant of SFe to load a bank as. (since 4.0.13)
 
 The defined values of the `SFty` chunk are:
 
-- the 14 bytes representing `SFe standard` as 12 UTF-8 characters followed by two zero bytes. (Update 12)
-- the 22 bytes representing `SFe standard with TSC` as 21 UTF-8 characters followed by one zero byte. (Update 12)
+- the 14 bytes representing `SFe standard` as 12 UTF-8 characters followed by two zero bytes. (since 4.0.12)
+- the 22 bytes representing `SFe standard with TSC` as 21 UTF-8 characters followed by one zero byte. (since 4.0.12)
 
-The field should not be longer than 22 bytes in SFe 4.0. (Update 12)
+The field should not be longer than 22 bytes in SFe 4.0. (since 4.0.12)
 
-If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe standard`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe standard` format. (Update 12)
+If the `SFty` sub-chunk is missing or its contents are an undefined value or in an invalid format, other properties of the structure should be used to determine the variant of SFe that is in use. Do not assume `SFe standard`; only use such a value when it is evident beyond a reasonable doubt that the file used is in the `SFe standard` format. (since 4.0.12)
 
 ### 5.6.10 SFvx sub-chunk
 
-The `SFvx` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains extended SFe version attributes. (Update 13)
+The `SFvx` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains extended SFe version attributes. (since 4.0.13)
 
 It is always 46 bytes in length, containing data in the structure below:
 
@@ -283,7 +283,7 @@ The file may optionally be rejected as Structurally Unsound.
 
 ### 5.6.11 flag sub-chunk
 
-The `flag` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains the feature flags used by a bank. (Update 13)
+The `flag` sub-chunk is nested inside the `ISFe-list` sub-chunk. It is required and contains the feature flags used by a bank. (since 4.0.13)
 
 It is always a multiple of 6 bytes in length, and contains at least 2 records (1 feature flag and a record at the end) according to the structure:
 
@@ -312,7 +312,7 @@ The final record should never be accessed in normal usage, but its value of `byB
 
 If the `flag` sub-chunk is missing or an incorrect size, then an effort should be made to recover the data. If data is not recoverable, then it can be rebuilt from the properties of the data in the rest of the bank. Do not reject the file as Structurally Unsound.
 
-### 5.6.12 DMOD sub-chunk (Update 15)
+### 5.6.12 DMOD sub-chunk (since 4.0.15)
 
 The `DMOD` sub-chunk is nested inside the `INFO-list` sub-chunk. It is optional and contains the redefined default modulators of an SFe bank.
 
@@ -435,7 +435,7 @@ Source enumeration: 0x02c7
 
 This implements the MIDI filter resonance function.
 
-### 5.6.13 xdta-list sub-chunk (Update 16)
+### 5.6.13 xdta-list sub-chunk (since 4.0.16)
 
 The `xdta-list` sub-chunk is nested inside the `INFO-list` sub-chunk. It is optional and contains a replication of the `pdta-list` sub-chunks in the same order. Refer to section 5.8 for more information.
 
@@ -453,14 +453,14 @@ If the `xdta-list` sub-chunk is missing, then the `pdta-list` chunk should be lo
 
 This sub-chunk will now be present in most SFe files, as there is likely to be no ROM where samples can be read from. This does not include AWE ROM emulation. It works in an almost identical manner to legacy SF2.04, with these important differences:
 
-- This contains one or more samples of audio in linearly coded 16-bit, signed words. These words are little-endian. (Update 5)
+- This contains one or more samples of audio in linearly coded 16-bit, signed words. These words are little-endian. (since 4.0.5)
 - No more leeway of 46 zero-valued samples is required after each sample.
 - Before saving, SFe editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
 - If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
 - If this sub-chunk is missing, and no ROM samples are found, show a suitable error message.
-- All new SFe sample format features require containerisation, which works in the same way as WernerSF3. (Update 22)
+- All new SFe sample format features require containerisation, which works in the same way as WernerSF3. (since 4.0.22)
 
-### 5.7.2 About sdta structure modes (Update 19)
+### 5.7.2 About sdta structure modes (since 4.0.19)
 
 In this specification, four different types of sample data structures are described:
 
@@ -471,21 +471,23 @@ In this specification, four different types of sample data structures are descri
 
 To access the advanced SFe sample format modes, containerised samples are required. 
 
-Non-containerised modes are described here for legacy SF2.0x compatibility and to allow the use of SFe instrument and preset features while preserving legacy player support. (Update 22)
+Non-containerised modes are described here for legacy SF2.0x compatibility and to allow the use of SFe instrument and preset features while preserving legacy player support. (since 4.0.22)
 
-### 5.7.3 Containerised modes (Update 9)
+### 5.7.3 Containerised modes (since 4.0.9)
 
-#### What is a containerised mode? (Update 9)
+#### What is a containerised mode? (since 4.0.9)
 
 Containerised sample data structure modes use containerisation, which is where each sample has metadata stored in a "container". This is in contrast to a non-containerised format, which stores wave data from each sample directly next to each other, as seen in the legacy SoundFont format.
 
 Such containers include information such as sample rate, bit depth, compression format used, audio information and more. These are already used by the earlier [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) system widely used by the open source community, to store information about compression that a Werner SF3-compatible player could use to decompress the sample.
 
-Containerised modes provide many other advantages such as variable bit depths, conserving sample quality while reducing wasted space, and detailed sample data can also be included directly. Because of said advantages, containerised samples are mandatory for all samples except for uncompressed samples. (Update 22)
+Containerised modes provide many other advantages such as variable bit depths, conserving sample quality while reducing wasted space, and detailed sample data can also be included directly. Because of said advantages, containerised samples are mandatory for all samples except for uncompressed samples. (since 4.0.22)
 
-[Diagram goes here]
+Please note that the sm24 sub-chunk is not used in containerised samples. (since 4.0.22)
 
-#### What are SFe Compression and uncompressed containerised modes? (Update 9)
+Todo: Create diagram
+
+#### What are SFe Compression and uncompressed containerised modes? (since 4.0.9)
 
 SFe Compression is the encoding system for compressed samples used by SFe, based on Werner SF3.
 
@@ -497,9 +499,9 @@ Uncompressed containerised mode provides the containerisation of SFe Compression
 
 The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
 
-However, containerised samples in an SFe bank may continue to use an `wMajor` value of 2. (Update 20)
+However, containerised samples in an SFe bank may continue to use an `wMajor` value of 2. (since 4.0.20)
 
-#### sfSampleType in shdr sub-chunk (Update 22)
+#### sfSampleType in shdr sub-chunk (since 4.0.22)
 
 Bit 5 of the `sfSampleType` field indicates a containerised sample that is not necessarily compressed. This is used to retain backwards compatibility with Werner SF3.
 
@@ -516,14 +518,27 @@ Additionally, bit 8 can be used to force a player to detect the sample format us
 
 Therefore, in uncompressed SFe banks, the typical `sfSampleType` values are increased by 112 compared with SF2.04 banks.
 
-#### Supported compression formats for samples (Update 8)
+#### Supported containerisation formats for samples (since 4.0.22)
 
-Currently, SFe Compression requires any compressed samples to be in these formats:
+Currently, SFe Compression requires any containerised samples to be in these formats:
 
-- wav (uncompressed)
+- wav
 - ogg
 - opus
 - flac
+
+Wav files may be uncompressed or compressed. However, compressed wav files must be in these formats:
+
+- Signed 16-bit PCM
+- Signed 24-bit PCM
+- Signed 32-bit PCM
+- Unsigned 8-bit PCM
+- Signed 8-bit PCM
+- 32-bit Float
+- 64-bit Float
+- ADPCM
+- U-law
+- A-law
 
 #### Considerations for compressed samples
 
@@ -532,11 +547,11 @@ For a compressed sample to be valid:
 - the type of compression and/or encoding must be recognised and supported by the program.
 - the compression and/or encoding format must be valid.
 - the compressed sample must only have one channel.
-- the compressed sample must be compressed using only supported formats. (Update 5)
+- the compressed sample must be compressed using only supported formats. (since 4.0.5)
 
-A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (Update 8)
+A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (since 4.0.8)
 
-If a sample has more than one channel, then the first channel is taken. (Update 19)
+If a sample has more than one channel, then the first channel is taken. (since 4.0.19)
 
 #### Considerations for uncompressed (wav) samples
 
@@ -546,9 +561,9 @@ For a wav sample to be valid:
 - the sample must only have one channel.
 - the sample rates in the metadata and `dwSampleRate` must match.
 
-A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (Update 8)
+A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (since 4.0.8)
 
-If a sample has more than one channel, then the first channel is taken. (Update 19)
+If a sample has more than one channel, then the first channel is taken. (since 4.0.19)
 
 #### Interpretation of sample data index fields in shdr sub-chunk
 
@@ -570,19 +585,19 @@ For compressed byte streams, it is not necessary to add forty-six zero-valued sa
 
 #### Sample links are not used in SFe Compression
 
-Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero. This is because the file size of two compressed samples that have the same length (as used in linked samples) may differ. (Update 9)
+Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero. This is because the file size of two compressed samples that have the same length (as used in linked samples) may differ. (since 4.0.9)
 
-However, when uncompressed samples are used, sample links are still usable. Therefore, stereo samples remain usable in uncompressed containerised mode. Please refer to section 5.7.6 for more information about using stereo samples. (Update 9)
+However, when uncompressed samples are used, sample links are still usable. Therefore, stereo samples remain usable in uncompressed containerised mode. Please refer to section 5.7.6 for more information about using stereo samples. (since 4.0.9)
 
 #### Incompatible compression formats
 
-The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (`.sfark`, `.sfpack`, `.sf2pack`, `.sfogg`, `.sfq`, `.sf4`) must not be used, but programs can remain compatible with existing legacy SF2.0x banks compressed in such formats. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression. (Update 14)
+The only supported compression system for SFe is the Werner SF3-compatible SFe Compression. Proprietary SF compression formats (`.sfark`, `.sfpack`, `.sf2pack`, `.sfogg`, `.sfq`, `.sf4`) must not be used, but programs can remain compatible with existing legacy SF2.0x banks compressed in such formats. Because Cognitone SF4-formatted banks are not valid Werner SF3 banks, they are also incompatible with SFe Compression. (since 4.0.14)
 
-### 5.7.4 Non-containerised modes (Update 9)
+### 5.7.4 Non-containerised modes (since 4.0.9)
 
-The legacy non-containerised 16-bit and 24-bit modes were used in the legacy SoundFont format. You can still create SFe banks using these formats, but new sample format features are not usable. (Update 22)
+The legacy non-containerised 16-bit and 24-bit modes were used in the legacy SoundFont format. You can still create SFe banks using these formats, but new sample format features are not usable. (since 4.0.22)
 
-If the `ifil` version is `2.04` or greater, and there an `sm24` sub-chunk is present, then the `sdta` structure mode is legacy 24-bit (`sm24`) mode. Legacy 24-bit mode can only function with uncompressed samples due to the segmented structure of samples stored in this way, and we strongly recommend against using legacy 24-bit mode, because containerisation support is a requirement for SFe level 1 and is easier to work with. (Update 9)
+If the `ifil` version is `2.04` or greater, and there an `sm24` sub-chunk is present, then the `sdta` structure mode is legacy 24-bit (`sm24`) mode. Legacy 24-bit mode can only function with uncompressed samples due to the segmented structure of samples stored in this way, and we strongly recommend against using legacy 24-bit mode, because containerisation support is a requirement for SFe level 1 and is easier to work with. (since 4.0.9)
 
 Note that if the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), then the `sdta` structure mode is legacy 16-bit mode, and `sm24` is ignored.
 
@@ -607,11 +622,11 @@ The last `sfPresetHeader` entry shouldn't need to be accessed, apart from the us
 
 The `phdr` sub-chunk is required; files without a `phdr` sub-chunk are Structurally Unsound.
 
-#### UTF-8 in achPresetName (Update 16)
+#### UTF-8 in achPresetName (since 4.0.16)
 
 The value of achPresetName is now UTF-8 instead of ASCII.
 
-#### phdr in xdta-list (Update 16)
+#### phdr in xdta-list (since 4.0.16)
 
 The values in `phdr` are parsed slightly differently in `xdta-list`:
 
@@ -644,7 +659,7 @@ Figure 8: How the bank select logic differs from legacy SF2.04.
 
 In the above figure, `wBank` has been replaced with `byBankMSB` and `byBankLSB`.
 
-This splits the one `WORD` in legacy SF2.04 into two `BYTE` values, one for each bank. `byBankMSB` goes before `byBankLSB` due to RIFF being a little-endian format. (Update 5)
+This splits the one `WORD` in legacy SF2.04 into two `BYTE` values, one for each bank. `byBankMSB` goes before `byBankLSB` due to RIFF being a little-endian format. (since 4.0.5)
 
 #### Using more than one percussion bank
 
@@ -668,13 +683,13 @@ Figure 11: The flowchart for bank select instructions in SFe 4.0.
 
 Notice that not only are extra steps added for bank select LSB and percussion bank select handling, but extra configuration information used by the player is added to determine the correct preset to use.
 
-### 5.8.3 pbag sub-chunk (Update 16)
+### 5.8.3 pbag sub-chunk (since 4.0.16)
 
 Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
 
 The `pbag` sub-chunk is required; files without a `pbag` sub-chunk are Structurally Unsound.
 
-#### pbag in xdta-list (Update 16)
+#### pbag in xdta-list (since 4.0.16)
 
 The values in `pbag` are parsed slightly differently in `xdta-list`:
 
@@ -683,37 +698,37 @@ The values in `pbag` are parsed slightly differently in `xdta-list`:
 - `wModNdx` represents the upper 16 bits of the modulator index
     - `fullIndex = (xdtaWord << 16) | pdtaWord`
 
-### 5.8.4 pmod sub-chunk (Update 16)
+### 5.8.4 pmod sub-chunk (since 4.0.16)
 
 Its size is a multiple of 10 bytes, and its structure is the same as in legacy SF2.04.
 
 The `pmod` sub-chunk is required; files without a `pmod` sub-chunk are Structurally Unsound.
 
-#### pmod in xdta-list (Update 16)
+#### pmod in xdta-list (since 4.0.16)
 
 In `xdta-list`, `pmod` contains only a terminal modulator record.
 
-### 5.8.5 pgen sub-chunk (Update 16)
+### 5.8.5 pgen sub-chunk (since 4.0.16)
 
 Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
 
 The `pgen` sub-chunk is required; files without a `pgen` sub-chunk are Structurally Unsound.
 
-#### pgen in xdta-list (Update 16)
+#### pgen in xdta-list (since 4.0.16)
 
 In `xdta-list`, `pgen` contains only a terminal modulator record, similarly to `pmod`.
 
-### 5.8.6 inst sub-chunk (Update 16)
+### 5.8.6 inst sub-chunk (since 4.0.16)
 
 Its size is a multiple of 22 bytes, and its structure is the same as in legacy SF2.04.
 
 The `inst` sub-chunk is required; files without an `inst` sub-chunk are Structurally Unsound.
 
-#### UTF-8 in achInstName (Update 16)
+#### UTF-8 in achInstName (since 4.0.16)
 
 The value of achInstName is now UTF-8 instead of ASCII.
 
-#### inst in xdta-list (Update 16)
+#### inst in xdta-list (since 4.0.16)
 
 The values in `inst` are parsed slightly differently in `xdta-list`:
 
@@ -722,13 +737,13 @@ The values in `inst` are parsed slightly differently in `xdta-list`:
 - `wInstBagNdx` in `xdta-list` represents the upper 16 bits of the instrument bag index.
     - `fullIndex = (xdtaWord << 16) | pdtaWord`
 
-### 5.8.7 ibag sub-chunk (Update 16)
+### 5.8.7 ibag sub-chunk (since 4.0.16)
 
 Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
 
 The `ibag` sub-chunk is required; files without an `ibag` sub-chunk are Structurally Unsound.
 
-#### ibag in xdta-list (Update 16)
+#### ibag in xdta-list (since 4.0.16)
 
 The values in `ibag` are parsed slightly differently in `xdta-list`:
 
@@ -737,13 +752,13 @@ The values in `ibag` are parsed slightly differently in `xdta-list`:
 - `wModNdx` represents the upper 16 bits of the modulator index
     - `fullIndex = (xdtaWord << 16) | pdtaWord`
 
-### 5.8.8 imod sub-chunk (Update 16)
+### 5.8.8 imod sub-chunk (since 4.0.16)
 
 Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF2.04.
 
 The `imod` sub-chunk is required; files without an `imod` sub-chunk are Structurally Unsound.
 
-#### imod in xdta-list (Update 16)
+#### imod in xdta-list (since 4.0.16)
 
 In `xdta-list`, `imod` contains only a terminal modulator record, similarly to `pmod`.
 
@@ -753,7 +768,7 @@ Its size is a multiple of 4 bytes, and its structure is the same as in legacy SF
 
 The `igen` sub-chunk is required; files without a `igen` sub-chunk are Structurally Unsound.
 
-#### igen in xdta-list (Update 16)
+#### igen in xdta-list (since 4.0.16)
 
 In `xdta-list`, `igen` contains only a terminal modulator record, similarly to `pmod`.
 
@@ -770,11 +785,11 @@ The `shdr` sub-chunk is required; files without a `shdr` sub-chunk are Structura
 - Despite this, Creative did not use 16-bit integers for sample rate in legacy SF2.04. It is thus safe to use sample rates in excess of 50,000 Hz. If a sample rate of below 400 Hz or above 50,000 Hz is encountered, no attempt should be made to change the sample rate.
 - A zero sample rate should be reset.
 
-#### UTF-8 in achSampleName (Update 16)
+#### UTF-8 in achSampleName (since 4.0.16)
 
 The value of achSampleName is now UTF-8 instead of ASCII.
 
-#### sfSampleType Changes (Update 16)
+#### sfSampleType Changes (since 4.0.16)
 
 In legacy SF2.04, `sfSampleType` is treated as an enum, with eight fixed values. This worked fine when there were only a few possible bits, however it could become a limitation for future expansion.
 
@@ -795,7 +810,7 @@ Therefore, the specification for `sfSampleType` discourages the use of fixed enu
 
 Note that all unused bits are reserved and should not be used by SFe implementations.
 
-### List of valid sfSampleType values (Update 16)
+### List of valid sfSampleType values (since 4.0.16)
 
 | Value | Name                  | Description                                     |
 |-------|-----------------------|-------------------------------------------------|
@@ -826,7 +841,7 @@ All other values are invalid.
 
 Note that SFe 4 does not permit the use of non-containerised samples, so corresponding values are used only for legacy SF2.04 support.
 
-#### shdr in xdta-list (Update 16)
+#### shdr in xdta-list (since 4.0.16)
 
 The values in `shdr` are parsed slightly differently in `xdta-list`:
 

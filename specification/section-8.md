@@ -4,7 +4,7 @@
 
 "Structurally Unsound" errors are those defined by E-mu (in legacy SF2.04), Werner Schweer (in Werner SF3) and the SFe Team (in SFe) to prevent the bank from working properly in a way that means that it can not be used. These errors must be fixed before an SF player can load it, unless the SF player implements SFe automatic repair.
 
-The error correction process for structural errors in SFe is slightly different from that in legacy SF2.04; if a `RIFS` header is found in a file, SFe players that do not support 64-bit chunk headers should output a specific error, as mentioned in the SFe program specification. (Update 17)
+The error correction process for structural errors in SFe is slightly different from that in legacy SF2.04; if a `RIFS` header is found in a file, SFe players that do not support 64-bit chunk headers should output a specific error, as mentioned in the SFe program specification. (since 4.0.17)
 
 ## 8.2 Non-critical errors
 
@@ -61,11 +61,11 @@ This occurs when the user loads a file that is larger than the maximum size that
 
 ## 8.8 MIDI Errors
 
-If a non-existent bank/preset combination is selected, the software should use the lowest value for the selected bank that results in an existent combination. If this doesn't exist, then the software should select the next available preset. (Update 5)
+If a non-existent bank/preset combination is selected, the software should use the lowest value for the selected bank that results in an existent combination. If this doesn't exist, then the software should select the next available preset. (since 4.0.5)
 
-If the `wPreset` value cannot be matched, then the first preset value that is available is used. (Update 3)
+If the `wPreset` value cannot be matched, then the first preset value that is available is used. (since 4.0.3)
 
-This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. (Update 3)
+This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. (since 4.0.3)
 
 ## 8.9 Illegal parameter values, out of range values, missing required items and illegal enumerators
 

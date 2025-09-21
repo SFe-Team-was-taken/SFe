@@ -2,7 +2,7 @@
 
 ## 9.1 SiliconSFe overview
 
-While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF` (the AWE cards used an early predecessor of SiliconSF), you can use ROM samples formatted in the SiliconSF format with SFe. However, SiliconSFe support is explicitly optional. (Update 5)
+While we are unaware of any shipping products using the SiliconSF system found in `SFSPEC24.PDF` (the AWE cards used an early predecessor of SiliconSF), you can use ROM samples formatted in the SiliconSF format with SFe. However, SiliconSFe support is explicitly optional. (since 4.0.5)
 
 ## 9.2 Header format
 
@@ -36,7 +36,7 @@ typedef struct romHdrType{
 
 ### 9.2.2 romRiffHeader
 
-In SiliconSFe, it is defined as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RIFS`, `RIFD`, etc. (Update 17)
+In SiliconSFe, it is defined as the FourCC used by the chunk header type used by the integrated SF bank, for example `RIFF`, `RIFS`, `RIFD`, etc. (since 4.0.17)
 
 In the legacy SF2.04 specification, this is named `romRsrc` and was declared by Creative as "unused". The name in SiliconSFe more accurately describes its usage.
 

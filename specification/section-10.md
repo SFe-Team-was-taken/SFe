@@ -30,7 +30,7 @@ Byte 7 of `byBankLSB` is reserved and should be preserved as read, and written a
 
 Some legacy SF2.0x players include quirks which are automatically loaded for all legacy SF banks. For example, a player may include bank translation when a reset is detected, to support standards that require the use of both bank select MSB and LSB, or may include changes to the modulator implementation to improve sound quality.
 
-If an SFe bank uses an `isng` value of `SFe 4`, then programs must disable implementation quirks that were used with legacy SoundFonts. When converting legacy SoundFonts to SFe banks, programs must take implementation quirks that were used with legacy SoundFonts and translate them into the equivalent functions in SFe (if implemented) to the maximum extent possible. (Update 11)
+If an SFe bank uses an `isng` value of `SFe 4`, then programs must disable implementation quirks that were used with legacy SoundFonts. When converting legacy SoundFonts to SFe banks, programs must take implementation quirks that were used with legacy SoundFonts and translate them into the equivalent functions in SFe (if implemented) to the maximum extent possible. (since 4.0.11)
 
 ### 10.1.5 Generators and modulators
 
@@ -45,7 +45,7 @@ If the `iver` value is below `2.1024`, and the `isng` value is equal to `EMU8000
 
 If the `iver` value is `2.04` or below, ignore the whole modulator structure if a reserved source type is found.
 
-While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions. (Update 21)
+While default modulators 1-4 are not used in SFe 4.0, SFe programs must still use them for older versions. (since 4.0.21)
 
 - If the `iver` value is `2.04`, use the SF2.04 version of the Default Modulator 2 (optional).
 - If the `iver` value is `2.01`, use the SF2.01 version of the Default Modulator 2 (optional).
@@ -62,9 +62,9 @@ Legacy SF players may halt on undefined chunks. Section 10.2 of `SFSPEC21.PDF` a
 
 Legacy SF players may halt on unknown enums, which goes against the legacy SF2.04 specification. However, at least some legacy sound cards do not error out on an unknown enum.
 
-The base preset fallback implementation in section 8.8 is designed to work with almost any `byBankMSB` and `byBankLSB` structure, including missing presets. However, this implementation may be too complicated, and players compatible with SFe 4.0 levels 1 to 3 may use a simpler system to implement base preset fallback. (Update 3)
+The base preset fallback implementation in section 8.8 is designed to work with almost any `byBankMSB` and `byBankLSB` structure, including missing presets. However, this implementation may be too complicated, and players compatible with SFe 4.0 levels 1 to 3 may use a simpler system to implement base preset fallback. (since 4.0.3)
 
-### 10.1.7 xdta-list sub-chunk (Update 16)
+### 10.1.7 xdta-list sub-chunk (since 4.0.16)
 
 The sub-chunks nested inside the `xdta-list` sub-chunk use the exact same structure and rules as their `pdta-list` counterparts, allowing the reuse of `pdta-list` parsers with minimal changes.
 
@@ -74,7 +74,7 @@ Software may copy `pdta-list` values into `xdta-list`, but values must be handle
 
 ## 10.2 Sample compatibility
 
-### 10.2.1 SFe Compression and uncompressed containerised mode (Update 9)
+### 10.2.1 SFe Compression and uncompressed containerised mode (since 4.0.9)
 
 Support for the uncompressed containerised mode is a requirement for SFe Compression compatibility, because it uses the same features as SFe Compression except uncompressed samples instead of compressed ones.
 
@@ -82,13 +82,13 @@ If a player doesn't support certain sample parameters that it finds inside the c
 
 While the legacy Werner SF3 method of combining compressed and uncompressed samples is deprecated, support for this method is required for SFe Compression compatibility to ensure that all Werner SF3 banks work properly. Official support for non-containerised samples will be removed in a future SFe version, but can be kept in to ensure compatibility with legacy SF2.0x.
 
-### 10.2.2 Legacy sdta structure modes (Update 8)
+### 10.2.2 Legacy sdta structure modes (since 4.0.8)
 
 All players must implement legacy 16-bit mode.
 
-While legacy 24-bit mode support is optional, we recommend that if you implement 24-bit support for uncompressed containerised mode, then non-containerised 24-bit mode is implemented to ensure compatibility with legacy SF2.04 banks. This ensures that a player's 24-bit support is not limited to just SFe banks. This does not include SFe-only players, which are not currently permitted. (Update 9)
+While legacy 24-bit mode support is optional, we recommend that if you implement 24-bit support for uncompressed containerised mode, then non-containerised 24-bit mode is implemented to ensure compatibility with legacy SF2.04 banks. This ensures that a player's 24-bit support is not limited to just SFe banks. This does not include SFe-only players, which are not currently permitted. (since 4.0.9)
 
-Support for legacy structure modes is deprecated and will be removed in a future SFe version. SFe editors must save SFe files in a containerised format, and SFe converters must output a bank in a containerised format. (Update 10)
+Support for legacy structure modes is deprecated and will be removed in a future SFe version. SFe editors must save SFe files in a containerised format, and SFe converters must output a bank in a containerised format. (since 4.0.10)
 
 ### 10.2.3 ROM samples
 
@@ -96,4 +96,4 @@ ROM samples may still be used; therefore bit 16 should not be ignored.
 
 ### 10.2.4 Incompatible compression formats
 
-If an incompatible compression format is found, then the program may offer decompression of the incompatible file before use if you have permission from the original author of the compression formats. SF compression programs are notorious for restrictive licensing. (Updated in 4.0b)
+If an incompatible compression format is found, then the program may offer decompression of the incompatible file before use if you have permission from the original author of the compression formats. SF compression programs are notorious for restrictive licensing. (since 4.0.2)

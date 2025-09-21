@@ -194,7 +194,7 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 4: NRPN select LSB: 4 digits
 - Bit 5: NRPN select LSB: 5 digits
 
-#### 01:06 Default modulators (Update 21)
+#### 01:06 Default modulators (since 4.0.21)
 
 - Bit 1: MIDI note on to initial attenuation
 - Bit 2: MIDI note on to filter cutoff
@@ -278,6 +278,19 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 2: Opus
 - Bit 3: FLAC
 - Bit 4: WAV (containerised)
+
+#### 03:02 WAV container formats
+
+- Signed 16-bit PCM
+- Signed 24-bit PCM
+- Signed 32-bit PCM
+- Unsigned 8-bit PCM
+- Signed 8-bit PCM
+- 32-bit Float
+- 64-bit Float
+- ADPCM
+- U-law
+- A-law
 
 ### 6.2.6 Branch 04 Metadata upgrades
 

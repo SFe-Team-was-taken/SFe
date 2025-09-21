@@ -20,8 +20,8 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Total file size limit**        | System memory                                                                                        | At least 32 GiB                                                                                      | No limit                                                                                             | No limit                                                                                             |
 | **Multiple files**               | Optional                                                                                             | 8 or more                                                                                            | 256 or more                                                                                          | No limit                                                                                             |
 | **Legacy support**               | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01 and Werner SF3 <br>Playback: SF2.04                                             | Full quality: SF2.01, SF2.04 and Werner SF3                                                          | Full quality: SF2.01, SF2.04 and Werner SF3                                                          |
-| **Header support** (Update 5)    | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
-| **Sample containers** (Update 9) | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG, OPUS, FLAC  <br>Incompatible formats forbidden for write |
+| **Header support** (since 4.0.5)    | 32-bit static                                                                                        | 32-bit static                                                                                        | 32-bit static, 64-bit static                                                                         | 32-bit static, 64-bit static                                                                         |
+| **Sample containers** (since 4.0.9) | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG  <br>Incompatible formats forbidden for write             | SFe Compression/UCC  <br>Uncompressed, OGG, OPUS, FLAC  <br>Incompatible formats forbidden for write |
 | **File extension**               | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed | SFe: `.sf4` <br>SF2.0x: `.sf2`  <br>Werner SF3: `.sf3`  <br>Any other uncompressed format is allowed |
 | **Information/Metadata**         | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            | New chunks, feature flags                                                                            |
 
@@ -34,12 +34,12 @@ If an implementation is unable to reach the layering requirements without crashi
 | **8-bit samples**                            | Optional                                                  | Optional                                                  | Optional                                                  | Mandatory                                                 |
 | **Maximum individual sample length**         | 16,777,216 samples or greater                             | 4,294,967,296 samples or greater                          | 4,294,967,296 samples or greater                          | Based on chunk header type                                |
 | **Loop point sets**                          | 1                                                         | 1                                                         | 1                                                         | 1                                                         |
-| **Sample linking** (Update 5)                | Mono, Left/Right <br>Includes SFe Compression             | Mono, Left/Right, "Link"  <br>Includes SFe Compression    | Mono, Left/Right, "Link"  <br>Includes SFe Compression    | Mono, Left/Right, "Link"  <br>Includes SFe Compression    |
+| **Sample linking** (since 4.0.5)                | Mono, Left/Right <br>Includes SFe Compression             | Mono, Left/Right, "Link"  <br>Includes SFe Compression    | Mono, Left/Right, "Link"  <br>Includes SFe Compression    | Mono, Left/Right, "Link"  <br>Includes SFe Compression    |
 | **Number of channels**                       | Mono, Stereo\*                                            | Mono, Stereo\*                                            | Mono, Stereo\*                                            | Mono, Stereo\*                                            |
 | **Sample name length**                       | Display 8 characters  <br>Write 20 characters             | Display 20 characters  <br>Write 20 characters            | Display 20 characters  <br>Write 20 characters            | Display 20 characters  <br>Write 20 characters            |
-| **Sample compression algorithms** (Update 5) | WAV, OGG                                                  | WAV, OGG, FLAC                                            | WAV, OGG, OPUS, FLAC                                      | WAV, OGG, OPUS, FLAC                                      |
+| **Sample compression algorithms** (since 4.0.5) | WAV, OGG                                                  | WAV, OGG, FLAC                                            | WAV, OGG, OPUS, FLAC                                      | WAV, OGG, OPUS, FLAC                                      |
 
-\*Stereo samples are implemented as two mono samples linked together. (Update 9)
+\*Stereo samples are implemented as two mono samples linked together. (since 4.0.9)
 
 ### 11.1.3 Instrument specifications
 
@@ -73,7 +73,7 @@ If an implementation is unable to reach the layering requirements without crashi
 | **Control change 12/13/44/45**  <br>**Control change 16/17/18/19**  <br>**Control change 48/49/50/51**  <br>**Control change 80/81/82/83** | Mandatory                                                              | Mandatory                                                                | Mandatory                                                                | Mandatory                                                    |
 | **Control change 64/66/67**                                                                                                                | Mandatory                                                              | Mandatory                                                                | Mandatory                                                                | Mandatory                                                    |
 | **Control change 68/69**                                                                                                                   | Optional                                                               | Optional                                                                 | Mandatory                                                                | Mandatory                                                    |
-| **Control change 70/71/72/73/74**  <br>**Control change 75/76/77/78/79** (Update 21)                                                       | CC72 release time  <br>CC73 attack time  <br>CC74 brightness           | CC72 release time  <br>CC73 attack time  <br>CC74 brightness             | CC72 release time  <br>CC73 attack time  <br>CC74 brightness             | CC72 release time  <br>CC73 attack time  <br>CC74 brightness |
+| **Control change 70/71/72/73/74**  <br>**Control change 75/76/77/78/79** (since 4.0.21)                                                       | CC72 release time  <br>CC73 attack time  <br>CC74 brightness           | CC72 release time  <br>CC73 attack time  <br>CC74 brightness             | CC72 release time  <br>CC73 attack time  <br>CC74 brightness             | CC72 release time  <br>CC73 attack time  <br>CC74 brightness |
 | **Control change 91/93**                                                                                                                   | Reverb and chorus                                                      | Reverb and chorus                                                        | Reverb and chorus                                                        | Reverb and chorus                                            |
 | **Control change 92/94/95**                                                                                                                | GM1 level effects unit required                                        | GM1 level effects unit required                                          | GM1 level effects unit required                                          | GM1 level effects unit required                              |
 | **Control change 96/97/98**  <br>**Control change 99/100/101**                                                                             | Mandatory                                                              | Mandatory                                                                | Mandatory                                                                | Mandatory                                                    |
@@ -81,16 +81,16 @@ If an implementation is unable to reach the layering requirements without crashi
 | **GM1 reset**                                                                                                                              | Mandatory                                                              | Mandatory                                                                | Mandatory                                                                | Mandatory                                                    |
 | **SMF formats**                                                                                                                            | 0 and 1                                                                | 0 and 1                                                                  | 0, 1 and 2                                                               | Any                                                          |
 | **Number of channels**                                                                                                                     | 16 or greater                                                          | 16 or greater                                                            | 64 or greater                                                            | No limit                                                     |
-| **ROM emulator** (Update 5)                                                                                                                | ROM sample support or emulator optional                                | ROM sample support or emulator optional                                  | ROM sample support or emulator optional                                  | ROM sample support or emulator optional                      |
+| **ROM emulator** (since 4.0.5)                                                                                                                | ROM sample support or emulator optional                                | ROM sample support or emulator optional                                  | ROM sample support or emulator optional                                  | ROM sample support or emulator optional                      |
 
 ## 11.2 Converting between legacy SF and SFe
 
 ### 11.2.1 Conversion from legacy SF2.04 to SFe
 
 - Upgrade the `ifil` version in the header from `wMajor=2`, `wMinor=4` to `wMajor=2`, `wMinor=1024`.
-- Overwrite the `isng` value with `SFe 4`. (Update 11)
-- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe standard"`, `SFvx = 4, 0, Final, 0, "4.0u12"`, `flag` corresponding to features used in the bank. (Update 12)
-- Automatically modify the bank to take into account any of the program's implementation quirks (if applicable). (Update 11)
+- Overwrite the `isng` value with `SFe 4`. (since 4.0.11)
+- Create an `ISFe-list` sub-chunk with information: `SFty = "SFe standard"`, `SFvx = 4, 0, Final, 0, "4.0u12"`, `flag` corresponding to features used in the bank. (since 4.0.12)
+- Automatically modify the bank to take into account any of the program's implementation quirks (if applicable). (since 4.0.11)
 
 ### 11.2.2 Conversion from SFe to legacy SF2.04
 
@@ -112,14 +112,14 @@ If an implementation is unable to reach the layering requirements without crashi
 
 ## 11.3 Converting between chunk header types
 
-### 11.3.1 Conversion of 32-bit static to 64-bit static (Update 17)
+### 11.3.1 Conversion of 32-bit static to 64-bit static (since 4.0.17)
 
 - Replace `RIFF` with `RIFS`.
 - Convert all `ckSize` values to 8 bytes.
 - Replace `sfbk` with `sfen`.
 - Upgrade the `ifil` version in the header to `wMajor=4`.
 
-### 11.3.2 Conversion of 64-bit static to 32-bit static (Update 17)
+### 11.3.2 Conversion of 64-bit static to 32-bit static (since 4.0.17)
 
 - Make sure file size does not exceed 4GiB.
 - Replace `RIFS` with `RIFF`.
@@ -322,7 +322,7 @@ If features or feature flags from a newer `ifil` or `SFvx` version of SFe are fo
 
 #### Incompatible compression errors
 
-If an incompatible compression format is supported by the SFe program, then it should be decompressed and automatically recompressed into a lossless format using SFe Compression. (Updated in 4.0b)
+If an incompatible compression format is supported by the SFe program, then it should be decompressed and automatically recompressed into a lossless format using SFe Compression. (since 4.0.2)
 
 #### wPreset value errors
 
@@ -358,7 +358,7 @@ Automatic repair is intended to be part of SFe players. It is an aid to help SFe
 
 Automatic repair fixes structural defects in SFe and legacy SF2.04 banks seamlessly and transparently. It should automatically repair all Structurally Unsound errors listed in section 11.4.1 except for compressed sample errors and anything that requires user input.
 
-It should also repair all non-critical errors listed in section 11.4.2 except for compression errors, `wPreset` value errors, file size limit errors and anything that requires user input. The repair of incompatible compression errors is optional and contingent on support for such formats. (Updated in 4.0b)
+It should also repair all non-critical errors listed in section 11.4.2 except for compression errors, `wPreset` value errors, file size limit errors and anything that requires user input. The repair of incompatible compression errors is optional and contingent on support for such formats. (since 4.0.2)
 
 The program developers are allowed to use any repair strategy listed in section 11.4.
 
@@ -414,7 +414,7 @@ You must correctly set up your banks to ensure that they run properly; do not us
 
 - The header should be `RIFF` and `sfbk` with 32-bit chunk headers to preserve legacy SF2.0x compatibility.
 - 32-bit only programs should recognise 64-bit chunk headers and give an error.
-- The header should be `RIFS` and `sfen` with 64-bit chunk headers. (Update 17)
+- The header should be `RIFS` and `sfen` with 64-bit chunk headers. (since 4.0.17)
 - All programs that support 64-bit chunk headers must also support 32-bit chunk headers.
 
 ### 11.5.7 Sample Compression
