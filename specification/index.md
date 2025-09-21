@@ -1,6 +1,6 @@
 # SF-enhanced 4 Specification
 
-## Machine-readable version (Markdown) - 4.0 Update 21
+## Version 4.0.22
 
 ### Copyright notice
 

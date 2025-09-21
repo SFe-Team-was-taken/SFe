@@ -2,14 +2,14 @@
 
 ## 3.1 Specification Versioning
 
-Final specifications have version numbers in the format x.yuz, where x, y and z are numbers, and u is the letter "u":
+Final specifications have version numbers in the format x.y.z, where x, y and z are numbers, and u is the letter "u":
 
 - x is incremented when a change in the SFe format is made in a way that makes the resulting files incompatible with the previous version.
 - y is incremented when there are new features added to the SFe format.
 - SFe should not skip "y" versions.
 - u (update) is incremented when there are small changes made to the specification. The first version won't include a "u" in its version number.
 - Release candidates have very similar version numbers to final specifications, but include "rc" between y and "u".
-- An example of a final specification version would be 4.0u3.
+- An example of a final specification version would be 4.0.22.
 
 <img title="Figure 1" src="../figures/figure_1.png" alt="SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in 'L' versions. Later 'y' versions are compatible with earlier players but with reduced sound quality.">
 
@@ -19,10 +19,10 @@ Figure 1: SFe 4.x versions are compatible with legacy players but with reduced s
 
 Figure 2: SFe "x" versions are not compatible with each other, but can be converted, resulting in reduced sound quality. Compatibility layers can be added to newer players to use older banks. It is also possible to upgrade banks to newer versions.
 
-Draft specification milestones have version numbers in the format `x.ydzua`, where `x, y, z` and `a` are numbers and d and u are the letters "d" and "u". In this case, the versioning works similarly to a final specification, but with these changes:
+Draft specification milestones have version numbers in the format `x.ydz.a`, where `x, y, z` and `a` are numbers and d and u are the letter "d". In this case, the versioning works similarly to a final specification, but with these changes:
 
 - `z` is incremented when the draft undergoes a larger change, or large updates are made to the software.
-- `a` is incremented when there are small changes, but only when pointed out by others. The first version will not include a or a "u" in its version number.
+- `a` is incremented when there are small changes, but only when pointed out by others. The first version will not include a or a "." in its version number.
 - An example of a draft specification version would be 4.1d1.
 
 During the development of specifications, version numbers will be in the format `x.y.aaaabbccL`, where x, y, z, a, b and c are numbers, and L is a letter. The versioning is similar to final specifications and milestone drafts, but `aaaabbcc` is the day in which the specification was updated, and L is incremented when updated.

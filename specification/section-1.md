@@ -11,30 +11,31 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 ## 1.2 Changelog
 
-| Revision | Date             | Description                                                                                                                           |
-|----------|------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| 4.0u21   | 14 July 2025     | Default modulator update                                                                                                              |
-| 4.0u20   | 8 July 2025      | Versioning change                                                                                                                     |
-| 4.0u19   | 6 July 2025      | Made it clearer that samples need to be containerised!                                                                                |
-| 4.0u18   | 30 June 2025     | Fix typo                                                                                                                              |
-| 4.0u17   | 27 June 2025     | RIFF64 headers replaced with simpler RIFS format                                                                                      | 
-| 4.0u16   | 27 June 2025     | Added xdta-list subchunk <br> SFe Compression update                                                                                  |
-| 4.0u15   | 18 June 2025     | Added DMOD subchunk                                                                                                                   |
-| 4.0u14   | 15 June 2025     | Information on compression has been updated <br> sfSampleType information rewritten                                                   |
-| 4.0u13   | 21 April 2025    | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                         |
-| 4.0u12   | 10 April 2025    | Made changes in SFty values                                                                                                           |
-| 4.0u11   | 5 April 2025     | Simplified the isng chunk implementation                                                                                              |
-| 4.0u10   | 3 April 2025     | Further restricted the use of non-containerised sdta formats.                                                                         |
-| 4.0u9    | 3 April 2025     | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link |
-| 4.0u8    | 1 April 2025     | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes    |
-| 4.0u7    | 25 February 2025 | Added names of two new SFe Team members                                                                                               |
-| 4.0u6    | 24 February 2025 | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data   |
-| 4.0u5    | 20 February 2025 | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional         |
-| 4.0u4    | 20 February 2025 | Removed a name from special thanks on request                                                                                         |
-| 4.0u3    | 9 February 2025  | Improved the base preset fallback implementation <br> Versioning changes                                                              |
-| 4.0b     | 9 February 2025  | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression"                                       |
-| 4.0a     | 8 February 2025  | A few clarifications                                                                                                                  |
-| 4.0      | 8 February 2025  | n/a                                                                                                                                   |
+| Revision | Date              | Description                                                                                                                           |
+|----------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| 4.0.22   | 21 September 2025 | Sample containerisation update <br> Versioning update                                                                                 |
+| 4.0.21   | 14 July 2025      | Default modulator update                                                                                                              |
+| 4.0.20   | 8 July 2025       | Versioning change                                                                                                                     |
+| 4.0.19   | 6 July 2025       | Made it clearer that samples need to be containerised!                                                                                |
+| 4.0.18   | 30 June 2025      | Fix typo                                                                                                                              |
+| 4.0.17   | 27 June 2025      | RIFF64 headers replaced with simpler RIFS format                                                                                      | 
+| 4.0.16   | 27 June 2025      | Added xdta-list subchunk <br> SFe Compression update                                                                                  |
+| 4.0.15   | 18 June 2025      | Added DMOD subchunk                                                                                                                   |
+| 4.0.14   | 15 June 2025      | Information on compression has been updated <br> sfSampleType information rewritten                                                   |
+| 4.0.13   | 21 April 2025     | Clarified that the ISFe chunks are nested inside of ISFe-list                                                                         |
+| 4.0.12   | 10 April 2025     | Made changes in SFty values                                                                                                           |
+| 4.0.11   | 5 April 2025      | Simplified the isng chunk implementation                                                                                              |
+| 4.0.10   | 3 April 2025      | Further restricted the use of non-containerised sdta formats.                                                                         |
+| 4.0.9    | 3 April 2025      | Renamed USDP mode to UCC mode <br> Made a few other clarifications about sdta structure modes and stereo samples <br> Fixed dead link |
+| 4.0.8    | 1 April 2025      | Removed sm32 and old 8-bit mode <br> 64-bit ifil versions now equal specification versions <br> Added info on sdta structure modes    |
+| 4.0.7    | 25 February 2025  | Added names of two new SFe Team members                                                                                               |
+| 4.0.6    | 24 February 2025  | SFe Compression no longer supports MP3 as a compression format <br> Clarified difference between wav in container and raw wave data   |
+| 4.0.5    | 20 February 2025  | Removed RIFX <br> Limited compatible compression formats <br> Simplified base preset fallback <br> SiliconSFe is now optional         |
+| 4.0.4    | 20 February 2025  | Removed a name from special thanks on request                                                                                         |
+| 4.0.3    | 9 February 2025   | Improved the base preset fallback implementation <br> Versioning changes                                                              |
+| 4.0.2    | 9 February 2025   | Added base preset fallback <br> Renamed "proprietary compression" to "incompatible compression"                                       |
+| 4.0.1    | 8 February 2025   | A few clarifications                                                                                                                  |
+| 4.0      | 8 February 2025   | Initial release                                                                                                                       |
 
 For draft specification revision history, see [draft revision history.](../draft-revision-history.md)
 

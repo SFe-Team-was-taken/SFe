@@ -269,7 +269,7 @@ Assume `Final` if contents are unknown.
 
 The `WORD` value `wSFeDraftMilestone` contains the draft specification milestone or release candidate number that a bank was created to. This varies depending on the value of `achSFeSpecType`.
 
-The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0u3`.
+The case-sensitive UTF-8 character field `achSFeFullVersion` contains the full version string of the specification used, for example `4.0.22`.
 
 If the `SFvx` sub-chunk is missing or of an incorrect size, assume these values:
 
@@ -458,7 +458,7 @@ This sub-chunk will now be present in most SFe files, as there is likely to be n
 - Before saving, SFe editors should insert this leeway. Otherwise, they might give a warning telling the user that loop and interpolation quality may be affected.
 - If ROM samples are detected in SFe files, attempt to load them, even if this sub-chunk is missing.
 - If this sub-chunk is missing, and no ROM samples are found, show a suitable error message.
-- This sub-chunk requires containerisation with SFe files, but can use non-containerised samples in legacy SF2.0x. (Update 20)
+- All new SFe sample format features require containerisation, which works in the same way as WernerSF3. (Update 22)
 
 ### 5.7.2 About sdta structure modes (Update 19)
 
@@ -469,9 +469,9 @@ In this specification, four different types of sample data structures are descri
 - Legacy 24-bit (sm24) mode (non-containerised)
 - Legacy 16-bit mode (non-containerised)
 
-Only containerised modes are allowed in SFe 4 banks. Programs must write containerised samples with no exceptions.
+To access the advanced SFe sample format modes, containerised samples are required. 
 
-Non-containerised modes are described here only for legacy SF2.0x compatibility.
+Non-containerised modes are described here for legacy SF2.0x compatibility and to allow the use of SFe instrument and preset features while preserving legacy player support. (Update 22)
 
 ### 5.7.3 Containerised modes (Update 9)
 
@@ -481,7 +481,7 @@ Containerised sample data structure modes use containerisation, which is where e
 
 Such containers include information such as sample rate, bit depth, compression format used, audio information and more. These are already used by the earlier [Werner SF3](https://github.com/FluidSynth/fluidsynth/wiki/SoundFont3Format) system widely used by the open source community, to store information about compression that a Werner SF3-compatible player could use to decompress the sample.
 
-Containerised modes provide many other advantages such as variable bit depths, conserving sample quality while reducing wasted space, and detailed sample data can also be included directly. Because of said advantages, containerised samples are mandatory for use with all programs that output files in the SFe 4 format. (Update 19)
+Containerised modes provide many other advantages such as variable bit depths, conserving sample quality while reducing wasted space, and detailed sample data can also be included directly. Because of said advantages, containerised samples are mandatory for all samples except for uncompressed samples. (Update 22)
 
 [Diagram goes here]
 
@@ -499,7 +499,7 @@ The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value o
 
 However, containerised samples in an SFe bank may continue to use an `wMajor` value of 2. (Update 20)
 
-#### sfSampleType in shdr sub-chunk (Update 16)
+#### sfSampleType in shdr sub-chunk (Update 22)
 
 Bit 5 of the `sfSampleType` field indicates a containerised sample that is not necessarily compressed. This is used to retain backwards compatibility with Werner SF3.
 
@@ -580,13 +580,11 @@ The only supported compression system for SFe is the Werner SF3-compatible SFe C
 
 ### 5.7.4 Non-containerised modes (Update 9)
 
-The legacy non-containerised 16-bit and 24-bit modes were used in the legacy SoundFont format, but should never be used for SFe banks. (Update 19)
+The legacy non-containerised 16-bit and 24-bit modes were used in the legacy SoundFont format. You can still create SFe banks using these formats, but new sample format features are not usable. (Update 22)
 
 If the `ifil` version is `2.04` or greater, and there an `sm24` sub-chunk is present, then the `sdta` structure mode is legacy 24-bit (`sm24`) mode. Legacy 24-bit mode can only function with uncompressed samples due to the segmented structure of samples stored in this way, and we strongly recommend against using legacy 24-bit mode, because containerisation support is a requirement for SFe level 1 and is easier to work with. (Update 9)
 
 Note that if the `ifil` version is below `2.04` (signifying legacy SF2.01 or earlier), then the `sdta` structure mode is legacy 16-bit mode, and `sm24` is ignored.
-
-In an SFe 4 bank, non-containerised modes can either be rejected as Structurally Unsound, or can optionally be read (if the program supports legacy SF2.0x). Programs must not write non-containerised samples into SFe 4 banks. (Update 19)
 
 ### 5.7.5 Looping rules
 
