@@ -2,13 +2,13 @@
 
 ## 3.1 Specification Versioning
 
-Final specifications have version numbers in the format x.y.z, where x, y and z are numbers, and u is the letter "u":
+Final specifications have version numbers in the format x.y.z, where x, y and z are numbers:
 
 - x is incremented when a change in the SFe format is made in a way that makes the resulting files incompatible with the previous version.
 - y is incremented when there are new features added to the SFe format.
 - SFe should not skip "y" versions.
-- u (update) is incremented when there are small changes made to the specification. The first version won't include a "u" in its version number.
-- Release candidates have very similar version numbers to final specifications, but include "rc" between y and "u".
+- z is incremented when there are small changes made to the specification.
+- Release candidates have very similar version numbers to final specifications, but include "rc" between y and z.
 - An example of a final specification version would be 4.0.22.
 
 <img title="Figure 1" src="../figures/figure_1.png" alt="SFe 4.x versions are compatible with legacy players but with reduced sound quality. No changes are made to actual file structure in 'L' versions. Later 'y' versions are compatible with earlier players but with reduced sound quality.">
