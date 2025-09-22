@@ -12,7 +12,7 @@ Our code of conduct is very simple:
 - **When working with other projects, please work constructively.**
 - Don't do anything illegal, inappropriate, or otherwise objectionable.
 - We aren't affiliated with Creative, please don't claim that we are.
-- Please refrain from using AI tools to generate text or images.
+- Please refrain from using AI tools to generate text, images or code.
 - Feature removal is considered vandalism.
 - Don't make unsolicited requests for audio samples.
 
