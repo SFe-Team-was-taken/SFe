@@ -239,31 +239,52 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 4: Reserved
 - Bit 5: Reserved
 
-### 6.2.4 Branch 02 Sample bitdepth support
+### 6.2.4 Branch 02 Sample bitdepth and WAV support (since 4.0.24)
 
 #### 02:00 24-bit support
 
-- Bit 1 off, bit 2 off: No support
-- Bit 1 on, bit 2 off: Read support only
-- Bit 1 on, bit 2 on: Playback support
+- Bit 1 off, bit 2 off: No legacy SF2.04 support
+- Bit 1 on, bit 2 off: Legacy SF2.04 read support only
+- Bit 1 on, bit 2 on: Legacy SF2.04 playback support
+- Bit 3 off, bit 4 off: No WAV container support
+- Bit 3 on, bit 4 off: WAV container read support only
+- Bit 3 on, bit 4 on: WAV container playback support
 
 #### 02:01 8-bit support
 
-- Bit 1 off, bit 2 off: No support
-- Bit 1 on, bit 2 off: Read support only
-- Bit 1 on, bit 2 on: Playback support
+- Bit 1 off, bit 2 off: No unsigned support 
+- Bit 1 on, bit 2 off: Unsigned read support only
+- Bit 1 on, bit 2 on: Unsigned playback support
+- Bit 3 off, bit 4 off: No signed support
+- Bit 3 on, bit 4 off: Signed read support only
+- Bit 3 on, bit 4 on: Signed playback support
 
 #### 02:02 32-bit support
 
-- Bit 1 off, bit 2 off: No support
-- Bit 1 on, bit 2 off: Read support only
-- Bit 1 on, bit 2 on: Playback support
+- Bit 1 off, bit 2 off: No PCM support
+- Bit 1 on, bit 2 off: PCM read support only
+- Bit 1 on, bit 2 on: PCM playback support
+- Bit 3 off, bit 4 off: No float support
+- Bit 3 on, bit 4 off: Float read support only
+- Bit 3 on, bit 4 on: Float playback support
 
 #### 02:03 64-bit support
 
 - Bit 1 off, bit 2 off: No support
 - Bit 1 on, bit 2 off: Read support only
 - Bit 1 on, bit 2 on: Playback support
+
+#### 02:04 WAV container support
+
+- Bit 1 off, bit 2 off: No ADPCM support
+- Bit 1 on, bit 2 off: ADPCM read support only
+- Bit 1 on, bit 2 on: ADPCM playback support
+- Bit 3 off, bit 4 off: No U-law support
+- Bit 3 on, bit 4 off: U-law read support only
+- Bit 3 on, bit 4 on: U-law playback support
+- Bit 5 off, bit 6 off: No A-law support
+- Bit 5 on, bit 6 off: A-law read support only
+- Bit 5 on, bit 6 on: A-law playback support
 
 ### 6.2.5 Branch 03 SFe Compression support
 
@@ -278,19 +299,6 @@ Figure 12: The tree structure of the feature flags system.
 - Bit 2: Opus
 - Bit 3: FLAC
 - Bit 4: WAV (containerised)
-
-#### 03:02 WAV container formats
-
-- Signed 16-bit PCM
-- Signed 24-bit PCM
-- Signed 32-bit PCM
-- Unsigned 8-bit PCM
-- Signed 8-bit PCM
-- 32-bit Float
-- 64-bit Float
-- ADPCM
-- U-law
-- A-law
 
 ### 6.2.6 Branch 04 Metadata upgrades
 
