@@ -27,6 +27,7 @@
     margin-left: 10px;
     margin-right: 10px;
     backdrop-filter: blur(0.3em);
+    background: linear-gradient(var(--md-primary-fg-color--light), var(--md-primary-fg-color--dark));
 }
 
 .md-footer {
@@ -40,6 +41,7 @@
 .md-top {
     background-color: var(--md-primary-fg-color);
     backdrop-filter: blur(0.3em);
+    background: linear-gradient(var(--md-primary-fg-color--light), var(--md-primary-fg-color--dark));
 }
 
 .md-top:hover {
@@ -47,11 +49,13 @@
     backdrop-filter: blur(1em);
     color: teal;
     font-weight: 700;
+    background: linear-gradient(var(--md-primary-fg-color), var(--md-primary-bg-color--light));
 }
 
 .md-top:focus {
     background-color: var(--md-primary-fg-color);
     backdrop-filter: blur(0.3em);
+    background: linear-gradient(var(--md-primary-fg-color), var(--md-primary-bg-color--light));
 }
 
 .md-typeset code {
@@ -84,12 +88,14 @@
     --md-default-fg-color--light: #222222ff;
     --md-primary-fg-color: #90ee907f;
     --md-primary-bg-color: teal;
-    --md-primary-fg-color--light: #a8d7a87f;
-    --md-primary-fg-color--dark: #60ce807f;
+    --md-primary-bg-color--light: #00ff9fff;
+    --md-primary-bg-color--dark: #003f3fff;
+    --md-primary-fg-color--light: #a8ffa87f;
+    --md-primary-fg-color--dark: #60e0807f;
     --md-accent-fg-color: #60ce80ff;
     --md-accent-bg-color: #60ce80ff;
-    --md-accent-fg-color--light: #60ce80ff;
-    --md-accent-fg-color--dark: #60ce80ff;
+    --md-accent-fg-color--light: #60e080ff;
+    --md-accent-fg-color--dark: #60e080ff;
     --md-footer-bg-color: #90ee907f;
     --md-footer-bg-color--dark: #00000000;
     --md-footer-fg-color: teal;
@@ -107,8 +113,10 @@
     --md-default-fg-color--light: #ffffffff;
     --md-primary-fg-color: #90ee907f;
     --md-primary-bg-color: #bfffcfff;
-    --md-primary-fg-color--light: #a8d7a87f;
-    --md-primary-fg-color--dark: #60ce807f;
+    --md-primary-bg-color--light: #cfffdfff;
+    --md-primary-bg-color--dark: #8fffafff;
+    --md-primary-fg-color--light: #a8ffa87f;
+    --md-primary-fg-color--dark: #60e0807f;
     --md-accent-fg-color: teal;
     --md-accent-bg-color: teal;
     --md-accent-fg-color--light: teal;
