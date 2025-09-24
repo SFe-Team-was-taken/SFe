@@ -67,7 +67,11 @@ If the `wPreset` value cannot be matched, then the first preset value that is av
 
 This behavior might change in future versions, so please take the `ifil` value, and later versions of this specification, into account. (since 4.0.3)
 
-## 8.9 Illegal parameter values, out of range values, missing required items and illegal enumerators
+## 8.9 UTF-8 errors (since 4.0.25)
+
+Because SFe uses UTF-8, there may be some circumstances where UTF-8 fields will be invalid. In this case, replace the invalid characters with replacement characters.
+
+## 8.10 Illegal parameter values, out of range values, missing required items and illegal enumerators
 
 These are handled as in legacy SF2.04.
 

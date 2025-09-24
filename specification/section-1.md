@@ -13,6 +13,7 @@ The SFe standard has been created to provide a successor to E-mu Systems®'s Sou
 
 | Revision | Date              | Description                                                                                                                           |
 |----------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| 4.0.25   | 24 September 2025 | Added guidance on UTF-8 errors <br> Renamed some sfSampleType enums <br> Few other formatting changes                                 |
 | 4.0.24   | 23 September 2025 | New feature flags for WAV containers!                                                                                                 |
 | 4.0.23   | 21 September 2025 | New member of SFe Team added! <br> Another versioning update <br> Further sample containerisation clarification                       | 
 | 4.0.22   | 21 September 2025 | Sample containerisation update <br> Versioning update                                                                                 |

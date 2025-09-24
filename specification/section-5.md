@@ -153,13 +153,11 @@ The value of `wMinor` increases every time a change is made to the `SFvx` sub-ch
 
 The specification type used is found in the `ISFe-list` sub-chunk.
 
-### 5.6.3 Specification versions to ifil values
+### 5.6.3 Specification versions to ifil values (since 4.0.8)
 
 | wSFeSpecMajorVersion | wSFeSpecMinorVersion | ifil (wMajor)                               | ifil (wMinor)                             |
 |----------------------|----------------------|---------------------------------------------|-------------------------------------------|
 | 4                    | 0                    | 2 or 3 (32-bit header)<br>4 (64-bit header) | 1024 (32-bit header)<br>0 (64-bit header) |
-
-(Changed for Update 8)
 
 ### 5.6.4 isng sub-chunk
 
@@ -810,7 +808,7 @@ Therefore, the specification for `sfSampleType` discourages the use of fixed enu
 
 Note that all unused bits are reserved and should not be used by SFe implementations.
 
-### List of valid sfSampleType values (since 4.0.16)
+### List of valid sfSampleType values (since 4.0.25)
 
 | Value | Name                  | Description                                     |
 |-------|-----------------------|-------------------------------------------------|
@@ -818,9 +816,9 @@ Note that all unused bits are reserved and should not be used by SFe implementat
 | 2     | `rightSample`         | Right part of a stereo sample                   |
 | 4     | `leftSample`          | Left part of a stereo sample                    |
 | 8     | `linkedSample`        | Linked sample                                   |
-| 17    | `vorbisMonoSample`    | Mono sample compressed with OGG Vorbis          |
-| 49    | `flacMonoSample`      | Mono sample compressed with FLAC                |
-| 81    | `opusMonoSample`      | Mono sample compressed with Opus                |
+| 17    | `vorbisSample`        | Mono sample compressed with OGG Vorbis          |
+| 49    | `flacSample`          | Mono sample compressed with FLAC                |
+| 81    | `opusSample`          | Mono sample compressed with Opus                |
 | 113   | `wavMonoSample`       | WAV containerised mono sample                   |
 | 114   | `wavRightSample`      | WAV containerised right part of a stereo sample |
 | 116   | `wavLeftSample`       | WAV containerised left part of a stereo sample  |
@@ -829,17 +827,15 @@ Note that all unused bits are reserved and should not be used by SFe implementat
 | 32770 | `RomRightSample`      | `rightSample` stored in ROM                     | 
 | 32772 | `RomLeftSample`       | `leftSample` stored in ROM                      |
 | 32776 | `RomLinkedSample`     | `linkedSample` stored in ROM                    |
-| 32785 | `RomVorbisMonoSample` | `vorbisMonoSample` stored in ROM                |
-| 32817 | `RomFlacMonoSample`   | `flacMonoSample` stored in ROM                  |
-| 32849 | `RomOpusMonoSample`   | `opusMonoSample` stored in ROM                  |
+| 32785 | `RomVorbisSample`     | `vorbisSample` stored in ROM                    |
+| 32817 | `RomFlacSample`       | `flacSample` stored in ROM                      |
+| 32849 | `RomOpusSample`       | `opusSample` stored in ROM                      |
 | 32881 | `RomWavMonoSample`    | `wavMonoSample` stored in ROM                   |
 | 32882 | `RomWavRightSample`   | `wavRightSample` stored in ROM                  |
 | 32884 | `RomWavLeftSample`    | `wavLeftSample` stored in ROM                   |
 | 32888 | `RomWavLinkedSample`  | `wavLinkedSample` stored in ROM                 |
 
 All other values are invalid.
-
-Note that SFe 4 does not permit the use of non-containerised samples, so corresponding values are used only for legacy SF2.04 support.
 
 #### shdr in xdta-list (since 4.0.16)
 

@@ -10,7 +10,7 @@
 
 **Members:**
 
-- sylvia-leaf (they/them) | Discord - @tanukilvia | Email - [sylvialeaf6284@gmail.com](mailto:sylvialeaf6284@gmail.com)
+- sylvia-leaf (they/she) | Discord - @tanukilvia | Email - [sylvialeaf6284@gmail.com](mailto:sylvialeaf6284@gmail.com)
 - stgiga (they/them) | Discord - @stgiga | Email - [stgigamovement@yahoo.com](mailto:stgigamovement@yahoo.com)
 - spessasus - Email - [spesekspesek@gmail.com](mailto:spesekspesek@gmail.com)
 - davy7125
