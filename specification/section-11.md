@@ -288,7 +288,7 @@ Unknown `sfGenOper` values should be corrected to a value given by the user. Mod
 
 #### SHDR sub-chunk errors
 
-If the sample rate is zero, then it should be corrected automatically to the correct value via automatic pitch detection and then highlighted for the user to verify. Bad original pitch values should be corrected to the value with automatic pitch detection. Non-zero `wSampleLink` values should be set to zero if SFe Compression is in use.
+If the sample rate is zero, then it should be corrected automatically to the correct value via automatic pitch detection and then highlighted for the user to verify. Bad original pitch values should be corrected to the value with automatic pitch detection.
 
 You should not edit the sample rate unless it is zero.
 

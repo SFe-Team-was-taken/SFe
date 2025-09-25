@@ -500,24 +500,13 @@ Uncompressed containerised mode provides the containerisation of SFe Compression
 
 The `wMajor` value in the `ifil` sub-chunk is set to 3 instead of 2. The value of the `SFvx` sub-chunk remains unchanged. Therefore, SFe players should not use the `ifil` value to determine the SFe version, but rather the `SFvx` sub-chunk.
 
-However, containerised samples in an SFe bank may continue to use an `wMajor` value of 2. (since 4.0.20)
+If non-containerised samples are used, then `wMajor` remains 2. (since 4.0.27)
 
-#### sfSampleType in shdr sub-chunk (since 4.0.22)
+#### sfSampleType in shdr sub-chunk (since 4.0.27)
 
 Bit 5 of the `sfSampleType` field indicates a containerised sample that is not necessarily compressed. This is used to retain backwards compatibility with Werner SF3.
 
-Along with bit 5, SFe Compression defines other bits to help programs determine sample format:
-
-- Bit 6 clear, bit 7 clear: ogg (vorbis)
-- Bit 6 set, bit 7 clear: flac
-- Bit 6 set, bit 7 clear: opus
-- Bit 6 set, bit 7 set: wav
-
-This means that Werner SF3 banks work properly with SFe.
-
-Additionally, bit 8 can be used to force a player to detect the sample format used, as in WernerSF3. Bit 8 should only be used if the player can read formats beyond the supported compression formats below.
-
-Therefore, in uncompressed SFe banks, the typical `sfSampleType` values are increased by 112 compared with SF2.04 banks.
+In addition, the "left," "right" and "linked" flags can now be combined with the containerised sample flag.
 
 #### Supported containerisation formats for samples (since 4.0.22)
 
@@ -537,7 +526,7 @@ Wav files may be uncompressed or compressed. However, compressed wav files must 
 - Signed 8-bit PCM
 - 32-bit Float
 - 64-bit Float
-- ADPCM
+- IMA ADPCM
 - U-law
 - A-law
 
@@ -554,17 +543,24 @@ A sample is not valid if any of these conditions are not true. If a sample is no
 
 If a sample has more than one channel, then the first channel is taken. (since 4.0.19)
 
-#### Considerations for uncompressed (wav) samples
+#### Considerations for wav samples (since 4.0.27)
 
 For a wav sample to be valid:
 
-- the `wFormatTag` value must equal `1` (PCM Integer) or `3` (IEEE 754 Float)
+- the `wFormatTag` value must equal:
+    - `0x01` (PCM Integer - uncompressed)
+    - `0x03` (IEEE 754 Float - uncompressed)
+    - `0x06` (A-law - compressed)
+    - `0x07` (U-law - compressed)
+    - `0x11` (IMA ADPCM - compressed)
 - the sample must only have one channel.
 - the sample rates in the metadata and `dwSampleRate` must match.
 
 A sample is not valid if any of these conditions are not true. If a sample is not valid, then it should be ignored. (since 4.0.8)
 
-If a sample has more than one channel, then the first channel is taken. (since 4.0.19)
+If a sample has more than one channel, then the first channel is taken, or the channels are mixed. (since 4.0.27)
+
+Wav samples can be either uncompressed (PCM or float) or compressed (A-law, U-law and ADPCM). (since 4.0.27)
 
 #### Interpretation of sample data index fields in shdr sub-chunk
 
@@ -580,15 +576,9 @@ If bit 4 of the `sfSampleType` field is clear, then the sample data index fields
 
 You can use both compressed and uncompressed samples with SFe Compression. The preferred method of doing this is to use wav containers for uncompressed samples.
 
-The legacy Werner SF3 practice of placing uncompressed PCM samples at the beginning of the `smpl` sub-chunk before the compressed sample byte stream is still supported, but deprecated. Because each sample is compressed individually, the resulting byte streams of all encoded samples are written to the `smpl` sub-chunk. The `smpl` sub-chunk may also contain uncompressed little-endian PCM samples.
+The legacy Werner SF3 practice of placing uncompressed PCM samples at the beginning of the `smpl` sub-chunk before the compressed sample byte stream is still supported, but deprecated. Because each sample is compressed individually, the resulting byte streams of all encoded samples are written to the `smpl` sub-chunk. The `smpl` sub-chunk may also contain uncontainerised and uncompressed little-endian PCM samples. Not supporting legacy mixed containerisation does not affect SFe compatibility. (since 4.0.27)
 
 For compressed byte streams, it is not necessary to add forty-six zero-valued sample data points after each sample. The length of the `smpl` sub-chunk is not required to be a multiple of two for compressed banks, and its surrounding `LIST` chunk is also not padded to a multiple of two as a consequence.
-
-#### Sample links are not used in SFe Compression
-
-Sample links are not used in banks compressed with SFe Compression. The value of `wSampleLink` should be read and written as zero. This is because the file size of two compressed samples that have the same length (as used in linked samples) may differ. (since 4.0.9)
-
-However, when uncompressed samples are used, sample links are still usable. Therefore, stereo samples remain usable in uncompressed containerised mode. Please refer to section 5.7.6 for more information about using stereo samples. (since 4.0.9)
 
 #### Incompatible compression formats
 
