@@ -47,11 +47,11 @@ Here are a few things that are planned for SFe:
 - Polyphone 3 will be the first program that supports SFe. It will use it by default with legacy SF being an option. (Polyphone 2.5.x seems to be planned as an LTS release for legacy SF.)
 - Developers of Bassmidi-based programs have already provided feedback, and negotiations with more SF program developers such as FluidSynth will start soon.
 - For SFe 4.1, support for the `PNMM` sub-chunk will also be included, as well as Markdown support for `ICMT`.
-- A MIDI lyrics specification for MIDI players, along with Spessasus/Falcosoft RMIDI support, will become available in SFe 4.2. `xmod` support will be added to expand the 16-bit generators to 32-bit.
+- A MIDI lyrics specification for MIDI players, along with Spessasus/Falcosoft RMIDI support, will become available in SFe 4.2.
 - We will negotiate with the Synthfont author Kenneth Rundt about getting the Synthfont Custom Features added for SFe 4.2. Care has been taken to ensure that SFe parameter usage does not conflict with SFCF.
 
 ## 3.3 Long term support of SFe 4
 
-SFe 4 is a "long-term support" version, and will get feature updates along with later versions such as SFe 5. While this is the case, some features are structurally incompatible with legacy SF2.04, and will not be available in SFe 5.
+SFe 4 is a "long-term support" version, and will get feature updates along with later versions such as SFe 5. While this is the case, some features are structurally incompatible with legacy SF2.04, and will not be available in SFe 4.
 
 If an earlier major version of SFe is the main version used for a longer time than expected, then it can be declared as another LTS version. Such a LTS version will be declared in this section.

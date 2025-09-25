@@ -339,99 +339,102 @@ The default modulators list used by SFe 4.0 is similar to that of legacy SF2.04,
     - The use of the SF2.04 version of default modulator 2 is required.
     - However, you may use the SF2.01 version if a legacy SF2.01 bank is detected.
 - Default modulators 8 (MIDI CC91 to reverb effects send) and 9 (MIDI CC93 to chorus effects send) have an increased amount.
-    - Instead of 20.0%, 100.0% is used.
-    - You may use 20.0% when loading a legacy SF2.0x bank.
-- Default modulators 11-16 are added.
+    - Instead of `20.0%`, `100.0%` is used.
+    - You may optionally use `20.0%` when loading a legacy SF2.0x bank.
+- Default modulators 11-16 (described below) are added.
 
 #### Default Modulator 11 (MIDI poly pressure to vibrato LFO pitch depth)
 
-Source enumeration: 0x000a
-- type: 0 (linear)
-- polarity: 0 (unipolar)
-- direction: 0 (forward)
-- control change: 0 (false)
-- index: 10 (poly pressure)
-  Destination enumeration: vibrato LFO to pitch
-  Amount: 50 cents / max excursion
-  Amount source enumeration: 0x0 (no controller)
-  Transform enumeration: 0 (linear)
+Source enumeration: `0x000a`
+
+- type: `0` (linear)
+- polarity: `0` (unipolar)
+- direction: `0` (forward)
+- control change: `0` (false)
+- index: `10` (poly pressure)
+
+Destination enumeration: vibrato LFO to pitch
+  
+Amount: `50` cents / max excursion
+  
+Amount source enumeration: `0x0` (no controller)
+  
+Transform enumeration: `0` (linear)
 
 Same as default modulator 3 but for poly pressure.
 
 #### Default modulator 12 (MIDI CC92 to modulator LFO volume depth)
 
-Source enumeration: 0x00dc
-- type: 0 (linear)
-- polarity: 0 (unipolar)
-- direction: 0 (forward)
-- control change: 1 (true)
-- index: 92 (tremolo depth)
-  Destination enumeration: vibrato LFO to pitch
-  Amount: 24 cB
-  Amount source enumeration: 0x0 (no controller)
-  Transform enumeration: 0 (linear)
+- Source enumeration: `0x00dc`
+    - type: `0` (linear)
+    - polarity: `0` (unipolar)
+    - direction: `0` (forward)
+    - control change: `1` (true)
+    - index: `92` (tremolo depth)
+- Destination enumeration: vibrato LFO to pitch
+- Amount: `24` cB
+- Amount source enumeration: `0x0` (no controller)
+- Transform enumeration: `0` (linear)
 
 This implements the MIDI tremolo control change function.
 
 #### Default modulator 13 (MIDI CC73 to volume envelope attack)
 
-Source enumeration: 0x0ac9
-- type: 2 (convex)
-- polarity: 1 (bipolar)
-- direction: 0 (forward)
-- control change: 1 (true)
-- index: 73 (attack time)
-  Destination enumeration: volume envelope attack
-  Amount: 6000 timecents
-  Amount source enumeration: 0x0 (no controller)
-  Transform enumeration: 0 (linear)
+- Source enumeration: `0x0ac9`
+    - type: `2` (convex)
+    - polarity: `1` (bipolar)
+    - direction: `0` (forward)
+    - control change: `1` (true)
+    - index: `73` (attack time)
+- Destination enumeration: volume envelope attack
+- Amount: `6000` timecents
+- Amount source enumeration: `0x0` (no controller)
+- Transform enumeration: `0` (linear)
 
 This implements the MIDI attack time function.
 
 #### Default modulator 14 (MIDI CC72 to volume envelope attack)
 
-Source enumeration: 0x02c8
-- type: 0 (linear)
-- polarity: 1 (bipolar)
-- direction: 0 (forward)
-- control change: 1 (true)
-- index: 72 (release time)
-  Destination enumeration: volume envelope release
-  Amount: 3600 timecents
-  Amount source enumeration: 0x0 (no controller)
-  Transform enumeration: 0 (linear)
+- Source enumeration: `0x02c8`
+    - type: `0` (linear)
+    - polarity: `1` (bipolar)
+    - direction: `0` (forward)
+    - control change: `1` (true)
+    - index: `72` (release time)
 
-This implements the MIDI release time function.
+- Destination enumeration: volume envelope release
+- Amount: `3600` timecents
+- Amount source enumeration: `0x0` (no controller)
+- Transform enumeration: `0` (linear)
+- This implements the MIDI release time function.
 
 #### Default modulator 15 (MIDI CC74 to filter cutoff)
 
-Source enumeration: 0x02ca
-- type: 0 (linear)
-- polarity: 1 (bipolar)
-- direction: 0 (forward)
-- control change: 1 (true)
-- index: 74 (brightness)
-  Destination enumeration: filter cutoff
-  Amount: 6000 absolute cents
-  Amount source enumeration: 0x0 (no controller)
-  Transform enumeration: 0 (linear)
-
-This implements the MIDI brightness function.
+- Source enumeration: `0x02ca`
+    - type: `0` (linear)
+    - polarity: `1` (bipolar)
+    - direction: `0` (forward)
+    - control change: `1` (true)
+    - index: `74` (brightness)
+- Destination enumeration: filter cutoff
+- Amount: `6000` absolute cents
+- Amount source enumeration: `0x0` (no controller)
+- Transform enumeration: `0` (linear)
+- This implements the MIDI brightness function.
 
 #### Default modulator 16 (MIDI CC71 to filter resonance)
 
-Source enumeration: 0x02c7
-- type: 0 (linear)
-- polarity: 1 (bipolar)
-- direction: 0 (forward)
-- control change: 1 (true)
-- index: 71 (filter resonance)
-  Destination enumeration: filter resonance
-  Amount: 250 cB
-  Amount source enumeration: 0x0 (no controller)
-  Transform enumeration: 0 (linear)
-
-This implements the MIDI filter resonance function.
+- Source enumeration: `0x02c7`
+    - type: `0` (linear)
+    - polarity: `1` (bipolar)
+    - direction: `0` (forward)
+    - control change: `1` (true)
+    - index: `71` (filter resonance)
+- Destination enumeration: filter resonance
+- Amount: `250` cB
+- Amount source enumeration: `0x0` (no controller)
+- Transform enumeration: `0` (linear)
+- This implements the MIDI filter resonance function.
 
 ### 5.6.13 xdta-list sub-chunk (since 4.0.16)
 
@@ -608,7 +611,7 @@ Note that if the `ifil` version is below `2.04` (signifying legacy SF2.01 or ear
 
 For avoidance of doubt, stereo samples are implemented in the same way as in legacy SF2.04.
 
-This means that stereo samples cannot be directly used in SFe 4. Instead, two mono samples are to be linked together using `wSampleLink` to create a stereo sample, which is handled in the same way as in legacy SF2.04.
+This means that stereo samples cannot be directly used in containerised formats. Instead, two mono samples are to be linked together using `wSampleLink` to create a stereo sample, which is handled in the same way as in legacy SF2.04.
 
 ## 5.8 pdta-list chunk
 
@@ -808,32 +811,28 @@ Therefore, the specification for `sfSampleType` discourages the use of fixed enu
 
 Note that all unused bits are reserved and should not be used by SFe implementations.
 
-### List of valid sfSampleType values (since 4.0.25)
+### List of valid sfSampleType values (since 4.0.26)
 
-| Value | Name                  | Description                                     |
-|-------|-----------------------|-------------------------------------------------|
-| 1     | `monoSample`          | Mono sample                                     |
-| 2     | `rightSample`         | Right part of a stereo sample                   |
-| 4     | `leftSample`          | Left part of a stereo sample                    |
-| 8     | `linkedSample`        | Linked sample                                   |
-| 17    | `vorbisSample`        | Mono sample compressed with OGG Vorbis          |
-| 49    | `flacSample`          | Mono sample compressed with FLAC                |
-| 81    | `opusSample`          | Mono sample compressed with Opus                |
-| 113   | `wavMonoSample`       | WAV containerised mono sample                   |
-| 114   | `wavRightSample`      | WAV containerised right part of a stereo sample |
-| 116   | `wavLeftSample`       | WAV containerised left part of a stereo sample  |
-| 120   | `wavLinkedSample`     | WAV containerised linked sample                 |
-| 32769 | `RomMonoSample`       | `monoSample` stored in ROM                      |
-| 32770 | `RomRightSample`      | `rightSample` stored in ROM                     | 
-| 32772 | `RomLeftSample`       | `leftSample` stored in ROM                      |
-| 32776 | `RomLinkedSample`     | `linkedSample` stored in ROM                    |
-| 32785 | `RomVorbisSample`     | `vorbisSample` stored in ROM                    |
-| 32817 | `RomFlacSample`       | `flacSample` stored in ROM                      |
-| 32849 | `RomOpusSample`       | `opusSample` stored in ROM                      |
-| 32881 | `RomWavMonoSample`    | `wavMonoSample` stored in ROM                   |
-| 32882 | `RomWavRightSample`   | `wavRightSample` stored in ROM                  |
-| 32884 | `RomWavLeftSample`    | `wavLeftSample` stored in ROM                   |
-| 32888 | `RomWavLinkedSample`  | `wavLinkedSample` stored in ROM                 |
+| Value | Name                         | Description                                     |
+|-------|------------------------------|-------------------------------------------------|
+| 1     | `monoSample`                 | Mono sample                                     |
+| 2     | `rightSample`                | Right part of a stereo sample                   |
+| 4     | `leftSample`                 | Left part of a stereo sample                    |
+| 8     | `linkedSample`               | Linked sample                                   |
+| 17    | `containerMonoSample`        | Containerised mono sample                       |
+| 18    | `containerRightSample`*      | Containerised right part of a stereo sample     |
+| 20    | `containerLeftSample`*       | Containerised left part of a stereo sample      |
+| 24    | `containerLinkedSample`*     | Containerised linked sample                     |
+| 32769 | `RomMonoSample`              | `monoSample` stored in ROM                      |
+| 32770 | `RomRightSample`             | `rightSample` stored in ROM                     | 
+| 32772 | `RomLeftSample`              | `leftSample` stored in ROM                      |
+| 32776 | `RomLinkedSample`            | `linkedSample` stored in ROM                    |
+| 32785 | `RomContainerMonoSample`     | `containerMonoSample` stored in ROM             |
+| 32786 | `RomContainerRightSample`*   | `containerRightSample` stored in ROM            |
+| 32788 | `RomContainerLeftSample`*    | `containerLeftSample` stored in ROM             |
+| 32792 | `RomContainerLinkedSample`*  | `containerLinkedSample` stored in ROM           |
+
+*Only valid with uncompressed samples
 
 All other values are invalid.
 
