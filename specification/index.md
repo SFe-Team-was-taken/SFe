@@ -1,6 +1,6 @@
 # SF-enhanced 4 Specification
 
-## Version 4.0.27
+## Version 4.0.28
 
 ### Copyright notice
 

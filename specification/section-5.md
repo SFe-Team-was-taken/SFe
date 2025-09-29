@@ -780,7 +780,7 @@ The `shdr` sub-chunk is required; files without a `shdr` sub-chunk are Structura
 
 The value of achSampleName is now UTF-8 instead of ASCII.
 
-#### sfSampleType Changes (since 4.0.16)
+#### sfSampleType Changes (since 4.0.28)
 
 In legacy SF2.04, `sfSampleType` is treated as an enum, with eight fixed values. This worked fine when there were only a few possible bits, however it could become a limitation for future expansion.
 
@@ -792,16 +792,12 @@ Therefore, the specification for `sfSampleType` discourages the use of fixed enu
 - If bit 4 is set, a sample is a linked sample.
 - If bit 5 is set, a sample is compressed using SFe Compression.
     - Read section 6.2 for more information on SFe Compression.
-- If bit 6 is clear and bit 7 clear, all samples are in ogg format.
-- If bit 6 is set and bit 7 clear, all samples are in flac format.
-- If bit 6 is clear and bit 7 set, all samples are in opus format.
-- If bit 6 is set and bit 7 set, all samples are in containerised wav format.
 - If bit 16 is set, a sample is stored in ROM.
     - Read section 9 for more information on ROM samples.
 
 Note that all unused bits are reserved and should not be used by SFe implementations.
 
-### List of valid sfSampleType values (since 4.0.26)
+### List of valid sfSampleType values (since 4.0.28)
 
 | Value | Name                         | Description                                     |
 |-------|------------------------------|-------------------------------------------------|
@@ -810,19 +806,17 @@ Note that all unused bits are reserved and should not be used by SFe implementat
 | 4     | `leftSample`                 | Left part of a stereo sample                    |
 | 8     | `linkedSample`               | Linked sample                                   |
 | 17    | `containerMonoSample`        | Containerised mono sample                       |
-| 18    | `containerRightSample`*      | Containerised right part of a stereo sample     |
-| 20    | `containerLeftSample`*       | Containerised left part of a stereo sample      |
-| 24    | `containerLinkedSample`*     | Containerised linked sample                     |
+| 18    | `containerRightSample`       | Containerised right part of a stereo sample     |
+| 20    | `containerLeftSample`        | Containerised left part of a stereo sample      |
+| 24    | `containerLinkedSample`      | Containerised linked sample                     |
 | 32769 | `RomMonoSample`              | `monoSample` stored in ROM                      |
 | 32770 | `RomRightSample`             | `rightSample` stored in ROM                     | 
 | 32772 | `RomLeftSample`              | `leftSample` stored in ROM                      |
 | 32776 | `RomLinkedSample`            | `linkedSample` stored in ROM                    |
 | 32785 | `RomContainerMonoSample`     | `containerMonoSample` stored in ROM             |
-| 32786 | `RomContainerRightSample`*   | `containerRightSample` stored in ROM            |
-| 32788 | `RomContainerLeftSample`*    | `containerLeftSample` stored in ROM             |
-| 32792 | `RomContainerLinkedSample`*  | `containerLinkedSample` stored in ROM           |
-
-*Only valid with uncompressed samples
+| 32786 | `RomContainerRightSample`    | `containerRightSample` stored in ROM            |
+| 32788 | `RomContainerLeftSample`     | `containerLeftSample` stored in ROM             |
+| 32792 | `RomContainerLinkedSample`   | `containerLinkedSample` stored in ROM           |
 
 All other values are invalid.
 
